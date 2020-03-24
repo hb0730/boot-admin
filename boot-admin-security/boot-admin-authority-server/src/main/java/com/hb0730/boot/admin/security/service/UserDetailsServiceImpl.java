@@ -1,9 +1,9 @@
 package com.hb0730.boot.admin.security.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.hb0730.boot.admin.security.model.LoginUser;
+import com.hb0730.boot.admin.commons.web.security.model.LoginUser;
 import com.hb0730.boot.admin.user.model.entity.SystemUserEntity;
-import com.hb0730.boot.admin.user.service.SystemUserService;
+import com.hb0730.boot.admin.user.service.ISystemUserService;
 import com.hb0730.cloud.admin.commons.utils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ import java.util.Objects;
 public class UserDetailsServiceImpl implements UserDetailsService {
     private static final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
     @Autowired
-    private SystemUserService systemUserService;
+    private ISystemUserService systemUserService;
 
     @Override
     public UserDetails loadUserByUsername(String username) {

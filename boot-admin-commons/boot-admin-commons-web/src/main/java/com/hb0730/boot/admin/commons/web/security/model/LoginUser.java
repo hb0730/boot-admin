@@ -1,12 +1,12 @@
-package com.hb0730.boot.admin.security.model;
+package com.hb0730.boot.admin.commons.web.security.model;
 
-import com.hb0730.boot.admin.user.model.vo.SystemUserVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -124,7 +124,10 @@ public class LoginUser extends SystemUserVO implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return AuthorityUtils.commaSeparatedStringToAuthorityList(StringUtils.join(permissions.toArray(), ","));
+        if (!Objects.isNull(permissions)) {
+            return AuthorityUtils.commaSeparatedStringToAuthorityList(StringUtils.join(permissions.toArray(), ","));
+        }
+        return null;
     }
 
     @Override

@@ -18,25 +18,25 @@ public class BaseDomain implements Serializable {
     /**
      * 创建人
      */
-    @TableField(value = "create_user_id", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    @TableField(value = "create_user_id",fill =FieldFill.INSERT,insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Long createUserId;
 
     /**
      * 创建时间
      */
-    @TableField(value = "create_time", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    @TableField(value = "create_time",fill =FieldFill.INSERT, insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Date createTime;
 
     /**
      * 更新者
      */
-    @TableField(value = "update_user_id", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    @TableField(value = "update_user_id",fill =FieldFill.UPDATE, insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Long updateUserId;
 
     /**
      * 创建时间
      */
-    @TableField(value = "update_time", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    @TableField(value = "update_time",fill =FieldFill.UPDATE, insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Date updateTime;
 
     /**
@@ -44,7 +44,7 @@ public class BaseDomain implements Serializable {
      * 是否启用
      * </p>
      */
-    @TableField(value = "is_enabled", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    @TableField(value = "is_enabled",fill =FieldFill.INSERT, insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Integer isEnabled;
 
     /**
@@ -56,7 +56,7 @@ public class BaseDomain implements Serializable {
     /**
      * 版本
      */
-    @TableField(value = "version",insertStrategy=FieldStrategy.NOT_EMPTY,updateStrategy=FieldStrategy.NOT_EMPTY,whereStrategy=FieldStrategy.NOT_EMPTY)
+    @TableField(value = "version",fill =FieldFill.INSERT,insertStrategy=FieldStrategy.NOT_EMPTY,updateStrategy=FieldStrategy.NOT_EMPTY,whereStrategy=FieldStrategy.NOT_EMPTY)
     @Version
     private Integer version;
 

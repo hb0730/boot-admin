@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.security.service;
 
-import com.hb0730.boot.admin.security.model.LoginUser;
+import com.hb0730.boot.admin.commons.web.security.model.LoginUser;
 
 import javax.servlet.http.HttpServletRequest;
 

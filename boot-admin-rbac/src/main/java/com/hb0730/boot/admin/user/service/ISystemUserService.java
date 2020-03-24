@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author bing_huang
  * @since 2020-03-24
  */
-public interface SystemUserService extends IService<SystemUserEntity> {
+public interface ISystemUserService extends IService<SystemUserEntity> {
 
 }

@@ -25,6 +25,8 @@ public class SystemUserEntity extends BusinessDomain {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(value = "id")
+    private Long id;
     /**
      * 用户账号
      */

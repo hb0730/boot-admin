@@ -1,8 +1,8 @@
 package com.hb0730.boot.admin.security.filter;
 
-import com.hb0730.boot.admin.security.model.LoginUser;
+import com.hb0730.boot.admin.commons.web.security.model.LoginUser;
+import com.hb0730.boot.admin.commons.web.utils.SecurityUtils;
 import com.hb0730.boot.admin.security.service.TokenServiceImpl;
-import com.hb0730.boot.admin.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

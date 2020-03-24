@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.service;
 
-import com.hb0730.boot.admin.security.model.LoginUser;
+import com.hb0730.boot.admin.commons.web.security.model.LoginUser;
+import com.hb0730.boot.admin.commons.web.utils.SecurityUtils;
 import com.hb0730.boot.admin.security.service.TokenServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;

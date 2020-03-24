@@ -41,6 +41,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     public Result handlerBadCredentialsException(BadCredentialsException e) {
         log.error(e.getMessage(), e);
-        return ResponseResult.result(CodeStatusEnum.FORBIDDEN, e.getMessage());
+        return ResponseResult.result(CodeStatusEnum.FORBIDDEN, "用户名或者密码错误");
     }
 }

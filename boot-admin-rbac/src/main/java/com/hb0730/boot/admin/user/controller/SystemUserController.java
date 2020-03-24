@@ -7,12 +7,14 @@ import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
 import com.hb0730.boot.admin.user.model.entity.SystemUserEntity;
 import com.hb0730.boot.admin.user.model.vo.SystemUserVO;
-import com.hb0730.boot.admin.user.service.SystemUserService;
+import com.hb0730.boot.admin.user.service.ISystemUserService;
 import com.hb0730.cloud.admin.commons.utils.BeanUtils;
 import com.hb0730.cloud.admin.commons.utils.RequestMappingNameConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Objects;
 
 /**
  * <p>
@@ -26,7 +28,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(RequestMappingNameConstants.REQUEST_USER)
 public class SystemUserController extends BaseController {
     @Autowired
-    private SystemUserService systemUserService;
+    private ISystemUserService systemUserService;
+
+    @RequestMapping("/save")
+    public Result save(SystemUserVO vo) {
+        if (Objects.isNull(vo)) {
+            return ResponseResult.resultFall("新增用户失败，用户账号为空");
+        }
+        SystemUserEntity entity = BeanUtils.transformFrom(vo, SystemUserEntity.class);
+        systemUserService.save(entity);
+        return ResponseResult.resultSuccess("保存成功");
+    }
 
     /**
      * <p>

@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.user.model.vo;
+package com.hb0730.boot.admin.commons.web.security.model;
 
 import com.hb0730.boot.admin.commons.web.model.BusinessVO;
 import lombok.Data;

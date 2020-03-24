@@ -1,5 +1,8 @@
 package com.hb0730.boot.admin.conroller;
 
+import com.hb0730.boot.admin.commons.web.response.ResponseResult;
+import com.hb0730.boot.admin.commons.web.response.Result;
+import com.hb0730.boot.admin.model.LoginSuccess;
 import com.hb0730.boot.admin.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +29,10 @@ public class LoginController {
      * </p>
      */
     @GetMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password) {
-        return loginService.login(username, password);
+    public Result login(@RequestParam String username, @RequestParam String password) {
+        String accessToken = loginService.login(username, password);
+        LoginSuccess success = new LoginSuccess();
+        success.setAccessToken(accessToken);
+        return ResponseResult.resultSuccess(success);
     }
 }
