@@ -13,6 +13,7 @@
         <module>boot-admin-security</module>
         <module>boot-admin-commons</module>
         <module>boot-admin-rbac</module>
+        <module>boot-admin-generator</module>
     </modules>
     <packaging>pom</packaging>
 

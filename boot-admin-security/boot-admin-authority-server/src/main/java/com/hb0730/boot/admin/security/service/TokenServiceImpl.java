@@ -1,9 +1,9 @@
 package com.hb0730.boot.admin.security.service;
 
 import com.google.common.collect.Maps;
-import com.hb0730.boot.admin.commons.SecurityConstants;
-import com.hb0730.boot.admin.commons.ServletUtils;
 import com.hb0730.boot.admin.security.model.LoginUser;
+import com.hb0730.cloud.admin.commons.utils.SecurityConstants;
+import com.hb0730.cloud.admin.commons.utils.ServletUtils;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;

@@ -10,12 +10,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>boot-admin-commons</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>boot-admin-commons-domain</module>
+        <module>boot-admin-commons-utils</module>
+        <module>boot-admin-commons-web</module>
+    </modules>
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <scope>provided</scope>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.security.service;
 
 import com.google.common.collect.Maps;
-import com.hb0730.boot.admin.commons.SecurityConstants;
+import com.hb0730.cloud.admin.commons.utils.SecurityConstants;
 import org.junit.Test;
 
 import java.math.BigInteger;
@@ -10,8 +10,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class TokenServiceTest {
 

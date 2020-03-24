@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.security.model;
 
+import com.hb0730.boot.admin.user.model.vo.SystemUserVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -16,9 +17,7 @@ import java.util.Set;
  * @author bing_huang
  * @since V1.0
  */
-public class LoginUser implements UserDetails {
-    private String username;
-    private String password;
+public class LoginUser extends SystemUserVO implements UserDetails {
     /**
      * 用户唯一标识
      */
@@ -58,14 +57,6 @@ public class LoginUser implements UserDetails {
      * 权限列表
      */
     private Set<String> permissions;
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getToken() {
         return token;
@@ -138,13 +129,13 @@ public class LoginUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return password;
+        return super.getPassword();
     }
 
 
     @Override
     public String getUsername() {
-        return username;
+        return super.getUsername();
     }
 
     /**

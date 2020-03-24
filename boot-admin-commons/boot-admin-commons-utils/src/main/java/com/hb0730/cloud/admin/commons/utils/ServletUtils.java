@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.commons;
+package com.hb0730.cloud.admin.commons.utils;
 
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -108,7 +108,7 @@ public class ServletUtils {
         }
 
         String uri = request.getRequestURI();
-        if (com.hb0730.boot.admin.commons.StringUtils.inStringIgnoreCase(uri, ".json", ".xml")) {
+        if (StringUtils.inStringIgnoreCase(uri, ".json", ".xml")) {
             return true;
         }
 

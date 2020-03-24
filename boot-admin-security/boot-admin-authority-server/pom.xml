@@ -42,7 +42,12 @@
         <!--starter-->
         <dependency>
             <groupId>com.hb0730</groupId>
-            <artifactId>boot-admin-commons</artifactId>
+            <artifactId>boot-admin-commons-utils</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hb0730</groupId>
+            <artifactId>boot-admin-rbac</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <!--commons-->

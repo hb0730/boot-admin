@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.commons;
+package com.hb0730.cloud.admin.commons.utils;
 
 import org.springframework.util.StringUtils;
 
