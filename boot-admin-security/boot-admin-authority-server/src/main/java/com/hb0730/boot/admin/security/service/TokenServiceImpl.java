@@ -88,8 +88,16 @@ public class TokenServiceImpl implements ITokenService {
     }
 
     @Override
-    public void delLoginUser(String accessToken) {
-        if (StringUtils.isNotEmpty(accessToken)) {
+    public void delLoginUser(HttpServletRequest request) {
+        String accessToken = getToken(request);
+        if (StringUtils.isNotBlank(accessToken)) {
+            deleteAccessToken(accessToken);
+        }
+    }
+
+    @Override
+    public void deleteAccessToken(String accessToken) {
+        if (StringUtils.isNotBlank(accessToken)) {
             String token = accessTokenStore.get(accessToken);
             authenticationStore.remove(getTokenKey(token));
             accessTokenStore.remove(accessToken);

@@ -2,6 +2,8 @@ package com.hb0730.boot.admin.security.service;
 
 import com.hb0730.boot.admin.security.model.LoginUser;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * <p>
  * </P>
@@ -57,7 +59,16 @@ public interface ITokenService {
      * 删除用户信息
      * </p>
      *
-     * @param token 令牌
+     * @param request 请求
      */
-    void delLoginUser(String token);
+    void delLoginUser(HttpServletRequest request);
+
+    /**
+     * <p>
+     * 删除accessToken并删除用户信息
+     * </P>
+     *
+     * @param accessToken token令牌
+     */
+    void deleteAccessToken(String accessToken);
 }

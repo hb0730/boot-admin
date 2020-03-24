@@ -31,4 +31,10 @@ public class TestController {
     public String test3() {
         return "权限认证成功" + SecurityContextHolder.getContext().getAuthentication();
     }
+
+    @RequestMapping("/4")
+    @PreAuthorize("hasAnyRole('admin')")
+    public String test4(){
+        return "权限认证成功" + SecurityContextHolder.getContext().getAuthentication();
+    }
 }
