@@ -53,9 +53,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 解决 无法直接注入 AuthenticationManager
-     *
-     * @return
-     * @throws Exception
      */
     @Bean
     @Override

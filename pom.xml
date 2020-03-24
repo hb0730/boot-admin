@@ -12,6 +12,7 @@
         <module>boot-admin-dependencies</module>
         <module>boot-admin-security</module>
         <module>boot-admin-commons</module>
+        <module>boot-admin-rbac</module>
     </modules>
     <packaging>pom</packaging>
 
