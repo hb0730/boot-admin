@@ -14,5 +14,5 @@ public interface RequestMappingNameConstants {
      * 用户
      * </p>
      */
-   String REQUEST_USER = "/api/v1";
+    String REQUEST_USER = "/api/v1/user";
 }
