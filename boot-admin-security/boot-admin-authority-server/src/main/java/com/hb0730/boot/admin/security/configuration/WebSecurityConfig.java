@@ -62,7 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http.cors().and()
+                .csrf().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
@@ -70,7 +71,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
-                .antMatchers("/**").authenticated();
+                .antMatchers("/**").authenticated()
+                .and()
+                .headers().frameOptions().disable();;
         http.logout().logoutUrl("/auth/logout").logoutSuccessHandler(logoutSuccessHandler);
         http.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }

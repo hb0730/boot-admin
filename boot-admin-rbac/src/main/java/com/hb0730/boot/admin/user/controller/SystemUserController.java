@@ -30,6 +30,14 @@ public class SystemUserController extends BaseController {
     @Autowired
     private ISystemUserService systemUserService;
 
+    /**
+     * <p>
+     * 用户新增
+     * </p>
+     *
+     * @param vo 用户信息
+     * @return 是否成功
+     */
     @RequestMapping("/save")
     public Result save(SystemUserVO vo) {
         if (Objects.isNull(vo)) {

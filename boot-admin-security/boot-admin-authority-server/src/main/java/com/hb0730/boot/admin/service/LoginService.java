@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.service;
 
 import com.hb0730.boot.admin.commons.web.security.model.LoginUser;
-import com.hb0730.boot.admin.commons.web.utils.SecurityUtils;
+import com.hb0730.boot.admin.model.LoginSuccess;
 import com.hb0730.boot.admin.security.service.TokenServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,7 +36,7 @@ public class LoginService {
      * @param password 用户密码
      * @return token令牌
      */
-    public String login(String username, String password) {
+    public LoginSuccess login(String username, String password) {
         // 删除缓存
 
         // 用户验证
@@ -44,6 +44,10 @@ public class LoginService {
                 .authenticate(new UsernamePasswordAuthenticationToken(username, password));
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         // 生成token
-        return tokenService.createAccessToken(loginUser);
+        String accessToken = tokenService.createAccessToken(loginUser);
+        LoginSuccess success = new LoginSuccess();
+        success.setAccessToken(accessToken);
+        success.setLoginUser(loginUser);
+        return success;
     }
 }

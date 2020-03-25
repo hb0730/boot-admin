@@ -10,6 +10,7 @@ import java.util.Date;
 
 /**
  * <p>
+ * mybatis填充
  * </P>
  *
  * @author bing_huang

@@ -33,19 +33,19 @@ public class TokenServiceImpl implements ITokenService {
     /**
      * 令牌自定义标识
      */
-    @Value("${token.header}")
+    @Value("${token.header:Authorization}")
     private String header;
 
     /**
      * 令牌秘钥
      */
-    @Value("${token.secret}")
+    @Value("${token.secret:abcdefghijklmnopqrstuvwxyz}")
     private String secret;
 
     /**
      * 令牌有效期（默认30分钟）
      */
-    @Value("${token.expireTime}")
+    @Value("${token.expireTime:30}")
     private int expireTime;
 
     public LoginUser getLoginUser(HttpServletRequest request) {

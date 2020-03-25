@@ -2,6 +2,8 @@ package com.hb0730.boot.admin.security.handle;
 
 import com.hb0730.boot.admin.commons.web.response.CodeStatusEnum;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
+import com.hb0730.boot.admin.commons.web.response.Result;
+import com.hb0730.cloud.admin.commons.utils.GsonUtils;
 import com.hb0730.cloud.admin.commons.utils.ServletUtils;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -24,7 +26,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, S
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) {
         e.printStackTrace();
         String msg = String.format("请求访问: %s,认证失败，无法访问系统资源", request.getRequestURI());
-        ResponseResult.result(CodeStatusEnum.UNAUTHORIZED, msg);
-        ServletUtils.renderString(response, msg);
+        Result<String> result = ResponseResult.result(CodeStatusEnum.UNAUTHORIZED, msg);
+        ServletUtils.renderString(response, GsonUtils.gson2String(result));
     }
 }

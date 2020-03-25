@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.model;
 
+import com.hb0730.boot.admin.commons.web.security.model.LoginUser;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,4 +15,6 @@ import java.io.Serializable;
 @Data
 public class LoginSuccess implements Serializable {
     private String accessToken;
+
+    private LoginUser loginUser;
 }

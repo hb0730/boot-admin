@@ -1,6 +1,9 @@
 package com.hb0730.boot.admin.security.handle;
 
+import com.hb0730.boot.admin.commons.web.response.ResponseResult;
+import com.hb0730.boot.admin.commons.web.response.Result;
 import com.hb0730.boot.admin.security.service.TokenServiceImpl;
+import com.hb0730.cloud.admin.commons.utils.GsonUtils;
 import com.hb0730.cloud.admin.commons.utils.ServletUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +32,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         tokenService.delLoginUser(request);
         // 记录用户退出日志
-
-        ServletUtils.renderString(response, "退出成功");
+        Result<String> result = ResponseResult.resultSuccess("退出成功");
+        ServletUtils.renderString(response, GsonUtils.gson2String(result));
     }
 }

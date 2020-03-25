@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
 
     /**
      * <p>
-     *
+     *  密码不匹配
      * </p>
      */
     @ExceptionHandler(BadCredentialsException.class)

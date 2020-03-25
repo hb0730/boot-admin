@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * <p>
+ * mybatis-plus 配置
  * </P>
  *
  * @author bing_huang
