@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 系统权限 
+ * 系统权限
  * </p>
  *
  * @author bing_huang
@@ -24,12 +24,6 @@ import lombok.experimental.Accessors;
 public class SystemPermissionEntity extends BusinessDomain {
 
     private static final long serialVersionUID=1L;
-
-    /**
-     * 备注
-     */
-    @TableField("remark")
-    private String remark;
 
     /**
      * 备注
@@ -66,9 +60,6 @@ public class SystemPermissionEntity extends BusinessDomain {
      */
     @TableField("sort")
     private Integer sort;
-
-
-    public static final String REMARK = "remark";
 
     public static final String DESCRIPTION = "description";
 

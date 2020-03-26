@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 菜单权限 
+ * 菜单权限
  * </p>
  *
  * @author bing_huang
@@ -24,12 +24,6 @@ import lombok.experimental.Accessors;
 public class SystemMenuPermissionEntity extends BusinessDomain {
 
     private static final long serialVersionUID=1L;
-
-    /**
-     * 备注
-     */
-    @TableField("remark")
-    private String remark;
 
     /**
      * 备注
@@ -54,9 +48,6 @@ public class SystemMenuPermissionEntity extends BusinessDomain {
      */
     @TableField("permission_id")
     private Long permissionId;
-
-
-    public static final String REMARK = "remark";
 
     public static final String DESCRIPTION = "description";
 
