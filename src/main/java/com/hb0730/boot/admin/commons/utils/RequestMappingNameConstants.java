@@ -25,4 +25,9 @@ public interface RequestMappingNameConstants {
      * 系统权限
      */
     String REQUEST_PERMISSION = "/api/v1/permission";
+
+    /**
+     * 系统组织
+     */
+    String REQUEST_ORG = "/api/v1/org";
 }
