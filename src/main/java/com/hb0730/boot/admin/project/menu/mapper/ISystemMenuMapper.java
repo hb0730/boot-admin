@@ -11,6 +11,6 @@ import com.hb0730.boot.admin.project.menu.model.entity.SystemMenuEntity;
  * @author bing_huang
  * @since 2020-03-26
  */
-public interface SystemMenuMapper extends BaseMapper<SystemMenuEntity> {
+public interface ISystemMenuMapper extends BaseMapper<SystemMenuEntity> {
 
 }
