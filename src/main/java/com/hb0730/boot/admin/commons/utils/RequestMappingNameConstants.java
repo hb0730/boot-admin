@@ -20,4 +20,9 @@ public interface RequestMappingNameConstants {
      * 菜单
      */
     String REQUEST_MENU = "/api/v1/menu";
+
+    /**
+     * 系统权限
+     */
+    String REQUEST_PERMISSION = "/api/v1/permission";
 }

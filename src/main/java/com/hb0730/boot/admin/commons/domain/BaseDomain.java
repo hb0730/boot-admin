@@ -52,7 +52,7 @@ public class BaseDomain implements Serializable {
      */
     @TableField(value = "del_flag", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     @TableLogic
-    private Integer delFlag;
+    private Integer delFlag=0;
     /**
      * 版本
      */
