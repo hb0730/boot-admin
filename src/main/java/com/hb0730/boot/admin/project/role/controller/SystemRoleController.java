@@ -1,9 +1,12 @@
 package com.hb0730.boot.admin.project.role.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Sets;
 import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
+import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
@@ -12,11 +15,16 @@ import com.hb0730.boot.admin.commons.web.response.Result;
 import com.hb0730.boot.admin.project.role.model.entity.SystemRoleEntity;
 import com.hb0730.boot.admin.project.role.model.vo.RoleParams;
 import com.hb0730.boot.admin.project.role.model.vo.SystemRoleVO;
+import com.hb0730.boot.admin.project.role.permission.model.entity.SystemRolePermissionEntity;
+import com.hb0730.boot.admin.project.role.permission.service.ISystemRolePermissionService;
 import com.hb0730.boot.admin.project.role.service.ISystemRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -31,6 +39,8 @@ import java.util.List;
 public class SystemRoleController extends BaseController {
     @Autowired
     private ISystemRoleService systemRoleService;
+    @Autowired
+    private ISystemRolePermissionService systemRolePermissionService;
 
     /**
      * 获取全部角色
@@ -102,6 +112,48 @@ public class SystemRoleController extends BaseController {
         systemRoleService.removeById(id);
         return ResponseResult.resultSuccess("修改成功");
     }
+    /*******权限***************/
+    /**
+     * 根据角色id获取角色id
+     *
+     * @param id 角色id
+     * @return 权限id
+     */
+    /**
+     * <p>
+     * 获取菜单对应的权限id
+     * </p>
+     *
+     * @param id id菜单
+     * @return 权限id
+     */
+    @GetMapping("/permission/id/{id}")
+    public Result getPermissionByRoleId(@PathVariable Long id) {
+        QueryWrapper<SystemRolePermissionEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(SystemRolePermissionEntity.IS_ENABLED, SystemConstants.USE);
+        queryWrapper.eq(SystemRolePermissionEntity.ROLE_ID, id);
+        List<SystemRolePermissionEntity> entity = systemRolePermissionService.list(queryWrapper);
+        Set<Long> permissionIds = Sets.newConcurrentHashSet();
+        if (!CollectionUtils.isEmpty(entity)) {
+            permissionIds = entity.parallelStream().map(SystemRolePermissionEntity::getPermissionId).collect(Collectors.toSet());
+        }
+        return ResponseResult.resultSuccess(permissionIds);
+    }
 
+    /**
+     * <p>
+     * 保存(修改)菜单对应的权限id
+     * </p>
+     *
+     * @param id            菜单id
+     * @param permissionIds 权限id
+     * @return 是否成功
+     */
+    @PostMapping("/permission/save/{id}")
+    public Result savePermissionByRoleId(@PathVariable Long id, @RequestBody List<Long> permissionIds) {
+        systemRolePermissionService.savePermissionByRoleId(id, permissionIds);
+        return ResponseResult.resultSuccess("保存成功");
+    }
+    /*******数据范围***********/
 }
 

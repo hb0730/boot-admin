@@ -54,9 +54,9 @@ public class SystemMenuServiceImpl extends ServiceImpl<ISystemMenuMapper, System
 
     @Override
     public boolean removeById(Serializable id) {
-        UpdateWrapper<SystemMenuEntity> updateWrapper=new UpdateWrapper<>();
-        updateWrapper.set(SystemMenuEntity.IS_ENABLED,0);
-        updateWrapper.eq(SystemMenuEntity.ID,id);
+        UpdateWrapper<SystemMenuEntity> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set(SystemMenuEntity.IS_ENABLED, 0);
+        updateWrapper.eq(SystemMenuEntity.ID, id);
         super.update(updateWrapper);
         return super.removeById(id);
     }
@@ -80,7 +80,7 @@ public class SystemMenuServiceImpl extends ServiceImpl<ISystemMenuMapper, System
 
     @Override
     public boolean save(SystemMenuEntity entity) {
-        entity = fillInsertEntity(entity);
+        fillInsertEntity(entity);
         return super.save(entity);
     }
 
@@ -121,7 +121,7 @@ public class SystemMenuServiceImpl extends ServiceImpl<ISystemMenuMapper, System
      * @param entity 被填充的entity
      * @return 已填充
      */
-    private SystemMenuEntity fillInsertEntity(@NonNull SystemMenuEntity entity) {
+    private void fillInsertEntity(@NonNull SystemMenuEntity entity) {
         Long parentId = entity.getParentId();
         if (Objects.isNull(parentId)) {
             entity.setParentId(-1L);
@@ -145,7 +145,6 @@ public class SystemMenuServiceImpl extends ServiceImpl<ISystemMenuMapper, System
             entity.setIsRoot(0);
             entity.setDelFlag(0);
         }
-        return entity;
 
     }
 }
