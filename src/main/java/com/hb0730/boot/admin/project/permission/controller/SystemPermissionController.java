@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.permission.controller;
 
 
-import com.hb0730.boot.admin.commons.utils.RequestMappingNameConstants;
+import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

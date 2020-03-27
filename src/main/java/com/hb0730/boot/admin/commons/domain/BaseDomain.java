@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.commons.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -18,25 +19,26 @@ public class BaseDomain implements Serializable {
     /**
      * 创建人
      */
-    @TableField(value = "create_user_id",fill =FieldFill.INSERT,insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    @TableField(value = "create_user_id", fill = FieldFill.INSERT, insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Long createUserId;
 
     /**
      * 创建时间
      */
-    @TableField(value = "create_time",fill =FieldFill.INSERT, insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    @TableField(value = "create_time", fill = FieldFill.INSERT, insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Date createTime;
 
     /**
      * 更新者
      */
-    @TableField(value = "update_user_id",fill =FieldFill.UPDATE, insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    @TableField(value = "update_user_id", fill = FieldFill.UPDATE, insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Long updateUserId;
 
     /**
      * 创建时间
      */
-    @TableField(value = "update_time",fill =FieldFill.UPDATE, insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    @TableField(value = "update_time", fill = FieldFill.UPDATE, insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+
     private Date updateTime;
 
     /**
@@ -44,7 +46,7 @@ public class BaseDomain implements Serializable {
      * 是否启用
      * </p>
      */
-    @TableField(value = "is_enabled",fill =FieldFill.INSERT, insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    @TableField(value = "is_enabled", fill = FieldFill.INSERT, insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Integer isEnabled;
 
     /**
@@ -52,11 +54,11 @@ public class BaseDomain implements Serializable {
      */
     @TableField(value = "del_flag", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     @TableLogic
-    private Integer delFlag=0;
+    private Integer delFlag = 0;
     /**
      * 版本
      */
-    @TableField(value = "version",fill =FieldFill.INSERT,insertStrategy=FieldStrategy.NOT_EMPTY,updateStrategy=FieldStrategy.NOT_EMPTY,whereStrategy=FieldStrategy.NOT_EMPTY)
+    @TableField(value = "version", fill = FieldFill.INSERT, insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     @Version
     private Integer version;
 

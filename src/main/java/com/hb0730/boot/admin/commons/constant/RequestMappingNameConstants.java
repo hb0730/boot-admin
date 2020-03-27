@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.commons.utils;
+package com.hb0730.boot.admin.commons.constant;
 
 /**
  * <p>
@@ -30,4 +30,9 @@ public interface RequestMappingNameConstants {
      * 系统组织
      */
     String REQUEST_ORG = "/api/v1/org";
+
+    /**
+     * 系统角色
+     */
+    String REQUEST_ROLE = "/api/v1/role";
 }
