@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.exception;
 
+import com.hb0730.boot.admin.commons.web.exception.BaseException;
 import com.hb0730.boot.admin.commons.web.response.CodeStatusEnum;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
@@ -35,12 +36,20 @@ public class GlobalExceptionHandler {
 
     /**
      * <p>
-     *  密码不匹配
+     * 密码不匹配
      * </p>
      */
     @ExceptionHandler(BadCredentialsException.class)
     public Result handlerBadCredentialsException(BadCredentialsException e) {
         log.error(e.getMessage(), e);
         return ResponseResult.result(CodeStatusEnum.FORBIDDEN, "用户名或者密码错误");
+    }
+
+    /**
+     * 基础异常
+     */
+    @ExceptionHandler(BaseException.class)
+    public Result handlerBaseException(BaseException e) {
+        return ResponseResult.resultFall(e.getMessage());
     }
 }

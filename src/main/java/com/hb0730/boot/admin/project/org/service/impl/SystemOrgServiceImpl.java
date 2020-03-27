@@ -1,9 +1,12 @@
 package com.hb0730.boot.admin.project.org.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
+import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.BeanUtils;
+import com.hb0730.boot.admin.commons.web.exception.BaseException;
 import com.hb0730.boot.admin.project.org.mapper.ISystemOrgMapper;
 import com.hb0730.boot.admin.project.org.model.entity.SystemOrgEntity;
 import com.hb0730.boot.admin.project.org.model.vo.SystemOrgVO;
@@ -11,9 +14,12 @@ import com.hb0730.boot.admin.project.org.model.vo.TreeOrgVO;
 import com.hb0730.boot.admin.project.org.service.ISystemOrgService;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -27,17 +33,56 @@ import java.util.List;
 public class SystemOrgServiceImpl extends ServiceImpl<ISystemOrgMapper, SystemOrgEntity> implements ISystemOrgService {
 
     @Override
+    public boolean save(SystemOrgEntity entity) {
+        if (entity.getParentId() == null) {
+            entity.setParentId(SystemConstants.PARENT_ID);
+            entity.setAncestors(String.valueOf(entity.getParentId()));
+        } else {
+            QueryWrapper<SystemOrgEntity> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq(SystemOrgEntity.IS_ENABLED, SystemConstants.USE);
+            queryWrapper.eq(SystemOrgEntity.ID, entity.getParentId());
+            SystemOrgEntity parentEntity = super.getOne(queryWrapper);
+            if (Objects.isNull(parentEntity)) {
+                throw new BaseException("父组织已停用,不允许新增");
+            }
+            entity.setAncestors(parentEntity.getAncestors() + "_" + entity.getParentId());
+        }
+        return super.save(entity);
+    }
+
+    @Override
+    public boolean updateById(SystemOrgEntity entity) {
+        SystemOrgEntity e1 = super.getById(entity.getId());
+        BeanUtils.updateProperties(entity, e1);
+        //修改组织 为禁用 当前组织下用户怎么办
+
+
+        return super.updateById(e1);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean removeById(Serializable id) {
+        UpdateWrapper<SystemOrgEntity> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set(SystemOrgEntity.IS_ENABLED, SystemConstants.NOT_USE);
+        updateWrapper.eq(SystemOrgEntity.ID, id);
+        // 当前组织存在用户 删除该怎么办
+
+        super.update(updateWrapper);
+        return super.removeById(id);
+    }
+
+    @Override
     public List<SystemOrgVO> getOrgByParentId(@NonNull Long parentId) {
         QueryWrapper<SystemOrgEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(SystemOrgEntity.PARENT_ID, parentId);
-        queryWrapper.eq(SystemOrgEntity.IS_ENABLED, 1);
         List<SystemOrgEntity> entities = super.list(queryWrapper);
         return BeanUtils.transformFromInBatch(entities, SystemOrgVO.class);
     }
 
     @Override
     public List<TreeOrgVO> getTreeAll() {
-        List<SystemOrgVO> orgVo = getOrgByParentId(-1L);
+        List<SystemOrgVO> orgVo = getOrgByParentId(SystemConstants.PARENT_ID);
         List<TreeOrgVO> trees = BeanUtils.transformFromInBatch(orgVo, TreeOrgVO.class);
         if (CollectionUtils.isEmpty(orgVo)) {
             return trees;
@@ -54,7 +99,6 @@ public class SystemOrgServiceImpl extends ServiceImpl<ISystemOrgMapper, SystemOr
     @Override
     public TreeOrgVO getTreeById(@NonNull Long id) {
         QueryWrapper<SystemOrgEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(SystemOrgEntity.IS_ENABLED, 1);
         queryWrapper.eq(SystemOrgEntity.ID, id);
         SystemOrgEntity entity = super.getOne(queryWrapper);
         TreeOrgVO tree = BeanUtils.transformFrom(entity, TreeOrgVO.class);
@@ -86,4 +130,6 @@ public class SystemOrgServiceImpl extends ServiceImpl<ISystemOrgMapper, SystemOr
         }
         return org;
     }
+
+
 }

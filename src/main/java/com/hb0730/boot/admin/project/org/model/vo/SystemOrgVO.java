@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotEmpty;
+
 /**
  * <p>
  * 系统组织
@@ -42,6 +44,7 @@ public class SystemOrgVO extends BusinessVO {
     /**
      * 名称
      */
+    @NotEmpty(message = "名称不为空")
     private String name;
 
     /**
@@ -52,6 +55,7 @@ public class SystemOrgVO extends BusinessVO {
     /**
      * 编码
      */
+    @NotEmpty(message ="编码不为空")
     private String number;
 
     /**
@@ -67,6 +71,7 @@ public class SystemOrgVO extends BusinessVO {
     /**
      * 负责人
      */
+    @NotEmpty(message = "编码不为空")
     private String leader;
 
     /**
