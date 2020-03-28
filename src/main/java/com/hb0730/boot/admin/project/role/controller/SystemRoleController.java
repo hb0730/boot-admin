@@ -4,6 +4,7 @@ package com.hb0730.boot.admin.project.role.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
@@ -15,6 +16,8 @@ import com.hb0730.boot.admin.commons.web.response.Result;
 import com.hb0730.boot.admin.project.role.model.entity.SystemRoleEntity;
 import com.hb0730.boot.admin.project.role.model.vo.RoleParams;
 import com.hb0730.boot.admin.project.role.model.vo.SystemRoleVO;
+import com.hb0730.boot.admin.project.role.org.model.entity.SystemRoleOrgEntity;
+import com.hb0730.boot.admin.project.role.org.service.ISystemRoleOrgService;
 import com.hb0730.boot.admin.project.role.permission.model.entity.SystemRolePermissionEntity;
 import com.hb0730.boot.admin.project.role.permission.service.ISystemRolePermissionService;
 import com.hb0730.boot.admin.project.role.service.ISystemRoleService;
@@ -42,6 +45,8 @@ public class SystemRoleController extends BaseController {
     private ISystemRoleService systemRoleService;
     @Autowired
     private ISystemRolePermissionService systemRolePermissionService;
+    @Autowired
+    private ISystemRoleOrgService systemRoleOrgService;
 
     /**
      * 获取全部角色
@@ -143,7 +148,7 @@ public class SystemRoleController extends BaseController {
 
     /**
      * <p>
-     *  获取菜单对应的权限id key-value方式
+     * 获取菜单对应的权限id key-value方式
      * </p>
      *
      * @param id 角色id
@@ -170,5 +175,38 @@ public class SystemRoleController extends BaseController {
         return ResponseResult.resultSuccess("保存成功");
     }
     /*******数据范围***********/
+    /**
+     * 根据角色id获取数据范围id
+     *
+     * @param roleId 角色id
+     * @return 数据范围
+     */
+    @GetMapping("/org/role/{roleId}")
+    public Result getOrgIdByRoleId(@PathVariable Long roleId) {
+        QueryWrapper<SystemRoleOrgEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(SystemRoleOrgEntity.IS_ENABLED, SystemConstants.USE);
+        queryWrapper.eq(SystemRoleOrgEntity.ROLE_ID, roleId);
+        List<SystemRoleOrgEntity> list = systemRoleOrgService.list(queryWrapper);
+        if (CollectionUtils.isEmpty(list)) {
+            return ResponseResult.resultSuccess(Lists.newArrayList());
+        }
+        List<Long> orgIds = list.parallelStream().map(SystemRoleOrgEntity::getOrgId).collect(Collectors.toList());
+        return ResponseResult.resultSuccess(orgIds);
+    }
+
+    /**
+     * <p>
+     * 保存数据范围
+     * </p>
+     *
+     * @param roleId 角色id
+     * @param orgIds 数据范围id
+     * @return 是否成功
+     */
+    @PostMapping("/org/role/save/{roleId}")
+    public Result saveOrgIdByRoleId(@PathVariable Long roleId, @RequestBody List<Long> orgIds) {
+        systemRoleOrgService.saveOrgIdsByRoleId(roleId, orgIds);
+        return ResponseResult.resultSuccess("保存成功");
+    }
 }
 
