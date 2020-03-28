@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
+import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.BeanUtils;
 import com.hb0730.boot.admin.commons.web.exception.BaseException;
 import com.hb0730.boot.admin.project.menu.mapper.ISystemMenuMapper;
@@ -37,8 +38,8 @@ public class SystemMenuServiceImpl extends ServiceImpl<ISystemMenuMapper, System
     }
 
     @Override
-    public List<TreeMenuVO> getTreeMenuAll() {
-        List<SystemMenuVO> menus = getMenuByParentId(-1L);
+    public List<TreeMenuVO> getTreeMenuAll(Integer isAll) {
+        List<SystemMenuVO> menus = getMenuByParentId(SystemConstants.PARENT_ID,isAll);
         List<TreeMenuVO> trees = BeanUtils.transformFromInBatch(menus, TreeMenuVO.class);
         if (CollectionUtils.isEmpty(menus)) {
             return trees;
@@ -46,7 +47,7 @@ public class SystemMenuServiceImpl extends ServiceImpl<ISystemMenuMapper, System
         List<TreeMenuVO> newTress = Lists.newArrayList();
         trees.forEach((tree) -> {
             List<TreeMenuVO> childes = Lists.newArrayList();
-            TreeMenuVO children = getChildes(tree, childes);
+            TreeMenuVO children = getChildes(tree, childes,isAll);
             newTress.add(children);
         });
         return newTress;
@@ -70,10 +71,12 @@ public class SystemMenuServiceImpl extends ServiceImpl<ISystemMenuMapper, System
      * @return 菜单
      */
     @Override
-    public List<SystemMenuVO> getMenuByParentId(@NonNull Long id) {
+    public List<SystemMenuVO> getMenuByParentId(@NonNull Long id,Integer isAll) {
         QueryWrapper<SystemMenuEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(SystemMenuEntity.PARENT_ID, id);
-        queryWrapper.eq(SystemMenuEntity.IS_ENABLED, 1);
+        if (SystemConstants.IS_ALL!=isAll){
+            queryWrapper.eq(SystemMenuEntity.IS_ENABLED, isAll);
+        }
         List<SystemMenuEntity> entities = list(queryWrapper);
         return BeanUtils.transformFromInBatch(entities, SystemMenuVO.class);
     }
@@ -98,17 +101,18 @@ public class SystemMenuServiceImpl extends ServiceImpl<ISystemMenuMapper, System
      *
      * @param vo        树形菜单
      * @param treeMenus 树形菜单集
+     * @param isAll  是否查询全部
      * @return 树形菜单
      */
     @NonNull
-    private TreeMenuVO getChildes(@NonNull TreeMenuVO vo, @NonNull List<TreeMenuVO> treeMenus) {
-        List<SystemMenuVO> menu = getMenuByParentId(vo.getId());
+    private TreeMenuVO getChildes(@NonNull TreeMenuVO vo, @NonNull List<TreeMenuVO> treeMenus,Integer isAll) {
+        List<SystemMenuVO> menu = getMenuByParentId(vo.getId(),isAll);
         List<TreeMenuVO> treeMenu = BeanUtils.transformFromInBatch(menu, TreeMenuVO.class);
         vo.setChildren(treeMenus);
         if (!CollectionUtils.isEmpty(treeMenu)) {
             treeMenu.forEach((tree) -> {
                 List<TreeMenuVO> newTreeMen = Lists.newArrayList();
-                TreeMenuVO childes = getChildes(tree, newTreeMen);
+                TreeMenuVO childes = getChildes(tree, newTreeMen,isAll);
                 treeMenus.add(childes);
             });
         }

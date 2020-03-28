@@ -1,5 +1,9 @@
 package com.hb0730.boot.admin.project.role.model.vo;
 
+import lombok.Data;
+
+import java.io.Serializable;
+
 /**
  * <p>
  *     角色请求参数
@@ -8,5 +12,10 @@ package com.hb0730.boot.admin.project.role.model.vo;
  * @author bing_huang
  * @since V1.0
  */
-public class RoleParams {
+@Data
+public class RoleParams implements Serializable {
+    /**
+     * 查询全部
+     */
+    private Integer isAll;
 }

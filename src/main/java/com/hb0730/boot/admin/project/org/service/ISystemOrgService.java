@@ -24,18 +24,19 @@ public interface ISystemOrgService extends IService<SystemOrgEntity> {
      * </p>
      *
      * @param parentId 父id
+     * @param  isAll 是否查询全部(包含禁用)
      * @return 组织信息
      */
-    List<SystemOrgVO> getOrgByParentId(@NonNull Long parentId);
+    List<SystemOrgVO> getOrgByParentId(@NonNull Long parentId,@NonNull Integer isAll);
 
     /**
      * <p>
      * 获取全部组织树
      * </p>
-     *
+     * @param isAll 是否查询全部(包含禁用)
      * @return 组织树
      */
-    List<TreeOrgVO> getTreeAll();
+    List<TreeOrgVO> getTreeAll(Integer isAll);
 
     /**
      * <p>
@@ -43,7 +44,8 @@ public interface ISystemOrgService extends IService<SystemOrgEntity> {
      * </p>
      *
      * @param id id
+     * @param  isAll 是否查询全部(包含禁用)
      * @return 组织树
      */
-    TreeOrgVO getTreeById(@NonNull Long id);
+    TreeOrgVO getTreeById(@NonNull Long id,@NonNull Integer isAll);
 }

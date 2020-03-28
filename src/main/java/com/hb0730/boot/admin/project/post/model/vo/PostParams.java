@@ -13,4 +13,8 @@ import java.io.Serializable;
  */
 @Data
 public class PostParams implements Serializable {
+    /**
+     * 是否获取全部
+     */
+    public Integer isAll;
 }

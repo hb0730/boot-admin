@@ -4,6 +4,7 @@ package com.hb0730.boot.admin.project.post.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants.REQUEST_POST;
 
@@ -80,6 +82,11 @@ public class SystemPostController extends BaseController {
     @PostMapping("/all")
     public Result getPost(@RequestBody PostParams params) {
         QueryWrapper<SystemPostEntity> queryWrapper = new QueryWrapper<>();
+        if(!Objects.isNull(params)){
+            if (!Objects.isNull(params.getIsAll())&&!Objects.equals(SystemConstants.IS_ALL,params.getIsAll())){
+                queryWrapper.eq(SystemPostEntity.IS_ENABLED,SystemConstants.USE);
+            }
+        }
         List<SystemPostEntity> entities = systemPostService.list(queryWrapper);
         List<SystemPostVO> vos = BeanUtils.transformFromInBatch(entities, SystemPostVO.class);
         return ResponseResult.resultSuccess(vos);

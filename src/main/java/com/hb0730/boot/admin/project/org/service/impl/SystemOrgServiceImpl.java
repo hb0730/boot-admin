@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.BeanUtils;
 import com.hb0730.boot.admin.commons.web.exception.BaseException;
+import com.hb0730.boot.admin.project.menu.model.entity.SystemMenuEntity;
 import com.hb0730.boot.admin.project.org.mapper.ISystemOrgMapper;
 import com.hb0730.boot.admin.project.org.model.entity.SystemOrgEntity;
 import com.hb0730.boot.admin.project.org.model.vo.SystemOrgVO;
@@ -73,16 +74,19 @@ public class SystemOrgServiceImpl extends ServiceImpl<ISystemOrgMapper, SystemOr
     }
 
     @Override
-    public List<SystemOrgVO> getOrgByParentId(@NonNull Long parentId) {
+    public List<SystemOrgVO> getOrgByParentId(@NonNull Long parentId, @NonNull Integer isAll) {
         QueryWrapper<SystemOrgEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(SystemOrgEntity.PARENT_ID, parentId);
+        if (SystemConstants.IS_ALL != isAll) {
+            queryWrapper.eq(SystemMenuEntity.IS_ENABLED, isAll);
+        }
         List<SystemOrgEntity> entities = super.list(queryWrapper);
         return BeanUtils.transformFromInBatch(entities, SystemOrgVO.class);
     }
 
     @Override
-    public List<TreeOrgVO> getTreeAll() {
-        List<SystemOrgVO> orgVo = getOrgByParentId(SystemConstants.PARENT_ID);
+    public List<TreeOrgVO> getTreeAll(Integer isAll) {
+        List<SystemOrgVO> orgVo = getOrgByParentId(SystemConstants.PARENT_ID, isAll);
         List<TreeOrgVO> trees = BeanUtils.transformFromInBatch(orgVo, TreeOrgVO.class);
         if (CollectionUtils.isEmpty(orgVo)) {
             return trees;
@@ -90,21 +94,24 @@ public class SystemOrgServiceImpl extends ServiceImpl<ISystemOrgMapper, SystemOr
         List<TreeOrgVO> newTress = Lists.newArrayList();
         trees.forEach((tree) -> {
             List<TreeOrgVO> childes = Lists.newArrayList();
-            TreeOrgVO children = getChildes(tree, childes);
+            TreeOrgVO children = getChildes(tree, childes, isAll);
             newTress.add(children);
         });
         return newTress;
     }
 
     @Override
-    public TreeOrgVO getTreeById(@NonNull Long id) {
+    public TreeOrgVO getTreeById(@NonNull Long id, @NonNull Integer isAll) {
         QueryWrapper<SystemOrgEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(SystemOrgEntity.ID, id);
+        if (SystemConstants.IS_ALL!=isAll){
+            queryWrapper.eq(SystemMenuEntity.IS_ENABLED,isAll);
+        }
         SystemOrgEntity entity = super.getOne(queryWrapper);
         TreeOrgVO tree = BeanUtils.transformFrom(entity, TreeOrgVO.class);
         List<TreeOrgVO> trees = Lists.newArrayList();
         assert tree != null;
-        return getChildes(tree, trees);
+        return getChildes(tree, trees, isAll);
     }
 
 
@@ -115,16 +122,17 @@ public class SystemOrgServiceImpl extends ServiceImpl<ISystemOrgMapper, SystemOr
      *
      * @param org   树形组织
      * @param trees 组织树集
+     * @param isAll 是否查询全部(已禁用)
      * @return 组织树
      */
-    private TreeOrgVO getChildes(TreeOrgVO org, List<TreeOrgVO> trees) {
+    private TreeOrgVO getChildes(TreeOrgVO org, List<TreeOrgVO> trees, Integer isAll) {
         org.setChildren(trees);
-        List<SystemOrgVO> orgChildes = getOrgByParentId(org.getId());
+        List<SystemOrgVO> orgChildes = getOrgByParentId(org.getId(), isAll);
         List<TreeOrgVO> treeOrgs = BeanUtils.transformFromInBatch(orgChildes, TreeOrgVO.class);
         if (!CollectionUtils.isEmpty(treeOrgs)) {
             treeOrgs.forEach((orgTree) -> {
                 List<TreeOrgVO> tree = Lists.newArrayList();
-                TreeOrgVO childes = getChildes(orgTree, tree);
+                TreeOrgVO childes = getChildes(orgTree, tree, isAll);
                 trees.add(childes);
             });
         }

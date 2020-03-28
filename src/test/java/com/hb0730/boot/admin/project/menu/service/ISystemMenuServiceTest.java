@@ -17,6 +17,6 @@ public class ISystemMenuServiceTest {
 
     @Test
     public void getTreeAllTest(){
-        systemMenuService.getTreeMenuAll();
+        systemMenuService.getTreeMenuAll(-1);
     }
 }

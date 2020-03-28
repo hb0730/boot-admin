@@ -72,7 +72,7 @@ public class SystemUserEntity extends BusinessDomain {
     /**
      * 部门ID
      */
-    @TableField(value = "deptId", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    @TableField(value = "dept_Id", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Long deptId;
 
     public static final String ID = "id";
@@ -91,6 +91,6 @@ public class SystemUserEntity extends BusinessDomain {
 
     public static final String AVATAR = "avatar";
 
-    public static final String DEPTID = "deptId";
+    public static final String DEPTID = "dept_Id";
 
 }

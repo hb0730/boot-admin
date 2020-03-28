@@ -21,10 +21,10 @@ public interface ISystemMenuService extends IService<SystemMenuEntity> {
      * <p>
      * 获取全部树形菜单
      * </p>
-     *
+     * @param isAll 是否查询全部
      * @return 树形菜单
      */
-    List<TreeMenuVO> getTreeMenuAll();
+    List<TreeMenuVO> getTreeMenuAll(Integer isAll);
 
     /**
      * <p>
@@ -32,7 +32,8 @@ public interface ISystemMenuService extends IService<SystemMenuEntity> {
      * </p>
      *
      * @param id 菜单id
+     * @param  isAll 是否查询全部
      * @return 菜单信息
      */
-    List<SystemMenuVO> getMenuByParentId(@NonNull Long id);
+    List<SystemMenuVO> getMenuByParentId(@NonNull Long id,Integer isAll);
 }

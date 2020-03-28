@@ -41,12 +41,12 @@ public class SystemMenuController extends BaseController {
      * <p>
      * 获取所有菜单(树形)
      * </p>
-     *
+     * @param  isAll 是否查询全部
      * @return 树形菜单
      */
-    @GetMapping("/tree")
-    public Result getAllTree() {
-        List<TreeMenuVO> treeMenus = systemMenuService.getTreeMenuAll();
+    @GetMapping("/tree/{isAll}")
+    public Result getAllTree(@PathVariable Integer isAll) {
+        List<TreeMenuVO> treeMenus = systemMenuService.getTreeMenuAll(isAll);
         return ResponseResult.resultSuccess(treeMenus);
     }
 

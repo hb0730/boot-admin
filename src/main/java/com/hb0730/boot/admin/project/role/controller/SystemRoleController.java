@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -56,7 +57,13 @@ public class SystemRoleController extends BaseController {
      */
     @PostMapping("/all")
     public Result getRoleAll(@RequestBody RoleParams roleParams) {
-        List<SystemRoleEntity> entities = systemRoleService.list();
+        QueryWrapper<SystemRoleEntity> queryWrapper=new QueryWrapper<>();
+        if (!Objects.isNull(roleParams)){
+            if (!Objects.isNull(roleParams.getIsAll()) && !Objects.equals(roleParams.getIsAll(), SystemConstants.IS_ALL)) {
+                queryWrapper.eq(SystemRoleEntity.IS_ENABLED,SystemConstants.USE);
+            }
+        }
+        List<SystemRoleEntity> entities = systemRoleService.list(queryWrapper);
         List<SystemRoleVO> voList = BeanUtils.transformFromInBatch(entities, SystemRoleVO.class);
         return ResponseResult.resultSuccess(voList);
     }

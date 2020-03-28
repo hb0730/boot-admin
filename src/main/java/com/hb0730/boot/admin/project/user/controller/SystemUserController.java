@@ -2,19 +2,25 @@ package com.hb0730.boot.admin.project.user.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.hb0730.boot.admin.commons.utils.BeanUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
+import com.hb0730.boot.admin.commons.constant.SystemConstants;
+import com.hb0730.boot.admin.commons.utils.BeanUtils;
+import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
 import com.hb0730.boot.admin.commons.web.utils.SecurityUtils;
 import com.hb0730.boot.admin.project.user.model.entity.SystemUserEntity;
 import com.hb0730.boot.admin.project.user.model.vo.SystemUserVO;
+import com.hb0730.boot.admin.project.user.model.vo.UserParamsVO;
 import com.hb0730.boot.admin.project.user.service.ISystemUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -129,6 +135,35 @@ public class SystemUserController extends BaseController {
         entity.setId(id);
         systemUserService.updateById(entity);
         return ResponseResult.resultSuccess("修改成功");
+    }
+
+    /**
+     * <p>
+     * 分页用户
+     * </p>
+     *
+     * @param page     页数
+     * @param pageSize 数量
+     * @param vo       过滤条件
+     * @return 分页后的用户信息
+     */
+    @PostMapping("/all/{page}/{pageSize}")
+    public Result getUserPage(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody UserParamsVO vo) {
+        QueryWrapper<SystemUserEntity> queryWrapper = new QueryWrapper<>();
+        if (!Objects.isNull(vo)) {
+            Long deptId = vo.getDeptId();
+            if (!Objects.isNull(deptId)) {
+                queryWrapper.eq(SystemUserEntity.DEPTID, deptId);
+            }
+            if ( !Objects.isNull(vo.getIsAll())&&!Objects.equals(vo.getIsAll(), SystemConstants.IS_ALL)) {
+                queryWrapper.eq(SystemUserEntity.IS_ENABLED, vo.getIsAll());
+            }
+        }
+        PageHelper.startPage(page, pageSize);
+        List<SystemUserEntity> entities = systemUserService.list(queryWrapper);
+        PageInfo<SystemUserEntity> pageInfo = new PageInfo<>(entities);
+        PageInfo<SystemUserVO> info = PageInfoUtil.toBean(pageInfo, SystemUserVO.class);
+        return ResponseResult.resultSuccess(info);
     }
 }
 

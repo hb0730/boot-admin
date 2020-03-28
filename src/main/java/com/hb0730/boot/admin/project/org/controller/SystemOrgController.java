@@ -50,9 +50,9 @@ public class SystemOrgController extends BaseController {
      *
      * @return 组织树
      */
-    @GetMapping("/tree")
-    public Result getTreeAll() {
-        List<TreeOrgVO> treeAll = systemOrgService.getTreeAll();
+    @GetMapping("/tree/{isAll}")
+    public Result getTreeAll(@PathVariable Integer isAll) {
+        List<TreeOrgVO> treeAll = systemOrgService.getTreeAll(isAll);
         return ResponseResult.resultSuccess(treeAll);
     }
 
