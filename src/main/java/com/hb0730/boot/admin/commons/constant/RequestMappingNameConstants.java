@@ -35,4 +35,9 @@ public interface RequestMappingNameConstants {
      * 系统角色
      */
     String REQUEST_ROLE = "/api/v1/role";
+
+    /**
+     * 系统岗位
+     */
+    String REQUEST_POST="/api/v1/post";
 }
