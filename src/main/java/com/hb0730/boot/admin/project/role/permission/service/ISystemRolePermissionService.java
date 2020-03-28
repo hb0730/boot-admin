@@ -5,6 +5,8 @@ import com.hb0730.boot.admin.project.role.permission.model.entity.SystemRolePerm
 import org.springframework.lang.NonNull;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>
@@ -25,4 +27,14 @@ public interface ISystemRolePermissionService extends IService<SystemRolePermiss
      * @return 是否成功
      */
     boolean savePermissionByRoleId(@NonNull Long roleId, List<Long> permissionId);
+
+    /**
+     * <p>
+     * 获取角色所有的权限id
+     * </P>
+     *
+     * @param roleId 角色id
+     * @return 权限id  {@code Map<menuId,Set<permissionIds>>}
+     */
+    Map<Long, Set<Long>> getPermissionIdsByRoleId(@NonNull Long roleId);
 }

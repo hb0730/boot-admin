@@ -23,6 +23,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -138,6 +139,20 @@ public class SystemRoleController extends BaseController {
             permissionIds = entity.parallelStream().map(SystemRolePermissionEntity::getPermissionId).collect(Collectors.toSet());
         }
         return ResponseResult.resultSuccess(permissionIds);
+    }
+
+    /**
+     * <p>
+     *  获取菜单对应的权限id key-value方式
+     * </p>
+     *
+     * @param id 角色id
+     * @return {@code Map<menuId,Set<permissionIds>>}
+     */
+    @GetMapping("/permission/map/{id}")
+    public Result getMenuPermissionMapByRoleId(@PathVariable Long id) {
+        Map<Long, Set<Long>> menuPermissionIds = systemRolePermissionService.getPermissionIdsByRoleId(id);
+        return ResponseResult.resultSuccess(menuPermissionIds);
     }
 
     /**

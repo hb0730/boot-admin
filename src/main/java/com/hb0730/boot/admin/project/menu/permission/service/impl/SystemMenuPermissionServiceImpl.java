@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
 import com.hb0730.boot.admin.commons.web.exception.BaseException;
@@ -21,9 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -102,6 +102,43 @@ public class SystemMenuPermissionServiceImpl extends ServiceImpl<ISystemMenuPerm
         entity.setId(permissionId);
         permissionHandle.updateById(entity);
         return permissionHandle.deleteById(permissionId);
+    }
+
+    @Override
+    public Map<Long, Set<Long>> getPermissionIdByMenuId() {
+        QueryWrapper<SystemMenuPermissionEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(SystemMenuPermissionEntity.IS_ENABLED, SystemConstants.USE);
+        queryWrapper.groupBy(SystemMenuPermissionEntity.MENU_ID);
+        List<SystemMenuPermissionEntity> entities = super.list(queryWrapper);
+        if (CollectionUtils.isEmpty(entities)) {
+            return Maps.newHashMap();
+        }
+        Map<Long, Set<Long>> maps = Maps.newHashMap();
+        entities.forEach((entity) -> {
+            Long menuId = entity.getMenuId();
+            QueryWrapper<SystemMenuPermissionEntity> q1 = new QueryWrapper<>();
+            q1.eq(SystemMenuPermissionEntity.MENU_ID, menuId);
+            q1.eq(SystemMenuPermissionEntity.IS_ENABLED, SystemConstants.USE);
+            q1.select(SystemMenuPermissionEntity.PERMISSION_ID);
+            List<SystemMenuPermissionEntity> permissionEntities = super.list(q1);
+            if (!CollectionUtils.isEmpty(permissionEntities)) {
+                Set<Long> permissionIds = permissionEntities.parallelStream().map(SystemMenuPermissionEntity::getPermissionId).collect(Collectors.toSet());
+                maps.put(menuId, permissionIds);
+            }
+        });
+        return maps;
+    }
+
+    @Override
+    public List<SystemMenuPermissionEntity> getMenuPermissionByPermissionIds(Collection<Long> permissionIds) {
+        if (CollectionUtils.isEmpty(permissionIds)) {
+            return Lists.newArrayList();
+        }
+        QueryWrapper<SystemMenuPermissionEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(SystemMenuPermissionEntity.IS_ENABLED, SystemConstants.USE);
+        queryWrapper.in(SystemMenuPermissionEntity.PERMISSION_ID, permissionIds);
+        queryWrapper.select(SystemMenuPermissionEntity.PERMISSION_ID, SystemMenuPermissionEntity.MENU_ID);
+        return super.list(queryWrapper);
     }
 
 }

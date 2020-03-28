@@ -18,6 +18,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>
@@ -163,6 +165,19 @@ public class SystemMenuController extends BaseController {
     public Result deleteByPermissionId(@PathVariable Long permissionId) {
         permissionService.deleteByPermissionId(permissionId);
         return ResponseResult.resultSuccess("修改成功");
+    }
+
+    /**
+     * <p>
+     * 获取权限id(结合前端使用)
+     * </p>
+     *
+     * @return Map<Long,Set<Long>>
+     */
+    @GetMapping("/permission/menu/all")
+    public Result getPermissionIdsAll() {
+        Map<Long, Set<Long>> permissionIds = permissionService.getPermissionIdByMenuId();
+        return ResponseResult.resultSuccess(permissionIds);
     }
 }
 

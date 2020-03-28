@@ -6,7 +6,10 @@ import com.hb0730.boot.admin.project.menu.permission.model.entity.SystemMenuPerm
 import com.hb0730.boot.admin.project.permission.model.vo.SystemPermissionVO;
 import org.springframework.lang.NonNull;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>
@@ -64,8 +67,26 @@ public interface ISystemMenuPermissionService extends IService<SystemMenuPermiss
 
     /**
      * 根据权限id删除
+     *
      * @param permissionId 权限id
      * @return 是否成功
      */
     boolean deleteByPermissionId(@NonNull Long permissionId);
+
+    /**
+     * 获取根据菜单id获取id
+     *
+     * @return 键值对方式的menu, permission
+     */
+    Map<Long, Set<Long>> getPermissionIdByMenuId();
+
+    /**
+     * <p>
+     * 根据权限id获取菜单权限信息
+     * </p>
+     *
+     * @param permissionIds 权限id
+     * @return 菜单权限信息
+     */
+    List<SystemMenuPermissionEntity> getMenuPermissionByPermissionIds(Collection<Long> permissionIds);
 }

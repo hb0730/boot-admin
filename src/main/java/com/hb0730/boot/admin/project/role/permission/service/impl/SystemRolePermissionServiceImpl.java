@@ -4,11 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
+import com.hb0730.boot.admin.project.role.permission.handle.MenuPermissionHandle;
 import com.hb0730.boot.admin.project.role.permission.mapper.ISystemRolePermissionMapper;
 import com.hb0730.boot.admin.project.role.permission.model.entity.SystemRolePermissionEntity;
 import com.hb0730.boot.admin.project.role.permission.service.ISystemRolePermissionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +19,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,38 +33,38 @@ import java.util.stream.Collectors;
  */
 @Service
 public class SystemRolePermissionServiceImpl extends ServiceImpl<ISystemRolePermissionMapper, SystemRolePermissionEntity> implements ISystemRolePermissionService {
+    @Autowired
+    private MenuPermissionHandle menuPermissionHandle;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean savePermissionByRoleId(@NonNull Long roleId, List<Long> permissionId) {
-        if (CollectionUtils.isEmpty(permissionId)) {
-            UpdateWrapper<SystemRolePermissionEntity> updateWrapper = new UpdateWrapper<>();
-            updateWrapper.set(SystemRolePermissionEntity.IS_ENABLED, SystemConstants.NOT_USE);
-            updateWrapper.eq(SystemRolePermissionEntity.ROLE_ID, roleId);
-            super.update(updateWrapper);
-
-            QueryWrapper<SystemRolePermissionEntity> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq(SystemRolePermissionEntity.ROLE_ID, roleId);
-            return super.remove(queryWrapper);
-        }
-        // 启用状态
-        Set<Long> usePermissionIds = getPermissionIdByRoleId(roleId, true);
-        //未启用
-        Set<Long> notUsePermissionIds = getPermissionIdByRoleId(roleId, false);
-        //删除已启用的, 剩下未启用和新增
-        permissionId.removeAll(usePermissionIds);
-        List<Long> newPermissionId = new ArrayList<>(permissionId);
-        // 获取未启用的交集
-        permissionId.retainAll(notUsePermissionIds);
-        if (!CollectionUtils.isEmpty(permissionId)) {
-            updateState(roleId, permissionId);
-        }
-        // 删除未启用的 剩下新增
-        newPermissionId.removeAll(permissionId);
-        if (!CollectionUtils.isEmpty(newPermissionId)) {
-            addNew(roleId,newPermissionId);
+        // 移除原所有的
+        UpdateWrapper<SystemRolePermissionEntity> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set(SystemRolePermissionEntity.IS_ENABLED, SystemConstants.NOT_USE);
+        updateWrapper.eq(SystemRolePermissionEntity.ROLE_ID, roleId);
+        super.update(updateWrapper);
+        QueryWrapper<SystemRolePermissionEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(SystemRolePermissionEntity.ROLE_ID, roleId);
+        super.remove(queryWrapper);
+        if (!CollectionUtils.isEmpty(permissionId)){
+            addNew(roleId, permissionId);
         }
         return true;
+    }
+
+    @Override
+    public Map<Long, Set<Long>> getPermissionIdsByRoleId(@NonNull Long roleId) {
+        QueryWrapper<SystemRolePermissionEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(SystemRolePermissionEntity.IS_ENABLED, SystemConstants.USE);
+        queryWrapper.eq(SystemRolePermissionEntity.ROLE_ID, roleId);
+        queryWrapper.select(SystemRolePermissionEntity.PERMISSION_ID);
+        List<SystemRolePermissionEntity> entities = super.list(queryWrapper);
+        if (CollectionUtils.isEmpty(entities)) {
+            return Maps.newHashMap();
+        }
+        Set<Long> permissionIds = entities.parallelStream().map(SystemRolePermissionEntity::getPermissionId).collect(Collectors.toSet());
+        return menuPermissionHandle.getMenuPermissionIdsByPermissionIds(permissionIds);
     }
 
     /**
