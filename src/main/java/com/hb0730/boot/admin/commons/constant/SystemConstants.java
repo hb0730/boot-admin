@@ -23,6 +23,15 @@ public class SystemConstants {
      * 是否全部
      */
     public  static final int IS_ALL=-1;
+
+    /**
+     *修改
+     */
+    public static final  int IS_UPDATE=1;
+    /**
+     * 非修改
+     */
+    public static final  int NO_UPDATE=0;
     /**
      * 默认父id为-1
      */

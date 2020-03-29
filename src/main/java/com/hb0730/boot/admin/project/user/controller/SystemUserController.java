@@ -15,9 +15,11 @@ import com.hb0730.boot.admin.commons.web.utils.SecurityUtils;
 import com.hb0730.boot.admin.project.user.model.entity.SystemUserEntity;
 import com.hb0730.boot.admin.project.user.model.vo.SystemUserVO;
 import com.hb0730.boot.admin.project.user.model.vo.UserParamsVO;
+import com.hb0730.boot.admin.project.user.model.vo.UserVO;
 import com.hb0730.boot.admin.project.user.service.ISystemUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,13 +47,28 @@ public class SystemUserController extends BaseController {
      * @param vo 用户信息
      * @return 是否成功
      */
-    @RequestMapping("/save")
+    @Deprecated
     public Result save(SystemUserVO vo) {
         if (Objects.isNull(vo)) {
             return ResponseResult.resultFall("新增用户失败，用户账号为空");
         }
         SystemUserEntity entity = BeanUtils.transformFrom(vo, SystemUserEntity.class);
         systemUserService.save(entity);
+        return ResponseResult.resultSuccess("保存成功");
+    }
+
+    /**
+     * 用户新增
+     *
+     * @param vo 用户信息
+     * @return 是否成功
+     */
+    @PostMapping("/save")
+    public Result save(@Validated @RequestBody UserVO vo) {
+        if (Objects.isNull(vo)) {
+            return ResponseResult.resultFall("新增用户失败，用户账号为空");
+        }
+        systemUserService.save(vo);
         return ResponseResult.resultSuccess("保存成功");
     }
 
@@ -92,14 +109,16 @@ public class SystemUserController extends BaseController {
      * 根据用户id修改用户信息
      * </p>
      *
-     * @param vo 需要被修改的信息(不包含用户密码)
+     * @param vo 需要被修改的信息(不包含用户密码,用户组织,用户岗位和用户角色)
      * @param id 用户id
      * @return 用户信息
      */
     @PostMapping("/update/info/{id}")
+    @Deprecated
     public Result updateInfoByUserId(@RequestBody SystemUserVO vo, @PathVariable Long id) {
         SystemUserEntity entity = systemUserService.getById(id);
         vo.setPassword(null);
+        vo.setDeptId(null);
         BeanUtils.updateProperties(vo, entity);
         systemUserService.updateById(entity);
         return ResponseResult.resultSuccess("修改成功");
@@ -155,7 +174,7 @@ public class SystemUserController extends BaseController {
             if (!Objects.isNull(deptId)) {
                 queryWrapper.eq(SystemUserEntity.DEPTID, deptId);
             }
-            if ( !Objects.isNull(vo.getIsAll())&&!Objects.equals(vo.getIsAll(), SystemConstants.IS_ALL)) {
+            if (!Objects.isNull(vo.getIsAll()) && !Objects.equals(vo.getIsAll(), SystemConstants.IS_ALL)) {
                 queryWrapper.eq(SystemUserEntity.IS_ENABLED, vo.getIsAll());
             }
         }
@@ -164,6 +183,37 @@ public class SystemUserController extends BaseController {
         PageInfo<SystemUserEntity> pageInfo = new PageInfo<>(entities);
         PageInfo<SystemUserVO> info = PageInfoUtil.toBean(pageInfo, SystemUserVO.class);
         return ResponseResult.resultSuccess(info);
+    }
+
+
+    /**
+     * <p>
+     * 获取用户详情(包含用户角色岗位)
+     * </p>
+     *
+     * @param userId 用户id
+     * @return 用户详情
+     */
+    @GetMapping("/user/info/{userId}")
+    public Result getUserInfo(@PathVariable Long userId) {
+        UserVO info = systemUserService.getUserInfo(userId);
+        return ResponseResult.resultSuccess(info);
+    }
+
+    /**
+     * 更新用户信息
+     *
+     * @param user   用户信息(用户角色与用户岗位)
+     * @param userId 用户id
+     * @return 是否成功
+     */
+    @PostMapping("/update/user/{userId}")
+    public Result updateUserById(@RequestBody UserVO user, @PathVariable Long userId) {
+        if (Objects.isNull(user)) {
+            return ResponseResult.resultSuccess("修改成功");
+        }
+        systemUserService.updateUser(user, userId);
+        return ResponseResult.resultSuccess("修改成功");
     }
 }
 

@@ -2,16 +2,25 @@ package com.hb0730.boot.admin.project.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hb0730.boot.admin.commons.constant.SystemConstants;
+import com.hb0730.boot.admin.commons.utils.BeanUtils;
 import com.hb0730.boot.admin.commons.web.exception.BaseException;
 import com.hb0730.boot.admin.commons.web.utils.SecurityUtils;
+import com.hb0730.boot.admin.project.user.handle.UserHandle;
 import com.hb0730.boot.admin.project.user.mapper.SystemUserMapper;
 import com.hb0730.boot.admin.project.user.model.entity.SystemUserEntity;
+import com.hb0730.boot.admin.project.user.model.vo.UserVO;
 import com.hb0730.boot.admin.project.user.service.ISystemUserService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -23,25 +32,80 @@ import java.util.List;
  */
 @Service
 public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemUserEntity> implements ISystemUserService {
+    @Autowired
+    private UserHandle userHandle;
 
     @Override
-    public boolean save(SystemUserEntity entity) {
-        String username = entity.getUsername();
+    @Transactional(rollbackFor = Exception.class)
+    public boolean save(@NonNull UserVO vo) {
+        isNotNull(vo, SystemConstants.NO_UPDATE);
+        //密码加密
+        String encryptPassword = SecurityUtils.encryptPassword(vo.getPassword());
+        vo.setPassword(encryptPassword);
+        //更新用户角色和用户岗位
+        List<Long> postIds = vo.getPostId();
+        List<Long> roleIds = vo.getRoleId();
+        SystemUserEntity entity = BeanUtils.transformFrom(vo, SystemUserEntity.class);
+        super.save(entity);
+        assert entity != null;
+        Long id = entity.getId();
+        if (Objects.isNull(id)) {
+            throw new BaseException("用户id为空，保存失败");
+        }
+        return userHandle.updateUserRoleAndUserPost(id, roleIds, postIds);
+    }
+
+    @Override
+    public UserVO getUserInfo(@NotNull Long userId) {
+        SystemUserEntity entity = super.getById(userId);
+        UserVO userVO = BeanUtils.transformFrom(entity, UserVO.class);
+        userHandle.getRoleIdAndPostIdByUser(userVO);
+        return userVO;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateUser(@NonNull UserVO vo, @NonNull Long userId) {
+        isNotNull(vo, SystemConstants.IS_UPDATE);
+        vo.setPassword(null);
+        vo.setUsername(null);
+        //更新用户角色和用户岗位
+        List<Long> postIds = vo.getPostId();
+        List<Long> roleIds = vo.getRoleId();
+        SystemUserEntity entity = BeanUtils.transformFrom(vo, SystemUserEntity.class);
+        assert entity != null;
+        entity.setId(userId);
+        super.updateById(entity);
+        return userHandle.updateUserRoleAndUserPost(userId, roleIds, postIds);
+    }
+
+
+    /**
+     * 不为空
+     *
+     * @param vo 用户信息
+     */
+    private void isNotNull(UserVO vo, Integer isUpdate) {
+        String username = vo.getUsername();
         if (StringUtils.isBlank(username)) {
             throw new BaseException("用户账号为空");
         }
-        QueryWrapper<SystemUserEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("username", username);
-        List<SystemUserEntity> entities = list(queryWrapper);
-        if (!CollectionUtils.isEmpty(entities)) {
-            throw new BaseException("用户账号已存在");
+        if (!Objects.equals(isUpdate, SystemConstants.IS_UPDATE)) {
+            QueryWrapper<SystemUserEntity> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("username", username);
+            List<SystemUserEntity> entities = list(queryWrapper);
+            if (!CollectionUtils.isEmpty(entities)) {
+                throw new BaseException("用户账号已存在");
+            }
+            String password = vo.getPassword();
+            if (StringUtils.isBlank(password)) {
+                throw new BaseException("用户密码为空");
+            }
         }
-        String password = entity.getPassword();
-        if (StringUtils.isBlank(password)) {
-            throw new BaseException("用户密码为空");
+
+        Long deptId = vo.getDeptId();
+        if (Objects.isNull(deptId)) {
+            throw new BaseException("用户组织不为空");
         }
-        String encryptPassword = SecurityUtils.encryptPassword(password);
-        entity.setPassword(encryptPassword);
-        return super.save(entity);
     }
 }
