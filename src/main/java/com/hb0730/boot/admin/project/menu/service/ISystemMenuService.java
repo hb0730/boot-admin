@@ -6,7 +6,9 @@ import com.hb0730.boot.admin.project.menu.model.vo.SystemMenuVO;
 import com.hb0730.boot.admin.project.menu.model.vo.TreeMenuVO;
 import org.springframework.lang.NonNull;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -21,6 +23,7 @@ public interface ISystemMenuService extends IService<SystemMenuEntity> {
      * <p>
      * 获取全部树形菜单
      * </p>
+     *
      * @param isAll 是否查询全部
      * @return 树形菜单
      */
@@ -31,9 +34,17 @@ public interface ISystemMenuService extends IService<SystemMenuEntity> {
      * 根据父id获取菜单(非树形)
      * </p>
      *
-     * @param id 菜单id
-     * @param  isAll 是否查询全部
+     * @param id    菜单id
+     * @param isAll 是否查询全部
      * @return 菜单信息
      */
-    List<SystemMenuVO> getMenuByParentId(@NonNull Long id,Integer isAll);
+    List<SystemMenuVO> getMenuByParentId(@NonNull Long id, Integer isAll);
+
+    /**
+     * 根据菜单id获取vue所需树形
+     *
+     * @param menuIds 菜单id
+     * @return 树形菜单
+     */
+    List<Map<String, Object>> getVueTreeByMenuId(Collection<Long> menuIds);
 }

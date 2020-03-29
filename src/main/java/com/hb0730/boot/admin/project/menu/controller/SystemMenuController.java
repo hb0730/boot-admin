@@ -2,24 +2,31 @@ package com.hb0730.boot.admin.project.menu.controller;
 
 
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
 import com.hb0730.boot.admin.commons.utils.BeanUtils;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
+import com.hb0730.boot.admin.commons.web.utils.SecurityUtils;
 import com.hb0730.boot.admin.project.menu.model.entity.SystemMenuEntity;
 import com.hb0730.boot.admin.project.menu.model.vo.SystemMenuVO;
 import com.hb0730.boot.admin.project.menu.model.vo.TreeMenuVO;
+import com.hb0730.boot.admin.project.menu.permission.model.entity.SystemMenuPermissionEntity;
 import com.hb0730.boot.admin.project.menu.permission.service.ISystemMenuPermissionService;
 import com.hb0730.boot.admin.project.menu.service.ISystemMenuService;
+import com.hb0730.boot.admin.project.permission.model.dto.SystemPermissionDTO;
 import com.hb0730.boot.admin.project.permission.model.vo.SystemPermissionVO;
+import com.hb0730.boot.admin.security.model.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -41,7 +48,8 @@ public class SystemMenuController extends BaseController {
      * <p>
      * 获取所有菜单(树形)
      * </p>
-     * @param  isAll 是否查询全部
+     *
+     * @param isAll 是否查询全部
      * @return 树形菜单
      */
     @GetMapping("/tree/{isAll}")
@@ -172,12 +180,36 @@ public class SystemMenuController extends BaseController {
      * 获取权限id(结合前端使用)
      * </p>
      *
-     * @return Map<Long,Set<Long>>
+     * @return Map<Long, Set < Long>>
      */
     @GetMapping("/permission/menu/all")
     public Result getPermissionIdsAll() {
         Map<Long, Set<Long>> permissionIds = permissionService.getPermissionIdByMenuId();
         return ResponseResult.resultSuccess(permissionIds);
     }
+
+
+    /**
+     * 获取当前角色菜单(配合前端动态展示)
+     *
+     * @return 树形菜单
+     */
+    @GetMapping("/current")
+    public Result getCurrentUserMenu() {
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        List<SystemPermissionDTO> permissions = loginUser.getPermissions();
+        if (CollectionUtils.isEmpty(permissions)) {
+            return ResponseResult.resultSuccess(Lists.newArrayList());
+        }
+        Set<Long> permissionIds = permissions.parallelStream().map(SystemPermissionDTO::getId).collect(Collectors.toSet());
+        List<SystemMenuPermissionEntity> menuPermission = permissionService.getMenuPermissionByPermissionIds(permissionIds);
+        if (CollectionUtils.isEmpty(menuPermission)) {
+            return ResponseResult.resultSuccess(Lists.newArrayList());
+        }
+        Set<Long> menuIds = menuPermission.parallelStream().map(SystemMenuPermissionEntity::getMenuId).collect(Collectors.toSet());
+        List<Map<String, Object>> menu = systemMenuService.getVueTreeByMenuId(menuIds);
+        return ResponseResult.resultSuccess(menu);
+    }
+
 }
 

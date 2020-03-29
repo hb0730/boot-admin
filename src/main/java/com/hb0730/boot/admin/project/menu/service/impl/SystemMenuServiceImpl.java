@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.BeanUtils;
 import com.hb0730.boot.admin.commons.web.exception.BaseException;
@@ -12,14 +13,14 @@ import com.hb0730.boot.admin.project.menu.model.entity.SystemMenuEntity;
 import com.hb0730.boot.admin.project.menu.model.vo.SystemMenuVO;
 import com.hb0730.boot.admin.project.menu.model.vo.TreeMenuVO;
 import com.hb0730.boot.admin.project.menu.service.ISystemMenuService;
+import com.hb0730.boot.admin.project.menu.utils.MenuUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * <p>
@@ -39,7 +40,7 @@ public class SystemMenuServiceImpl extends ServiceImpl<ISystemMenuMapper, System
 
     @Override
     public List<TreeMenuVO> getTreeMenuAll(Integer isAll) {
-        List<SystemMenuVO> menus = getMenuByParentId(SystemConstants.PARENT_ID,isAll);
+        List<SystemMenuVO> menus = getMenuByParentId(SystemConstants.PARENT_ID, isAll);
         List<TreeMenuVO> trees = BeanUtils.transformFromInBatch(menus, TreeMenuVO.class);
         if (CollectionUtils.isEmpty(menus)) {
             return trees;
@@ -47,7 +48,7 @@ public class SystemMenuServiceImpl extends ServiceImpl<ISystemMenuMapper, System
         List<TreeMenuVO> newTress = Lists.newArrayList();
         trees.forEach((tree) -> {
             List<TreeMenuVO> childes = Lists.newArrayList();
-            TreeMenuVO children = getChildes(tree, childes,isAll);
+            TreeMenuVO children = getChildes(tree, childes, isAll);
             newTress.add(children);
         });
         return newTress;
@@ -71,14 +72,36 @@ public class SystemMenuServiceImpl extends ServiceImpl<ISystemMenuMapper, System
      * @return 菜单
      */
     @Override
-    public List<SystemMenuVO> getMenuByParentId(@NonNull Long id,Integer isAll) {
+    public List<SystemMenuVO> getMenuByParentId(@NonNull Long id, Integer isAll) {
         QueryWrapper<SystemMenuEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(SystemMenuEntity.PARENT_ID, id);
-        if (SystemConstants.IS_ALL!=isAll){
+        if (SystemConstants.IS_ALL != isAll) {
             queryWrapper.eq(SystemMenuEntity.IS_ENABLED, isAll);
         }
         List<SystemMenuEntity> entities = list(queryWrapper);
         return BeanUtils.transformFromInBatch(entities, SystemMenuVO.class);
+    }
+
+    @Override
+    public List<Map<String, Object>> getVueTreeByMenuId(Collection<Long> menuIds) {
+        if (CollectionUtils.isEmpty(menuIds)) {
+            return Lists.newArrayList();
+        }
+        Set<Long> menuIdsSet = com.google.common.collect.Sets.newHashSet(menuIds);
+        Set<Long> ids = Sets.newHashSet();
+        QueryWrapper<SystemMenuEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(SystemMenuEntity.IS_ENABLED,SystemConstants.USE);
+        List<SystemMenuEntity> allMenu = super.list(queryWrapper);
+        menuIdsSet.parallelStream().forEach(id -> {
+            SystemMenuEntity entity = getById(id);
+            MenuUtils.getParentNodeInfoByChildrenNode(entity, allMenu, ids);
+        });
+        List<TreeMenuVO> menuTree = MenuUtils.getMenusTreeByParentId(SystemConstants.PARENT_ID);
+        List<TreeMenuVO> treeByNodeId = MenuUtils.getTreeByNodeId(menuTree, ids);
+        List<Map<String, Object>> maps = Lists.newArrayList();
+        MenuUtils.getVueModel(treeByNodeId, maps);
+
+        return maps;
     }
 
     @Override
@@ -101,18 +124,18 @@ public class SystemMenuServiceImpl extends ServiceImpl<ISystemMenuMapper, System
      *
      * @param vo        树形菜单
      * @param treeMenus 树形菜单集
-     * @param isAll  是否查询全部
+     * @param isAll     是否查询全部
      * @return 树形菜单
      */
     @NonNull
-    private TreeMenuVO getChildes(@NonNull TreeMenuVO vo, @NonNull List<TreeMenuVO> treeMenus,Integer isAll) {
-        List<SystemMenuVO> menu = getMenuByParentId(vo.getId(),isAll);
+    private TreeMenuVO getChildes(@NonNull TreeMenuVO vo, @NonNull List<TreeMenuVO> treeMenus, Integer isAll) {
+        List<SystemMenuVO> menu = getMenuByParentId(vo.getId(), isAll);
         List<TreeMenuVO> treeMenu = BeanUtils.transformFromInBatch(menu, TreeMenuVO.class);
         vo.setChildren(treeMenus);
         if (!CollectionUtils.isEmpty(treeMenu)) {
             treeMenu.forEach((tree) -> {
                 List<TreeMenuVO> newTreeMen = Lists.newArrayList();
-                TreeMenuVO childes = getChildes(tree, newTreeMen,isAll);
+                TreeMenuVO childes = getChildes(tree, newTreeMen, isAll);
                 treeMenus.add(childes);
             });
         }
