@@ -25,13 +25,20 @@ import java.util.stream.Collectors;
  * @since V1.0
  */
 @Component
-public class UserHandle {
+public class UserRolePostHandle {
     private ISystemUserRoleService systemUserRoleService;
     private ISystemUserPostService systemUserPostService;
-
-    public UserHandle(ISystemUserRoleService systemUserRoleService, ISystemUserPostService systemUserPostService) {
+    public UserRolePostHandle(ISystemUserRoleService systemUserRoleService, ISystemUserPostService systemUserPostService) {
         this.systemUserRoleService = systemUserRoleService;
         this.systemUserPostService = systemUserPostService;
+    }
+
+    public ISystemUserRoleService getSystemUserRoleService() {
+        return systemUserRoleService;
+    }
+
+    public ISystemUserPostService getSystemUserPostService() {
+        return systemUserPostService;
     }
 
     /**

@@ -1,14 +1,19 @@
 package com.hb0730.boot.admin.security.model;
 
-import com.hb0730.boot.admin.project.user.model.vo.SystemUserVO;
+import com.google.common.collect.Sets;
+import com.hb0730.boot.admin.project.permission.model.dto.SystemPermissionDTO;
+import com.hb0730.boot.admin.project.role.model.dto.SystemRoleDTO;
+import com.hb0730.boot.admin.project.user.model.dto.LoginUserDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
-import java.util.Objects;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -18,7 +23,8 @@ import java.util.Set;
  * @author bing_huang
  * @since V1.0
  */
-public class LoginUser extends SystemUserVO implements UserDetails {
+public class LoginUser extends LoginUserDTO implements UserDetails {
+    private static final String ROLE = "ROLE_";
     /**
      * 用户唯一标识
      */
@@ -53,11 +59,6 @@ public class LoginUser extends SystemUserVO implements UserDetails {
      * 操作系统
      */
     private String os;
-
-    /**
-     * 权限列表
-     */
-    private Set<String> permissions;
 
     public String getToken() {
         return token;
@@ -115,20 +116,22 @@ public class LoginUser extends SystemUserVO implements UserDetails {
         this.os = os;
     }
 
-    public Set<String> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(Set<String> permissions) {
-        this.permissions = permissions;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (!Objects.isNull(permissions)) {
-            return AuthorityUtils.commaSeparatedStringToAuthorityList(StringUtils.join(permissions.toArray(), ","));
+        String perms = "";
+        List<SystemPermissionDTO> permissions = super.getPermissions();
+        if (!CollectionUtils.isEmpty(permissions)) {
+            perms = StringUtils.join(permissions.parallelStream().map(SystemPermissionDTO::getMark).toArray(), ",");
         }
-        return null;
+        List<SystemRoleDTO> roles = super.getRoles();
+        if (!CollectionUtils.isEmpty(roles)) {
+            Set<String> s = Sets.newConcurrentHashSet();
+            roles.parallelStream().forEach(role -> {
+                s.add(ROLE + role.getEnname());
+            });
+            perms += "," + StringUtils.join(s.toArray(), ",");
+        }
+        return AuthorityUtils.commaSeparatedStringToAuthorityList(perms);
     }
 
     @Override

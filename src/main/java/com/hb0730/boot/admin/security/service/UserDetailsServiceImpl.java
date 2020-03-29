@@ -2,6 +2,7 @@ package com.hb0730.boot.admin.security.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hb0730.boot.admin.commons.utils.BeanUtils;
+import com.hb0730.boot.admin.project.user.model.dto.LoginUserDTO;
 import com.hb0730.boot.admin.security.model.LoginUser;
 import com.hb0730.boot.admin.project.user.model.entity.SystemUserEntity;
 import com.hb0730.boot.admin.project.user.service.ISystemUserService;
@@ -30,16 +31,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        SystemUserEntity entity = new SystemUserEntity();
-        entity.setUsername(username);
-        QueryWrapper<SystemUserEntity> queryWrapper = new QueryWrapper<>(entity);
-        entity = systemUserService.getOne(queryWrapper);
-        LoginUser loginUser = BeanUtils.transformFrom(entity, LoginUser.class);
-        if (Objects.isNull(loginUser)) {
-            log.info("登录用户：{} 不存在.", username);
+        LoginUserDTO loginUserDTO = systemUserService.loadUserByUsername(username);
+        if (Objects.isNull(loginUserDTO)){
             throw new UsernameNotFoundException("登录用户：" + username + " 不存在");
         }
-
-        return loginUser;
+        return BeanUtils.transformFrom(loginUserDTO,LoginUser.class);
     }
 }

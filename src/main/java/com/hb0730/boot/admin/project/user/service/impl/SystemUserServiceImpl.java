@@ -6,8 +6,9 @@ import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.BeanUtils;
 import com.hb0730.boot.admin.commons.web.exception.BaseException;
 import com.hb0730.boot.admin.commons.web.utils.SecurityUtils;
-import com.hb0730.boot.admin.project.user.handle.UserHandle;
+import com.hb0730.boot.admin.project.user.handle.RolePostPermissionHandle;
 import com.hb0730.boot.admin.project.user.mapper.SystemUserMapper;
+import com.hb0730.boot.admin.project.user.model.dto.LoginUserDTO;
 import com.hb0730.boot.admin.project.user.model.entity.SystemUserEntity;
 import com.hb0730.boot.admin.project.user.model.vo.UserVO;
 import com.hb0730.boot.admin.project.user.service.ISystemUserService;
@@ -33,7 +34,7 @@ import java.util.Objects;
 @Service
 public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemUserEntity> implements ISystemUserService {
     @Autowired
-    private UserHandle userHandle;
+    private RolePostPermissionHandle postPermissionHandle;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -52,14 +53,14 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
         if (Objects.isNull(id)) {
             throw new BaseException("用户id为空，保存失败");
         }
-        return userHandle.updateUserRoleAndUserPost(id, roleIds, postIds);
+        return postPermissionHandle.getUserRolePostHandle().updateUserRoleAndUserPost(id, roleIds, postIds);
     }
 
     @Override
     public UserVO getUserInfo(@NotNull Long userId) {
         SystemUserEntity entity = super.getById(userId);
         UserVO userVO = BeanUtils.transformFrom(entity, UserVO.class);
-        userHandle.getRoleIdAndPostIdByUser(userVO);
+        postPermissionHandle.getUserRolePostHandle().getRoleIdAndPostIdByUser(userVO);
         return userVO;
     }
 
@@ -76,7 +77,21 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
         assert entity != null;
         entity.setId(userId);
         super.updateById(entity);
-        return userHandle.updateUserRoleAndUserPost(userId, roleIds, postIds);
+        return postPermissionHandle.getUserRolePostHandle().updateUserRoleAndUserPost(userId, roleIds, postIds);
+    }
+
+    @Override
+    public LoginUserDTO loadUserByUsername(@NonNull String username) {
+        QueryWrapper<SystemUserEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(SystemUserEntity.USERNAME, username);
+        SystemUserEntity userEntity = super.getOne(queryWrapper);
+        if (Objects.isNull(userEntity)) {
+            throw new BaseException("用户账号不存在");
+        }
+        LoginUserDTO userDTO = BeanUtils.transformFrom(userEntity, LoginUserDTO.class);
+        assert userDTO != null;
+        postPermissionHandle.getRolePostPermissionByLoginUser(userDTO);
+        return userDTO;
     }
 
 

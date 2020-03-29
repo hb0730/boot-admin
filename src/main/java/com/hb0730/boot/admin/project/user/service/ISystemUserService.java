@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.project.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hb0730.boot.admin.project.user.model.dto.LoginUserDTO;
 import com.hb0730.boot.admin.project.user.model.entity.SystemUserEntity;
 import com.hb0730.boot.admin.project.user.model.vo.UserVO;
 import org.springframework.lang.NonNull;
@@ -27,10 +28,12 @@ public interface ISystemUserService extends IService<SystemUserEntity> {
 
     /**
      * 获取用户详情
+     *
      * @param userId 用户id
      * @return 用户详情
      */
     UserVO getUserInfo(@NotNull Long userId);
+
     /**
      * 修改用户
      *
@@ -39,4 +42,13 @@ public interface ISystemUserService extends IService<SystemUserEntity> {
      * @return 是否成功
      */
     boolean updateUser(@NonNull UserVO vo, @NonNull Long userId);
+
+
+    /**
+     * 根据用户账号查询用户信息
+     *
+     * @param username 用户账号
+     * @return 用户登录信息
+     */
+    LoginUserDTO loadUserByUsername(@NonNull String username);
 }
