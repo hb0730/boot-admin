@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -51,8 +52,18 @@ public interface ISystemDictService extends IService<SystemDictEntity> {
      * 根据id删除
      * </P>
      *
-     * @param id  id
+     * @param id id
      * @return 是否成功
      */
     boolean removeById(@NonNull Long id);
+
+
+    /**
+     * <p>
+     * 将数据字典转换成map类型
+     * </p>
+     *
+     * @return map类型的数据字典
+     */
+    Map<String, List> getDictForMap();
 }
