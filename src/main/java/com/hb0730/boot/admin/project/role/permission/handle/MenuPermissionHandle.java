@@ -38,17 +38,17 @@ public class MenuPermissionHandle {
         if (CollectionUtils.isEmpty(menuPermissions)) {
             return Maps.newHashMap();
         }
-        Map<Long, Set<Long>> maps = Maps.newHashMap();
-        menuPermissions.parallelStream().forEach((menuPermission) -> {
+        Map<Long, Set<Long>> maps = Maps.newHashMapWithExpectedSize(menuPermissions.size());
+        menuPermissions.forEach((menuPermission) -> {
             Long menuId = menuPermission.getMenuId();
             Set<Long> permissionIds = maps.get(menuId);
             if (CollectionUtils.isEmpty(permissionIds)) {
-                Set<Long> permission = Sets.newConcurrentHashSet();
+                Set<Long> permission = Sets.newHashSet();
                 permission.add(menuPermission.getPermissionId());
                 maps.put(menuId, permission);
             } else {
                 permissionIds.add(menuPermission.getPermissionId());
-                maps.put(menuId,permissionIds);
+                maps.put(menuId, permissionIds);
             }
         });
         return maps;

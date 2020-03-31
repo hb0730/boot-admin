@@ -85,6 +85,9 @@ public class SystemDictController extends BaseController {
     @PostMapping("/save")
     @PreAuthorize("hasAnyAuthority('dict:save','ROLE_ADMIN','ROLE_DICT')")
     public Result save(@RequestBody SystemDictVO vo) {
+        if (Objects.isNull(vo.getParentId())) {
+            vo.setParentId(SystemConstants.PARENT_ID);
+        }
         verify(vo);
         SystemDictEntity entity = BeanUtils.transformFrom(vo, SystemDictEntity.class);
         systemDictService.save(entity);

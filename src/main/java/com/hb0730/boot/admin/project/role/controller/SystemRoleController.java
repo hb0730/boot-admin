@@ -57,10 +57,10 @@ public class SystemRoleController extends BaseController {
      */
     @PostMapping("/all")
     public Result getRoleAll(@RequestBody RoleParams roleParams) {
-        QueryWrapper<SystemRoleEntity> queryWrapper=new QueryWrapper<>();
-        if (!Objects.isNull(roleParams)){
+        QueryWrapper<SystemRoleEntity> queryWrapper = new QueryWrapper<>();
+        if (!Objects.isNull(roleParams)) {
             if (!Objects.isNull(roleParams.getIsAll()) && !Objects.equals(roleParams.getIsAll(), SystemConstants.IS_ALL)) {
-                queryWrapper.eq(SystemRoleEntity.IS_ENABLED,SystemConstants.USE);
+                queryWrapper.eq(SystemRoleEntity.IS_ENABLED, SystemConstants.USE);
             }
         }
         List<SystemRoleEntity> entities = systemRoleService.list(queryWrapper);
@@ -127,17 +127,11 @@ public class SystemRoleController extends BaseController {
     }
     /*******权限***************/
     /**
-     * 根据角色id获取角色id
-     *
-     * @param id 角色id
-     * @return 权限id
-     */
-    /**
      * <p>
-     * 获取菜单对应的权限id
+     * 根据角色获取权限id
      * </p>
      *
-     * @param id id菜单
+     * @param id 角色id
      * @return 权限id
      */
     @GetMapping("/permission/id/{id}")

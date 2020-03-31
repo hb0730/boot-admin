@@ -92,7 +92,7 @@ public class SystemMenuServiceImpl extends ServiceImpl<ISystemMenuMapper, System
         QueryWrapper<SystemMenuEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(SystemMenuEntity.IS_ENABLED,SystemConstants.USE);
         List<SystemMenuEntity> allMenu = super.list(queryWrapper);
-        menuIdsSet.parallelStream().forEach(id -> {
+        menuIdsSet.forEach(id -> {
             SystemMenuEntity entity = getById(id);
             MenuUtils.getParentNodeInfoByChildrenNode(entity, allMenu, ids);
         });

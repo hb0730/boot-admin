@@ -1,7 +1,6 @@
 package com.hb0730.boot.admin.project.role.permission.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -17,9 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -39,16 +38,34 @@ public class SystemRolePermissionServiceImpl extends ServiceImpl<ISystemRolePerm
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean savePermissionByRoleId(@NonNull Long roleId, List<Long> permissionId) {
-        // 移除原所有的
-        UpdateWrapper<SystemRolePermissionEntity> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.set(SystemRolePermissionEntity.IS_ENABLED, SystemConstants.NOT_USE);
-        updateWrapper.eq(SystemRolePermissionEntity.ROLE_ID, roleId);
-        super.update(updateWrapper);
+        // 原有权限
         QueryWrapper<SystemRolePermissionEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(SystemRolePermissionEntity.IS_ENABLED, SystemConstants.USE);
         queryWrapper.eq(SystemRolePermissionEntity.ROLE_ID, roleId);
-        super.remove(queryWrapper);
-        if (!CollectionUtils.isEmpty(permissionId)){
-            addNew(roleId, permissionId);
+        List<SystemRolePermissionEntity> permission = super.list(queryWrapper);
+        // 原没有 -现新增
+        if (CollectionUtils.isEmpty(permission) && !CollectionUtils.isEmpty(permissionId)) {
+            return addNew(roleId, permissionId);
+        }
+        // 角色原有权限id
+        List<Long> permissionIds = permission.parallelStream().map(SystemRolePermissionEntity::getPermissionId).collect(Collectors.toList());
+        // 现新增,原没有
+        List<Long> newList = Lists.newArrayList();
+        newList.addAll(permissionId);
+        //剩下新增
+        newList.removeAll(permissionIds);
+        if (!CollectionUtils.isEmpty(newList)) {
+            saveOrUpdate(roleId, newList);
+        }
+        // 现有,原有的
+        List<Long> new2List = Lists.newArrayList();
+        new2List.addAll(permissionId);
+        new2List.retainAll(permissionIds);
+        // 现没有,原有
+        permissionIds.removeAll(new2List);
+        permissionIds.removeAll(newList);
+        if (!CollectionUtils.isEmpty(permissionIds)) {
+            updateState(roleId, permissionIds, SystemConstants.NOT_USE);
         }
         return true;
     }
@@ -77,14 +94,52 @@ public class SystemRolePermissionServiceImpl extends ServiceImpl<ISystemRolePerm
     @Transactional(rollbackFor = Exception.class)
     public boolean addNew(@NonNull Long roleId, @NonNull List<Long> permissionIds) {
         List<SystemRolePermissionEntity> entities = Lists.newArrayList();
+        if (!CollectionUtils.isEmpty(permissionIds)) {
+            permissionIds.forEach((permissionId) -> {
+                SystemRolePermissionEntity entity = new SystemRolePermissionEntity();
+                entity.setRoleId(roleId);
+                entity.setPermissionId(permissionId);
+                entity.setIsEnabled(SystemConstants.USE);
+                entities.add(entity);
+            });
+        }
+        if (!CollectionUtils.isEmpty(entities)) {
+            super.saveBatch(entities);
+        }
+        return true;
+    }
+
+    /**
+     * <p>
+     * 新增获取修改
+     * </p>
+     *
+     * @param roleId        角色id
+     * @param permissionIds 权限id
+     * @return 是否成
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean saveOrUpdate(@NonNull Long roleId, @NonNull List<Long> permissionIds) {
+        List<Long> savePermission = Lists.newArrayList();
+        List<Long> updatePermission = Lists.newArrayList();
         permissionIds.forEach((permissionId) -> {
-            SystemRolePermissionEntity entity = new SystemRolePermissionEntity();
-            entity.setRoleId(roleId);
-            entity.setPermissionId(permissionId);
-            entity.setIsEnabled(SystemConstants.USE);
-            entities.add(entity);
+            QueryWrapper<SystemRolePermissionEntity> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq(SystemRolePermissionEntity.ROLE_ID, roleId);
+            queryWrapper.eq(SystemRolePermissionEntity.PERMISSION_ID, permissionId);
+            List<SystemRolePermissionEntity> list = super.list(queryWrapper);
+            if (!CollectionUtils.isEmpty(list)) {
+                updatePermission.add(permissionId);
+            } else {
+                savePermission.add(permissionId);
+            }
         });
-        return super.saveBatch(entities);
+        if (!CollectionUtils.isEmpty(savePermission)) {
+            addNew(roleId, savePermission);
+        }
+        if (!CollectionUtils.isEmpty(updatePermission)) {
+            updateState(roleId, updatePermission, SystemConstants.USE);
+        }
+        return true;
     }
 
     /**
@@ -95,14 +150,21 @@ public class SystemRolePermissionServiceImpl extends ServiceImpl<ISystemRolePerm
      * @param roleId        角色id
      * @param permissionIds 权限id
      */
-    public void updateState(@NonNull Long roleId, @NonNull List<Long> permissionIds) {
+    public void updateState(@NonNull Long roleId, @NonNull List<Long> permissionIds, Integer isUse) {
+        List<SystemRolePermissionEntity> entities = Lists.newArrayList();
         permissionIds.forEach((permissionId) -> {
-            UpdateWrapper<SystemRolePermissionEntity> updateWrapper = new UpdateWrapper<>();
-            updateWrapper.eq(SystemRolePermissionEntity.ROLE_ID, roleId);
-            updateWrapper.eq(SystemRolePermissionEntity.PERMISSION_ID, permissionId);
-            updateWrapper.set(SystemRolePermissionEntity.IS_ENABLED, SystemConstants.USE);
-            super.update(updateWrapper);
+            QueryWrapper<SystemRolePermissionEntity> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq(SystemRolePermissionEntity.ROLE_ID, roleId);
+            queryWrapper.eq(SystemRolePermissionEntity.PERMISSION_ID, permissionId);
+            SystemRolePermissionEntity entity = super.getOne(queryWrapper);
+            if (!Objects.isNull(entity)) {
+                entity.setIsEnabled(isUse == null ? SystemConstants.USE : isUse);
+                entities.add(entity);
+            }
         });
+        if (!CollectionUtils.isEmpty(entities)) {
+            super.updateBatchById(entities);
+        }
 
     }
 
