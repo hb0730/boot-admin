@@ -217,5 +217,19 @@ public class SystemUserController extends BaseController {
         systemUserService.updateUser(user, userId);
         return ResponseResult.resultSuccess("修改成功");
     }
+
+    /**
+     * <p>
+     * 重置密码
+     * </p>
+     *
+     * @param id 用户id
+     * @return 是否成功
+     */
+    @GetMapping("/update/reset/password/{id}")
+    public Result resetPassword(@PathVariable Long id) {
+        systemUserService.resetPassword(id);
+        return ResponseResult.resultSuccess("重置成功");
+    }
 }
 

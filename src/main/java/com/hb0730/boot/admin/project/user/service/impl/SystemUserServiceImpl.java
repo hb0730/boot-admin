@@ -94,6 +94,15 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
         return userDTO;
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean resetPassword(@NonNull Long id) {
+        SystemUserEntity entity = super.getById(id);
+        String encryptPassword = SecurityUtils.encryptPassword(SystemConstants.DEFAULT_PASSWORD);
+        entity.setPassword(encryptPassword);
+        return super.updateById(entity);
+    }
+
 
     /**
      * 不为空

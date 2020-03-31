@@ -10,17 +10,17 @@ import org.springframework.lang.Nullable;
  * @author bing_huang
  * @since V1.0
  */
-public abstract class BootAdminException extends RuntimeException {
+public abstract class AbstractBootAdminException extends RuntimeException {
     /**
      * Error errorData.
      */
     private Object errorData;
 
-    public BootAdminException(String message) {
+    public AbstractBootAdminException(String message) {
         super(message);
     }
 
-    public BootAdminException(String message, Throwable cause) {
+    public AbstractBootAdminException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -39,7 +39,7 @@ public abstract class BootAdminException extends RuntimeException {
      * @return current exception.
      */
     @NonNull
-    public BootAdminException setErrorData(@Nullable Object errorData) {
+    public AbstractBootAdminException setErrorData(@Nullable Object errorData) {
         this.errorData = errorData;
         return this;
     }

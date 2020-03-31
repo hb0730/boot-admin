@@ -36,4 +36,9 @@ public class SystemConstants {
      * 默认父id为-1
      */
     public static final long PARENT_ID = -1L;
+
+    /**
+     * 默认密码
+     */
+    public static final String DEFAULT_PASSWORD="123456";
 }

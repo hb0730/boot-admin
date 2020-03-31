@@ -12,7 +12,7 @@ import org.springframework.util.StringUtils;
  * @author bing_huang
  * @since V1.0
  */
-public class BaseException extends BootAdminException {
+public class BaseException extends AbstractBootAdminException {
     /**
      * 所属模块
      */

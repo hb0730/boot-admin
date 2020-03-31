@@ -51,4 +51,15 @@ public interface ISystemUserService extends IService<SystemUserEntity> {
      * @return 用户登录信息
      */
     LoginUserDTO loadUserByUsername(@NonNull String username);
+
+
+    /**
+     * <p>
+     * 重置面
+     * </p>
+     *
+     * @param id 用户id
+     * @return 是否成功
+     */
+    boolean resetPassword(@NonNull Long id);
 }
