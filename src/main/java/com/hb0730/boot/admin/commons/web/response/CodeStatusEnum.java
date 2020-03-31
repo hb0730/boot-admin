@@ -28,7 +28,12 @@ public enum CodeStatusEnum {
     /**
      * 授权异常
      */
-    FORBIDDEN("BA20006"," 授权异常")
+    FORBIDDEN("BA20006"," 授权异常"),
+
+    /**
+     * 未找到
+     */
+    NOT_FOUND("BA20007","未找到")
     ;
     /**
      * 状态码

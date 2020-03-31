@@ -40,4 +40,9 @@ public interface RequestMappingNameConstants {
      * 系统岗位
      */
     String REQUEST_POST="/api/v1/post";
+
+    /**
+     * 数据字典
+     */
+    String REQUEST_DICT="/api/v1/dict";
 }

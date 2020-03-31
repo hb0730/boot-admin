@@ -19,6 +19,7 @@ import com.hb0730.boot.admin.project.user.model.vo.UserVO;
 import com.hb0730.boot.admin.project.user.service.ISystemUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -167,6 +168,7 @@ public class SystemUserController extends BaseController {
      * @return 分页后的用户信息
      */
     @PostMapping("/all/{page}/{pageSize}")
+    @PreAuthorize("hasAnyAuthority('user:query','ROLE_ADMIN','ROLE_USER')")
     public Result getUserPage(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody UserParamsVO vo) {
         QueryWrapper<SystemUserEntity> queryWrapper = new QueryWrapper<>();
         if (!Objects.isNull(vo)) {

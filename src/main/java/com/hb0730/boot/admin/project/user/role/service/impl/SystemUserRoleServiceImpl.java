@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author bing_huang
- * @since 2020-03-29
+ * @since 2020-03-30
  */
 @Service
 public class SystemUserRoleServiceImpl extends ServiceImpl<ISystemUserRoleMapper, SystemUserRoleEntity> implements ISystemUserRoleService {
