@@ -1,9 +1,9 @@
 package com.hb0730.boot.admin.security.model;
 
 import com.google.common.collect.Sets;
-import com.hb0730.boot.admin.project.permission.model.dto.SystemPermissionDTO;
-import com.hb0730.boot.admin.project.role.model.dto.SystemRoleDTO;
-import com.hb0730.boot.admin.project.user.model.dto.LoginUserDTO;
+import com.hb0730.boot.admin.project.system.permission.model.dto.SystemPermissionDTO;
+import com.hb0730.boot.admin.project.system.role.model.dto.SystemRoleDTO;
+import com.hb0730.boot.admin.project.system.user.model.dto.LoginUserDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -13,7 +13,6 @@ import org.springframework.util.CollectionUtils;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * <p>

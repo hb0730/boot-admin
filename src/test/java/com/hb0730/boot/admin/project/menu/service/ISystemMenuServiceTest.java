@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.project.menu.service;
 
 
+import com.hb0730.boot.admin.project.system.menu.service.ISystemMenuService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
