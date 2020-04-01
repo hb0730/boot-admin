@@ -41,6 +41,10 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
 		<!--spring boot starter-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

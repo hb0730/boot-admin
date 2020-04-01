@@ -45,4 +45,14 @@ public interface RequestMappingNameConstants {
      * 数据字典
      */
     String REQUEST_DICT="/api/v1/dict";
+
+    /**
+     * 访问日志(登录日志)
+     */
+    String REQUEST_LOGININFO="/api/v1/logininfo";
+
+    /**
+     * 操作日志
+     */
+    String REQUEST_OPERLOG="/api/v1/monitor/operLog";
 }

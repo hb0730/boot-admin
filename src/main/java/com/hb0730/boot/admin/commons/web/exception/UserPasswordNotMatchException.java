@@ -1,0 +1,16 @@
+package com.hb0730.boot.admin.commons.web.exception;
+
+import com.hb0730.boot.admin.commons.utils.MessageUtils;
+
+/**
+ * <p>
+ * </P>
+ *
+ * @author bing_huang
+ * @since V1.0
+ */
+public class UserPasswordNotMatchException extends BaseException {
+    public UserPasswordNotMatchException() {
+        super(MessageUtils.message("user.password.not.match"));
+    }
+}

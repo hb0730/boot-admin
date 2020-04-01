@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.commons.web.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * <p>
@@ -14,6 +15,7 @@ import lombok.Data;
  * @date 2019/8/28 10:00
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class BusinessEntryVO extends BaseVO {
 
     private static final long serialVersionUID = 290384320276080238L;
