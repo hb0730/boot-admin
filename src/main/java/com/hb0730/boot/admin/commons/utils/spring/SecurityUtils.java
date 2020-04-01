@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.commons.web.utils;
+package com.hb0730.boot.admin.commons.utils.spring;
 
 import com.hb0730.boot.admin.security.model.LoginUser;
 import org.springframework.security.core.Authentication;

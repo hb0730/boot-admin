@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.menu.permission.handler;
 
 import com.google.common.collect.Lists;
-import com.hb0730.boot.admin.commons.utils.BeanUtils;
+import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.web.exception.BaseException;
 import com.hb0730.boot.admin.project.permission.model.dto.SystemPermissionDTO;
 import com.hb0730.boot.admin.project.permission.model.entity.SystemPermissionEntity;

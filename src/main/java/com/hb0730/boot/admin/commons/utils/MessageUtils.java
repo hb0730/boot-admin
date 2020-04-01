@@ -1,5 +1,6 @@
-package com.hb0730.boot.admin.commons.web.utils;
+package com.hb0730.boot.admin.commons.utils;
 
+import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 

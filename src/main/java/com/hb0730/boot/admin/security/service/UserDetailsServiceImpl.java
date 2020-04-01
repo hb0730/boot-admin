@@ -1,10 +1,8 @@
 package com.hb0730.boot.admin.security.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.hb0730.boot.admin.commons.utils.BeanUtils;
+import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.project.user.model.dto.LoginUserDTO;
 import com.hb0730.boot.admin.security.model.LoginUser;
-import com.hb0730.boot.admin.project.user.model.entity.SystemUserEntity;
 import com.hb0730.boot.admin.project.user.service.ISystemUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

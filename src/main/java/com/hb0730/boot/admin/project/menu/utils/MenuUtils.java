@@ -3,7 +3,7 @@ package com.hb0730.boot.admin.project.menu.utils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.hb0730.boot.admin.commons.utils.BeanUtils;
+import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.configuration.SpringContextUtil;
 import com.hb0730.boot.admin.project.menu.mapper.ISystemMenuMapper;
 import com.hb0730.boot.admin.project.menu.model.entity.SystemMenuEntity;

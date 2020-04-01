@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.commons.utils;
+package com.hb0730.boot.admin.commons.utils.bean;
 
 import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.BeanWrapperImpl;

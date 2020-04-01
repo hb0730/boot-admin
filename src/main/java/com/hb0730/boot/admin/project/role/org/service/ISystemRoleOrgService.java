@@ -18,7 +18,7 @@ public interface ISystemRoleOrgService extends IService<SystemRoleOrgEntity> {
 
     /**
      * <p>
-     * 保存数据范围
+     * 保存数据范围(新增与修改)
      * </p>
      *
      * @param roleId 角色id

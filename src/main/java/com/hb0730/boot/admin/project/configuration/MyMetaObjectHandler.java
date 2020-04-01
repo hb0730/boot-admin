@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.configuration;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.hb0730.boot.admin.commons.web.utils.SecurityUtils;
+import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 

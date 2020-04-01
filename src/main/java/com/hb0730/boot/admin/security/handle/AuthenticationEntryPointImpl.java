@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.security.handle;
 
-import com.hb0730.boot.admin.commons.utils.GsonUtils;
+import com.hb0730.boot.admin.commons.utils.json.GsonUtils;
 import com.hb0730.boot.admin.commons.utils.ServletUtils;
 import com.hb0730.boot.admin.commons.web.response.CodeStatusEnum;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;

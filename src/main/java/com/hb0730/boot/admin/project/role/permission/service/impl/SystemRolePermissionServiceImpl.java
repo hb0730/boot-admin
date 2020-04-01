@@ -37,36 +37,32 @@ public class SystemRolePermissionServiceImpl extends ServiceImpl<ISystemRolePerm
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean savePermissionByRoleId(@NonNull Long roleId, List<Long> permissionId) {
-        // 原有权限
+    public boolean savePermissionByRoleId(@NonNull Long roleId, List<Long> permissionIds) {
         QueryWrapper<SystemRolePermissionEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(SystemRolePermissionEntity.IS_ENABLED, SystemConstants.USE);
         queryWrapper.eq(SystemRolePermissionEntity.ROLE_ID, roleId);
-        List<SystemRolePermissionEntity> permission = super.list(queryWrapper);
-        // 原没有 -现新增
-        if (CollectionUtils.isEmpty(permission) && !CollectionUtils.isEmpty(permissionId)) {
-            return addNew(roleId, permissionId);
+        List<SystemRolePermissionEntity> entities = super.list(queryWrapper);
+        // 新增
+        if (CollectionUtils.isEmpty(entities)) {
+            if (CollectionUtils.isEmpty(permissionIds)) {
+                return true;
+            }
+            return addNew(roleId, permissionIds);
         }
-        // 角色原有权限id
-        List<Long> permissionIds = permission.parallelStream().map(SystemRolePermissionEntity::getPermissionId).collect(Collectors.toList());
-        // 现新增,原没有
-        List<Long> newList = Lists.newArrayList();
-        newList.addAll(permissionId);
-        //剩下新增
-        newList.removeAll(permissionIds);
-        if (!CollectionUtils.isEmpty(newList)) {
-            saveOrUpdate(roleId, newList);
-        }
-        // 现有,原有的
-        List<Long> new2List = Lists.newArrayList();
-        new2List.addAll(permissionId);
-        new2List.retainAll(permissionIds);
-        // 现没有,原有
-        permissionIds.removeAll(new2List);
-        permissionIds.removeAll(newList);
-        if (!CollectionUtils.isEmpty(permissionIds)) {
-            updateState(roleId, permissionIds, SystemConstants.NOT_USE);
-        }
+        List<Long> list = entities.parallelStream().map(SystemRolePermissionEntity::getPermissionId).collect(Collectors.toList());
+        List<Long> updateList = Lists.newArrayList();
+        List<Long> saveList = Lists.newArrayList();
+        permissionIds.forEach((orgId) -> {
+            if (list.contains(orgId)) {
+                updateList.add(orgId);
+            } else {
+                saveList.add(orgId);
+            }
+        });
+        //多余的
+        list.removeAll(permissionIds);
+        saveOrUpdate(roleId, updateList);
+        saveOrUpdate(roleId, saveList);
+        updateState(roleId, list, SystemConstants.NOT_USE);
         return true;
     }
 

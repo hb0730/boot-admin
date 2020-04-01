@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.security.service;
 
 import com.google.common.collect.Maps;
-import com.hb0730.boot.admin.commons.utils.SecurityConstants;
+import com.hb0730.boot.admin.commons.constant.SecurityConstants;
 import com.hb0730.boot.admin.commons.utils.ServletUtils;
 import com.hb0730.boot.admin.security.model.LoginUser;
 import eu.bitwalker.useragentutils.UserAgent;

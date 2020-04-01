@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.commons.web.exception;
 
-import com.hb0730.boot.admin.commons.web.utils.SpringUtils;
+import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.util.StringUtils;

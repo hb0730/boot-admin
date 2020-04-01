@@ -2,6 +2,7 @@ package com.hb0730.boot.admin.commons.utils;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 
 import java.util.Collection;
 
