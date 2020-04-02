@@ -5,6 +5,8 @@ import com.hb0730.boot.admin.commons.utils.ip.IpUtils;
 import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.entity.SystemLoginInfoEntity;
 import com.hb0730.boot.admin.project.monitor.logininfo.service.ISystemLoginInfoService;
+import com.hb0730.boot.admin.project.monitor.operlog.model.entity.SystemOperLogEntity;
+import com.hb0730.boot.admin.project.monitor.operlog.service.ISystemOperLogService;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,6 +66,21 @@ public class AsyncFactory {
                 entity.setMessage(message);
 //                 日志状态
                 SpringUtils.getBean(ISystemLoginInfoService.class).save(entity);
+            }
+        };
+    }
+
+    /**
+     * 操作日志记录
+     *
+     * @param entity 操作日志信息
+     * @return 任务task
+     */
+    public static TimerTask recordOper(final SystemOperLogEntity entity) {
+        return new TimerTask() {
+            @Override
+            public void run() {
+                SpringUtils.getBean(ISystemOperLogService.class).save(entity);
             }
         };
     }

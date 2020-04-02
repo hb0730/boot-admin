@@ -48,12 +48,6 @@ public enum  BusinessTypeEnum {
      * 强退
      */
     FORCE,
-
-    /**
-     * 生成代码
-     */
-    GENCODE,
-
     /**
      * 清空数据
      */

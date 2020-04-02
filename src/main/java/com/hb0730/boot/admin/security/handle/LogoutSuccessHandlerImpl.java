@@ -1,7 +1,6 @@
 package com.hb0730.boot.admin.security.handle;
 
-import com.hb0730.boot.admin.commons.constant.SystemConstants;
-import com.hb0730.boot.admin.commons.constant.SystemLoginConstants;
+import com.hb0730.boot.admin.commons.constant.SystemStatusEnum;
 import com.hb0730.boot.admin.commons.utils.MessageUtils;
 import com.hb0730.boot.admin.commons.utils.ServletUtils;
 import com.hb0730.boot.admin.commons.utils.json.GsonUtils;
@@ -40,7 +39,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
         LoginUser loginUser = tokenService.getLoginUser(request);
         if (Objects.nonNull(loginUser)) {
             tokenService.delLoginUser(request);
-            AsyncManager.me().execute(AsyncFactory.recordLoginInfo(loginUser.getUsername(), SystemLoginConstants.SUCCESS, MessageUtils.message("logout.success")));
+            AsyncManager.me().execute(AsyncFactory.recordLoginInfo(loginUser.getUsername(), SystemStatusEnum.SUCCESS.ordinal(), MessageUtils.message("logout.success")));
         }
         // 记录用户退出日志
         Result<String> result = ResponseResult.resultSuccess("退出成功");

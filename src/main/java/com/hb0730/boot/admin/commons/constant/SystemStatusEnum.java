@@ -7,14 +7,13 @@ package com.hb0730.boot.admin.commons.constant;
  * @author bing_huang
  * @since V1.0
  */
-public class SystemLoginConstants {
-    /**
-     * 成功
-     */
-    public static final int SUCCESS=1;
-
+public enum SystemStatusEnum {
     /**
      * 失败
      */
-    public static final int FAIL=0;
+    FAIL,
+    /**
+     * 成功
+     */
+    SUCCESS;
 }
