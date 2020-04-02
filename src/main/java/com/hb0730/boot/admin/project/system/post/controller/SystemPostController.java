@@ -17,7 +17,9 @@ import com.hb0730.boot.admin.project.system.post.model.entity.SystemPostEntity;
 import com.hb0730.boot.admin.project.system.post.model.vo.PostParams;
 import com.hb0730.boot.admin.project.system.post.model.vo.SystemPostVO;
 import com.hb0730.boot.admin.project.system.post.service.ISystemPostService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -69,6 +71,17 @@ public class SystemPostController extends BaseController {
     public Result getPostPage(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody PostParams params) {
         PageHelper.startPage(page, pageSize);
         QueryWrapper<SystemPostEntity> queryWrapper = new QueryWrapper<>();
+        if (Objects.nonNull(params)) {
+            if (StringUtils.isNotBlank(params.getName())) {
+                queryWrapper.eq(SystemPostEntity.NAME, params.getName());
+            }
+            if (StringUtils.isNotBlank(params.getNumber())) {
+                queryWrapper.eq(SystemPostEntity.NUMBER, params.getNumber());
+            }
+            if (Objects.nonNull(params.getIsEnabled())) {
+                queryWrapper.eq(SystemPostEntity.IS_ENABLED, params.getIsEnabled());
+            }
+        }
         List<SystemPostEntity> entities = systemPostService.list(queryWrapper);
         PageInfo<SystemPostEntity> pageInfo = new PageInfo<>(entities);
         PageInfo<SystemPostVO> info = PageInfoUtil.toBean(pageInfo, SystemPostVO.class);
@@ -125,6 +138,24 @@ public class SystemPostController extends BaseController {
     public Result deleteById(@PathVariable Long id) {
         systemPostService.deleteById(id);
         return ResponseResult.resultSuccess("修改成功");
+    }
+
+    /**
+     * <p>
+     * 删除
+     * </P>
+     *
+     * @param ids 岗位id
+     * @return 是否成功
+     */
+    @PostMapping("/delete")
+    @Log(module = ModuleName.POST, title = "岗位删除", businessType = BusinessTypeEnum.DELETE)
+    public Result deleteByIds(@RequestBody List<Long> ids) {
+        if (!CollectionUtils.isEmpty(ids)) {
+            systemPostService.removeByIds(ids);
+            return ResponseResult.resultSuccess("修改成功");
+        }
+        return ResponseResult.resultFall("请选择");
     }
 }
 

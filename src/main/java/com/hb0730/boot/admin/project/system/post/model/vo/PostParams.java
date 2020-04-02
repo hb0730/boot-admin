@@ -17,4 +17,19 @@ public class PostParams implements Serializable {
      * 是否获取全部
      */
     public Integer isAll;
+
+    /**
+     * 岗位编码
+     */
+    public String number;
+
+    /**
+     * 岗位名称
+     */
+    public String name;
+
+    /**
+     * 岗位状态
+     */
+    public Integer isEnabled;
 }
