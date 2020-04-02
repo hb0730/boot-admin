@@ -1,11 +1,10 @@
 package com.hb0730.boot.admin.project.monitor.operlog.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.hb0730.boot.admin.commons.domain.BusinessDomain;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.hb0730.boot.admin.commons.domain.BusinessDomain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -24,7 +23,7 @@ import lombok.experimental.Accessors;
 @TableName("t_system_oper_log")
 public class SystemOperLogEntity extends BusinessDomain {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 备注
@@ -37,7 +36,11 @@ public class SystemOperLogEntity extends BusinessDomain {
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
-
+    /**
+     * 操作账号
+     */
+    @TableId(value = "username")
+    private String username;
     /**
      * 操作模块
      */
@@ -114,11 +117,13 @@ public class SystemOperLogEntity extends BusinessDomain {
 
     public static final String ID = "id";
 
+    public static final String USERNAME = "username";
+
     public static final String MODULE = "module";
 
     public static final String TITLE = "title";
 
-    public static final String STATUS="status" ;
+    public static final String STATUS = "status";
 
     public static final String BUSINESS_TYPE = "business_type";
 

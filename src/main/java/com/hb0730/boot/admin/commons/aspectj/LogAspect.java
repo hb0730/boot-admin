@@ -106,6 +106,7 @@ public class LogAspect {
             }
             if (loginUser != null) {
                 entity.setCreateUserId(loginUser.getId());
+                entity.setUsername(loginUser.getUsername());
             }
             entity.setOperUrl(ServletUtils.getRequest().getRequestURI());
             // 设置请求方式
