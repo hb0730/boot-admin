@@ -3,10 +3,12 @@ package com.hb0730.boot.admin.security.service;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.constant.SecurityConstants;
 import com.hb0730.boot.admin.commons.utils.ServletUtils;
+import com.hb0730.boot.admin.commons.utils.ip.IpUtils;
 import com.hb0730.boot.admin.security.model.LoginUser;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +30,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Component
 public class TokenServiceImpl implements ITokenService {
+    // 存储令牌 token
     private final ConcurrentHashMap<String, String> accessTokenStore = new ConcurrentHashMap<String, String>();
+    // 存储token 用户
     private final ConcurrentHashMap<String, LoginUser> authenticationStore = new ConcurrentHashMap<String, LoginUser>();
     /**
      * 令牌自定义标识
@@ -104,6 +108,19 @@ public class TokenServiceImpl implements ITokenService {
         }
     }
 
+    @Override
+    public Map<String, UserDetails> getOnline() {
+        Map<String, UserDetails> maps = new ConcurrentHashMap<>();
+        if (accessTokenStore.size() > 0) {
+            for (Map.Entry<String, String> entry : accessTokenStore.entrySet()) {
+                String key = entry.getKey();
+                maps.put(key, authenticationStore.get(getTokenKey(entry.getValue())));
+            }
+            return maps;
+        }
+        return null;
+    }
+
     /**
      * 设置用户代理信息
      *
@@ -111,6 +128,9 @@ public class TokenServiceImpl implements ITokenService {
      */
     public void setUserAgent(LoginUser loginUser) {
         UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
+        String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
+        loginUser.setIpaddr(ip);
+//        loginUser.setLoginLocation(AddressUtils.getRealAddressByIP(ip));
         loginUser.setBrowser(userAgent.getBrowser().getName());
         loginUser.setOs(userAgent.getOperatingSystem().getName());
     }

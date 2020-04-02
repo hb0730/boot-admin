@@ -1,8 +1,10 @@
 package com.hb0730.boot.admin.security.service;
 
 import com.hb0730.boot.admin.security.model.LoginUser;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * <p>
@@ -71,4 +73,13 @@ public interface ITokenService {
      * @param accessToken token令牌
      */
     void deleteAccessToken(String accessToken);
+
+    /**
+     * <p>
+     * 获取在线用户
+     * </p>
+     *
+     * @return 在线用户
+     */
+    Map<String, UserDetails> getOnline();
 }

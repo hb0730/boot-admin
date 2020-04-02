@@ -39,20 +39,25 @@ public interface RequestMappingNameConstants {
     /**
      * 系统岗位
      */
-    String REQUEST_POST="/api/v1/post";
+    String REQUEST_POST = "/api/v1/post";
 
     /**
      * 数据字典
      */
-    String REQUEST_DICT="/api/v1/dict";
+    String REQUEST_DICT = "/api/v1/dict";
 
     /**
      * 访问日志(登录日志)
      */
-    String REQUEST_LOGININFO="/api/v1/logininfo";
+    String REQUEST_LOGININFO = "/api/v1/logininfo";
 
     /**
      * 操作日志
      */
-    String REQUEST_OPERLOG="/api/v1/monitor/operLog";
+    String REQUEST_OPERLOG = "/api/v1/monitor/operLog";
+
+    /**
+     * 在线用户
+     */
+    String REQUEST_USER_ONLINE = "/api/v1/monitor/online";
 }
