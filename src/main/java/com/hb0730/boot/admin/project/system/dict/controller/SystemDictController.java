@@ -126,10 +126,27 @@ public class SystemDictController extends BaseController {
      */
     @GetMapping("/delete/id/{id}")
     @PreAuthorize("hasAnyAuthority('dict:delete','ROLE_ADMIN','ROLE_DICT')")
-    @Log(module = ModuleName.DICT, title = "删除", businessType = BusinessTypeEnum.DELETE, isSaveRequestData = false)
+    @Log(module = ModuleName.DICT, title = "删除", businessType = BusinessTypeEnum.DELETE)
     public Result deleteById(@PathVariable Long id) {
         systemDictService.removeById(id);
         return ResponseResult.resultSuccess("删除成功");
+    }
+
+    /**
+     * 根据id批量删除
+     *
+     * @param ids id
+     * @return 是否成功
+     */
+    @PostMapping("/delete/id")
+    @PreAuthorize("hasAnyAuthority('dict:delete','ROLE_DICT','ROLE_ADMIN')")
+    @Log(module = ModuleName.DICT, title = "删除", businessType = BusinessTypeEnum.DELETE)
+    public Result deleteByIds(@RequestBody List<Long> ids) {
+        if (!CollectionUtils.isEmpty(ids)) {
+            systemDictService.removeByIds(ids);
+            return ResponseResult.resultSuccess("删除成功");
+        }
+        return ResponseResult.resultFall("请选择");
     }
 
     /**

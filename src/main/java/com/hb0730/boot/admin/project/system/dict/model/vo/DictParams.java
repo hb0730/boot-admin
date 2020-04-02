@@ -21,4 +21,21 @@ public class DictParams implements Serializable {
      * 是否查询全部
      */
     private Integer isAll;
+
+    /**
+     * <p>
+     * 字典名称
+     * </p>
+     */
+    private String name;
+
+    /**
+     * 字典编码
+     */
+    private String number;
+
+    /**
+     * 是否启用
+     */
+    private String isEnabled;
 }

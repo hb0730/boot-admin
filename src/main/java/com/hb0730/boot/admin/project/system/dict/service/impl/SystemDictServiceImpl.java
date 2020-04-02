@@ -9,13 +9,14 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.constant.VueConstants;
-import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
+import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.project.system.dict.mapper.ISystemDictMapper;
 import com.hb0730.boot.admin.project.system.dict.model.entity.SystemDictEntity;
 import com.hb0730.boot.admin.project.system.dict.model.vo.DictParams;
 import com.hb0730.boot.admin.project.system.dict.model.vo.SystemDictVO;
 import com.hb0730.boot.admin.project.system.dict.service.ISystemDictService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,8 +52,14 @@ public class SystemDictServiceImpl extends ServiceImpl<ISystemDictMapper, System
         QueryWrapper<SystemDictEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(SystemDictEntity.PARENT_ID, parentId);
         if (!Objects.isNull(params)) {
-            if (!Objects.isNull(params.getIsAll()) && !Objects.equals(params.getIsAll(), SystemConstants.IS_ALL)) {
-                queryWrapper.eq(SystemDictEntity.IS_ENABLED, params.getIsAll());
+            if (StringUtils.isNotBlank(params.getName())) {
+                queryWrapper.eq(SystemDictEntity.NAME, params.getName());
+            }
+            if (StringUtils.isNotBlank(params.getNumber())) {
+                queryWrapper.eq(SystemDictEntity.NUMBER, params.getNumber());
+            }
+            if (StringUtils.isNotBlank(params.getIsEnabled())) {
+                queryWrapper.eq(SystemDictEntity.IS_ENABLED, params.getIsEnabled());
             }
         }
         List<SystemDictEntity> entities = super.list(queryWrapper);
