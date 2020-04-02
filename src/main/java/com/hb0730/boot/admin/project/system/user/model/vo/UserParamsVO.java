@@ -21,4 +21,19 @@ public class UserParamsVO implements Serializable {
      * 是否查询全部
      */
     private Integer isAll;
+
+    /**
+     * 用户账号
+     */
+    private String username;
+
+    /**
+     * 昵称
+     */
+    private String nickName;
+
+    /**
+     * 是否启用
+     */
+    private Integer isEnabled;
 }

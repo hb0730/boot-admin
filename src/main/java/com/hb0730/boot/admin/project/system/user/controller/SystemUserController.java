@@ -8,7 +8,6 @@ import com.hb0730.boot.admin.commons.annotation.Log;
 import com.hb0730.boot.admin.commons.constant.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
-import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
@@ -23,6 +22,7 @@ import com.hb0730.boot.admin.project.system.user.service.ISystemUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -139,7 +139,7 @@ public class SystemUserController extends BaseController {
      * @return 是否成功
      */
     @PostMapping("/update/password/{id}")
-    @Log(paramsName = {"oldPassword","newPassword","newPassword2"}, module = ModuleName.USER, title = "用户修改密码", businessType = BusinessTypeEnum.UPDATE)
+    @Log(paramsName = {"oldPassword", "newPassword", "newPassword2"}, module = ModuleName.USER, title = "用户修改密码", businessType = BusinessTypeEnum.UPDATE)
     public Result updatePasswordByUserId(String oldPassword, String newPassword, String newPassword2, @PathVariable Long id) {
         if (StringUtils.isBlank(oldPassword)) {
             return ResponseResult.resultFall("原密码为空");
@@ -181,8 +181,14 @@ public class SystemUserController extends BaseController {
             if (!Objects.isNull(deptId)) {
                 queryWrapper.eq(SystemUserEntity.DEPTID, deptId);
             }
-            if (!Objects.isNull(vo.getIsAll()) && !Objects.equals(vo.getIsAll(), SystemConstants.IS_ALL)) {
-                queryWrapper.eq(SystemUserEntity.IS_ENABLED, vo.getIsAll());
+            if (StringUtils.isNotBlank(vo.getNickName())) {
+                queryWrapper.eq(SystemUserEntity.NICK_NAME, vo.getNickName());
+            }
+            if (StringUtils.isNotBlank(vo.getUsername())) {
+                queryWrapper.eq(SystemUserEntity.USERNAME, vo.getUsername());
+            }
+            if (Objects.nonNull(vo.getIsEnabled())) {
+                queryWrapper.eq(SystemUserEntity.IS_ENABLED, vo.getIsEnabled());
             }
         }
         PageHelper.startPage(page, pageSize);
@@ -237,6 +243,40 @@ public class SystemUserController extends BaseController {
     public Result resetPassword(@PathVariable Long id) {
         systemUserService.resetPassword(id);
         return ResponseResult.resultSuccess("重置成功");
+    }
+
+
+    /**
+     * <p>
+     * 删除
+     * </p>
+     *
+     * @param id 是否成功
+     * @return 是否成功
+     */
+    @GetMapping("/delete/{id}")
+    @Log(module = ModuleName.USER, title = "删除用户", businessType = BusinessTypeEnum.DELETE)
+    public Result deleteById(@PathVariable Long id) {
+        systemUserService.removeById(id);
+        return ResponseResult.resultSuccess("删除成功");
+    }
+
+    /**
+     * <p>
+     * 删除用户
+     * </p>
+     *
+     * @param ids id
+     * @return 是否成功
+     */
+    @PostMapping("/delete")
+    @Log(module = ModuleName.USER, title = "删除用户", businessType = BusinessTypeEnum.DELETE)
+    public Result deleteByIds(@RequestBody List<Long> ids) {
+        if (!CollectionUtils.isEmpty(ids)) {
+            systemUserService.removeByIds(ids);
+            return ResponseResult.resultSuccess("删除成功");
+        }
+        return ResponseResult.resultFall("请选择");
     }
 }
 
