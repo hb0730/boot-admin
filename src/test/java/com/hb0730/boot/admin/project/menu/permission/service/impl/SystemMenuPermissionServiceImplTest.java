@@ -20,7 +20,7 @@ public class SystemMenuPermissionServiceImplTest {
 
     @Test
     public void getPermissionByMenuIdTest() {
-        systemMenuPermissionService.getPermissionByMenuId(1243026675188297730L, 1, 10);
+        systemMenuPermissionService.getPermissionByMenuId(1243026675188297730L, 1, 10, null);
     }
     @Test
     public void getPermissionIdByMenuId() {

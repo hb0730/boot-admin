@@ -24,6 +24,7 @@ import com.hb0730.boot.admin.project.system.role.org.service.ISystemRoleOrgServi
 import com.hb0730.boot.admin.project.system.role.permission.model.entity.SystemRolePermissionEntity;
 import com.hb0730.boot.admin.project.system.role.permission.service.ISystemRolePermissionService;
 import com.hb0730.boot.admin.project.system.role.service.ISystemRoleService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -84,7 +85,19 @@ public class SystemRoleController extends BaseController {
     @PostMapping("/all/page/{page}/{pageSize}")
     public Result getRolePage(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody RoleParams roleParams) {
         PageHelper.startPage(page, pageSize);
-        PageInfo<SystemRoleEntity> pageInfo = new PageInfo<>(systemRoleService.list());
+        QueryWrapper<SystemRoleEntity> queryWrapper = new QueryWrapper<>();
+        if (!Objects.isNull(roleParams)) {
+            if (StringUtils.isNotBlank(roleParams.getName())) {
+                queryWrapper.eq(SystemRoleEntity.NAME, roleParams.getName());
+            }
+            if (StringUtils.isNotBlank(roleParams.getEnname())) {
+                queryWrapper.eq(SystemRoleEntity.ENNAME, roleParams.getEnname());
+            }
+            if (!Objects.isNull(roleParams.getIsEnabled())) {
+                queryWrapper.eq(SystemRoleEntity.IS_ENABLED, roleParams.getIsEnabled());
+            }
+        }
+        PageInfo<SystemRoleEntity> pageInfo = new PageInfo<>(systemRoleService.list(queryWrapper));
         PageInfo<SystemRoleVO> voPageInfo = PageInfoUtil.toBean(pageInfo, SystemRoleVO.class);
         return ResponseResult.resultSuccess(voPageInfo);
     }
@@ -130,6 +143,24 @@ public class SystemRoleController extends BaseController {
     public Result deleteById(@PathVariable Long id) {
         systemRoleService.removeById(id);
         return ResponseResult.resultSuccess("修改成功");
+    }
+
+    /**
+     * <p>
+     * 角色删除
+     * </p>
+     *
+     * @param id id
+     * @return 是否成功
+     */
+    @PostMapping("/delete")
+    @Log(module = ModuleName.ROLE, title = "角色删除", businessType = BusinessTypeEnum.DELETE)
+    public Result deleteByIds(@RequestBody List<Long> id) {
+        if (!CollectionUtils.isEmpty(id)) {
+            systemRoleService.removeByIds(id);
+            return ResponseResult.resultSuccess("修改成功");
+        }
+        return ResponseResult.resultFall("请选择");
     }
     /*******权限***************/
     /**

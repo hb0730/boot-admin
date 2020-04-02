@@ -3,6 +3,7 @@ package com.hb0730.boot.admin.project.system.menu.permission.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import com.hb0730.boot.admin.project.system.menu.permission.model.entity.SystemMenuPermissionEntity;
+import com.hb0730.boot.admin.project.system.menu.permission.model.vo.PermissionParamsVO;
 import com.hb0730.boot.admin.project.system.permission.model.vo.SystemPermissionVO;
 import org.springframework.lang.NonNull;
 
@@ -39,9 +40,10 @@ public interface ISystemMenuPermissionService extends IService<SystemMenuPermiss
      * @param menuId   菜单id
      * @param page     页数
      * @param pageSize 数量
+     * @param params 过滤条件
      * @return 是否成功
      */
-    PageInfo<SystemPermissionVO> getPermissionByMenuId(@NonNull Long menuId, Integer page, Integer pageSize);
+    PageInfo<SystemPermissionVO> getPermissionByMenuId(@NonNull Long menuId, Integer page, Integer pageSize, PermissionParamsVO params);
 
     /**
      * <p>

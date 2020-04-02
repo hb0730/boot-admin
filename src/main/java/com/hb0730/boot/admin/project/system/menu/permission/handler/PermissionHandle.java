@@ -1,8 +1,10 @@
 package com.hb0730.boot.admin.project.system.menu.permission.handler;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.web.exception.BaseException;
+import com.hb0730.boot.admin.project.system.menu.permission.model.vo.PermissionParamsVO;
 import com.hb0730.boot.admin.project.system.permission.model.dto.SystemPermissionDTO;
 import com.hb0730.boot.admin.project.system.permission.model.entity.SystemPermissionEntity;
 import com.hb0730.boot.admin.project.system.permission.service.ISystemPermissionService;
@@ -41,6 +43,33 @@ public class PermissionHandle {
             return Lists.newArrayList();
         }
         List<SystemPermissionEntity> entities = systemPermissionService.listByIds(ids);
+        return BeanUtils.transformFromInBatch(entities, SystemPermissionDTO.class);
+    }
+
+    /**
+     * <p>
+     * 获取权限id
+     * </p>
+     *
+     * @param ids idid
+     * @param vo  过滤条件
+     * @return 权限id
+     */
+    public List<SystemPermissionDTO> getPermissionByIds(Collection<Long> ids, PermissionParamsVO vo) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return Lists.newArrayList();
+        }
+        QueryWrapper<SystemPermissionEntity> queryWrapper = new QueryWrapper<>();
+        if (!Objects.isNull(vo)) {
+            if (StringUtils.isNotBlank(vo.getMark())) {
+                queryWrapper.eq(SystemPermissionEntity.MARK, vo.getMark());
+            }
+            if (StringUtils.isNotBlank(vo.getName())) {
+                queryWrapper.eq(SystemPermissionEntity.NAME, vo.getName());
+            }
+        }
+        queryWrapper.in(SystemPermissionEntity.ID, ids);
+        List<SystemPermissionEntity> entities = systemPermissionService.list(queryWrapper);
         return BeanUtils.transformFromInBatch(entities, SystemPermissionDTO.class);
     }
 

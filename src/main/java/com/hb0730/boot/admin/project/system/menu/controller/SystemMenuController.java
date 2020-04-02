@@ -16,6 +16,7 @@ import com.hb0730.boot.admin.project.system.menu.model.entity.SystemMenuEntity;
 import com.hb0730.boot.admin.project.system.menu.model.vo.SystemMenuVO;
 import com.hb0730.boot.admin.project.system.menu.model.vo.TreeMenuVO;
 import com.hb0730.boot.admin.project.system.menu.permission.model.entity.SystemMenuPermissionEntity;
+import com.hb0730.boot.admin.project.system.menu.permission.model.vo.PermissionParamsVO;
 import com.hb0730.boot.admin.project.system.menu.permission.service.ISystemMenuPermissionService;
 import com.hb0730.boot.admin.project.system.menu.service.ISystemMenuService;
 import com.hb0730.boot.admin.project.system.permission.model.dto.SystemPermissionDTO;
@@ -68,7 +69,7 @@ public class SystemMenuController extends BaseController {
      * @return 是否成功
      */
     @PostMapping("/save")
-    @Log(paramsName = "vo", module = ModuleName.MENU,title = "新增", businessType = BusinessTypeEnum.INSERT)
+    @Log(paramsName = "vo", module = ModuleName.MENU, title = "新增", businessType = BusinessTypeEnum.INSERT)
     public Result save(@Validated @RequestBody SystemMenuVO vo) {
         SystemMenuEntity entity = BeanUtils.transformFrom(vo, SystemMenuEntity.class);
         systemMenuService.save(entity);
@@ -83,7 +84,7 @@ public class SystemMenuController extends BaseController {
      * @return 是否成功
      */
     @PostMapping("/update/{id}")
-    @Log(paramsName = "vo", module= ModuleName.MENU,title = "修改", businessType = BusinessTypeEnum.UPDATE)
+    @Log(paramsName = "vo", module = ModuleName.MENU, title = "修改", businessType = BusinessTypeEnum.UPDATE)
     public Result updateById(@PathVariable Long id, @Validated @RequestBody SystemMenuVO vo) {
         SystemMenuEntity entity = BeanUtils.transformFrom(vo, SystemMenuEntity.class);
         assert entity != null;
@@ -101,7 +102,7 @@ public class SystemMenuController extends BaseController {
      * @return 是否成功
      */
     @GetMapping("/delete/{id}")
-    @Log(module = ModuleName.MENU,title = "删除", businessType = BusinessTypeEnum.UPDATE)
+    @Log(module = ModuleName.MENU, title = "删除", businessType = BusinessTypeEnum.DELETE)
     public Result deleteById(@PathVariable Long id) {
         systemMenuService.removeById(id);
         return ResponseResult.resultSuccess("删除成功");
@@ -129,11 +130,12 @@ public class SystemMenuController extends BaseController {
      * @param menuId   菜单id
      * @param page     页数
      * @param pageSize 数量
+     * @param params   过滤条件
      * @return 权限信息
      */
-    @GetMapping("/permission/{menuId}/{page}/{pageSize}")
-    public Result getPermissionPageByMenuId(@PathVariable Long menuId, @PathVariable Integer page, @PathVariable Integer pageSize) {
-        PageInfo<SystemPermissionVO> pageInfo = permissionService.getPermissionByMenuId(menuId, page, pageSize);
+    @PostMapping("/permission/{menuId}/{page}/{pageSize}")
+    public Result getPermissionPageByMenuId(@PathVariable Long menuId, @PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody PermissionParamsVO params) {
+        PageInfo<SystemPermissionVO> pageInfo = permissionService.getPermissionByMenuId(menuId, page, pageSize, params);
         return ResponseResult.resultSuccess(pageInfo);
     }
 
@@ -147,7 +149,7 @@ public class SystemMenuController extends BaseController {
      * @return 是否成功
      */
     @PostMapping("/permission/save/{menuId}")
-    @Log(paramsName = "permissionVO", module = ModuleName.MENU,title = "菜单权限新增",businessType = BusinessTypeEnum.UPDATE)
+    @Log(paramsName = "permissionVO", module = ModuleName.MENU, title = "菜单权限新增", businessType = BusinessTypeEnum.UPDATE)
     public Result savePermissionByMenuId(@PathVariable Long menuId, @RequestBody SystemPermissionVO permissionVO) {
         permissionService.save(menuId, permissionVO);
         return ResponseResult.resultSuccess("新增成功");
@@ -163,7 +165,7 @@ public class SystemMenuController extends BaseController {
      * @return 是否成功
      */
     @PostMapping("/permission/update/{permissionId}")
-    @Log(paramsName = "permissionVO", module = ModuleName.MENU,title = "菜单权限修改",businessType = BusinessTypeEnum.UPDATE)
+    @Log(paramsName = "permissionVO", module = ModuleName.MENU, title = "菜单权限修改", businessType = BusinessTypeEnum.UPDATE)
     public Result updatePermissionById(@PathVariable Long permissionId, @RequestBody SystemPermissionVO permissionVO) {
         permissionService.updatePermissionById(permissionId, permissionVO);
         return ResponseResult.resultSuccess("修改成功");
@@ -178,7 +180,7 @@ public class SystemMenuController extends BaseController {
      * @return 是否成功
      */
     @GetMapping("/permission/delete/{permissionId}")
-    @Log(module = ModuleName.MENU,title = "菜单权限删除",businessType = BusinessTypeEnum.UPDATE)
+    @Log(module = ModuleName.MENU, title = "菜单权限删除", businessType = BusinessTypeEnum.DELETE)
     public Result deleteByPermissionId(@PathVariable Long permissionId) {
         permissionService.deleteByPermissionId(permissionId);
         return ResponseResult.resultSuccess("修改成功");

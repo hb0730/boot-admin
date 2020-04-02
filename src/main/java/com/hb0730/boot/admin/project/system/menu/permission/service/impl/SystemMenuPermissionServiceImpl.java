@@ -7,12 +7,13 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
-import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
+import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.web.exception.BaseException;
 import com.hb0730.boot.admin.project.system.menu.permission.handler.PermissionHandle;
 import com.hb0730.boot.admin.project.system.menu.permission.mapper.ISystemMenuPermissionMapper;
 import com.hb0730.boot.admin.project.system.menu.permission.model.entity.SystemMenuPermissionEntity;
+import com.hb0730.boot.admin.project.system.menu.permission.model.vo.PermissionParamsVO;
 import com.hb0730.boot.admin.project.system.menu.permission.service.ISystemMenuPermissionService;
 import com.hb0730.boot.admin.project.system.permission.model.dto.SystemPermissionDTO;
 import com.hb0730.boot.admin.project.system.permission.model.entity.SystemPermissionEntity;
@@ -53,7 +54,7 @@ public class SystemMenuPermissionServiceImpl extends ServiceImpl<ISystemMenuPerm
     }
 
     @Override
-    public PageInfo<SystemPermissionVO> getPermissionByMenuId(@NonNull Long menuId, Integer page, Integer pageSize) {
+    public PageInfo<SystemPermissionVO> getPermissionByMenuId(@NonNull Long menuId, Integer page, Integer pageSize, PermissionParamsVO params) {
         page = page == null ? 1 : page;
         pageSize = pageSize == null ? 10 : pageSize;
         PageHelper.startPage(page, pageSize);
@@ -65,7 +66,7 @@ public class SystemMenuPermissionServiceImpl extends ServiceImpl<ISystemMenuPerm
             return PageInfoUtil.replacePageInfoList(pageInfo, Lists.newArrayList());
         }
         Set<Long> permissionIds = list.parallelStream().map(SystemMenuPermissionEntity::getPermissionId).collect(Collectors.toSet());
-        List<SystemPermissionDTO> permissionByIds = permissionHandle.getPermissionByIds(permissionIds);
+        List<SystemPermissionDTO> permissionByIds = permissionHandle.getPermissionByIds(permissionIds, params);
         PageInfo<SystemPermissionDTO> pageInfoPermissionDto = PageInfoUtil.replacePageInfoList(pageInfo, permissionByIds);
         return PageInfoUtil.toBean(pageInfoPermissionDto, SystemPermissionVO.class);
     }
