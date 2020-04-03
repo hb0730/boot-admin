@@ -8,6 +8,8 @@ import org.springframework.boot.jackson.JsonComponent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
+import java.util.TimeZone;
+
 /**
  * <p>
  * </P>
@@ -19,6 +21,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 public class JsonSerializerManage {
     @Bean
     public ObjectMapper jacksonObjectMapper(Jackson2ObjectMapperBuilder builder) {
+        builder.timeZone(TimeZone.getDefault());
         ObjectMapper objectMapper = builder.createXmlMapper(false).build();
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         SimpleModule module = new SimpleModule();
