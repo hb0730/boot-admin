@@ -60,4 +60,9 @@ public interface RequestMappingNameConstants {
      * 在线用户
      */
     String REQUEST_USER_ONLINE = "/api/v1/monitor/online";
+
+    /**
+     * 定时任务
+     */
+    String REQUEST_JOB = "/api/v1/monitor/job";
 }

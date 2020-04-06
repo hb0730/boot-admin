@@ -9,10 +9,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author bing_huang
- * @version V1.0
- * All rights Reserved, Designed By www.hohofast.com &#13;
- * 注意：本内容仅限于上海极吼吼信息技术有限公司内部传阅，禁止外泄以及用于其他的商业目 &#13;
- * @date 2019/8/28 10:00
+ * @since V1.0
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

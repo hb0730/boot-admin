@@ -38,4 +38,9 @@ public class ModuleName {
      * 系统用户
      */
     public static final String USER="系统用户";
+
+    /**
+     * 任务调度
+     */
+    public static final String JOB="任务调度";
 }
