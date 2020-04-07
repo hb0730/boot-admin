@@ -2,6 +2,9 @@ package com.hb0730.boot.admin.project.monitor.useronline.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.hb0730.boot.admin.commons.annotation.Log;
+import com.hb0730.boot.admin.commons.constant.BusinessTypeEnum;
+import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
@@ -67,6 +70,7 @@ public class UserOnlineController extends BaseController {
      * @return 是否成功
      */
     @PostMapping("/logout")
+    @Log(paramsName = "tokens", module = ModuleName.USER_ONLINE, title = "强制退出", businessType = BusinessTypeEnum.FORCE)
     public Result logout(@RequestBody List<String> tokens) {
         userOnlineService.logout(tokens);
         return ResponseResult.resultSuccess("退出成功");

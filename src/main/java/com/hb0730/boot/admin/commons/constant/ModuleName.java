@@ -32,20 +32,24 @@ public class ModuleName {
     /**
      * 角色
      */
-    public static final String ROLE="系统角色";
+    public static final String ROLE = "系统角色";
 
     /**
      * 系统用户
      */
-    public static final String USER="系统用户";
+    public static final String USER = "系统用户";
 
+    /**
+     * 系统在线用户
+     */
+    public static final String USER_ONLINE = "系统在线用户";
     /**
      * 任务调度
      */
-    public static final String JOB="任务调度";
+    public static final String JOB = "任务调度";
 
     /**
      * 任务调度日志
      */
-    public static final String JOBLOG="任务调度日志";
+    public static final String JOBLOG = "任务调度日志";
 }
