@@ -17,10 +17,6 @@ public class UserParamsVO implements Serializable {
      * 组织id
      */
     private Long deptId;
-    /**
-     * 是否查询全部
-     */
-    private Integer isAll;
 
     /**
      * 用户账号
