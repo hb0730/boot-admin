@@ -1,5 +1,7 @@
 package com.hb0730.boot.admin.project.monitor.job.handler;
 
+import org.springframework.stereotype.Component;
+
 /**
  * <p>
  * </P>
@@ -7,6 +9,7 @@ package com.hb0730.boot.admin.project.monitor.job.handler;
  * @author bing_huang
  * @since V1.0
  */
+@Component("taskTest")
 public class TaskTest {
     public void obj(Test1 test1) {
         System.out.println("test1 = " + test1);

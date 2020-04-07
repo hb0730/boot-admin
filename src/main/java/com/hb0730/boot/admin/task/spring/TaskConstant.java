@@ -1,10 +1,10 @@
 package com.hb0730.boot.admin.task.spring;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
  * <p>
+ * 任务信息
  * </P>
  *
  * @author bing_huang

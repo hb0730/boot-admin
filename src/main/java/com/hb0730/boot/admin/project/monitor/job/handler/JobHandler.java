@@ -35,8 +35,9 @@ public class JobHandler {
 
     /**
      * 初始化
+     * {@code @postConstruct 导致spring Scheduling 还未装配}
+     * @see com.hb0730.boot.admin.configuration.StartRunner#run(String...)
      */
-//    @PostConstruct
     public void init() {
         List<SystemJobEntity> entities = getEnabledJob(null, ActionEnum.SELECT);
         if (!CollectionUtils.isEmpty(entities)) {

@@ -2,6 +2,7 @@ package com.hb0730.boot.admin.task.spring;
 
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.json.GsonUtils;
+import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
 import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
@@ -30,8 +31,15 @@ public class JobInvokeUtil {
         String methodName = constant.getMethodName();
         String params = constant.getParams();
         List<Object[]> methodParams = getMethodParams(params);
-        Object o = Class.forName(beanName).newInstance();
-        invokeMethod(o, methodName, methodParams);
+        if (SpringUtils.containsBean(beanName)) {
+            Object o = SpringUtils.getBean(beanName);
+            invokeMethod(o, methodName, methodParams);
+        } else {
+            //  clazz.getDeclaredConstructor().newInstance()
+            Object o = Class.forName(beanName).newInstance();
+            invokeMethod(o, methodName, methodParams);
+
+        }
     }
 
     /**
@@ -99,24 +107,32 @@ public class JobInvokeUtil {
         for (Map.Entry<String, Object> entry : entries) {
             String key = entry.getKey();
             Class<?> clazz = Class.forName(key);
+            // String
             if (clazz.getTypeName().equals(String.class.getTypeName())) {
                 classs.add(new Object[]{String.valueOf(entry.getValue()), clazz});
+                // Boolean
             } else if (clazz.getTypeName().equals(Boolean.class.getTypeName())) {
                 classs.add(new Object[]{Boolean.valueOf(entry.getValue().toString()), clazz});
+                // Character
             } else if (clazz.getTypeName().equals(Character.class.getTypeName())) {
                 classs.add(new Object[]{CharUtils.toChar(entry.getValue().toString()), clazz});
+                // Integer
             } else if (clazz.getTypeName().equals(Integer.class.getTypeName())) {
                 classs.add(new Object[]{Integer.valueOf(entry.getValue().toString()), clazz});
+                // Byte
             } else if (clazz.getTypeName().equals(Byte.class.getTypeName())) {
                 classs.add(new Object[]{Byte.valueOf(entry.getValue().toString()), clazz});
+                // Short
             } else if (clazz.getTypeName().equals(Short.class.getTypeName())) {
                 classs.add(new Object[]{Short.valueOf(entry.getValue().toString()), clazz});
+                // Long
             } else if (clazz.getTypeName().equals(Long.class.getTypeName())) {
                 if (StringUtils.containsIgnoreCase(entry.getValue().toString(), "L")) {
                     classs.add(new Object[]{Long.valueOf(StringUtils.replaceIgnoreCase(entry.getValue().toString(), "L", "")), clazz});
                 } else {
                     classs.add(new Object[]{Long.valueOf(entry.getValue().toString()), clazz});
                 }
+                // Float
             } else if (clazz.getTypeName().equals(Float.class.getTypeName())) {
                 if (org.apache.commons.lang3.StringUtils.containsIgnoreCase(entry.getValue().toString(), "F")) {
                     classs.add(new Object[]{Float.valueOf(StringUtils.replaceIgnoreCase(entry.getValue().toString(), "F", "")), clazz});
@@ -124,6 +140,7 @@ public class JobInvokeUtil {
                 } else {
                     classs.add(new Object[]{Float.valueOf(entry.getValue().toString()), clazz});
                 }
+                //Double
             } else if (clazz.getTypeName().equals(Double.class.getTypeName())) {
                 if (org.apache.commons.lang3.StringUtils.containsIgnoreCase(entry.getValue().toString(), "D")) {
                     classs.add(new Object[]{Double.valueOf(StringUtils.replaceIgnoreCase(entry.getValue().toString(), "D", "")), clazz});

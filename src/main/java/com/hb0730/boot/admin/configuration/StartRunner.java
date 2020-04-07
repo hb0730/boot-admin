@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * <p>
- * 启动之后
+ * springBoot启动之后自动执行
  * </P>
  *
  * @author bing_huang
@@ -20,6 +20,7 @@ public class StartRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        // 初始化job
         jobHandler.init();
     }
 }
