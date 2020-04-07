@@ -53,6 +53,12 @@ public class SystemPostController extends BaseController {
     @Log(paramsName = {"vo"}, module = ModuleName.POST, title = "岗位保存", businessType = BusinessTypeEnum.INSERT)
     public Result save(@RequestBody SystemPostVO vo) {
         SystemPostEntity entity = BeanUtils.transformFrom(vo, SystemPostEntity.class);
+        QueryWrapper<SystemPostEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(SystemPostEntity.NUMBER, vo.getNumber());
+        int count = systemPostService.count(queryWrapper);
+        if (count > 0) {
+            return ResponseResult.resultFall("岗位编码已存在");
+        }
         systemPostService.save(entity);
         return ResponseResult.resultSuccess("保存成功");
     }
@@ -99,11 +105,6 @@ public class SystemPostController extends BaseController {
     @PostMapping("/all")
     public Result getPost(@RequestBody PostParams params) {
         QueryWrapper<SystemPostEntity> queryWrapper = new QueryWrapper<>();
-        if (!Objects.isNull(params)) {
-            if (!Objects.isNull(params.getIsAll()) && !Objects.equals(SystemConstants.IS_ALL, params.getIsAll())) {
-                queryWrapper.eq(SystemPostEntity.IS_ENABLED, SystemConstants.USE);
-            }
-        }
         List<SystemPostEntity> entities = systemPostService.list(queryWrapper);
         List<SystemPostVO> vos = BeanUtils.transformFromInBatch(entities, SystemPostVO.class);
         return ResponseResult.resultSuccess(vos);
