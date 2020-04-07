@@ -48,6 +48,11 @@ public final class ModuleName {
      * 系统登录日志
      */
     public static final String LOGIN_INFO="系统登录日志";
+
+    /**
+     * 操作日志
+     */
+    public static final String OPER_LOG="系统操作日志";
     /**
      * 任务调度
      */
