@@ -1,9 +1,10 @@
 package com.hb0730.boot.admin.project.monitor.logininfo.controller;
 
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
+import com.hb0730.boot.admin.commons.annotation.Log;
+import com.hb0730.boot.admin.commons.constant.BusinessTypeEnum;
+import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
@@ -47,10 +48,8 @@ public class SystemLoginInfoController extends BaseController {
      */
     @PostMapping("/all/page/{page}/{pageSize}")
     public Result getPageAll(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody LoginfoParams params) {
-        PageHelper.startPage(page, pageSize);
-        PageInfo<SystemLoginInfoEntity> pageInfo = new PageInfo<>(systemLoginInfoService.list());
-        PageInfo<SystemLoginfoVO> info = PageInfoUtil.toBean(pageInfo, SystemLoginfoVO.class);
-        return ResponseResult.resultSuccess(info);
+        PageInfo<SystemLoginfoVO> list = systemLoginInfoService.list(page, pageSize, params);
+        return ResponseResult.resultSuccess(list);
     }
 
     /**
@@ -60,6 +59,7 @@ public class SystemLoginInfoController extends BaseController {
      * @return 是否成功
      */
     @PostMapping("/delete")
+    @Log(paramsName = "ids", module = ModuleName.LOGIN_INFO, title = "删除", businessType = BusinessTypeEnum.DELETE)
     public Result deleteLogin(@RequestBody List<Long> ids) {
         if (CollectionUtils.isEmpty(ids)) {
             return ResponseResult.resultFall("请选择");
@@ -76,6 +76,7 @@ public class SystemLoginInfoController extends BaseController {
      * @return 是否成功
      */
     @GetMapping("/clean")
+    @Log(module = ModuleName.LOGIN_INFO, title = "清空", businessType = BusinessTypeEnum.CLEAN)
     public Result cleanLog() {
         List<SystemLoginInfoEntity> list = systemLoginInfoService.list();
         if (!CollectionUtils.isEmpty(list)) {

@@ -8,7 +8,7 @@ package com.hb0730.boot.admin.commons.constant;
  * @author bing_huang
  * @since V1.0
  */
-public class ModuleName {
+public final class ModuleName {
     /**
      * 数据字典
      */
@@ -43,6 +43,11 @@ public class ModuleName {
      * 系统在线用户
      */
     public static final String USER_ONLINE = "系统在线用户";
+
+    /**
+     * 系统登录日志
+     */
+    public static final String LOGIN_INFO="系统登录日志";
     /**
      * 任务调度
      */
