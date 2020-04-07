@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.monitor.job.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hb0730.boot.admin.commons.constant.ActionEnum;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
@@ -14,9 +15,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.support.CronSequenceGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * <p>
@@ -36,6 +39,13 @@ public class SystemJobServiceImpl extends ServiceImpl<ISystemJobMapper, SystemJo
     @Transactional(rollbackFor = Exception.class)
     public boolean save(SystemJobEntity entity) {
         verify(entity);
+        String number = entity.getNumber();
+        QueryWrapper<SystemJobEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(SystemJobEntity.NUMBER, number);
+        List<SystemJobEntity> list = super.list(queryWrapper);
+        if (!CollectionUtils.isEmpty(list)) {
+            throw new BaseException("编码已存在");
+        }
         boolean save = super.save(entity);
         applicationContext.publishEvent(new JobEvent(this, Collections.singletonList(entity.getId()), ActionEnum.SAVE));
         return save;
@@ -69,6 +79,9 @@ public class SystemJobServiceImpl extends ServiceImpl<ISystemJobMapper, SystemJo
     }
 
     private void verify(SystemJobEntity entity) {
+        if (StringUtils.isBlank(entity.getNumber())) {
+            throw new BaseException("任务编码为空");
+        }
         if (StringUtils.isBlank(entity.getBeanName())) {
             throw new BaseException("调用类为空");
         }

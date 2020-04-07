@@ -22,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants.REQUEST_JOB;
 
@@ -54,6 +55,17 @@ public class SystemJobController extends BaseController {
     public Result getAllPage(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody JobParams params) {
         PageHelper.startPage(page, pageSize);
         QueryWrapper<SystemJobEntity> queryWrapper = new QueryWrapper<>();
+        if (Objects.nonNull(params)) {
+            if (Objects.nonNull(params.getNumber())) {
+                queryWrapper.eq(SystemJobEntity.NUMBER, params.getNumber());
+            }
+            if (Objects.nonNull(params.getName())) {
+                queryWrapper.like(SystemJobEntity.NAME, params.getName());
+            }
+            if (Objects.nonNull(params.getEnabled())) {
+                queryWrapper.eq(SystemJobEntity.IS_ENABLED, params.getEnabled());
+            }
+        }
         PageInfo<SystemJobEntity> pageInfo = new PageInfo<>(systemJobService.list(queryWrapper));
         PageInfo<SystemJobVO> info = PageInfoUtil.toBean(pageInfo, SystemJobVO.class);
         return ResponseResult.resultSuccess(info);
@@ -131,7 +143,7 @@ public class SystemJobController extends BaseController {
      * @return 是否成功
      */
     @Log(paramsName = "id", module = ModuleName.JOB, title = "删除", businessType = BusinessTypeEnum.DELETE)
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     public Result deleteById(@RequestBody List<Long> id) {
         if (CollectionUtils.isEmpty(id)) {
             return ResponseResult.resultFall("请选择");
