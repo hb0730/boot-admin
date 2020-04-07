@@ -3,6 +3,8 @@ package com.hb0730.boot.admin.manager.factory;
 import com.hb0730.boot.admin.commons.utils.ServletUtils;
 import com.hb0730.boot.admin.commons.utils.ip.IpUtils;
 import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
+import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobLogEntity;
+import com.hb0730.boot.admin.project.monitor.job.service.ISystemJobLogService;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.entity.SystemLoginInfoEntity;
 import com.hb0730.boot.admin.project.monitor.logininfo.service.ISystemLoginInfoService;
 import com.hb0730.boot.admin.project.monitor.operlog.model.entity.SystemOperLogEntity;
@@ -81,6 +83,23 @@ public class AsyncFactory {
             @Override
             public void run() {
                 SpringUtils.getBean(ISystemOperLogService.class).save(entity);
+            }
+        };
+    }
+
+    /**
+     * <p>
+     * 定时任务日志记录
+     * </p>
+     *
+     * @param entity 定时任务日志
+     * @return 任务task
+     */
+    public static TimerTask recordJobLog(final SystemJobLogEntity entity) {
+        return new TimerTask() {
+            @Override
+            public void run() {
+                SpringUtils.getBean(ISystemJobLogService.class).save(entity);
             }
         };
     }

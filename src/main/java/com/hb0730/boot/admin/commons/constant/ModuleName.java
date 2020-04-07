@@ -43,4 +43,9 @@ public class ModuleName {
      * 任务调度
      */
     public static final String JOB="任务调度";
+
+    /**
+     * 任务调度日志
+     */
+    public static final String JOBLOG="任务调度日志";
 }

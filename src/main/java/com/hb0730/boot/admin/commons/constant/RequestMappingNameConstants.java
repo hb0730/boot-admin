@@ -65,4 +65,9 @@ public interface RequestMappingNameConstants {
      * 定时任务
      */
     String REQUEST_JOB = "/api/v1/monitor/job";
+
+    /**
+     * 定时任务日志
+     */
+    String REQUEST_JOB_LOG = "/api/v1/monitor/joblog";
 }
