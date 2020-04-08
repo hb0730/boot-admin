@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
-import com.hb0730.boot.admin.commons.web.exception.BaseException;
+import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
 import com.hb0730.boot.admin.project.system.user.handle.RolePostPermissionHandle;
 import com.hb0730.boot.admin.project.system.user.model.dto.LoginUserDTO;

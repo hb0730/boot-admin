@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.commons.web.exception;
+package com.hb0730.boot.admin.exception;
 
 import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
 import org.springframework.context.MessageSource;

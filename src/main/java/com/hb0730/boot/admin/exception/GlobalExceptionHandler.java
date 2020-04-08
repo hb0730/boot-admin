@@ -1,6 +1,5 @@
 package com.hb0730.boot.admin.exception;
 
-import com.hb0730.boot.admin.commons.web.exception.BaseException;
 import com.hb0730.boot.admin.commons.web.response.CodeStatusEnum;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;

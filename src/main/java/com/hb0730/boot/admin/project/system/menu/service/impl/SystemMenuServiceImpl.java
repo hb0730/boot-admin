@@ -7,7 +7,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
-import com.hb0730.boot.admin.commons.web.exception.BaseException;
+import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.project.system.menu.mapper.ISystemMenuMapper;
 import com.hb0730.boot.admin.project.system.menu.model.entity.SystemMenuEntity;
 import com.hb0730.boot.admin.project.system.menu.model.vo.SystemMenuVO;

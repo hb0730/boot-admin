@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
-import com.hb0730.boot.admin.commons.web.exception.BaseException;
+import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.project.system.menu.model.entity.SystemMenuEntity;
 import com.hb0730.boot.admin.project.system.org.mapper.ISystemOrgMapper;
 import com.hb0730.boot.admin.project.system.org.model.entity.SystemOrgEntity;

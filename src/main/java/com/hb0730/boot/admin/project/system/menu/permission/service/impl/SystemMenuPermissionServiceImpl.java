@@ -9,7 +9,7 @@ import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
-import com.hb0730.boot.admin.commons.web.exception.BaseException;
+import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.project.system.menu.permission.handler.PermissionHandle;
 import com.hb0730.boot.admin.project.system.menu.permission.mapper.ISystemMenuPermissionMapper;
 import com.hb0730.boot.admin.project.system.menu.permission.model.entity.SystemMenuPermissionEntity;

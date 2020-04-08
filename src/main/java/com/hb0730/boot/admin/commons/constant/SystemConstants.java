@@ -1,5 +1,7 @@
 package com.hb0730.boot.admin.commons.constant;
 
+import java.io.File;
+
 /**
  * <p>
  * 系统常量
@@ -41,4 +43,9 @@ public class SystemConstants {
      * 默认密码
      */
     public static final String DEFAULT_PASSWORD="123456";
+
+    /**
+     * 路径分隔符
+     */
+    public static final String FILE_SEPARATOR = File.separator;
 }

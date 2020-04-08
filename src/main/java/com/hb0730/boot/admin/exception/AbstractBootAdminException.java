@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.commons.web.exception;
+package com.hb0730.boot.admin.exception;
 
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;

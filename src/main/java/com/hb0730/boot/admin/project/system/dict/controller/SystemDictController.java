@@ -10,7 +10,7 @@ import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
-import com.hb0730.boot.admin.commons.web.exception.BaseException;
+import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
 import com.hb0730.boot.admin.project.system.dict.model.entity.SystemDictEntity;

@@ -2,8 +2,8 @@ package com.hb0730.boot.admin.security.service;
 
 import com.hb0730.boot.admin.commons.constant.SystemStatusEnum;
 import com.hb0730.boot.admin.commons.utils.MessageUtils;
-import com.hb0730.boot.admin.commons.web.exception.BaseException;
-import com.hb0730.boot.admin.commons.web.exception.UserPasswordNotMatchException;
+import com.hb0730.boot.admin.exception.BaseException;
+import com.hb0730.boot.admin.exception.UserPasswordNotMatchException;
 import com.hb0730.boot.admin.manager.AsyncManager;
 import com.hb0730.boot.admin.manager.factory.AsyncFactory;
 import com.hb0730.boot.admin.security.model.LoginSuccess;

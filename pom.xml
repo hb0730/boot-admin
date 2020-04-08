@@ -38,6 +38,8 @@
 		<commons-pool2.version>2.5.0</commons-pool2.version>
 		<okhttp.version>4.0.1</okhttp.version>
 		<bitwalker.version>1.19</bitwalker.version>
+		<thumbnailator.version>0.4.11</thumbnailator.version>
+		<image4j.version>0.7zensight1</image4j.version>
 	</properties>
 
 	<dependencies>
@@ -148,6 +150,19 @@
 			<artifactId>UserAgentUtils</artifactId>
 			<version>${bitwalker.version}</version>
 		</dependency>
+		<!--java处理图片类-->
+		<dependency>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>${thumbnailator.version}</version>
+		</dependency>
+		<!--java 图片处理 icon格式-->
+		<dependency>
+			<groupId>net.sf.image4j</groupId>
+			<artifactId>image4j</artifactId>
+			<version>${image4j.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hb0730.boot.admin.commons.constant.ActionEnum;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
-import com.hb0730.boot.admin.commons.web.exception.BaseException;
+import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.event.job.JobEvent;
 import com.hb0730.boot.admin.project.monitor.job.mapper.ISystemJobMapper;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobEntity;

@@ -3,7 +3,7 @@ package com.hb0730.boot.admin.project.system.menu.permission.handler;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
-import com.hb0730.boot.admin.commons.web.exception.BaseException;
+import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.project.system.menu.permission.model.vo.PermissionParamsVO;
 import com.hb0730.boot.admin.project.system.permission.model.dto.SystemPermissionDTO;
 import com.hb0730.boot.admin.project.system.permission.model.entity.SystemPermissionEntity;
