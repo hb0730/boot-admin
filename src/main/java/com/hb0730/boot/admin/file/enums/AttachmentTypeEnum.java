@@ -7,14 +7,31 @@ package com.hb0730.boot.admin.file.enums;
  * @author bing_huang
  * @since V1.0
  */
-public enum AttachmentTypeEnum {
+public enum AttachmentTypeEnum implements ValueEnum<Integer> {
+
     /**
-     * 服务器(本地)
+     * 本地
      */
-    LOCAL,
+    LOCAL(0),
     /**
      * 阿里云
      */
-    ALIOSS,
-    ;
+    ALIOSS(1);
+
+    private Integer value;
+
+    AttachmentTypeEnum(Integer value) {
+        this.value = value;
+    }
+
+
+    /**
+     * Get enum value.
+     *
+     * @return enum value
+     */
+    @Override
+    public Integer getValue() {
+        return value;
+    }
 }

@@ -14,3 +14,4 @@ spring boot Admin management template
 # thanks
  * [RuoYi-Vue](https://github.com/yangzongzhuan/RuoYi-Vue)
  * [pdMan](https://gitee.com/robergroup/pdman)
+ * [halo](https://github.com/halo-dev/halo)

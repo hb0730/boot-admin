@@ -12,6 +12,11 @@ import java.io.File;
  */
 public class SystemConstants {
     /**
+     * User home directory.
+     */
+    public final static String USER_HOME = System.getProperties().getProperty("user.home");
+
+    /**
      * 启用
      */
     public static final int USE = 1;

@@ -3,7 +3,7 @@ package com.hb0730.boot.admin.file.handler;
 import com.hb0730.boot.admin.commons.utils.ImageUtils;
 import com.hb0730.boot.admin.exception.FileOperationException;
 import com.hb0730.boot.admin.exception.FileUploadException;
-import com.hb0730.boot.admin.file.configuration.FileProperties;
+import com.hb0730.boot.admin.file.configuration.LocalFileProperties;
 import com.hb0730.boot.admin.file.enums.AttachmentTypeEnum;
 import com.hb0730.boot.admin.file.model.UploadResult;
 import net.coobird.thumbnailator.Thumbnails;
@@ -67,7 +67,7 @@ public class LocalFileHandler implements FileHandler {
 
     ReentrantLock lock = new ReentrantLock();
 
-    public LocalFileHandler(FileProperties fileProperties) {
+    public LocalFileHandler(LocalFileProperties fileProperties) {
         fileProfile = FileHandler.normalizeDirectory(fileProperties.getProfile());
         checkWorkDir();
     }

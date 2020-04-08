@@ -1,5 +1,8 @@
 package com.hb0730.boot.admin.commons.utils;
 
+import org.springframework.lang.NonNull;
+import org.springframework.util.Assert;
+
 /**
  * <p>
  * </P>
@@ -35,5 +38,19 @@ public class StringUtils {
             }
         }
         return false;
+    }
+    /**
+     * 确保字符串包含后缀
+     *
+     * @param string 字符串不能为空
+     * @param suffix 字符串不能为空
+     * @return 字符串包含指定的后缀
+     */
+    @NonNull
+    public static String ensureSuffix(@NonNull String string, @NonNull String suffix) {
+        Assert.hasText(string, "String must not be blank");
+        Assert.hasText(suffix, "Suffix must not be blank");
+
+        return org.apache.commons.lang3.StringUtils.removeEnd(string, suffix) + suffix;
     }
 }
