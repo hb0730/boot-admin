@@ -1,7 +1,9 @@
 package com.hb0730.boot.admin.project.monitor.job.service;
 
-import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hb0730.boot.admin.commons.domain.service.IExportService;
+import com.hb0730.boot.admin.project.monitor.job.model.dto.JobExportDto;
+import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobEntity;
 
 import java.util.Collection;
 
@@ -13,7 +15,7 @@ import java.util.Collection;
  * @author bing_huang
  * @since 2020-04-06
  */
-public interface ISystemJobService extends IService<SystemJobEntity> {
+public interface ISystemJobService extends IService<SystemJobEntity>, IExportService<JobExportDto> {
 
     /**
      * 根据id删除

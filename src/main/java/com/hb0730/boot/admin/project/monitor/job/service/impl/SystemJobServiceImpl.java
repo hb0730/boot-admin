@@ -4,9 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hb0730.boot.admin.commons.constant.ActionEnum;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
-import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.event.job.JobEvent;
+import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.project.monitor.job.mapper.ISystemJobMapper;
+import com.hb0730.boot.admin.project.monitor.job.model.dto.JobExportDto;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobEntity;
 import com.hb0730.boot.admin.project.monitor.job.service.ISystemJobService;
 import org.apache.commons.lang3.StringUtils;
@@ -91,5 +92,11 @@ public class SystemJobServiceImpl extends ServiceImpl<ISystemJobMapper, SystemJo
         if (StringUtils.isBlank(entity.getCron()) || !CronSequenceGenerator.isValidExpression(entity.getCron())) {
             throw new BaseException("定时任务cron 表达式不合法");
         }
+    }
+
+    @Override
+    public boolean upload(Collection<JobExportDto> entity) {
+        System.out.println("导入");
+        return false;
     }
 }

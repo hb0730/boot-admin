@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.project.monitor.job.controller;
 
 
+import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
@@ -13,6 +14,7 @@ import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.excel.ExcelConstant;
 import com.hb0730.boot.admin.commons.utils.excel.ExcelUtils;
+import com.hb0730.boot.admin.commons.utils.excel.UploadDataListener;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
@@ -26,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -148,6 +151,21 @@ public class SystemJobController extends BaseController {
         }
         systemJobService.removeByIds(id);
         return ResponseResult.resultSuccess("修改成功");
+    }
+
+    /**
+     * <p>
+     * 导入
+     * </p>
+     *
+     * @param file 文件
+     * @return 是否成功
+     */
+    @PostMapping("/upload")
+    @Log(module = ModuleName.JOB, title = "excel导入", businessType = BusinessTypeEnum.IMPORT)
+    public Result upload(MultipartFile file) throws IOException {
+        EasyExcel.read(file.getInputStream(), JobExportDto.class, new UploadDataListener(systemJobService)).sheet().doRead();
+        return ResponseResult.resultSuccess("导入成功");
     }
 
     /**
