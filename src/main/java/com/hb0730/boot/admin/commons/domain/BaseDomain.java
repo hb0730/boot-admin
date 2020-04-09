@@ -1,7 +1,6 @@
 package com.hb0730.boot.admin.commons.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,7 +14,7 @@ import java.util.Date;
  * @since V1.0
  */
 @Data
-public class BaseDomain implements Serializable {
+class BaseDomain implements Serializable {
     /**
      * 创建人
      */

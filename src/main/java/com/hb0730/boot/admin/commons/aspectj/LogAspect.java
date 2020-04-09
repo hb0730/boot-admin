@@ -7,6 +7,7 @@ import com.hb0730.boot.admin.commons.utils.ServletUtils;
 import com.hb0730.boot.admin.commons.utils.ip.IpUtils;
 import com.hb0730.boot.admin.commons.utils.json.GsonUtils;
 import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
+import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.manager.AsyncManager;
 import com.hb0730.boot.admin.manager.factory.AsyncFactory;
 import com.hb0730.boot.admin.project.monitor.operlog.model.entity.SystemOperLogEntity;
@@ -119,7 +120,7 @@ public class LogAspect {
             // 记录本地异常日志
             log.error("==前置通知异常==");
             log.error("异常信息:{}", e1.getMessage());
-            e1.printStackTrace();
+            throw new BaseException(e1.getMessage());
         }
     }
 
