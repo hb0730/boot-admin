@@ -1,7 +1,45 @@
 server:
   port: 8088
+spring:
+  application:
+    name: boot-admin
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url:
+    username:
+    password:
+    platform:
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 10
+      idle-timeout: 600000
+      auto-commit: true
+      pool-name: MyHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  messages:
+    basename: i18n/messages
+#mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*Mapper.xml
+  global-config:
+    banner: false
+    db-config:
+      #逻辑删除
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      #更新 插入 查询策略
+      update-strategy: ignored
+      insert-strategy: ignored
+      select-strategy: ignored
 
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
 # token配置
 token:
   # 令牌自定义标识
@@ -10,3 +48,19 @@ token:
   secret: abcdefghijklmnopqrstuvwxyz
   # 令牌有效期（默认30分钟）
   expireTime: 30
+
+boot:
+  admin:
+    name: boot-admin
+    version: 1.0.0
+    copyrightYear: 2020
+    demoEnabled: false
+    attachmentType: 1
+    oss:
+      local:
+        profile:
+      aliyun:
+        endPoint:
+        accessKey:
+        accessSecret:
+        bucketName:
