@@ -23,6 +23,7 @@ import com.hb0730.boot.admin.project.system.permission.model.dto.SystemPermissio
 import com.hb0730.boot.admin.project.system.permission.model.vo.SystemPermissionVO;
 import com.hb0730.boot.admin.security.model.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -70,6 +71,7 @@ public class SystemMenuController extends BaseController {
      */
     @PostMapping("/save")
     @Log(paramsName = "vo", module = ModuleName.MENU, title = "新增", businessType = BusinessTypeEnum.INSERT)
+    @PreAuthorize("hasAnyAuthority('menu:save','ROLE_ADMIN','ROLE_MENU_ADMIN')")
     public Result save(@Validated @RequestBody SystemMenuVO vo) {
         SystemMenuEntity entity = BeanUtils.transformFrom(vo, SystemMenuEntity.class);
         systemMenuService.save(entity);
@@ -85,6 +87,7 @@ public class SystemMenuController extends BaseController {
      */
     @PostMapping("/update/{id}")
     @Log(paramsName = "vo", module = ModuleName.MENU, title = "修改", businessType = BusinessTypeEnum.UPDATE)
+    @PreAuthorize("hasAnyAuthority('menu:update','ROLE_ADMINISTRATOR','ROLE_MENU_ADMIN')")
     public Result updateById(@PathVariable Long id, @Validated @RequestBody SystemMenuVO vo) {
         SystemMenuEntity entity = BeanUtils.transformFrom(vo, SystemMenuEntity.class);
         assert entity != null;
@@ -103,6 +106,7 @@ public class SystemMenuController extends BaseController {
      */
     @GetMapping("/delete/{id}")
     @Log(module = ModuleName.MENU, title = "删除", businessType = BusinessTypeEnum.DELETE)
+    @PreAuthorize("hasAnyAuthority('menu:delete','ROLE_ADMINISTRATOR','ROLE_MENU_ADMIN')")
     public Result deleteById(@PathVariable Long id) {
         systemMenuService.removeById(id);
         return ResponseResult.resultSuccess("删除成功");
@@ -134,6 +138,7 @@ public class SystemMenuController extends BaseController {
      * @return 权限信息
      */
     @PostMapping("/permission/{menuId}/{page}/{pageSize}")
+    @PreAuthorize("hasAnyAuthority('menu:permission:query','ROLE_ADMINISTRATOR','ROLE_MENU_ADMIN')")
     public Result getPermissionPageByMenuId(@PathVariable Long menuId, @PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody PermissionParamsVO params) {
         PageInfo<SystemPermissionVO> pageInfo = permissionService.getPermissionByMenuId(menuId, page, pageSize, params);
         return ResponseResult.resultSuccess(pageInfo);
@@ -149,7 +154,8 @@ public class SystemMenuController extends BaseController {
      * @return 是否成功
      */
     @PostMapping("/permission/save/{menuId}")
-    @Log(paramsName = "permissionVO", module = ModuleName.MENU, title = "菜单权限新增", businessType = BusinessTypeEnum.UPDATE)
+    @Log(paramsName = "permissionVO", module = ModuleName.MENU, title = "菜单权限新增", businessType = BusinessTypeEnum.INSERT)
+    @PreAuthorize("hasAnyAuthority('menu:permission:save','ROLE_ADMINISTRATOR','ROLE_MENU_ADMIN')")
     public Result savePermissionByMenuId(@PathVariable Long menuId, @RequestBody SystemPermissionVO permissionVO) {
         permissionService.save(menuId, permissionVO);
         return ResponseResult.resultSuccess("新增成功");
@@ -166,6 +172,7 @@ public class SystemMenuController extends BaseController {
      */
     @PostMapping("/permission/update/{permissionId}")
     @Log(paramsName = "permissionVO", module = ModuleName.MENU, title = "菜单权限修改", businessType = BusinessTypeEnum.UPDATE)
+    @PreAuthorize("hasAnyAuthority('menu:permission:update','ROLE_ADMINISTRATOR','ROLE_MENU_ADMIN')")
     public Result updatePermissionById(@PathVariable Long permissionId, @RequestBody SystemPermissionVO permissionVO) {
         permissionService.updatePermissionById(permissionId, permissionVO);
         return ResponseResult.resultSuccess("修改成功");
@@ -181,6 +188,7 @@ public class SystemMenuController extends BaseController {
      */
     @GetMapping("/permission/delete/{permissionId}")
     @Log(module = ModuleName.MENU, title = "菜单权限删除", businessType = BusinessTypeEnum.DELETE)
+    @PreAuthorize("hasAnyAuthority('menu:permission:delete','ROLE_ADMINISTRATOR','ROLE_MENU_ADMIN')")
     public Result deleteByPermissionId(@PathVariable Long permissionId) {
         permissionService.deleteByPermissionId(permissionId);
         return ResponseResult.resultSuccess("修改成功");

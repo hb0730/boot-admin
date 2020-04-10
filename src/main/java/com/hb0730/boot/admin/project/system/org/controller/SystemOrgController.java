@@ -14,6 +14,7 @@ import com.hb0730.boot.admin.project.system.org.model.vo.SystemOrgVO;
 import com.hb0730.boot.admin.project.system.org.model.vo.TreeOrgVO;
 import com.hb0730.boot.admin.project.system.org.service.ISystemOrgService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +44,7 @@ public class SystemOrgController extends BaseController {
      */
     @PostMapping("/save")
     @Log(paramsName = "org", module = ModuleName.ORG, title = "保存组织", businessType = BusinessTypeEnum.INSERT)
+    @PreAuthorize("hasAnyAuthority('org:save','ROLE_ADMINISTRATOR','ROLE_ADMIN_ORG')")
     public Result save(@Validated @RequestBody SystemOrgVO org) {
         SystemOrgEntity entity = BeanUtils.transformFrom(org, SystemOrgEntity.class);
         systemOrgService.save(entity);
@@ -69,6 +71,7 @@ public class SystemOrgController extends BaseController {
      */
     @PostMapping("/update/{id}")
     @Log(paramsName = "vo", module = ModuleName.ORG, title = "修改组织", businessType = BusinessTypeEnum.UPDATE)
+    @PreAuthorize("hasAnyAuthority('org:update','ROLE_ADMINISTRATOR','ROLE_ADMIN_ORG')")
     public Result updateById(@PathVariable Long id, @Validated @RequestBody SystemOrgVO vo) {
         vo.setId(id);
         SystemOrgEntity entity = BeanUtils.transformFrom(vo, SystemOrgEntity.class);
@@ -83,7 +86,8 @@ public class SystemOrgController extends BaseController {
      * @return 是否成功
      */
     @GetMapping("/delete/{id}")
-    @Log(module = ModuleName.ORG, title = "修改组织", businessType = BusinessTypeEnum.DELETE)
+    @Log(module = ModuleName.ORG, title = "删除组织", businessType = BusinessTypeEnum.DELETE)
+    @PreAuthorize("hasAnyAuthority('org:delete','ROLE_ADMINISTRATOR','ROLE_ADMIN_ORG')")
     public Result delete(@PathVariable Long id) {
         systemOrgService.removeById(id);
         return ResponseResult.resultSuccess("修改成功");

@@ -18,6 +18,7 @@ import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobLogEntity
 import com.hb0730.boot.admin.project.monitor.job.model.vo.JobLogParams;
 import com.hb0730.boot.admin.project.monitor.job.service.ISystemJobLogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +53,7 @@ public class SystemJobLogController extends BaseController {
      * @return 分页后的日志
      */
     @PostMapping("/all/page/{page}/{pageSize}")
+    @PreAuthorize("hasAnyAuthority('job:log:query','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
     public Result getAllPage(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody JobLogParams params) {
         return ResponseResult.resultSuccess(systemJobLogService.list(page, pageSize, params));
     }
@@ -66,6 +68,7 @@ public class SystemJobLogController extends BaseController {
      */
     @PostMapping("/export")
     @Log(paramsName = "params", module = ModuleName.JOBLOG, title = "调度日志导出", businessType = BusinessTypeEnum.EXPORT)
+    @PreAuthorize("hasAnyAuthority('job:log:export','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
     public void export(HttpServletResponse response, @RequestBody JobLogParams params) {
         Map<String, Object> maps = Maps.newHashMap();
         maps.put(ExcelConstant.FILE_NAME, "job_log_export");
@@ -89,6 +92,7 @@ public class SystemJobLogController extends BaseController {
      */
     @PostMapping("/delete")
     @Log(paramsName = "ids", module = ModuleName.JOBLOG, title = "删除", businessType = BusinessTypeEnum.DELETE)
+    @PreAuthorize("hasAnyAuthority('jog:log:delete','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
     public Result deleteByIds(@RequestBody List<Long> ids) {
         if (CollectionUtils.isEmpty(ids)) {
             return ResponseResult.resultFall("请选择");
@@ -107,6 +111,7 @@ public class SystemJobLogController extends BaseController {
      */
     @GetMapping("/clean/job/{jobId}")
     @Log(module = ModuleName.JOBLOG, title = "清除", businessType = BusinessTypeEnum.CLEAN)
+    @PreAuthorize("hasAnyAuthority('job:log:clean','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
     public Result cleanByJobId(@PathVariable Long jobId) {
         QueryWrapper<SystemJobLogEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(SystemJobLogEntity.JOB_ID, jobId);

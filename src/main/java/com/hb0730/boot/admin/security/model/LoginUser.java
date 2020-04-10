@@ -128,7 +128,7 @@ public class LoginUser extends LoginUserDTO implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         String perms = "";
         if (isAdmin()) {
-            perms="ROLE_ADMIN";
+            perms="ROLE_ADMINISTRATOR";
             return AuthorityUtils.commaSeparatedStringToAuthorityList(perms);
         }
         List<SystemPermissionDTO> permissions = super.getPermissions();

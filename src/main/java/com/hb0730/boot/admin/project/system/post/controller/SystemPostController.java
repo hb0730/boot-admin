@@ -23,6 +23,7 @@ import com.hb0730.boot.admin.project.system.post.model.vo.PostParams;
 import com.hb0730.boot.admin.project.system.post.model.vo.SystemPostVO;
 import com.hb0730.boot.admin.project.system.post.service.ISystemPostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,6 +59,7 @@ public class SystemPostController extends BaseController {
      */
     @PostMapping("/save")
     @Log(paramsName = {"vo"}, module = ModuleName.POST, title = "岗位保存", businessType = BusinessTypeEnum.INSERT)
+    @PreAuthorize("hasAnyAuthority('post:save','ROLE_ADMINISTRATOR','ROLE_POST_ADMIN')")
     public Result save(@RequestBody SystemPostVO vo) {
         SystemPostEntity entity = BeanUtils.transformFrom(vo, SystemPostEntity.class);
         systemPostService.save(entity);
@@ -75,6 +77,7 @@ public class SystemPostController extends BaseController {
      * @return 分页后的岗位
      */
     @PostMapping("/all/{page}/{pageSize}")
+    @PreAuthorize("hasAnyAuthority('post:query','ROLE_ADMINISTRATOR','ROLE_POST_ADMIN')")
     public Result getPostPage(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody PostParams params) {
         PageInfo<SystemPostVO> info = systemPostService.list(page, pageSize, params);
         return ResponseResult.resultSuccess(info);
@@ -107,6 +110,7 @@ public class SystemPostController extends BaseController {
      */
     @PostMapping("/update/{id}")
     @Log(paramsName = {"vo"}, module = ModuleName.POST, title = "岗位修改", businessType = BusinessTypeEnum.UPDATE)
+    @PreAuthorize("hasAnyAuthority('post:update','ROLE_ADMINISTRATOR','ROLE_POST_ADMIN')")
     public Result updateById(@PathVariable Long id, @RequestBody SystemPostVO vo) {
         SystemPostEntity entity = systemPostService.getById(id);
         BeanUtils.updateProperties(vo, entity);
@@ -122,6 +126,7 @@ public class SystemPostController extends BaseController {
      */
     @GetMapping("/delete/{id}")
     @Log(module = ModuleName.POST, title = "岗位删除", businessType = BusinessTypeEnum.DELETE)
+    @PreAuthorize("hasAnyAuthority('post:delete','ROLE_ADMINISTRATOR','ROLE_POST_ADMIN')")
     public Result deleteById(@PathVariable Long id) {
         systemPostService.deleteById(id);
         return ResponseResult.resultSuccess("修改成功");
@@ -137,6 +142,7 @@ public class SystemPostController extends BaseController {
      */
     @PostMapping("/delete")
     @Log(module = ModuleName.POST, title = "岗位删除", businessType = BusinessTypeEnum.DELETE)
+    @PreAuthorize("hasAnyAuthority('post:delete','ROLE_ADMINISTRATOR','ROLE_POST_ADMIN')")
     public Result deleteByIds(@RequestBody List<Long> ids) {
         if (!CollectionUtils.isEmpty(ids)) {
             systemPostService.removeByIds(ids);
@@ -155,6 +161,7 @@ public class SystemPostController extends BaseController {
      */
     @PostMapping("/export")
     @Log(paramsName = "params", module = ModuleName.POST, title = "岗位导出", businessType = BusinessTypeEnum.EXPORT)
+    @PreAuthorize("hasAnyAuthority('post:export','ROLE_ADMINISTRATOR','ROLE_POST_ADMIN')")
     public void export(HttpServletResponse response, @RequestBody PostParams params) {
         List<PostExcelDto> export = systemPostService.export(params);
         try {
@@ -178,6 +185,7 @@ public class SystemPostController extends BaseController {
      */
     @PostMapping("/upload")
     @Log(module = ModuleName.POST, title = "岗位导入", businessType = BusinessTypeEnum.IMPORT)
+    @PreAuthorize("hasAnyAuthority('post:upload','ROLE_ADMINISTRATOR','ROLE_POST_ADMIN')")
     public Result upload(MultipartFile file) throws IOException {
         EasyExcel.read(file.getInputStream(), PostExcelDto.class, new UploadDataListener(systemPostService)).sheet().doRead();
         return ResponseResult.resultSuccess("导入成功");

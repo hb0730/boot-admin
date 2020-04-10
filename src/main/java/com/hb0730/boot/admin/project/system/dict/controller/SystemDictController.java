@@ -53,7 +53,7 @@ public class SystemDictController extends BaseController {
      * @return 是否成功
      */
     @PostMapping("/page/all/{page}/{pageSize}")
-    @PreAuthorize("hasAnyAuthority('dict:query','ROLE_ADMIN','ROLE_DICT')")
+    @PreAuthorize("hasAnyAuthority('dict:query','ROLE_ADMINISTRATOR','ROLE_DICT_ADMIN')")
     public Result allPageList(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody DictParams params) {
         PageInfo<SystemDictVO> info = systemDictService.getPageDict(SystemConstants.PARENT_ID, page, pageSize, params);
         return ResponseResult.resultSuccess(info);
@@ -71,7 +71,7 @@ public class SystemDictController extends BaseController {
      * @return 字典信息
      */
     @PostMapping("/page/all/data/{parentId}/{page}/{pageSize}")
-    @PreAuthorize("hasAnyAuthority('dict:data:query','ROLE_ADMIN','ROLE_DICT')")
+    @PreAuthorize("hasAnyAuthority('dict:data:query','ROLE_ADMINISTRATOR','ROLE_DICT_ADMIN')")
     public Result allPageDataList(@PathVariable Long parentId, @PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody DictParams params) {
         PageInfo<SystemDictVO> info = systemDictService.getPageDict(parentId, page, pageSize, params);
         return ResponseResult.resultSuccess(info);
@@ -86,7 +86,7 @@ public class SystemDictController extends BaseController {
      * @return 是否成功
      */
     @PostMapping("/save")
-    @PreAuthorize("hasAnyAuthority('dict:save','ROLE_ADMIN','ROLE_DICT')")
+    @PreAuthorize("hasAnyAuthority('dict:save','ROLE_ADMINISTRATOR','ROLE_DICT_ADMIN')")
     @Log(paramsName = "vo", module = ModuleName.DICT, title = "新增", businessType = BusinessTypeEnum.INSERT)
     public Result save(@RequestBody SystemDictVO vo) {
         if (Objects.isNull(vo.getParentId())) {
@@ -108,7 +108,7 @@ public class SystemDictController extends BaseController {
      * @return 是否成
      */
     @PostMapping("/update/{id}")
-    @PreAuthorize("hasAnyAuthority('dict:update','ROLE_ADMIN','ROLE_DICT')")
+    @PreAuthorize("hasAnyAuthority('dict:update','ROLE_ADMINISTRATOR','ROLE_DICT_ADMIN')")
     @Log(paramsName = {"vo"}, module = ModuleName.DICT, title = "修改", businessType = BusinessTypeEnum.UPDATE)
     public Result updateById(@PathVariable Long id, @RequestBody SystemDictVO vo) {
         verify(vo);
@@ -125,7 +125,7 @@ public class SystemDictController extends BaseController {
      * @return 是否成功
      */
     @GetMapping("/delete/id/{id}")
-    @PreAuthorize("hasAnyAuthority('dict:delete','ROLE_ADMIN','ROLE_DICT')")
+    @PreAuthorize("hasAnyAuthority('dict:delete','ROLE_ADMINISTRATOR','ROLE_DICT_ADMIN')")
     @Log(module = ModuleName.DICT, title = "删除", businessType = BusinessTypeEnum.DELETE)
     public Result deleteById(@PathVariable Long id) {
         systemDictService.removeById(id);
@@ -139,7 +139,7 @@ public class SystemDictController extends BaseController {
      * @return 是否成功
      */
     @PostMapping("/delete/id")
-    @PreAuthorize("hasAnyAuthority('dict:delete','ROLE_DICT','ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('dict:delete','ROLE_ADMINISTRATOR','ROLE_DICT_ADMIN')")
     @Log(module = ModuleName.DICT, title = "删除", businessType = BusinessTypeEnum.DELETE)
     public Result deleteByIds(@RequestBody List<Long> ids) {
         if (!CollectionUtils.isEmpty(ids)) {

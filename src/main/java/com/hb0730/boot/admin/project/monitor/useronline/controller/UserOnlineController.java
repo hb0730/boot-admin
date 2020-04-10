@@ -3,9 +3,9 @@ package com.hb0730.boot.admin.project.monitor.useronline.controller;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.annotation.Log;
-import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
+import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
@@ -13,6 +13,7 @@ import com.hb0730.boot.admin.project.monitor.useronline.model.vo.ParamsVO;
 import com.hb0730.boot.admin.project.monitor.useronline.model.vo.UserOnlineVO;
 import com.hb0730.boot.admin.project.monitor.useronline.service.IUserOnlineService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,6 +42,7 @@ public class UserOnlineController extends BaseController {
      * @return 在线用户
      */
     @PostMapping("/all/page")
+    @PreAuthorize("hasAnyAuthority('user:online:query','ROLE_ADMINISTRATOR','ROLE_USER_ONLINE_ADMIN')")
     public Result getAllPage(@RequestBody ParamsVO vo) {
         List<UserOnlineVO> onlineUser = userOnlineService.getOnlineUser(vo);
         PageInfo<UserOnlineVO> pageInfo = new PageInfo<>(onlineUser);
@@ -56,6 +58,7 @@ public class UserOnlineController extends BaseController {
      * @return 是否成功
      */
     @GetMapping("/logout/{token}")
+    @PreAuthorize("hasAnyAuthority('user:online:logout','ROLE_ADMINISTRATOR','ROLE_USER_ONLINE_ADMIN')")
     public Result logout(@PathVariable String token) {
         List<String> accessToken = Lists.newArrayList();
         accessToken.add(token);
@@ -71,6 +74,7 @@ public class UserOnlineController extends BaseController {
      */
     @PostMapping("/logout")
     @Log(paramsName = "tokens", module = ModuleName.USER_ONLINE, title = "强制退出", businessType = BusinessTypeEnum.FORCE)
+    @PreAuthorize("hasAnyAuthority('user:online:logout','ROLE_ADMINISTRATOR','ROLE_USER_ONLINE_ADMIN')")
     public Result logout(@RequestBody List<String> tokens) {
         userOnlineService.logout(tokens);
         return ResponseResult.resultSuccess("退出成功");

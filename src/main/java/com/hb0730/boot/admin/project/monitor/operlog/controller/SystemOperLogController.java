@@ -17,6 +17,7 @@ import com.hb0730.boot.admin.project.monitor.operlog.model.entity.SystemOperLogE
 import com.hb0730.boot.admin.project.monitor.operlog.model.vo.OperLogParams;
 import com.hb0730.boot.admin.project.monitor.operlog.service.ISystemOperLogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,6 +54,7 @@ public class SystemOperLogController extends BaseController {
      * @return 分页后的操作日志
      */
     @PostMapping("/all/page/{page}/{pageSize}")
+    @PreAuthorize("hasAnyAuthority('oper:log:query','ROLE_ADMINISTRATOR','ROLE_OPER_LOG_ADMIN')")
     public Result getAllPage(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody OperLogParams params) {
         return ResponseResult.resultSuccess(systemOperLogService.list(page, pageSize, params));
     }
@@ -67,6 +69,7 @@ public class SystemOperLogController extends BaseController {
      */
     @PostMapping("/delete")
     @Log(paramsName = "ids", module = ModuleName.OPER_LOG, title = "删除", businessType = BusinessTypeEnum.DELETE)
+    @PreAuthorize("hasAnyAuthority('oper:log:delete','ROLE_ADMINISTRATOR','ROLE_OPER_LOG_ADMIN')")
     public Result deleteByIds(@RequestBody List<Long> ids) {
         if (CollectionUtils.isEmpty(ids)) {
             return ResponseResult.resultFall("请选择");
@@ -84,6 +87,7 @@ public class SystemOperLogController extends BaseController {
      */
     @GetMapping("/clean")
     @Log(module = ModuleName.OPER_LOG, title = "清空", businessType = BusinessTypeEnum.CLEAN)
+    @PreAuthorize("hasAnyAuthority('oper:log:clean','ROLE_ADMINISTRATOR','ROLE_OPER_LOG_ADMIN')")
     public Result clean() {
         List<SystemOperLogEntity> list = systemOperLogService.list();
         if (!CollectionUtils.isEmpty(list)) {
@@ -103,6 +107,7 @@ public class SystemOperLogController extends BaseController {
      */
     @PostMapping("/export")
     @Log(paramsName = "params", module = ModuleName.OPER_LOG, title = "导出", businessType = BusinessTypeEnum.EXPORT)
+    @PreAuthorize("hasAnyAuthority('oper:log:export','ROLE_ADMINISTRATOR','ROLE_OPER_LOG_ADMIN')")
     public void export(HttpServletResponse response, OperLogParams params) {
         List<OperLogDTO> export = systemOperLogService.export(params);
         try {

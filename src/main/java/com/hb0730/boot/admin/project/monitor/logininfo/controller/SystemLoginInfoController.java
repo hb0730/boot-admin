@@ -19,6 +19,7 @@ import com.hb0730.boot.admin.project.monitor.logininfo.model.vo.LoginfoParams;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.vo.SystemLoginfoVO;
 import com.hb0730.boot.admin.project.monitor.logininfo.service.ISystemLoginInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,6 +56,7 @@ public class SystemLoginInfoController extends BaseController {
      * @return 分页后的日志
      */
     @PostMapping("/all/page/{page}/{pageSize}")
+    @PreAuthorize("hasAnyAuthority('login:log:query','ROLE_ADMINISTRATOR','ROLE_LOGIN_LOG_ADMIN')")
     public Result getPageAll(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody LoginfoParams params) {
         PageInfo<SystemLoginfoVO> list = systemLoginInfoService.list(page, pageSize, params);
         return ResponseResult.resultSuccess(list);
@@ -70,6 +72,7 @@ public class SystemLoginInfoController extends BaseController {
      */
     @PostMapping("/export")
     @Log(paramsName = "params", module = ModuleName.LOGIN_INFO, title = "登录日志导出", businessType = BusinessTypeEnum.EXPORT)
+    @PreAuthorize("hasAnyAuthority('login:log:export','ROLE_ADMINISTRATOR','ROLE_LOGIN_LOG_ADMIN')")
     public void export(HttpServletResponse response, @RequestBody LoginfoParams params) {
         List<LoginInfoDTO> export = systemLoginInfoService.export(params);
         Map<String, Object> maps = Maps.newHashMap();
@@ -91,6 +94,7 @@ public class SystemLoginInfoController extends BaseController {
      */
     @PostMapping("/delete")
     @Log(paramsName = "ids", module = ModuleName.LOGIN_INFO, title = "删除", businessType = BusinessTypeEnum.DELETE)
+    @PreAuthorize("hasAnyAuthority('login:log:delete','ROLE_ADMINISTRATOR','ROLE_LOGIN_LOG_ADMIN')")
     public Result deleteLogin(@RequestBody List<Long> ids) {
         if (CollectionUtils.isEmpty(ids)) {
             return ResponseResult.resultFall("请选择");
@@ -108,6 +112,7 @@ public class SystemLoginInfoController extends BaseController {
      */
     @GetMapping("/clean")
     @Log(module = ModuleName.LOGIN_INFO, title = "清空", businessType = BusinessTypeEnum.CLEAN)
+    @PreAuthorize("hasAnyAuthority('login:log:clean','ROLE_ADMINISTRATOR','ROLE_LOGIN_LOG_ADMIN')")
     public Result cleanLog() {
         List<SystemLoginInfoEntity> list = systemLoginInfoService.list();
         if (!CollectionUtils.isEmpty(list)) {

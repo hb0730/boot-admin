@@ -26,6 +26,7 @@ import com.hb0730.boot.admin.project.system.role.permission.service.ISystemRoleP
 import com.hb0730.boot.admin.project.system.role.service.ISystemRoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -83,6 +84,7 @@ public class SystemRoleController extends BaseController {
      * @return 分页后的角色信息
      */
     @PostMapping("/all/page/{page}/{pageSize}")
+    @PreAuthorize("hasAnyAuthority('role:query','ROLE_ADMINISTRATOR','ROLE_ROLE_ADMIN')")
     public Result getRolePage(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody RoleParams roleParams) {
         PageHelper.startPage(page, pageSize);
         QueryWrapper<SystemRoleEntity> queryWrapper = new QueryWrapper<>();
@@ -112,6 +114,7 @@ public class SystemRoleController extends BaseController {
      */
     @PostMapping("/save")
     @Log(paramsName = {"vo"}, module = ModuleName.ROLE, title = "角色保存", businessType = BusinessTypeEnum.INSERT)
+    @PreAuthorize("hasAnyAuthority('role:save','ROLE_ADMINISTRATOR','ROLE_ROLE_ADMIN')")
     public Result save(@RequestBody SystemRoleVO vo) {
         systemRoleService.save(BeanUtils.transformFrom(vo, SystemRoleEntity.class));
         return ResponseResult.resultSuccess("保存成功");
@@ -126,6 +129,7 @@ public class SystemRoleController extends BaseController {
      */
     @PostMapping("/update/{id}")
     @Log(paramsName = {"vo"}, module = ModuleName.ROLE, title = "角色修改", businessType = BusinessTypeEnum.UPDATE)
+    @PreAuthorize("hasAnyAuthority('role:update','ROLE_ADMINISTRATOR','ROLE_ROLE_ADMIN')")
     public Result updateById(@PathVariable Long id, @RequestBody SystemRoleVO vo) {
         vo.setId(id);
         systemRoleService.updateById(BeanUtils.transformFrom(vo, SystemRoleEntity.class));
@@ -140,6 +144,7 @@ public class SystemRoleController extends BaseController {
      */
     @GetMapping("/delete/{id}")
     @Log(module = ModuleName.ROLE, title = "角色删除", businessType = BusinessTypeEnum.DELETE)
+    @PreAuthorize("hasAnyAuthority('role:delete','ROLE_ADMINISTRATOR','ROLE_ROLE_ADMIN')")
     public Result deleteById(@PathVariable Long id) {
         systemRoleService.removeById(id);
         return ResponseResult.resultSuccess("修改成功");
@@ -155,6 +160,7 @@ public class SystemRoleController extends BaseController {
      */
     @PostMapping("/delete")
     @Log(module = ModuleName.ROLE, title = "角色删除", businessType = BusinessTypeEnum.DELETE)
+    @PreAuthorize("hasAnyAuthority('role:delete','ROLE_ADMINISTRATOR','ROLE_ROLE_ADMIN')")
     public Result deleteByIds(@RequestBody List<Long> id) {
         if (!CollectionUtils.isEmpty(id)) {
             systemRoleService.removeByIds(id);
@@ -209,6 +215,7 @@ public class SystemRoleController extends BaseController {
      */
     @PostMapping("/permission/save/{id}")
     @Log(paramsName = {"permissionIds"}, module = ModuleName.ROLE, title = "角色权限更新", businessType = BusinessTypeEnum.UPDATE)
+    @PreAuthorize("hasAnyAuthority('role:permission:save','ROLE_ADMINISTRATOR','ROLE_ROLE_ADMIN')")
     public Result savePermissionByRoleId(@PathVariable Long id, @RequestBody List<Long> permissionIds) {
         systemRolePermissionService.savePermissionByRoleId(id, permissionIds);
         return ResponseResult.resultSuccess("保存成功");
@@ -244,6 +251,7 @@ public class SystemRoleController extends BaseController {
      */
     @PostMapping("/org/role/save/{roleId}")
     @Log(paramsName = {"orgIds"}, module = ModuleName.ROLE, title = "角色数据范围更新", businessType = BusinessTypeEnum.UPDATE)
+    @PreAuthorize("hasAnyAuthority('role:org:update','ROLE_ADMINISTRATOR','ROLE_ROLE_ADMIN')")
     public Result saveOrgIdByRoleId(@PathVariable Long roleId, @RequestBody List<Long> orgIds) {
         systemRoleOrgService.saveOrgIdsByRoleId(roleId, orgIds);
         return ResponseResult.resultSuccess("保存成功");

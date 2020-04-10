@@ -25,6 +25,7 @@ import com.hb0730.boot.admin.project.monitor.job.model.vo.JobParams;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.SystemJobVO;
 import com.hb0730.boot.admin.project.monitor.job.service.ISystemJobService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -64,6 +65,7 @@ public class SystemJobController extends BaseController {
      * @return 分页后的定时任务
      */
     @PostMapping("/all/page/{page}/{pageSize}")
+    @PreAuthorize("hasAnyAuthority('job:query','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
     public Result getAllPage(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody JobParams params) {
         PageHelper.startPage(page, pageSize);
         QueryWrapper<SystemJobEntity> queryWrapper = query(params);
@@ -94,6 +96,7 @@ public class SystemJobController extends BaseController {
      */
     @PostMapping("/save")
     @Log(paramsName = "vo", module = ModuleName.JOB, title = "新增", businessType = BusinessTypeEnum.INSERT)
+    @PreAuthorize("hasAnyAuthority('job:save','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
     public Result save(@Validated @RequestBody SystemJobVO vo) {
         SystemJobEntity entity = BeanUtils.transformFrom(vo, SystemJobEntity.class);
         systemJobService.save(entity);
@@ -112,6 +115,7 @@ public class SystemJobController extends BaseController {
      */
     @PostMapping("/update/{id}")
     @Log(paramsName = "vo", module = ModuleName.JOB, title = "修改", businessType = BusinessTypeEnum.UPDATE)
+    @PreAuthorize("hasAnyAuthority('job:update','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
     public Result update(@PathVariable Long id, @Validated @RequestBody SystemJobVO vo) {
         vo.setId(id);
         SystemJobEntity entity = BeanUtils.transformFrom(vo, SystemJobEntity.class);
@@ -130,6 +134,7 @@ public class SystemJobController extends BaseController {
      */
     @Log(module = ModuleName.JOB, title = "删除", businessType = BusinessTypeEnum.DELETE)
     @GetMapping("/delete/{id}")
+    @PreAuthorize("hasAnyAuthority('job:delete','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
     public Result deleteById(@PathVariable Long id) {
         systemJobService.removeById(id);
         return ResponseResult.resultSuccess("修改成功");
@@ -145,6 +150,7 @@ public class SystemJobController extends BaseController {
      */
     @Log(paramsName = "id", module = ModuleName.JOB, title = "删除", businessType = BusinessTypeEnum.DELETE)
     @PostMapping("/delete")
+    @PreAuthorize("hasAnyAuthority('job:delete','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
     public Result deleteById(@RequestBody List<Long> id) {
         if (CollectionUtils.isEmpty(id)) {
             return ResponseResult.resultFall("请选择");
@@ -163,6 +169,7 @@ public class SystemJobController extends BaseController {
      */
     @PostMapping("/upload")
     @Log(module = ModuleName.JOB, title = "excel导入", businessType = BusinessTypeEnum.IMPORT)
+    @PreAuthorize("hasAnyAuthority('job:upload','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
     public Result upload(MultipartFile file) throws IOException {
         EasyExcel.read(file.getInputStream(), JobExportDto.class, new UploadDataListener(systemJobService)).sheet().doRead();
         return ResponseResult.resultSuccess("导入成功");
@@ -178,6 +185,7 @@ public class SystemJobController extends BaseController {
      */
     @Log(paramsName = "params", module = ModuleName.JOB, title = "导出", businessType = BusinessTypeEnum.EXPORT)
     @PostMapping("/export")
+    @PreAuthorize("hasAnyAuthority('job:export','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
     public void export(HttpServletResponse response, @RequestBody JobParams params) {
         QueryWrapper<SystemJobEntity> queryWrapper = query(params);
         List<SystemJobEntity> entities = systemJobService.list(queryWrapper);
