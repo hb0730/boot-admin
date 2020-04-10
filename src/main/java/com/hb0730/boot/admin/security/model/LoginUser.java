@@ -12,6 +12,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -58,6 +59,14 @@ public class LoginUser extends LoginUserDTO implements UserDetails {
      * 操作系统
      */
     private String os;
+
+    public boolean isAdmin() {
+        return isAdmin(super.getId());
+    }
+
+    public static boolean isAdmin(Long userId) {
+        return Objects.equals(-1L, userId);
+    }
 
     public String getToken() {
         return token;
@@ -118,6 +127,10 @@ public class LoginUser extends LoginUserDTO implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         String perms = "";
+        if (isAdmin()) {
+            perms="ROLE_ADMIN";
+            return AuthorityUtils.commaSeparatedStringToAuthorityList(perms);
+        }
         List<SystemPermissionDTO> permissions = super.getPermissions();
         if (!CollectionUtils.isEmpty(permissions)) {
             perms = StringUtils.join(permissions.parallelStream().map(SystemPermissionDTO::getMark).toArray(), ",");

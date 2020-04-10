@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
+import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
 import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.project.system.menu.mapper.ISystemMenuMapper;
 import com.hb0730.boot.admin.project.system.menu.model.entity.SystemMenuEntity;
@@ -90,14 +91,19 @@ public class SystemMenuServiceImpl extends ServiceImpl<ISystemMenuMapper, System
         Set<Long> menuIdsSet = com.google.common.collect.Sets.newHashSet(menuIds);
         Set<Long> ids = Sets.newHashSet();
         QueryWrapper<SystemMenuEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(SystemMenuEntity.IS_ENABLED,SystemConstants.USE);
+        queryWrapper.eq(SystemMenuEntity.IS_ENABLED, SystemConstants.USE);
         List<SystemMenuEntity> allMenu = super.list(queryWrapper);
         menuIdsSet.forEach(id -> {
             SystemMenuEntity entity = getById(id);
             MenuUtils.getParentNodeInfoByChildrenNode(entity, allMenu, ids);
         });
         List<TreeMenuVO> menuTree = MenuUtils.getMenusTreeByParentId(SystemConstants.PARENT_ID);
-        List<TreeMenuVO> treeByNodeId = MenuUtils.getTreeByNodeId(menuTree, ids);
+        List<TreeMenuVO> treeByNodeId = null;
+        if (!SecurityUtils.getLoginUser().isAdmin()) {
+            treeByNodeId = MenuUtils.getTreeByNodeId(menuTree, ids);
+        } else {
+            treeByNodeId = menuTree;
+        }
         List<Map<String, Object>> maps = Lists.newArrayList();
         MenuUtils.getVueModel(treeByNodeId, maps);
 
