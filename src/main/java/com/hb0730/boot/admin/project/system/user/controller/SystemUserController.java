@@ -1,22 +1,28 @@
 package com.hb0730.boot.admin.project.system.user.controller;
 
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.support.ExcelTypeEnum;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.annotation.Log;
-import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
-import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
+import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
+import com.hb0730.boot.admin.commons.utils.excel.ExcelConstant;
+import com.hb0730.boot.admin.commons.utils.excel.ExcelUtils;
+import com.hb0730.boot.admin.commons.utils.excel.UploadDataListener;
 import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
+import com.hb0730.boot.admin.exception.ExportException;
+import com.hb0730.boot.admin.project.system.user.model.dto.UserExcelDTO;
 import com.hb0730.boot.admin.project.system.user.model.entity.SystemUserEntity;
 import com.hb0730.boot.admin.project.system.user.model.vo.SystemUserVO;
-import com.hb0730.boot.admin.project.system.user.model.vo.UserParamsVO;
+import com.hb0730.boot.admin.project.system.user.model.vo.UserParams;
 import com.hb0730.boot.admin.project.system.user.model.vo.UserVO;
 import com.hb0730.boot.admin.project.system.user.service.ISystemUserService;
 import org.apache.commons.lang3.StringUtils;
@@ -25,8 +31,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -174,27 +184,8 @@ public class SystemUserController extends BaseController {
      */
     @PostMapping("/all/{page}/{pageSize}")
     @PreAuthorize("hasAnyAuthority('user:query','ROLE_ADMIN','ROLE_USER')")
-    public Result getUserPage(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody UserParamsVO vo) {
-        QueryWrapper<SystemUserEntity> queryWrapper = new QueryWrapper<>();
-        if (!Objects.isNull(vo)) {
-            Long deptId = vo.getDeptId();
-            if (!Objects.isNull(deptId)) {
-                queryWrapper.eq(SystemUserEntity.DEPTID, deptId);
-            }
-            if (StringUtils.isNotBlank(vo.getNickName())) {
-                queryWrapper.eq(SystemUserEntity.NICK_NAME, vo.getNickName());
-            }
-            if (StringUtils.isNotBlank(vo.getUsername())) {
-                queryWrapper.eq(SystemUserEntity.USERNAME, vo.getUsername());
-            }
-            if (Objects.nonNull(vo.getIsEnabled())) {
-                queryWrapper.eq(SystemUserEntity.IS_ENABLED, vo.getIsEnabled());
-            }
-        }
-        PageHelper.startPage(page, pageSize);
-        List<SystemUserEntity> entities = systemUserService.list(queryWrapper);
-        PageInfo<SystemUserEntity> pageInfo = new PageInfo<>(entities);
-        PageInfo<SystemUserVO> info = PageInfoUtil.toBean(pageInfo, SystemUserVO.class);
+    public Result getUserPage(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody UserParams vo) {
+        PageInfo<SystemUserVO> info = systemUserService.list(page, pageSize, vo);
         return ResponseResult.resultSuccess(info);
     }
 
@@ -277,6 +268,44 @@ public class SystemUserController extends BaseController {
             return ResponseResult.resultSuccess("删除成功");
         }
         return ResponseResult.resultFall("请选择");
+    }
+
+    /**
+     * <p>
+     * 导出
+     * </p>
+     *
+     * @param response 响应
+     * @param params   过滤参数
+     */
+    @PostMapping("/export")
+    @Log(paramsName = "params", module = ModuleName.USER, title = "用户导出", businessType = BusinessTypeEnum.EXPORT)
+    public void export(HttpServletResponse response, UserParams params) {
+        List<UserExcelDTO> export = systemUserService.export(params);
+        try {
+            Map<String, Object> maps = Maps.newHashMap();
+            maps.put(ExcelConstant.FILE_NAME, "user_export");
+            maps.put(ExcelConstant.DATA_LIST, export);
+            ExcelUtils.writeWeb(response, maps, ExcelTypeEnum.XLS, UserExcelDTO.class);
+        } catch (Exception e) {
+            e.getStackTrace();
+            throw new ExportException("用户导出失败", e);
+        }
+    }
+
+    /**
+     * <p>
+     * 用户导入
+     * </p>
+     *
+     * @param file 文件
+     * @return 是否成功
+     */
+    @PostMapping("/upload")
+    @Log(module = ModuleName.USER, title = "用户导入", businessType = BusinessTypeEnum.IMPORT)
+    public Result upload(MultipartFile file) throws IOException {
+        EasyExcel.read(file.getInputStream(), UserExcelDTO.class, new UploadDataListener(systemUserService)).sheet().doRead();
+        return ResponseResult.resultSuccess("导入成功");
     }
 }
 

@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @since V1.0
  */
 @Data
-public class UserParamsVO implements Serializable {
+public class UserParams implements Serializable {
     /**
      * 组织id
      */

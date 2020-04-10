@@ -1,12 +1,18 @@
 package com.hb0730.boot.admin.project.system.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
+import com.hb0730.boot.admin.commons.domain.service.IExportService;
 import com.hb0730.boot.admin.project.system.user.model.dto.LoginUserDTO;
+import com.hb0730.boot.admin.project.system.user.model.dto.UserExcelDTO;
 import com.hb0730.boot.admin.project.system.user.model.entity.SystemUserEntity;
+import com.hb0730.boot.admin.project.system.user.model.vo.SystemUserVO;
+import com.hb0730.boot.admin.project.system.user.model.vo.UserParams;
 import com.hb0730.boot.admin.project.system.user.model.vo.UserVO;
 import org.springframework.lang.NonNull;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * <p>
@@ -16,7 +22,19 @@ import javax.validation.constraints.NotNull;
  * @author bing_huang
  * @since 2020-03-24
  */
-public interface ISystemUserService extends IService<SystemUserEntity> {
+public interface ISystemUserService extends IService<SystemUserEntity>, IExportService<UserExcelDTO> {
+
+    /**
+     * <p>
+     * 分页查询
+     * </p>
+     *
+     * @param page     页数
+     * @param pageSize 数量
+     * @param params   过滤参数
+     * @return 分页后得数据
+     */
+    PageInfo<SystemUserVO> list(Integer page, Integer pageSize, UserParams params);
 
     /**
      * 用户保存
@@ -62,4 +80,14 @@ public interface ISystemUserService extends IService<SystemUserEntity> {
      * @return 是否成功
      */
     boolean resetPassword(@NonNull Long id);
+
+    /**
+     * <p>
+     * 导出
+     * </p>
+     *
+     * @param params 过滤参数
+     * @return 数据
+     */
+    List<UserExcelDTO> export(UserParams params);
 }

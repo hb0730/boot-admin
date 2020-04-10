@@ -2,14 +2,23 @@ package com.hb0730.boot.admin.project.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
+import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
-import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
+import com.hb0730.boot.admin.exception.BaseException;
+import com.hb0730.boot.admin.exception.FileUploadException;
+import com.hb0730.boot.admin.project.system.org.model.entity.SystemOrgEntity;
+import com.hb0730.boot.admin.project.system.org.service.ISystemOrgService;
 import com.hb0730.boot.admin.project.system.user.handle.RolePostPermissionHandle;
-import com.hb0730.boot.admin.project.system.user.model.dto.LoginUserDTO;
 import com.hb0730.boot.admin.project.system.user.mapper.SystemUserMapper;
+import com.hb0730.boot.admin.project.system.user.model.dto.LoginUserDTO;
+import com.hb0730.boot.admin.project.system.user.model.dto.UserExcelDTO;
 import com.hb0730.boot.admin.project.system.user.model.entity.SystemUserEntity;
+import com.hb0730.boot.admin.project.system.user.model.vo.SystemUserVO;
+import com.hb0730.boot.admin.project.system.user.model.vo.UserParams;
 import com.hb0730.boot.admin.project.system.user.model.vo.UserVO;
 import com.hb0730.boot.admin.project.system.user.service.ISystemUserService;
 import org.apache.commons.lang3.StringUtils;
@@ -20,8 +29,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -35,6 +45,19 @@ import java.util.Objects;
 public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemUserEntity> implements ISystemUserService {
     @Autowired
     private RolePostPermissionHandle postPermissionHandle;
+    @Autowired
+    private ISystemOrgService systemOrgService;
+
+    @Override
+    public PageInfo<SystemUserVO> list(Integer page, Integer pageSize, UserParams params) {
+        page = page == null ? 1 : page;
+        pageSize = pageSize == null ? 10 : pageSize;
+        QueryWrapper<SystemUserEntity> queryWrapper = getQuery(params);
+        PageHelper.startPage(page, pageSize);
+        List<SystemUserEntity> entities = super.list(queryWrapper);
+        PageInfo<SystemUserEntity> pageInfo = new PageInfo<>(entities);
+        return PageInfoUtil.toBean(pageInfo, SystemUserVO.class);
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -103,13 +126,64 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
         return super.updateById(entity);
     }
 
+    @Override
+    public List<UserExcelDTO> export(UserParams params) {
+        QueryWrapper<SystemUserEntity> queryWrapper = getQuery(params);
+        List<SystemUserEntity> entities = super.list(queryWrapper);
+        List<UserExcelDTO> dtos = BeanUtils.transformFromInBatch(entities, UserExcelDTO.class);
+        if (!CollectionUtils.isEmpty(dtos)) {
+            Set<Long> ids = dtos.parallelStream().map(UserExcelDTO::getDeptId).collect(Collectors.toSet());
+            QueryWrapper<SystemOrgEntity> q1 = new QueryWrapper<>();
+            q1.in(SystemOrgEntity.ID, ids);
+            q1.select(SystemOrgEntity.ID, SystemOrgEntity.NUMBER, SystemOrgEntity.NAME);
+            List<SystemOrgEntity> orgEntities = systemOrgService.list(q1);
+            Map<Long, SystemOrgEntity> orgEntityMap = orgEntities.parallelStream().collect(Collectors.toMap(SystemOrgEntity::getId, Function.identity()));
+            return dtos.parallelStream().peek((exportDto) -> {
+                SystemOrgEntity orgEntity = orgEntityMap.get(exportDto.getDeptId());
+                exportDto.setDeptName(orgEntity.getName());
+                exportDto.setDeptNumber(orgEntity.getNumber());
+            }).collect(Collectors.toList());
+
+        }
+        return null;
+    }
+
+
+    @Override
+    public boolean upload(Collection<UserExcelDTO> list) {
+        if (!CollectionUtils.isEmpty(list)) {
+            Set<String> usernames = list.parallelStream().map(UserExcelDTO::getUsername).collect(Collectors.toSet());
+            QueryWrapper<SystemUserEntity> q1 = new QueryWrapper<>();
+            q1.in(SystemUserEntity.USERNAME, usernames);
+            int count = super.count(q1);
+            if (count > 0) {
+                throw new FileUploadException("用户导入失败，用户账号重复");
+            }
+            Set<String> deptNumbers = list.parallelStream().map(UserExcelDTO::getDeptNumber).collect(Collectors.toSet());
+            QueryWrapper<SystemOrgEntity> queryWrapper = new QueryWrapper<>();
+            queryWrapper.in(SystemOrgEntity.NUMBER, deptNumbers);
+            queryWrapper.select(SystemOrgEntity.ID, SystemOrgEntity.NUMBER);
+            List<SystemOrgEntity> orgEntities = systemOrgService.list(queryWrapper);
+            Map<String, Long> orgEntityMaps = orgEntities.parallelStream().collect(Collectors.toMap(SystemOrgEntity::getNumber, SystemOrgEntity::getId));
+            List<UserExcelDTO> excels = list.parallelStream().peek(excelDto -> excelDto.setDeptId(orgEntityMaps.get(excelDto.getDeptNumber()))).collect(Collectors.toList());
+            List<SystemUserEntity> entities = BeanUtils.transformFromInBatch(excels, SystemUserEntity.class);
+            entities.forEach(entity -> {
+                entity.setPassword(SecurityUtils.encryptPassword(entity.getPassword()));
+                UserVO userVO = BeanUtils.transformFrom(entity, UserVO.class);
+                assert userVO != null;
+                isNotNull(userVO, SystemConstants.IS_UPDATE);
+            });
+            return super.saveBatch(entities);
+        }
+        return false;
+    }
 
     /**
      * 不为空
      *
      * @param vo 用户信息
      */
-    private void isNotNull(UserVO vo, Integer isUpdate) {
+    private void isNotNull(SystemUserVO vo, Integer isUpdate) {
         String username = vo.getUsername();
         if (StringUtils.isBlank(username)) {
             throw new BaseException("用户账号为空");
@@ -131,5 +205,25 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
         if (Objects.isNull(deptId)) {
             throw new BaseException("用户组织不为空");
         }
+    }
+
+    private QueryWrapper<SystemUserEntity> getQuery(UserParams params) {
+        QueryWrapper<SystemUserEntity> queryWrapper = new QueryWrapper<>();
+        if (!Objects.isNull(params)) {
+            Long deptId = params.getDeptId();
+            if (!Objects.isNull(deptId)) {
+                queryWrapper.eq(SystemUserEntity.DEPTID, deptId);
+            }
+            if (StringUtils.isNotBlank(params.getNickName())) {
+                queryWrapper.eq(SystemUserEntity.NICK_NAME, params.getNickName());
+            }
+            if (StringUtils.isNotBlank(params.getUsername())) {
+                queryWrapper.eq(SystemUserEntity.USERNAME, params.getUsername());
+            }
+            if (Objects.nonNull(params.getIsEnabled())) {
+                queryWrapper.eq(SystemUserEntity.IS_ENABLED, params.getIsEnabled());
+            }
+        }
+        return queryWrapper;
     }
 }
