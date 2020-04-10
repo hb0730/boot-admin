@@ -1,8 +1,8 @@
 package com.hb0730.boot.admin.project.commons.service.impl;
 
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
-import com.hb0730.boot.admin.file.enums.AttachmentTypeEnum;
-import com.hb0730.boot.admin.file.enums.ValueEnum;
+import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
+import com.hb0730.boot.admin.commons.constant.enums.ValueEnum;
 import com.hb0730.boot.admin.file.handler.FileHandlers;
 import com.hb0730.boot.admin.file.model.UploadResult;
 import com.hb0730.boot.admin.project.commons.service.ICommonService;

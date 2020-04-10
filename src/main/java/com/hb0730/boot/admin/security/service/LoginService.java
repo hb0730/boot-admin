@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.security.service;
 
-import com.hb0730.boot.admin.commons.constant.SystemStatusEnum;
+import com.hb0730.boot.admin.commons.constant.enums.SystemStatusEnum;
 import com.hb0730.boot.admin.commons.utils.MessageUtils;
 import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.exception.UserPasswordNotMatchException;
@@ -52,10 +52,10 @@ public class LoginService {
                     .authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (Exception e) {
             if (e instanceof BadCredentialsException) {
-                AsyncManager.me().execute(AsyncFactory.recordLoginInfo(username, SystemStatusEnum.FAIL.ordinal(), MessageUtils.message("user.password.not.match")));
+                AsyncManager.me().execute(AsyncFactory.recordLoginInfo(username, SystemStatusEnum.FAIL.getValue(), MessageUtils.message("user.password.not.match")));
                 throw new UserPasswordNotMatchException();
             } else {
-                AsyncManager.me().execute(AsyncFactory.recordLoginInfo(username, SystemStatusEnum.FAIL.ordinal(), e.getMessage()));
+                AsyncManager.me().execute(AsyncFactory.recordLoginInfo(username, SystemStatusEnum.FAIL.getValue(), e.getMessage()));
                 throw new BaseException(e.getMessage());
             }
 
@@ -66,7 +66,7 @@ public class LoginService {
         LoginSuccess success = new LoginSuccess();
         success.setAccessToken(accessToken);
         success.setLoginUser(loginUser);
-        AsyncManager.me().execute(AsyncFactory.recordLoginInfo(username, SystemStatusEnum.SUCCESS.ordinal(), MessageUtils.message("login.success")));
+        AsyncManager.me().execute(AsyncFactory.recordLoginInfo(username, SystemStatusEnum.SUCCESS.getValue(), MessageUtils.message("login.success")));
         return success;
     }
 }

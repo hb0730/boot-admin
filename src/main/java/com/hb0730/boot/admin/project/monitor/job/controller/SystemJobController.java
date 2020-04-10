@@ -8,7 +8,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.annotation.Log;
-import com.hb0730.boot.admin.commons.constant.BusinessTypeEnum;
+import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;

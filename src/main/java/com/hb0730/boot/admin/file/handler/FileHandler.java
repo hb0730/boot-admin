@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.file.handler;
 
-import com.hb0730.boot.admin.file.enums.AttachmentTypeEnum;
+import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
 import com.hb0730.boot.admin.file.model.UploadResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;

@@ -7,7 +7,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.hb0730.boot.admin.commons.annotation.Log;
-import com.hb0730.boot.admin.commons.constant.BusinessTypeEnum;
+import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;

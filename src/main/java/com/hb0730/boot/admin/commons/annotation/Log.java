@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.commons.annotation;
 
-import com.hb0730.boot.admin.commons.constant.BusinessTypeEnum;
+import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 
 import java.lang.annotation.*;
 

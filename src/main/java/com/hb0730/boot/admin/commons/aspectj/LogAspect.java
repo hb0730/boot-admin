@@ -2,7 +2,7 @@ package com.hb0730.boot.admin.commons.aspectj;
 
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.annotation.Log;
-import com.hb0730.boot.admin.commons.constant.SystemStatusEnum;
+import com.hb0730.boot.admin.commons.constant.enums.SystemStatusEnum;
 import com.hb0730.boot.admin.commons.utils.ServletUtils;
 import com.hb0730.boot.admin.commons.utils.ip.IpUtils;
 import com.hb0730.boot.admin.commons.utils.json.GsonUtils;
@@ -88,9 +88,9 @@ public class LogAspect {
             // 日志存储
 
             SystemOperLogEntity entity = new SystemOperLogEntity();
-            entity.setStatus(SystemStatusEnum.SUCCESS.ordinal());
+            entity.setStatus(SystemStatusEnum.SUCCESS.getValue());
             // 操作类型
-            entity.setBusinessType(log.businessType().ordinal());
+            entity.setBusinessType(log.businessType().getValue());
             // 请求的地址
             String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
             entity.setOperIp(ip);
@@ -102,7 +102,7 @@ public class LogAspect {
             entity.setMethod(className + "." + methodName + "()");
             // 异常
             if (e != null) {
-                entity.setStatus(SystemStatusEnum.FAIL.ordinal());
+                entity.setStatus(SystemStatusEnum.FAIL.getValue());
                 entity.setErrorMsg(StringUtils.substring(e.getMessage(), 0, 2000));
             }
             if (loginUser != null) {
@@ -133,7 +133,7 @@ public class LogAspect {
      * @param entity 日志实体信息
      */
     void getControllerMethodDescription(JoinPoint joinPoint, Log log, SystemOperLogEntity entity) {
-        entity.setBusinessType(log.businessType().ordinal());
+        entity.setBusinessType(log.businessType().getValue());
         entity.setModule(log.module());
         entity.setTitle(log.title());
         //保存请求参数

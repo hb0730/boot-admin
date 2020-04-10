@@ -6,7 +6,7 @@ import com.aliyun.oss.model.PutObjectResult;
 import com.hb0730.boot.admin.commons.utils.ImageUtils;
 import com.hb0730.boot.admin.exception.FileOperationException;
 import com.hb0730.boot.admin.file.configuration.AliOssProperties;
-import com.hb0730.boot.admin.file.enums.AttachmentTypeEnum;
+import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
 import com.hb0730.boot.admin.file.model.UploadResult;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.shaded.commons.io.FilenameUtils;

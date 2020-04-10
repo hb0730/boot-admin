@@ -4,8 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
+import com.hb0730.boot.admin.commons.constant.enums.ValueEnum;
 import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
+import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.project.monitor.operlog.mapper.ISystemOperLogMapper;
+import com.hb0730.boot.admin.project.monitor.operlog.model.dto.OperLogDTO;
 import com.hb0730.boot.admin.project.monitor.operlog.model.entity.SystemOperLogEntity;
 import com.hb0730.boot.admin.project.monitor.operlog.model.vo.OperLogParams;
 import com.hb0730.boot.admin.project.monitor.operlog.model.vo.SystemOperLogVO;
@@ -14,8 +18,11 @@ import com.hb0730.boot.admin.project.system.user.model.entity.SystemUserEntity;
 import com.hb0730.boot.admin.project.system.user.util.UserUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -33,6 +40,24 @@ public class SystemOperLogServiceImpl extends ServiceImpl<ISystemOperLogMapper, 
     public PageInfo<SystemOperLogVO> list(Integer page, Integer pageSize, OperLogParams params) {
         page = page == null ? 1 : page;
         pageSize = pageSize == null ? 10 : pageSize;
+        PageHelper.startPage(page, pageSize);
+        QueryWrapper<SystemOperLogEntity> queryWrapper = getQuery(params);
+        PageInfo<SystemOperLogEntity> pageInfo = new PageInfo<>(super.list(queryWrapper));
+        return PageInfoUtil.toBean(pageInfo, SystemOperLogVO.class);
+    }
+
+    @Override
+    public List<OperLogDTO> export(OperLogParams params) {
+        QueryWrapper<SystemOperLogEntity> queryWrapper = getQuery(params);
+        List<SystemOperLogEntity> entities = super.list(queryWrapper);
+        List<OperLogDTO> list = BeanUtils.transformFromInBatch(entities, OperLogDTO.class);
+        if (!CollectionUtils.isEmpty(list)) {
+            return list.parallelStream().peek(dto -> dto.setBusinessTypeName(ValueEnum.valueToEnum(BusinessTypeEnum.class, dto.getBusinessType()).name())).collect(Collectors.toList());
+        }
+        return null;
+    }
+
+    private QueryWrapper<SystemOperLogEntity> getQuery(OperLogParams params) {
         QueryWrapper<SystemOperLogEntity> queryWrapper = new QueryWrapper<>();
         if (Objects.nonNull(params)) {
             if (StringUtils.isNotBlank(params.getModule())) {
@@ -55,8 +80,6 @@ public class SystemOperLogServiceImpl extends ServiceImpl<ISystemOperLogMapper, 
                 queryWrapper.apply("date_format(create_time,'%y%m%d') <= date_format({0},'%y%m%d')", params.getEndTime());
             }
         }
-        PageHelper.startPage(page, pageSize);
-        PageInfo<SystemOperLogEntity> pageInfo = new PageInfo<>(super.list(queryWrapper));
-        return PageInfoUtil.toBean(pageInfo, SystemOperLogVO.class);
+        return queryWrapper;
     }
 }
