@@ -8,10 +8,13 @@ spring boot Admin management template
 
 ## boot-admin 用户名与密码
  + Administrator/123456
- 
+## oss存储
+  + local本地
+  + aliyun oss存储 
 # 前端
  <https://github.com/hb0730/boot-admin-ui>
 #  技术
+ * jdk 11 
   * spring boot 2.2.5.RELEASE
   * mybatisPlus 3.3.1.tmp
   * pagehelper 1.2.13

@@ -1,28 +1,36 @@
 package com.hb0730.boot.admin.project.system.post.controller;
 
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.support.ExcelTypeEnum;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.annotation.Log;
-import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
-import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
+import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
+import com.hb0730.boot.admin.commons.utils.excel.ExcelConstant;
+import com.hb0730.boot.admin.commons.utils.excel.ExcelUtils;
+import com.hb0730.boot.admin.commons.utils.excel.UploadDataListener;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
+import com.hb0730.boot.admin.exception.ExportException;
+import com.hb0730.boot.admin.project.system.post.model.dto.PostExcelDto;
 import com.hb0730.boot.admin.project.system.post.model.entity.SystemPostEntity;
 import com.hb0730.boot.admin.project.system.post.model.vo.PostParams;
 import com.hb0730.boot.admin.project.system.post.model.vo.SystemPostVO;
 import com.hb0730.boot.admin.project.system.post.service.ISystemPostService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
 import static com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants.REQUEST_POST;
 
@@ -52,12 +60,6 @@ public class SystemPostController extends BaseController {
     @Log(paramsName = {"vo"}, module = ModuleName.POST, title = "岗位保存", businessType = BusinessTypeEnum.INSERT)
     public Result save(@RequestBody SystemPostVO vo) {
         SystemPostEntity entity = BeanUtils.transformFrom(vo, SystemPostEntity.class);
-        QueryWrapper<SystemPostEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(SystemPostEntity.NUMBER, vo.getNumber());
-        int count = systemPostService.count(queryWrapper);
-        if (count > 0) {
-            return ResponseResult.resultFall("岗位编码已存在");
-        }
         systemPostService.save(entity);
         return ResponseResult.resultSuccess("保存成功");
     }
@@ -74,22 +76,7 @@ public class SystemPostController extends BaseController {
      */
     @PostMapping("/all/{page}/{pageSize}")
     public Result getPostPage(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody PostParams params) {
-        PageHelper.startPage(page, pageSize);
-        QueryWrapper<SystemPostEntity> queryWrapper = new QueryWrapper<>();
-        if (Objects.nonNull(params)) {
-            if (StringUtils.isNotBlank(params.getName())) {
-                queryWrapper.eq(SystemPostEntity.NAME, params.getName());
-            }
-            if (StringUtils.isNotBlank(params.getNumber())) {
-                queryWrapper.eq(SystemPostEntity.NUMBER, params.getNumber());
-            }
-            if (Objects.nonNull(params.getIsEnabled())) {
-                queryWrapper.eq(SystemPostEntity.IS_ENABLED, params.getIsEnabled());
-            }
-        }
-        List<SystemPostEntity> entities = systemPostService.list(queryWrapper);
-        PageInfo<SystemPostEntity> pageInfo = new PageInfo<>(entities);
-        PageInfo<SystemPostVO> info = PageInfoUtil.toBean(pageInfo, SystemPostVO.class);
+        PageInfo<SystemPostVO> info = systemPostService.list(page, pageSize, params);
         return ResponseResult.resultSuccess(info);
     }
 
@@ -157,5 +144,45 @@ public class SystemPostController extends BaseController {
         }
         return ResponseResult.resultFall("请选择");
     }
+
+    /**
+     * <p>
+     * 导出
+     * </p>
+     *
+     * @param response 响应
+     * @param params   过滤条件
+     */
+    @PostMapping("/export")
+    @Log(paramsName = "params", module = ModuleName.POST, title = "岗位导出", businessType = BusinessTypeEnum.EXPORT)
+    public void export(HttpServletResponse response, @RequestBody PostParams params) {
+        List<PostExcelDto> export = systemPostService.export(params);
+        try {
+            Map<String, Object> maps = Maps.newHashMap();
+            maps.put(ExcelConstant.FILE_NAME, "post_export");
+            maps.put(ExcelConstant.DATA_LIST, export);
+            ExcelUtils.writeWeb(response, maps, ExcelTypeEnum.XLS, PostExcelDto.class);
+        } catch (Exception e) {
+            e.getStackTrace();
+            throw new ExportException("岗位导出失败", e);
+        }
+    }
+
+    /**
+     * <p>
+     * 岗位导入
+     * </p>
+     *
+     * @param file file
+     * @return 是否成功
+     */
+    @PostMapping("/upload")
+    @Log(module = ModuleName.POST, title = "岗位导入", businessType = BusinessTypeEnum.IMPORT)
+    public Result upload(MultipartFile file) throws IOException {
+        EasyExcel.read(file.getInputStream(), PostExcelDto.class, new UploadDataListener(systemPostService)).sheet().doRead();
+        return ResponseResult.resultSuccess("导入成功");
+    }
+
+
 }
 
