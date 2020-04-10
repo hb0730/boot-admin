@@ -6,7 +6,6 @@ import com.hb0730.boot.admin.commons.domain.ExcelDomain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 
 /**
  * <p>
@@ -72,6 +71,6 @@ public class JobExportDto extends ExcelDomain {
     /**
      * 是否启用
      */
-    @ExcelIgnore
+    @ExcelProperty(value = "状态(1 启用|0 禁用)")
     private Integer isEnabled;
 }

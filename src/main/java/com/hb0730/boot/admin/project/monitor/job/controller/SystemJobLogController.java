@@ -1,13 +1,19 @@
 package com.hb0730.boot.admin.project.monitor.job.controller;
 
 
+import com.alibaba.excel.support.ExcelTypeEnum;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.annotation.Log;
 import com.hb0730.boot.admin.commons.constant.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
+import com.hb0730.boot.admin.commons.utils.excel.ExcelConstant;
+import com.hb0730.boot.admin.commons.utils.excel.ExcelUtils;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
+import com.hb0730.boot.admin.exception.ExportException;
+import com.hb0730.boot.admin.project.monitor.job.model.dto.JobLogExportDTO;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobLogEntity;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.JobLogParams;
 import com.hb0730.boot.admin.project.monitor.job.service.ISystemJobLogService;
@@ -15,7 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 import static com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants.REQUEST_JOB_LOG;
 
@@ -46,6 +54,29 @@ public class SystemJobLogController extends BaseController {
     @PostMapping("/all/page/{page}/{pageSize}")
     public Result getAllPage(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody JobLogParams params) {
         return ResponseResult.resultSuccess(systemJobLogService.list(page, pageSize, params));
+    }
+
+    /**
+     * <p>
+     * 导出
+     * </p>
+     *
+     * @param response 响应
+     * @param params   过滤参数
+     */
+    @PostMapping("/export")
+    @Log(paramsName = "params", module = ModuleName.JOBLOG, title = "调度日志导出", businessType = BusinessTypeEnum.EXPORT)
+    public void export(HttpServletResponse response, @RequestBody JobLogParams params) {
+        Map<String, Object> maps = Maps.newHashMap();
+        maps.put(ExcelConstant.FILE_NAME, "job_log_export");
+        try {
+            List<JobLogExportDTO> export = systemJobLogService.export(params);
+            maps.put(ExcelConstant.DATA_LIST, export);
+            ExcelUtils.writeWeb(response, maps, ExcelTypeEnum.XLS, JobLogExportDTO.class);
+        } catch (Exception e) {
+            e.getStackTrace();
+            throw new ExportException("导出任务调度日志失败", e);
+        }
     }
 
     /**

@@ -2,9 +2,12 @@ package com.hb0730.boot.admin.project.monitor.job.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
+import com.hb0730.boot.admin.project.monitor.job.model.dto.JobLogExportDTO;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobLogEntity;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.JobLogParams;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.SystemJobLogVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -27,4 +30,14 @@ public interface ISystemJobLogService extends IService<SystemJobLogEntity> {
      * @return 分页后的日志
      */
     PageInfo<SystemJobLogVO> list(Integer page, Integer pageSize, JobLogParams params);
+
+    /**
+     * <p>
+     * 导出
+     * </p>
+     *
+     * @param params 过滤参数
+     * @return 导出信息
+     */
+    List<JobLogExportDTO> export(JobLogParams params);
 }
