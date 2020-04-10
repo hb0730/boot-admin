@@ -131,6 +131,7 @@
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
         </dependency>
+        <!--gson-->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
@@ -146,7 +147,7 @@
             <artifactId>commons-beanutils</artifactId>
             <version>${beanutils-commons.version}</version>
         </dependency>
-        <!---->
+        <!--连接池-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
@@ -182,6 +183,7 @@
             <artifactId>aliyun-sdk-oss</artifactId>
             <version>${aliyun.sdk.oss.version}</version>
         </dependency>
+        <!--easyExcel 解析 导入导出-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>easyexcel</artifactId>

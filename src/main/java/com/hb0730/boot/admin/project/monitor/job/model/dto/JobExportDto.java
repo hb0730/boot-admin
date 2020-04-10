@@ -5,6 +5,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.hb0730.boot.admin.commons.domain.ExcelDomain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
@@ -17,7 +18,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
+@ToString
 public class JobExportDto extends ExcelDomain {
 
     private static final long serialVersionUID = 1L;
@@ -29,42 +30,48 @@ public class JobExportDto extends ExcelDomain {
     /**
      * 备注
      */
-    @ExcelProperty(value = "备注", index = 5)
+    @ExcelProperty(value = "备注", index = -1)
     private String description;
 
     /**
      * number
      */
-    @ExcelProperty(value = "编码", index = -1)
+    @ExcelProperty(value = "编码", index = 0)
     private String number;
 
     /**
      * name
      */
-    @ExcelProperty(value = "名称", index = 0)
+    @ExcelProperty(value = "名称", index = 1)
     private String name;
 
     /**
      * 调用目标
      */
-    @ExcelProperty(value = "调用类", index = 1)
+    @ExcelProperty(value = "调用类", index = 2)
     private String beanName;
 
     /**
      * 调用方法
      */
-    @ExcelProperty(value = "调用方法", index = 2)
+    @ExcelProperty(value = "调用方法", index = 3)
     private String methodName;
 
     /**
      * 参数
      */
-    @ExcelProperty(value = "调用参数", index = 3)
+    @ExcelProperty(value = "调用参数", index = 4)
     private String params;
 
     /**
      * 表达式
      */
-    @ExcelProperty(value = "表达式", index = 4)
+    @ExcelProperty(value = "表达式", index = 5)
     private String cron;
+
+    /**
+     * 是否启用
+     */
+    @ExcelIgnore
+    private Integer isEnabled;
 }

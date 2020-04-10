@@ -6,6 +6,7 @@ import com.hb0730.boot.admin.commons.constant.ActionEnum;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.event.job.JobEvent;
 import com.hb0730.boot.admin.exception.BaseException;
+import com.hb0730.boot.admin.exception.FileUploadException;
 import com.hb0730.boot.admin.project.monitor.job.mapper.ISystemJobMapper;
 import com.hb0730.boot.admin.project.monitor.job.model.dto.JobExportDto;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobEntity;
@@ -95,8 +96,24 @@ public class SystemJobServiceImpl extends ServiceImpl<ISystemJobMapper, SystemJo
     }
 
     @Override
-    public boolean upload(Collection<JobExportDto> entity) {
+    @Transactional(rollbackFor = Exception.class)
+    public boolean upload(Collection<JobExportDto> list) {
         System.out.println("导入");
+        QueryWrapper<SystemJobEntity> queryWrapper = new QueryWrapper<>();
+        list.forEach((dto) -> {
+            String number = dto.getNumber();
+            queryWrapper.eq(SystemJobEntity.NUMBER, number);
+            int count = super.count(queryWrapper);
+            if (count > 0) {
+                String s = String.format("定时任务 %s 已存在，请检查", number);
+                throw new FileUploadException(s);
+            }
+            SystemJobEntity entity = new SystemJobEntity();
+            org.springframework.beans.BeanUtils.copyProperties(dto, entity);
+            verify(entity);
+        });
+        List<SystemJobEntity> entities = BeanUtils.transformFromInBatch(list, SystemJobEntity.class);
+
         return false;
     }
 }

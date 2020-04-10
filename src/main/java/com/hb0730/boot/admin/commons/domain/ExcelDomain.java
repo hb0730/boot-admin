@@ -18,46 +18,5 @@ import java.util.Date;
 @Data
 @ToString
 public class ExcelDomain implements Serializable {
-    /**
-     * 创建人
-     */
-    @ExcelIgnore
-    private Long createUserId;
 
-    /**
-     * 创建时间
-     */
-    @ExcelIgnore
-    private Date createTime;
-
-    /**
-     * 更新者
-     */
-    @ExcelIgnore
-    private Long updateUserId;
-
-    /**
-     * 创建时间
-     */
-    @ExcelIgnore
-    private Date updateTime;
-
-    /**
-     * <p>
-     * 是否启用
-     * </p>
-     */
-    @ExcelIgnore
-    private Integer isEnabled;
-
-    /**
-     * 是否删除
-     */
-    @ExcelIgnore
-    private Integer delFlag = 0;
-    /**
-     * 版本
-     */
-    @ExcelIgnore
-    private Integer version;
 }

@@ -12,6 +12,7 @@ import java.util.Map;
 
 /**
  * <p>
+ * Google gson util
  * </P>
  *
  * @author bing_huang

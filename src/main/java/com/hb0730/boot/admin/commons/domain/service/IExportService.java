@@ -18,8 +18,8 @@ public interface IExportService<T extends ExcelDomain> {
      * 文件上傳
      * </p>
      *
-     * @param entity 导入信息
+     * @param list 导入信息
      * @return 是否成功
      */
-    boolean upload(Collection<T> entity);
+    boolean upload(Collection<T> list);
 }
