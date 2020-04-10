@@ -24,6 +24,8 @@ spring boot Admin management template
   * gson 2.8.6
   * lombok 1.18.10
   * easyexcel 2.1.6
+# 在线访问地址
+  http://admin.hb0730.com
   
 # thanks
  * [RuoYi-Vue](https://github.com/yangzongzhuan/RuoYi-Vue)
