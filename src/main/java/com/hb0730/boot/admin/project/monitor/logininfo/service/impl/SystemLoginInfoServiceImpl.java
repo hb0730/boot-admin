@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
+import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.project.monitor.logininfo.mapper.ISystemLoginInfoMapper;
+import com.hb0730.boot.admin.project.monitor.logininfo.model.dto.LoginInfoDTO;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.entity.SystemLoginInfoEntity;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.vo.LoginfoParams;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.vo.SystemLoginfoVO;
@@ -13,6 +15,7 @@ import com.hb0730.boot.admin.project.monitor.logininfo.service.ISystemLoginInfoS
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -30,6 +33,28 @@ public class SystemLoginInfoServiceImpl extends ServiceImpl<ISystemLoginInfoMapp
     public PageInfo<SystemLoginfoVO> list(Integer page, Integer pageSize, LoginfoParams params) {
         page = page == null ? 1 : page;
         pageSize = pageSize == null ? 10 : pageSize;
+        QueryWrapper<SystemLoginInfoEntity> queryWrapper = getQuery(params);
+        PageHelper.startPage(page, pageSize);
+        PageInfo<SystemLoginInfoEntity> pageInfo = new PageInfo<>(super.list(queryWrapper));
+        return PageInfoUtil.toBean(pageInfo, SystemLoginfoVO.class);
+    }
+
+    @Override
+    public List<LoginInfoDTO> export(LoginfoParams params) {
+        QueryWrapper<SystemLoginInfoEntity> queryWrapper = getQuery(params);
+        List<SystemLoginInfoEntity> entities = super.list(queryWrapper);
+        return BeanUtils.transformFromInBatch(entities, LoginInfoDTO.class);
+    }
+
+    /**
+     * <p>
+     * 获取查询条件
+     * </p>
+     *
+     * @param params 过滤条件
+     * @return 查询条件
+     */
+    private QueryWrapper<SystemLoginInfoEntity> getQuery(LoginfoParams params) {
         QueryWrapper<SystemLoginInfoEntity> queryWrapper = new QueryWrapper<>();
         if (Objects.nonNull(params)) {
             if (StringUtils.isNotBlank(params.getUsername())) {
@@ -45,8 +70,6 @@ public class SystemLoginInfoServiceImpl extends ServiceImpl<ISystemLoginInfoMapp
                 queryWrapper.apply("date_format(create_time,'%y%m%d') <= date_format({0},'%y%m%d')", params.getEndTime());
             }
         }
-        PageHelper.startPage(page, pageSize);
-        PageInfo<SystemLoginInfoEntity> pageInfo = new PageInfo<>(super.list(queryWrapper));
-        return PageInfoUtil.toBean(pageInfo, SystemLoginfoVO.class);
+        return queryWrapper;
     }
 }

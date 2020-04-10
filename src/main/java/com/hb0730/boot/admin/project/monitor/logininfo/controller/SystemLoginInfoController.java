@@ -1,13 +1,19 @@
 package com.hb0730.boot.admin.project.monitor.logininfo.controller;
 
 
+import com.alibaba.excel.support.ExcelTypeEnum;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.annotation.Log;
 import com.hb0730.boot.admin.commons.constant.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
+import com.hb0730.boot.admin.commons.utils.excel.ExcelConstant;
+import com.hb0730.boot.admin.commons.utils.excel.ExcelUtils;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
+import com.hb0730.boot.admin.exception.ExportException;
+import com.hb0730.boot.admin.project.monitor.logininfo.model.dto.LoginInfoDTO;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.entity.SystemLoginInfoEntity;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.vo.LoginfoParams;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.vo.SystemLoginfoVO;
@@ -16,7 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -50,6 +58,29 @@ public class SystemLoginInfoController extends BaseController {
     public Result getPageAll(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody LoginfoParams params) {
         PageInfo<SystemLoginfoVO> list = systemLoginInfoService.list(page, pageSize, params);
         return ResponseResult.resultSuccess(list);
+    }
+
+    /**
+     * <p>
+     * 登录日志导出
+     * </p>
+     *
+     * @param response 响应
+     * @param params   过滤条件
+     */
+    @PostMapping("/export")
+    @Log(paramsName = "params", module = ModuleName.LOGIN_INFO, title = "登录日志导出", businessType = BusinessTypeEnum.EXPORT)
+    public void export(HttpServletResponse response, @RequestBody LoginfoParams params) {
+        List<LoginInfoDTO> export = systemLoginInfoService.export(params);
+        Map<String, Object> maps = Maps.newHashMap();
+        maps.put(ExcelConstant.FILE_NAME, "login_log");
+        maps.put(ExcelConstant.DATA_LIST, export);
+        try {
+            ExcelUtils.writeWeb(response, maps, ExcelTypeEnum.XLS, LoginInfoDTO.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ExportException("导入登录日志失败", e);
+        }
     }
 
     /**
