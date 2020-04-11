@@ -1,6 +1,8 @@
 package com.hb0730.boot.admin.security.service;
 
+import com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum;
 import com.hb0730.boot.admin.security.model.LoginUser;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +31,16 @@ public interface ITokenService {
      */
 
     Long MILLIS_MINUTE_TEN = 20 * 60 * 1000L;
+
+    /**
+     * <p>
+     * 获取当前登录用户
+     * </p>
+     *
+     * @param request 请求
+     * @return 登录用户
+     */
+    public LoginUser getLoginUser(HttpServletRequest request);
 
     /**
      * 创建token
@@ -82,4 +94,12 @@ public interface ITokenService {
      * @return 在线用户
      */
     Map<String, UserDetails> getOnline();
+
+    /**
+     * 检查是否支持给定类型
+     *
+     * @param type 附件类型
+     * @return true为支持类型
+     */
+    boolean supportType(@Nullable TokenTypeEnum type);
 }

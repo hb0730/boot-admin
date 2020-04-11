@@ -2,6 +2,7 @@ package com.hb0730.boot.admin.security.service;
 
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.constant.SecurityConstants;
+import com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum;
 import com.hb0730.boot.admin.commons.utils.ServletUtils;
 import com.hb0730.boot.admin.commons.utils.ip.IpUtils;
 import com.hb0730.boot.admin.security.model.LoginUser;
@@ -29,11 +30,13 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since V1.0
  */
 @Component
-public class TokenServiceImpl implements ITokenService {
+public class InMemoryTokenServiceImpl implements ITokenService {
     // 存储令牌 token
     private final ConcurrentHashMap<String, String> accessTokenStore = new ConcurrentHashMap<String, String>();
     // 存储token 用户
     private final ConcurrentHashMap<String, LoginUser> authenticationStore = new ConcurrentHashMap<String, LoginUser>();
+
+
     /**
      * 令牌自定义标识
      */
@@ -52,6 +55,7 @@ public class TokenServiceImpl implements ITokenService {
     @Value("${token.expireTime:30}")
     private int expireTime;
 
+    @Override
     public LoginUser getLoginUser(HttpServletRequest request) {
         // 获取请求携带的令牌
         String token = getToken(request);
@@ -119,6 +123,11 @@ public class TokenServiceImpl implements ITokenService {
             return maps;
         }
         return null;
+    }
+
+    @Override
+    public boolean supportType(TokenTypeEnum type) {
+        return TokenTypeEnum.LOCAL.equals(type);
     }
 
     /**

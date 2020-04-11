@@ -1,3 +1,5 @@
+# v1.0.1.beta
+ * add redis token 
 # v1.0.0
  * 模拟实现spring security认证登录,角色,权限以及注销等
  * 实现了RBAC认证

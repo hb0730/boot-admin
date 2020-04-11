@@ -38,4 +38,10 @@ public class BootAdminProperties {
      * 文件上传类型
      */
     private Integer attachmentType = 0;
+
+    /***
+     * token存储类型
+     * @see  com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum
+     */
+    private Integer tokenType=0;
 }

@@ -1,9 +1,13 @@
 package com.hb0730.boot.admin.security.filter;
 
-import com.hb0730.boot.admin.security.model.LoginUser;
+import com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum;
+import com.hb0730.boot.admin.commons.constant.enums.ValueEnum;
 import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
-import com.hb0730.boot.admin.security.service.TokenServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
+import com.hb0730.boot.admin.security.handle.TokenHandlers;
+import com.hb0730.boot.admin.security.model.LoginUser;
+import com.hb0730.boot.admin.security.service.ITokenService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -28,11 +32,23 @@ import java.util.Objects;
  */
 @Component
 public class AuthenticationTokenFilter extends OncePerRequestFilter {
-    @Autowired
-    private TokenServiceImpl tokenService;
+    /**
+     * token service
+     */
+    private final TokenHandlers tokenHandlers;
+    /**
+     * tokenpeizhi
+     */
+    private final BootAdminProperties properties;
+
+    public AuthenticationTokenFilter(TokenHandlers tokenHandlers, BootAdminProperties properties) {
+        this.tokenHandlers = tokenHandlers;
+        this.properties = properties;
+    }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        ITokenService tokenService = tokenHandlers.getImpl(ValueEnum.valueToEnum(TokenTypeEnum.class, properties.getTokenType()));
         LoginUser loginUser = tokenService.getLoginUser(request);
         if (!Objects.isNull(loginUser) && StringUtils.isEmpty(SecurityUtils.getAuthentication())) {
             tokenService.verifyAccessToken(loginUser);

@@ -1,14 +1,17 @@
 package com.hb0730.boot.admin.project.monitor.useronline.service.impl;
 
 import com.google.common.collect.Lists;
+import com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum;
+import com.hb0730.boot.admin.commons.constant.enums.ValueEnum;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
+import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.project.monitor.useronline.model.vo.ParamsVO;
 import com.hb0730.boot.admin.project.monitor.useronline.model.vo.UserOnlineVO;
 import com.hb0730.boot.admin.project.monitor.useronline.service.IUserOnlineService;
+import com.hb0730.boot.admin.security.handle.TokenHandlers;
 import com.hb0730.boot.admin.security.model.LoginUser;
 import com.hb0730.boot.admin.security.service.ITokenService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -27,8 +30,20 @@ import java.util.stream.Collectors;
  */
 @Service
 public class UserOnlineServiceImpl implements IUserOnlineService {
-    @Autowired
-    private ITokenService service;
+    //    @Autowired
+//    private ITokenService service;
+    private TokenHandlers tokenHandlers;
+    private BootAdminProperties properties;
+
+    public UserOnlineServiceImpl(TokenHandlers tokenHandlers, BootAdminProperties properties) {
+        this.tokenHandlers = tokenHandlers;
+        this.properties = properties;
+    }
+
+    private ITokenService getTokenService() {
+        TokenTypeEnum tokenTypeEnum = ValueEnum.valueToEnum(TokenTypeEnum.class, properties.getTokenType());
+        return tokenHandlers.getImpl(tokenTypeEnum);
+    }
 
     @Override
     public List<UserOnlineVO> getOnlineUser(ParamsVO vo) {
@@ -55,7 +70,7 @@ public class UserOnlineServiceImpl implements IUserOnlineService {
             return false;
         }
         for (String s : token) {
-            service.deleteAccessToken(s);
+            getTokenService().deleteAccessToken(s);
         }
         return true;
     }
@@ -68,7 +83,7 @@ public class UserOnlineServiceImpl implements IUserOnlineService {
      * @return 缓存用户
      */
     private List<UserOnlineVO> getOnline() {
-        Map<String, UserDetails> online = service.getOnline();
+        Map<String, UserDetails> online = getTokenService().getOnline();
         if (!CollectionUtils.isEmpty(online)) {
             List<UserOnlineVO> lists = Lists.newArrayList();
             for (Map.Entry<String, UserDetails> detailsEntry : online.entrySet()) {

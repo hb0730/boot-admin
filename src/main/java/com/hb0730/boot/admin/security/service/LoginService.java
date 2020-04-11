@@ -1,21 +1,22 @@
 package com.hb0730.boot.admin.security.service;
 
 import com.hb0730.boot.admin.commons.constant.enums.SystemStatusEnum;
+import com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum;
+import com.hb0730.boot.admin.commons.constant.enums.ValueEnum;
 import com.hb0730.boot.admin.commons.utils.MessageUtils;
+import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.exception.UserPasswordNotMatchException;
 import com.hb0730.boot.admin.manager.AsyncManager;
 import com.hb0730.boot.admin.manager.factory.AsyncFactory;
+import com.hb0730.boot.admin.security.handle.TokenHandlers;
 import com.hb0730.boot.admin.security.model.LoginSuccess;
 import com.hb0730.boot.admin.security.model.LoginUser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * <p>
@@ -26,12 +27,16 @@ import javax.annotation.Resource;
  */
 @Component
 public class LoginService {
-    @Autowired
-    private TokenServiceImpl tokenService;
 
-    @Resource
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final BootAdminProperties properties;
+    private final TokenHandlers tokenHandlers;
 
+    public LoginService(AuthenticationManager authenticationManager, BootAdminProperties properties, TokenHandlers tokenHandlers) {
+        this.authenticationManager = authenticationManager;
+        this.properties = properties;
+        this.tokenHandlers = tokenHandlers;
+    }
 
     /**
      * <p>
@@ -62,11 +67,17 @@ public class LoginService {
         }
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         // 生成token
-        String accessToken = tokenService.createAccessToken(loginUser);
+        String accessToken = getToken().createAccessToken(loginUser);
         LoginSuccess success = new LoginSuccess();
         success.setAccessToken(accessToken);
         success.setLoginUser(loginUser);
         AsyncManager.me().execute(AsyncFactory.recordLoginInfo(username, SystemStatusEnum.SUCCESS.getValue(), MessageUtils.message("login.success")));
         return success;
+    }
+
+
+    private ITokenService getToken() {
+        TokenTypeEnum tokenTypeEnum = ValueEnum.valueToEnum(TokenTypeEnum.class, properties.getTokenType());
+        return tokenHandlers.getImpl(tokenTypeEnum);
     }
 }
