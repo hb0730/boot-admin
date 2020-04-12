@@ -1,0 +1,11 @@
+version: '3.1'
+services:
+  hohofast:
+    restart: always
+    image: boot-admin
+    environment:
+      - SPRING_PROFILES_ACTIVE=test
+      - JAVA_OPTS=-server -Xms512m -Xmx512m -Xmn512m -XX:MaxMetaspaceSize=512m
+    volumes:
+    ports:
+      - 8080:8088

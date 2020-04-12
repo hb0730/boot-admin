@@ -30,7 +30,6 @@ public class LocalFileProperties {
      * 上传路径
      */
     private String profile = ensureSuffix(USER_HOME, FILE_SEPARATOR) + ".bootAdmin" + FILE_SEPARATOR;
-    ;
 
     public LocalFileProperties() throws IOException {
         // Create work directory if not exist

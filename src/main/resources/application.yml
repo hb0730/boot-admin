@@ -58,7 +58,8 @@ boot:
     attachmentType: 1
     oss:
       local:
-        profile:
+        # 注意 填写当前路径 如果使用docker请创建当前填写路径
+        profile: /root/log
       aliyun:
         endPoint:
         accessKey:
