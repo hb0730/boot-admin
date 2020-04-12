@@ -25,6 +25,7 @@ spring boot Admin management template
  * 定时任务管理: 动态定时任务,使用spring task
  * token存储方式: 提供内存模式与redis存储
  * oss存储方式: 提供本地local与阿里云OSS存储 
+ * spring security认证: 支持spring security el表达式
 ## 未实现
  * 消息管理: 公告,通知等
  
