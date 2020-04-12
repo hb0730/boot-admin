@@ -21,6 +21,15 @@ spring:
       connection-test-query: SELECT 1
   messages:
     basename: i18n/messages
+  redis:
+    host:
+    password:
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
 #mybatis-plus
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*Mapper.xml
@@ -56,6 +65,7 @@ boot:
     copyrightYear: 2020
     demoEnabled: false
     attachmentType: 1
+    tokenType: 1
     oss:
       local:
         # 注意 填写当前路径 如果使用docker请创建当前填写路径
@@ -65,3 +75,26 @@ boot:
         accessKey:
         accessSecret:
         bucketName:
+# alibaba jetcache wiki https://github.com/alibaba/jetcache/wiki/Config_CN
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  hiddenPackages: com.hb0730.boot.admin
+  local:
+    boot-admin:
+      type: caffeine
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+      limit: 100
+  remote:
+    boot-admin:
+      type: redis.lettuce
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+      uri: redis://${spring.redis.password}@${spring.redis.host}:${spring.redis.port}
+      poolConfig:
+        minIdle: 5
+        maxIdle: 20
+        maxTotal: 50

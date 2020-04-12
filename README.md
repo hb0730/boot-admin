@@ -28,6 +28,8 @@ spring boot Admin management template
  * spring security认证: 支持spring security el表达式
 ## 未实现
  * 消息管理: 公告,通知等
+ * oss对象存储可视化
+ 
  
 # 前端
  <https://github.com/hb0730/boot-admin-ui>
