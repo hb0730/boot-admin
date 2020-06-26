@@ -1,10 +1,24 @@
 package com.hb0730.boot.admin.project.system.role.service.impl;
 
-import com.hb0730.boot.admin.project.system.role.model.entity.SystemRoleEntity;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hb0730.boot.admin.commons.constant.SystemConstants;
+import com.hb0730.boot.admin.commons.domain.service.BaseServiceImpl;
+import com.hb0730.boot.admin.commons.utils.PageUtils;
+import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
+import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.project.system.role.mapper.ISystemRoleMapper;
+import com.hb0730.boot.admin.project.system.role.model.entity.SystemRoleEntity;
+import com.hb0730.boot.admin.project.system.role.model.vo.RoleParams;
+import com.hb0730.boot.admin.project.system.role.model.vo.SystemRoleVO;
 import com.hb0730.boot.admin.project.system.role.service.ISystemRoleService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -15,6 +29,37 @@ import org.springframework.stereotype.Service;
  * @since 2020-03-27
  */
 @Service
-public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, SystemRoleEntity> implements ISystemRoleService {
+public class SystemRoleServiceImpl extends BaseServiceImpl<ISystemRoleMapper, SystemRoleEntity> implements ISystemRoleService {
 
+    @Override
+    public QueryWrapper<SystemRoleEntity> query(@NonNull RoleParams params) {
+        @NotNull QueryWrapper<SystemRoleEntity> query = QueryWrapperUtils.getQuery(params);
+        if (StringUtils.isNotBlank(params.getEnname())) {
+            query.like(SystemRoleEntity.ENNAME, params.getEnname());
+        }
+        if (StringUtils.isNotBlank(params.getName())) {
+            query.like(SystemRoleEntity.NAME, params.getName());
+        }
+        if (Objects.nonNull(params.getIsEnabled())) {
+            query.eq(SystemRoleEntity.IS_ENABLED, params.getIsEnabled());
+        } else if (!Objects.isNull(params.getIsAll()) && !Objects.equals(params.getIsAll(), SystemConstants.IS_ALL)) {
+            query.eq(SystemRoleEntity.IS_ENABLED, SystemConstants.USE);
+        }
+        return query;
+    }
+
+    @Override
+    public List<SystemRoleVO> list(@NotNull RoleParams params) {
+        QueryWrapper<SystemRoleEntity> query = query(params);
+        List<SystemRoleEntity> entities = super.list(query);
+        return BeanUtils.transformFromInBatch(entities, SystemRoleVO.class);
+    }
+
+    @Override
+    public Page<SystemRoleVO> page(@NotNull RoleParams params) {
+        QueryWrapper<SystemRoleEntity> query = query(params);
+        @NotNull Page<SystemRoleEntity> page = QueryWrapperUtils.getPage(params);
+        page = super.page(page, query);
+        return PageUtils.toBean(page, SystemRoleVO.class);
+    }
 }
