@@ -1,8 +1,10 @@
 package com.hb0730.boot.admin.project.system.dict.service;
 
-import com.github.pagehelper.PageInfo;
-import com.hb0730.boot.admin.project.system.dict.model.entity.SystemDictEntity;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
+import com.hb0730.boot.admin.commons.domain.service.IBaseService;
+import com.hb0730.boot.admin.project.system.dict.model.entity.SystemDictEntity;
 import com.hb0730.boot.admin.project.system.dict.model.vo.DictParams;
 import com.hb0730.boot.admin.project.system.dict.model.vo.SystemDictVO;
 import org.springframework.lang.NonNull;
@@ -18,7 +20,7 @@ import java.util.Map;
  * @author bing_huang
  * @since 2020-03-30
  */
-public interface ISystemDictService extends IService<SystemDictEntity> {
+public interface ISystemDictService extends IService<SystemDictEntity>, IBaseService<DictParams, SystemDictEntity> {
 
     /**
      * <p>
@@ -31,7 +33,17 @@ public interface ISystemDictService extends IService<SystemDictEntity> {
      * @param params   过滤条件
      * @return 分页数量
      */
+    @Deprecated(since = "v1.0")
     PageInfo<SystemDictVO> getPageDict(Long parentId, Integer page, Integer pageSize, DictParams params);
+
+    /**
+     * 获取分页数据
+     *
+     * @param parentId 父id
+     * @param params   过滤条件
+     * @return 分页数量
+     */
+    Page<SystemDictVO> page(Long parentId, @NonNull DictParams params);
 
     /**
      * <p>

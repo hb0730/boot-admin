@@ -2,17 +2,17 @@ package com.hb0730.boot.admin.project.system.dict.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.commons.annotation.Log;
-import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
+import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
-import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
+import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.project.system.dict.model.entity.SystemDictEntity;
 import com.hb0730.boot.admin.project.system.dict.model.vo.DictParams;
 import com.hb0730.boot.admin.project.system.dict.model.vo.SystemDictVO;
@@ -43,20 +43,16 @@ public class SystemDictController extends BaseController {
     private ISystemDictService systemDictService;
 
     /**
-     * <p>
      * 数据字典(管理)
-     * </p>
      *
-     * @param page     分数
-     * @param pageSize 数量
-     * @param params   过滤菜蔬
+     * @param params 过滤菜蔬
      * @return 是否成功
      */
-    @PostMapping("/page/all/{page}/{pageSize}")
+    @PostMapping("/page/all")
     @PreAuthorize("hasAnyAuthority('dict:query','ROLE_ADMINISTRATOR','ROLE_DICT_ADMIN')")
-    public Result allPageList(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody DictParams params) {
-        PageInfo<SystemDictVO> info = systemDictService.getPageDict(SystemConstants.PARENT_ID, page, pageSize, params);
-        return ResponseResult.resultSuccess(info);
+    public Result<Page<SystemDictVO>> allPageList(@RequestBody DictParams params) {
+        Page<SystemDictVO> page = systemDictService.page(SystemConstants.PARENT_ID, params);
+        return ResponseResult.resultSuccess(page);
     }
 
     /**
@@ -65,16 +61,14 @@ public class SystemDictController extends BaseController {
      * </p>
      *
      * @param parentId 父id
-     * @param page     页数
-     * @param pageSize 数量
      * @param params   过滤参数
      * @return 字典信息
      */
-    @PostMapping("/page/all/data/{parentId}/{page}/{pageSize}")
+    @PostMapping("/page/all/data/{parentId}")
     @PreAuthorize("hasAnyAuthority('dict:data:query','ROLE_ADMINISTRATOR','ROLE_DICT_ADMIN')")
-    public Result allPageDataList(@PathVariable Long parentId, @PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody DictParams params) {
-        PageInfo<SystemDictVO> info = systemDictService.getPageDict(parentId, page, pageSize, params);
-        return ResponseResult.resultSuccess(info);
+    public Result<Page<SystemDictVO>> allPageDataList(@PathVariable Long parentId, @RequestBody DictParams params) {
+        Page<SystemDictVO> page = systemDictService.page(parentId, params);
+        return ResponseResult.resultSuccess(page);
     }
 
     /**
@@ -88,7 +82,7 @@ public class SystemDictController extends BaseController {
     @PostMapping("/save")
     @PreAuthorize("hasAnyAuthority('dict:save','ROLE_ADMINISTRATOR','ROLE_DICT_ADMIN')")
     @Log(paramsName = "vo", module = ModuleName.DICT, title = "新增", businessType = BusinessTypeEnum.INSERT)
-    public Result save(@RequestBody SystemDictVO vo) {
+    public Result<String> save(@RequestBody SystemDictVO vo) {
         if (Objects.isNull(vo.getParentId())) {
             vo.setParentId(SystemConstants.PARENT_ID);
         }
@@ -110,7 +104,7 @@ public class SystemDictController extends BaseController {
     @PostMapping("/update/{id}")
     @PreAuthorize("hasAnyAuthority('dict:update','ROLE_ADMINISTRATOR','ROLE_DICT_ADMIN')")
     @Log(paramsName = {"vo"}, module = ModuleName.DICT, title = "修改", businessType = BusinessTypeEnum.UPDATE)
-    public Result updateById(@PathVariable Long id, @RequestBody SystemDictVO vo) {
+    public Result<String> updateById(@PathVariable Long id, @RequestBody SystemDictVO vo) {
         verify(vo);
         systemDictService.updateById(id, vo);
         return ResponseResult.resultSuccess("保存成功");
@@ -127,7 +121,7 @@ public class SystemDictController extends BaseController {
     @GetMapping("/delete/id/{id}")
     @PreAuthorize("hasAnyAuthority('dict:delete','ROLE_ADMINISTRATOR','ROLE_DICT_ADMIN')")
     @Log(module = ModuleName.DICT, title = "删除", businessType = BusinessTypeEnum.DELETE)
-    public Result deleteById(@PathVariable Long id) {
+    public Result<String> deleteById(@PathVariable Long id) {
         systemDictService.removeById(id);
         return ResponseResult.resultSuccess("删除成功");
     }
@@ -141,7 +135,7 @@ public class SystemDictController extends BaseController {
     @PostMapping("/delete/id")
     @PreAuthorize("hasAnyAuthority('dict:delete','ROLE_ADMINISTRATOR','ROLE_DICT_ADMIN')")
     @Log(module = ModuleName.DICT, title = "删除", businessType = BusinessTypeEnum.DELETE)
-    public Result deleteByIds(@RequestBody List<Long> ids) {
+    public Result<String> deleteByIds(@RequestBody List<Long> ids) {
         if (!CollectionUtils.isEmpty(ids)) {
             systemDictService.removeByIds(ids);
             return ResponseResult.resultSuccess("删除成功");
@@ -157,7 +151,7 @@ public class SystemDictController extends BaseController {
      * @return map格式的数据字典
      */
     @GetMapping("/map")
-    public Result getDictForMap() {
+    public Result<Map<String, List>> getDictForMap() {
         Map<String, List> map = systemDictService.getDictForMap();
         return ResponseResult.resultSuccess(map);
     }

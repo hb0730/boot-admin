@@ -1,11 +1,9 @@
 package com.hb0730.boot.admin.project.system.dict.model.vo;
 
-import com.hb0730.boot.admin.commons.domain.BusinessDomain;
+import com.hb0730.boot.admin.commons.web.model.BaseParams;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
-
-import java.io.Serializable;
+import lombok.ToString;
 
 /**
  * <p>
@@ -16,7 +14,9 @@ import java.io.Serializable;
  * @since 2020-03-30
  */
 @Data
-public class DictParams implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+@ToString
+public class DictParams extends BaseParams {
     /**
      * 是否查询全部
      */

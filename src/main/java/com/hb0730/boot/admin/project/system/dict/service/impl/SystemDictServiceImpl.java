@@ -2,6 +2,7 @@ package com.hb0730.boot.admin.project.system.dict.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -10,6 +11,7 @@ import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.constant.VueConstants;
 import com.hb0730.boot.admin.commons.utils.PageUtils;
+import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.project.system.dict.mapper.ISystemDictMapper;
 import com.hb0730.boot.admin.project.system.dict.model.entity.SystemDictEntity;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -65,6 +68,16 @@ public class SystemDictServiceImpl extends ServiceImpl<ISystemDictMapper, System
         List<SystemDictEntity> entities = super.list(queryWrapper);
         PageInfo<SystemDictEntity> pageInfo = new PageInfo<>(entities);
         return PageUtils.toBean(pageInfo, SystemDictVO.class);
+    }
+
+    @Override
+    public Page<SystemDictVO> page(Long parentId, @NonNull DictParams params) {
+        parentId = parentId == null ? SystemConstants.PARENT_ID : parentId;
+        @NotNull QueryWrapper<SystemDictEntity> query = query(params);
+        query.eq(SystemDictEntity.PARENT_ID, parentId);
+        @NotNull Page<SystemDictEntity> page = QueryWrapperUtils.getPage(params);
+        page = super.page(page, query);
+        return PageUtils.toBean(page, SystemDictVO.class);
     }
 
     @Override
@@ -117,5 +130,21 @@ public class SystemDictServiceImpl extends ServiceImpl<ISystemDictMapper, System
             });
         }
         return maps;
+    }
+
+    @Override
+    public @NotNull QueryWrapper<SystemDictEntity> query(@NotNull DictParams params) {
+        @NotNull QueryWrapper<SystemDictEntity> query = QueryWrapperUtils.getQuery(params);
+        if (StringUtils.isNotBlank(params.getName())) {
+            query.eq(SystemDictEntity.NAME, params.getName());
+        }
+        if (StringUtils.isNotBlank(params.getNumber())) {
+            query.eq(SystemDictEntity.NUMBER, params.getNumber());
+        }
+        if (StringUtils.isNotBlank(params.getIsEnabled())) {
+            query.eq(SystemDictEntity.IS_ENABLED, params.getIsEnabled());
+        }
+
+        return query;
     }
 }
