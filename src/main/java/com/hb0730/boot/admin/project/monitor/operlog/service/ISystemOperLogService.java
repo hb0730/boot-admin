@@ -1,12 +1,14 @@
 package com.hb0730.boot.admin.project.monitor.operlog.service;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.project.monitor.operlog.model.dto.OperLogDTO;
 import com.hb0730.boot.admin.project.monitor.operlog.model.entity.SystemOperLogEntity;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.hb0730.boot.admin.project.monitor.operlog.model.vo.OperLogParams;
 import com.hb0730.boot.admin.project.monitor.operlog.model.vo.SystemOperLogVO;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -17,21 +19,20 @@ import java.util.List;
  * @author bing_huang
  * @since 2020-04-02
  */
-public interface ISystemOperLogService extends IService<SystemOperLogEntity> {
+public interface ISystemOperLogService extends IService<SystemOperLogEntity>, IBaseService<OperLogParams, SystemOperLogEntity> {
+
     /**
-     * <p>
      * 分页查询
-     * </p>
      *
-     * @param page 页数
-     * @param pageSize 数量
      * @param params 过滤条件
      * @return 分页后的信息
+     * @since v2.0
      */
-    PageInfo<SystemOperLogVO> list(Integer page, Integer pageSize, OperLogParams params);
+    Page<SystemOperLogVO> page(@NotNull OperLogParams params);
 
     /**
      * 导出
+     *
      * @param params 过滤参数
      * @return 导出信息
      */

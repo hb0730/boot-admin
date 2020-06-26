@@ -2,6 +2,7 @@ package com.hb0730.boot.admin.project.monitor.operlog.controller;
 
 
 import com.alibaba.excel.support.ExcelTypeEnum;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.annotation.Log;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
@@ -15,6 +16,7 @@ import com.hb0730.boot.admin.exception.ExportException;
 import com.hb0730.boot.admin.project.monitor.operlog.model.dto.OperLogDTO;
 import com.hb0730.boot.admin.project.monitor.operlog.model.entity.SystemOperLogEntity;
 import com.hb0730.boot.admin.project.monitor.operlog.model.vo.OperLogParams;
+import com.hb0730.boot.admin.project.monitor.operlog.model.vo.SystemOperLogVO;
 import com.hb0730.boot.admin.project.monitor.operlog.service.ISystemOperLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -48,15 +50,14 @@ public class SystemOperLogController extends BaseController {
      * 获取操作日志
      * </P>
      *
-     * @param page     页数
-     * @param pageSize 数量
-     * @param params   过滤条件
+     * @param params 过滤条件
      * @return 分页后的操作日志
      */
-    @PostMapping("/all/page/{page}/{pageSize}")
+    @PostMapping("/all/page")
     @PreAuthorize("hasAnyAuthority('oper:log:query','ROLE_ADMINISTRATOR','ROLE_OPER_LOG_ADMIN')")
-    public Result getAllPage(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody OperLogParams params) {
-        return ResponseResult.resultSuccess(systemOperLogService.list(page, pageSize, params));
+    public Result<Page<SystemOperLogVO>> getAllPage(@RequestBody OperLogParams params) {
+        Page<SystemOperLogVO> page = systemOperLogService.page(params);
+        return ResponseResult.resultSuccess(page);
     }
 
     /**
@@ -70,7 +71,7 @@ public class SystemOperLogController extends BaseController {
     @PostMapping("/delete")
     @Log(paramsName = "ids", module = ModuleName.OPER_LOG, title = "删除", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('oper:log:delete','ROLE_ADMINISTRATOR','ROLE_OPER_LOG_ADMIN')")
-    public Result deleteByIds(@RequestBody List<Long> ids) {
+    public Result<String> deleteByIds(@RequestBody List<Long> ids) {
         if (CollectionUtils.isEmpty(ids)) {
             return ResponseResult.resultFall("请选择");
         }
@@ -88,7 +89,7 @@ public class SystemOperLogController extends BaseController {
     @GetMapping("/clean")
     @Log(module = ModuleName.OPER_LOG, title = "清空", businessType = BusinessTypeEnum.CLEAN)
     @PreAuthorize("hasAnyAuthority('oper:log:clean','ROLE_ADMINISTRATOR','ROLE_OPER_LOG_ADMIN')")
-    public Result clean() {
+    public Result<String> clean() {
         List<SystemOperLogEntity> list = systemOperLogService.list();
         if (!CollectionUtils.isEmpty(list)) {
             Set<Long> ids = list.parallelStream().map(SystemOperLogEntity::getId).collect(Collectors.toSet());
