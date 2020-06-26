@@ -2,11 +2,11 @@ package com.hb0730.boot.admin.project.system.post.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.PageUtils;
+import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.exception.FileUploadException;
@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -39,13 +40,20 @@ import java.util.stream.Collectors;
 @Service
 public class SystemPostServiceImpl extends ServiceImpl<ISystemPostMapper, SystemPostEntity> implements ISystemPostService {
 
+
     @Override
-    public PageInfo<SystemPostVO> list(Integer page, Integer pageSize, PostParams params) {
-        PageHelper.startPage(page, pageSize);
-        QueryWrapper<SystemPostEntity> queryWrapper = getQuery(params);
-        List<SystemPostEntity> entities = super.list(queryWrapper);
-        PageInfo<SystemPostEntity> pageInfo = new PageInfo<>(entities);
-        return PageUtils.toBean(pageInfo, SystemPostVO.class);
+    public Page<SystemPostVO> page(@NotNull PostParams params) {
+        @NotNull QueryWrapper<SystemPostEntity> query = query(params);
+        @NotNull Page<SystemPostEntity> page = QueryWrapperUtils.getPage(params);
+        page = super.page(page, query);
+        return PageUtils.toBean(page, SystemPostVO.class);
+    }
+
+    @Override
+    public List<SystemPostVO> list(@NotNull PostParams params) {
+        @NotNull QueryWrapper<SystemPostEntity> query = query(params);
+        List<SystemPostEntity> list = super.list(query);
+        return BeanUtils.transformFromInBatch(list, SystemPostVO.class);
     }
 
     @Override
@@ -73,7 +81,7 @@ public class SystemPostServiceImpl extends ServiceImpl<ISystemPostMapper, System
 
     @Override
     public List<PostExcelDto> export(PostParams params) {
-        QueryWrapper<SystemPostEntity> queryWrapper = getQuery(params);
+        QueryWrapper<SystemPostEntity> queryWrapper = query(params);
         List<SystemPostEntity> entities = super.list(queryWrapper);
         return BeanUtils.transformFromInBatch(entities, PostExcelDto.class);
     }
@@ -109,5 +117,20 @@ public class SystemPostServiceImpl extends ServiceImpl<ISystemPostMapper, System
             return saveBatch(entities);
         }
         return false;
+    }
+
+    @Override
+    public @NotNull QueryWrapper<SystemPostEntity> query(@NotNull PostParams params) {
+        @NotNull QueryWrapper<SystemPostEntity> query = QueryWrapperUtils.getQuery(params);
+        if (StringUtils.isNotBlank(params.getName())) {
+            query.eq(SystemPostEntity.NAME, params.getName());
+        }
+        if (StringUtils.isNotBlank(params.getNumber())) {
+            query.eq(SystemPostEntity.NUMBER, params.getNumber());
+        }
+        if (Objects.nonNull(params.getIsEnabled())) {
+            query.eq(SystemPostEntity.IS_ENABLED, params.getIsEnabled());
+        }
+        return query;
     }
 }
