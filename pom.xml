@@ -23,7 +23,6 @@
         <spring.boot.version>2.2.5.RELEASE</spring.boot.version>
 
         <mybatis-plus-boot.version>3.3.1.tmp</mybatis-plus-boot.version>
-        <pagehelper-spring-boot.version>1.2.13</pagehelper-spring-boot.version>
         <jetcache-starter.version>2.6.0</jetcache-starter.version>
 
 
@@ -94,12 +93,6 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatis-plus-boot.version}</version>
-        </dependency>
-        <!--分页-->
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>${pagehelper-spring-boot.version}</version>
         </dependency>
         <!--cache-->
         <dependency>

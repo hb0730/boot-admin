@@ -2,11 +2,9 @@ package com.hb0730.boot.admin.project.system.menu.permission.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.github.pagehelper.PageInfo;
 import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.project.system.menu.permission.model.entity.SystemMenuPermissionEntity;
 import com.hb0730.boot.admin.project.system.menu.permission.model.vo.PermissionParams;
-import com.hb0730.boot.admin.project.system.menu.permission.model.vo.PermissionParamsVO;
 import com.hb0730.boot.admin.project.system.permission.model.vo.SystemPermissionVO;
 import org.springframework.lang.NonNull;
 

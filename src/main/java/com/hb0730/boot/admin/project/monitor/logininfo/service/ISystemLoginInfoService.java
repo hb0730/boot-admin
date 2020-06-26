@@ -2,7 +2,6 @@ package com.hb0730.boot.admin.project.monitor.logininfo.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.github.pagehelper.PageInfo;
 import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.dto.LoginInfoDTO;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.entity.SystemLoginInfoEntity;

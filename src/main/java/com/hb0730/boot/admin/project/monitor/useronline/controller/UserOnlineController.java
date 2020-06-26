@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.project.monitor.useronline.controller;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.annotation.Log;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
@@ -45,8 +45,10 @@ public class UserOnlineController extends BaseController {
     @PreAuthorize("hasAnyAuthority('user:online:query','ROLE_ADMINISTRATOR','ROLE_USER_ONLINE_ADMIN')")
     public Result getAllPage(@RequestBody ParamsVO vo) {
         List<UserOnlineVO> onlineUser = userOnlineService.getOnlineUser(vo);
-        PageInfo<UserOnlineVO> pageInfo = new PageInfo<>(onlineUser);
-        return ResponseResult.resultSuccess(pageInfo);
+        Page<UserOnlineVO> page = new Page<>();
+        page.setRecords(onlineUser);
+        page.setTotal(onlineUser.size());
+        return ResponseResult.resultSuccess(page);
     }
 
     /**

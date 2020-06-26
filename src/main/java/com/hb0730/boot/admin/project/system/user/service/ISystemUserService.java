@@ -2,7 +2,6 @@ package com.hb0730.boot.admin.project.system.user.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.github.pagehelper.PageInfo;
 import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.commons.domain.service.IExportService;
 import com.hb0730.boot.admin.project.system.user.model.dto.LoginUserDTO;

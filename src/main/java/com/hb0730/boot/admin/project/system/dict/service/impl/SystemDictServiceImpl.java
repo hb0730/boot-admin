@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
@@ -27,7 +25,6 @@ import org.springframework.util.CollectionUtils;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -46,29 +43,6 @@ public class SystemDictServiceImpl extends ServiceImpl<ISystemDictMapper, System
         return super.save(entity);
     }
 
-    @Override
-    public PageInfo<SystemDictVO> getPageDict(Long parentId, Integer page, Integer pageSize, DictParams params) {
-        parentId = parentId == null ? SystemConstants.PARENT_ID : parentId;
-        page = page == null ? 1 : page;
-        pageSize = pageSize == null ? 10 : pageSize;
-        PageHelper.startPage(page, pageSize);
-        QueryWrapper<SystemDictEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(SystemDictEntity.PARENT_ID, parentId);
-        if (!Objects.isNull(params)) {
-            if (StringUtils.isNotBlank(params.getName())) {
-                queryWrapper.eq(SystemDictEntity.NAME, params.getName());
-            }
-            if (StringUtils.isNotBlank(params.getNumber())) {
-                queryWrapper.eq(SystemDictEntity.NUMBER, params.getNumber());
-            }
-            if (StringUtils.isNotBlank(params.getIsEnabled())) {
-                queryWrapper.eq(SystemDictEntity.IS_ENABLED, params.getIsEnabled());
-            }
-        }
-        List<SystemDictEntity> entities = super.list(queryWrapper);
-        PageInfo<SystemDictEntity> pageInfo = new PageInfo<>(entities);
-        return PageUtils.toBean(pageInfo, SystemDictVO.class);
-    }
 
     @Override
     public Page<SystemDictVO> page(Long parentId, @NonNull DictParams params) {
