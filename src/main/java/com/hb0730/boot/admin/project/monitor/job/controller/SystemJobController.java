@@ -3,14 +3,11 @@ package com.hb0730.boot.admin.project.monitor.job.controller;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.support.ExcelTypeEnum;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.annotation.Log;
-import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
-import com.hb0730.boot.admin.commons.utils.PageUtils;
+import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.excel.ExcelConstant;
 import com.hb0730.boot.admin.commons.utils.excel.ExcelUtils;
@@ -35,7 +32,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import static com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants.REQUEST_JOB;
 
@@ -59,19 +55,14 @@ public class SystemJobController extends BaseController {
      * 查询定时任务
      * </p>
      *
-     * @param page     页数
-     * @param pageSize 数量
-     * @param params   过滤条件
+     * @param params 过滤条件
      * @return 分页后的定时任务
      */
-    @PostMapping("/all/page/{page}/{pageSize}")
+    @PostMapping("/all/page")
     @PreAuthorize("hasAnyAuthority('job:query','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
-    public Result getAllPage(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody JobParams params) {
-        PageHelper.startPage(page, pageSize);
-        QueryWrapper<SystemJobEntity> queryWrapper = query(params);
-        PageInfo<SystemJobEntity> pageInfo = new PageInfo<>(systemJobService.list(queryWrapper));
-        PageInfo<SystemJobVO> info = PageUtils.toBean(pageInfo, SystemJobVO.class);
-        return ResponseResult.resultSuccess(info);
+    public Result<Page<SystemJobVO>> getAllPage(@RequestBody JobParams params) {
+        Page<SystemJobVO> page = systemJobService.page(params);
+        return ResponseResult.resultSuccess(page);
     }
 
     /**
@@ -80,10 +71,9 @@ public class SystemJobController extends BaseController {
      * @return 定时任务
      */
     @GetMapping("/all")
-    public Result getAll() {
-        List<SystemJobEntity> list = systemJobService.list();
-        List<SystemJobVO> vos = BeanUtils.transformFromInBatch(list, SystemJobVO.class);
-        return ResponseResult.resultSuccess(vos);
+    public Result<List<SystemJobVO>> getAll() {
+        List<SystemJobVO> list = systemJobService.list(new JobParams());
+        return ResponseResult.resultSuccess(list);
     }
 
     /**
@@ -97,7 +87,7 @@ public class SystemJobController extends BaseController {
     @PostMapping("/save")
     @Log(paramsName = "vo", module = ModuleName.JOB, title = "新增", businessType = BusinessTypeEnum.INSERT)
     @PreAuthorize("hasAnyAuthority('job:save','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
-    public Result save(@Validated @RequestBody SystemJobVO vo) {
+    public Result<String> save(@Validated @RequestBody SystemJobVO vo) {
         SystemJobEntity entity = BeanUtils.transformFrom(vo, SystemJobEntity.class);
         systemJobService.save(entity);
         assert entity != null;
@@ -116,7 +106,7 @@ public class SystemJobController extends BaseController {
     @PostMapping("/update/{id}")
     @Log(paramsName = "vo", module = ModuleName.JOB, title = "修改", businessType = BusinessTypeEnum.UPDATE)
     @PreAuthorize("hasAnyAuthority('job:update','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
-    public Result update(@PathVariable Long id, @Validated @RequestBody SystemJobVO vo) {
+    public Result<String> update(@PathVariable Long id, @Validated @RequestBody SystemJobVO vo) {
         vo.setId(id);
         SystemJobEntity entity = BeanUtils.transformFrom(vo, SystemJobEntity.class);
         systemJobService.updateById(entity);
@@ -135,7 +125,7 @@ public class SystemJobController extends BaseController {
     @Log(module = ModuleName.JOB, title = "删除", businessType = BusinessTypeEnum.DELETE)
     @GetMapping("/delete/{id}")
     @PreAuthorize("hasAnyAuthority('job:delete','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
-    public Result deleteById(@PathVariable Long id) {
+    public Result<String> deleteById(@PathVariable Long id) {
         systemJobService.removeById(id);
         return ResponseResult.resultSuccess("修改成功");
     }
@@ -151,7 +141,7 @@ public class SystemJobController extends BaseController {
     @Log(paramsName = "id", module = ModuleName.JOB, title = "删除", businessType = BusinessTypeEnum.DELETE)
     @PostMapping("/delete")
     @PreAuthorize("hasAnyAuthority('job:delete','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
-    public Result deleteById(@RequestBody List<Long> id) {
+    public Result<String> deleteById(@RequestBody List<Long> id) {
         if (CollectionUtils.isEmpty(id)) {
             return ResponseResult.resultFall("请选择");
         }
@@ -170,7 +160,7 @@ public class SystemJobController extends BaseController {
     @PostMapping("/upload")
     @Log(module = ModuleName.JOB, title = "excel导入", businessType = BusinessTypeEnum.IMPORT)
     @PreAuthorize("hasAnyAuthority('job:upload','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
-    public Result upload(MultipartFile file) throws IOException {
+    public Result<String> upload(MultipartFile file) throws IOException {
         EasyExcel.read(file.getInputStream(), JobExportDto.class, new UploadDataListener(systemJobService)).sheet().doRead();
         return ResponseResult.resultSuccess("导入成功");
     }
@@ -187,42 +177,16 @@ public class SystemJobController extends BaseController {
     @PostMapping("/export")
     @PreAuthorize("hasAnyAuthority('job:export','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
     public void export(HttpServletResponse response, @RequestBody JobParams params) {
-        QueryWrapper<SystemJobEntity> queryWrapper = query(params);
-        List<SystemJobEntity> entities = systemJobService.list(queryWrapper);
-        List<JobExportDto> exportDtos = BeanUtils.transformFromInBatch(entities, JobExportDto.class);
+        List<JobExportDto> export = systemJobService.export(params);
         Map<String, Object> maps = Maps.newHashMap();
         maps.put(ExcelConstant.FILE_NAME, "job_export");
-        maps.put(ExcelConstant.DATA_LIST, exportDtos);
+        maps.put(ExcelConstant.DATA_LIST, export);
         try {
             ExcelUtils.writeWeb(response, maps, ExcelTypeEnum.XLS, JobExportDto.class);
         } catch (IOException e) {
             e.printStackTrace();
             throw new ExportException("导出任务调度失败", e);
         }
-    }
-
-    /**
-     * <p>
-     * 过滤条件
-     * </p>
-     *
-     * @param params 过滤参数
-     * @return 过滤
-     */
-    private QueryWrapper<SystemJobEntity> query(JobParams params) {
-        QueryWrapper<SystemJobEntity> queryWrapper = new QueryWrapper<>();
-        if (Objects.nonNull(params)) {
-            if (Objects.nonNull(params.getNumber())) {
-                queryWrapper.eq(SystemJobEntity.NUMBER, params.getNumber());
-            }
-            if (Objects.nonNull(params.getName())) {
-                queryWrapper.like(SystemJobEntity.NAME, params.getName());
-            }
-            if (Objects.nonNull(params.getEnabled())) {
-                queryWrapper.eq(SystemJobEntity.IS_ENABLED, params.getEnabled());
-            }
-        }
-        return queryWrapper;
     }
 }
 

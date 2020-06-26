@@ -1,8 +1,11 @@
 package com.hb0730.boot.admin.project.monitor.job.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hb0730.boot.admin.commons.constant.ActionEnum;
+import com.hb0730.boot.admin.commons.utils.PageUtils;
+import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.event.job.JobEvent;
 import com.hb0730.boot.admin.exception.BaseException;
@@ -10,6 +13,8 @@ import com.hb0730.boot.admin.exception.FileUploadException;
 import com.hb0730.boot.admin.project.monitor.job.mapper.ISystemJobMapper;
 import com.hb0730.boot.admin.project.monitor.job.model.dto.JobExportDto;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobEntity;
+import com.hb0730.boot.admin.project.monitor.job.model.vo.JobParams;
+import com.hb0730.boot.admin.project.monitor.job.model.vo.SystemJobVO;
 import com.hb0730.boot.admin.project.monitor.job.service.ISystemJobService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +24,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -65,6 +72,21 @@ public class SystemJobServiceImpl extends ServiceImpl<ISystemJobMapper, SystemJo
     }
 
     @Override
+    public Page<SystemJobVO> page(@NotNull JobParams params) {
+        @NotNull QueryWrapper<SystemJobEntity> query = query(params);
+        @NotNull Page<SystemJobEntity> page = QueryWrapperUtils.getPage(params);
+        page = super.page(page, query);
+        return PageUtils.toBean(page, SystemJobVO.class);
+    }
+
+    @Override
+    public List<SystemJobVO> list(@NotNull JobParams params) {
+        @NotNull QueryWrapper<SystemJobEntity> query = query(params);
+        List<SystemJobEntity> list = super.list(query);
+        return BeanUtils.transformFromInBatch(list, SystemJobVO.class);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean removeById(Long id) {
         boolean b = super.removeById(id);
@@ -78,6 +100,13 @@ public class SystemJobServiceImpl extends ServiceImpl<ISystemJobMapper, SystemJo
         boolean b = super.removeByIds(ids);
         applicationContext.publishEvent(new JobEvent(this, ids, ActionEnum.DELETE));
         return b;
+    }
+
+    @Override
+    public List<JobExportDto> export(@NotNull JobParams params) {
+        @NotNull QueryWrapper<SystemJobEntity> query = query(params);
+        List<SystemJobEntity> entities = super.list(query);
+        return BeanUtils.transformFromInBatch(entities, JobExportDto.class);
     }
 
     private void verify(SystemJobEntity entity) {
@@ -113,7 +142,21 @@ public class SystemJobServiceImpl extends ServiceImpl<ISystemJobMapper, SystemJo
             verify(entity);
         });
         List<SystemJobEntity> entities = BeanUtils.transformFromInBatch(list, SystemJobEntity.class);
+        return saveBatch(entities);
+    }
 
-        return false;
+    @Override
+    public @NotNull QueryWrapper<SystemJobEntity> query(@NotNull JobParams params) {
+        @NotNull QueryWrapper<SystemJobEntity> query = QueryWrapperUtils.getQuery(params);
+        if (Objects.nonNull(params.getNumber())) {
+            query.eq(SystemJobEntity.NUMBER, params.getNumber());
+        }
+        if (Objects.nonNull(params.getName())) {
+            query.like(SystemJobEntity.NAME, params.getName());
+        }
+        if (Objects.nonNull(params.getEnabled())) {
+            query.eq(SystemJobEntity.IS_ENABLED, params.getEnabled());
+        }
+        return query;
     }
 }
