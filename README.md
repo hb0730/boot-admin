@@ -37,7 +37,7 @@ spring boot Admin management template
  * jdk 11 
   * spring boot 2.2.5.RELEASE
   * mybatisPlus 3.3.1.tmp
-  * pagehelper 1.2.13
+  * ~~pagehelper 1.2.13~~
   * mysql 8.0.16
   * hikaricp 3.4.2
   * guava 28.2-jre
