@@ -2,9 +2,9 @@ package com.hb0730.boot.admin.project.system.org.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
+import com.hb0730.boot.admin.commons.domain.service.BaseServiceImpl;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.project.system.menu.model.entity.SystemMenuEntity;
@@ -31,7 +31,7 @@ import java.util.Objects;
  * @since 2020-03-26
  */
 @Service
-public class SystemOrgServiceImpl extends ServiceImpl<ISystemOrgMapper, SystemOrgEntity> implements ISystemOrgService {
+public class SystemOrgServiceImpl extends BaseServiceImpl<ISystemOrgMapper, SystemOrgEntity> implements ISystemOrgService {
 
     @Override
     public boolean save(SystemOrgEntity entity) {
@@ -104,8 +104,8 @@ public class SystemOrgServiceImpl extends ServiceImpl<ISystemOrgMapper, SystemOr
     public TreeOrgVO getTreeById(@NonNull Long id, @NonNull Integer isAll) {
         QueryWrapper<SystemOrgEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(SystemOrgEntity.ID, id);
-        if (SystemConstants.IS_ALL!=isAll){
-            queryWrapper.eq(SystemMenuEntity.IS_ENABLED,isAll);
+        if (SystemConstants.IS_ALL != isAll) {
+            queryWrapper.eq(SystemMenuEntity.IS_ENABLED, isAll);
         }
         SystemOrgEntity entity = super.getOne(queryWrapper);
         TreeOrgVO tree = BeanUtils.transformFrom(entity, TreeOrgVO.class);

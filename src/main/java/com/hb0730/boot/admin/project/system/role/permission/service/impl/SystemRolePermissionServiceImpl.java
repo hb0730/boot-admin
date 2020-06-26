@@ -1,11 +1,11 @@
 package com.hb0730.boot.admin.project.system.role.permission.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
+import com.hb0730.boot.admin.commons.domain.service.BaseServiceImpl;
 import com.hb0730.boot.admin.project.system.role.permission.handle.MenuPermissionHandle;
 import com.hb0730.boot.admin.project.system.role.permission.mapper.ISystemRolePermissionMapper;
 import com.hb0730.boot.admin.project.system.role.permission.model.entity.SystemRolePermissionEntity;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  * @since 2020-03-27
  */
 @Service
-public class SystemRolePermissionServiceImpl extends ServiceImpl<ISystemRolePermissionMapper, SystemRolePermissionEntity> implements ISystemRolePermissionService {
+public class SystemRolePermissionServiceImpl extends BaseServiceImpl<ISystemRolePermissionMapper, SystemRolePermissionEntity> implements ISystemRolePermissionService {
     @Autowired
     private MenuPermissionHandle menuPermissionHandle;
 

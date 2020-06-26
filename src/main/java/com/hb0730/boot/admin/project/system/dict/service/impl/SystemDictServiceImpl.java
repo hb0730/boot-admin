@@ -3,11 +3,11 @@ package com.hb0730.boot.admin.project.system.dict.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.constant.VueConstants;
+import com.hb0730.boot.admin.commons.domain.service.BaseServiceImpl;
 import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
@@ -35,7 +35,7 @@ import java.util.Map;
  * @since 2020-03-30
  */
 @Service
-public class SystemDictServiceImpl extends ServiceImpl<ISystemDictMapper, SystemDictEntity> implements ISystemDictService {
+public class SystemDictServiceImpl extends BaseServiceImpl<ISystemDictMapper, SystemDictEntity> implements ISystemDictService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean save(SystemDictEntity entity) {

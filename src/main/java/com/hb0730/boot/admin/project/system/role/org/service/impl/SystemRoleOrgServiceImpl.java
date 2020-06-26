@@ -1,9 +1,9 @@
 package com.hb0730.boot.admin.project.system.role.org.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
+import com.hb0730.boot.admin.commons.domain.service.BaseServiceImpl;
 import com.hb0730.boot.admin.project.system.role.org.mapper.ISystemRoleOrgMapper;
 import com.hb0730.boot.admin.project.system.role.org.model.entity.SystemRoleOrgEntity;
 import com.hb0730.boot.admin.project.system.role.org.service.ISystemRoleOrgService;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * @since 2020-03-27
  */
 @Service
-public class SystemRoleOrgServiceImpl extends ServiceImpl<ISystemRoleOrgMapper, SystemRoleOrgEntity> implements ISystemRoleOrgService {
+public class SystemRoleOrgServiceImpl extends BaseServiceImpl<ISystemRoleOrgMapper, SystemRoleOrgEntity> implements ISystemRoleOrgService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)

@@ -1,9 +1,9 @@
 package com.hb0730.boot.admin.project.system.user.role.service.impl;
 
-import com.hb0730.boot.admin.project.system.user.role.service.ISystemUserRoleService;
-import com.hb0730.boot.admin.project.system.user.role.model.entity.SystemUserRoleEntity;
+import com.hb0730.boot.admin.commons.domain.service.BaseServiceImpl;
 import com.hb0730.boot.admin.project.system.user.role.mapper.ISystemUserRoleMapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hb0730.boot.admin.project.system.user.role.model.entity.SystemUserRoleEntity;
+import com.hb0730.boot.admin.project.system.user.role.service.ISystemUserRoleService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2020-03-30
  */
 @Service
-public class SystemUserRoleServiceImpl extends ServiceImpl<ISystemUserRoleMapper, SystemUserRoleEntity> implements ISystemUserRoleService {
+public class SystemUserRoleServiceImpl extends BaseServiceImpl<ISystemUserRoleMapper, SystemUserRoleEntity> implements ISystemUserRoleService {
 
 }

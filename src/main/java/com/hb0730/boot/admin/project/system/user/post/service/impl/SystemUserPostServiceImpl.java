@@ -1,9 +1,9 @@
 package com.hb0730.boot.admin.project.system.user.post.service.impl;
 
+import com.hb0730.boot.admin.commons.domain.service.BaseServiceImpl;
 import com.hb0730.boot.admin.project.system.user.post.mapper.ISystemUserPostMapper;
 import com.hb0730.boot.admin.project.system.user.post.model.entity.SystemUserPostEntity;
 import com.hb0730.boot.admin.project.system.user.post.service.ISystemUserPostService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  * @since 2020-03-29
  */
 @Service
-public class SystemUserPostServiceImpl extends ServiceImpl<ISystemUserPostMapper, SystemUserPostEntity> implements ISystemUserPostService {
+public class SystemUserPostServiceImpl extends BaseServiceImpl<ISystemUserPostMapper, SystemUserPostEntity> implements ISystemUserPostService {
 
 
 }
