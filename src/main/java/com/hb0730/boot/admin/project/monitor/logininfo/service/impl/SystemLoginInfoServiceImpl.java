@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
+import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.project.monitor.logininfo.mapper.ISystemLoginInfoMapper;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.dto.LoginInfoDTO;
@@ -36,7 +36,7 @@ public class SystemLoginInfoServiceImpl extends ServiceImpl<ISystemLoginInfoMapp
         QueryWrapper<SystemLoginInfoEntity> queryWrapper = getQuery(params);
         PageHelper.startPage(page, pageSize);
         PageInfo<SystemLoginInfoEntity> pageInfo = new PageInfo<>(super.list(queryWrapper));
-        return PageInfoUtil.toBean(pageInfo, SystemLoginfoVO.class);
+        return PageUtils.toBean(pageInfo, SystemLoginfoVO.class);
     }
 
     @Override

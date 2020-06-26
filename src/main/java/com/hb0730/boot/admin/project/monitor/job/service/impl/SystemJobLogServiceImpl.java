@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
+import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.project.monitor.job.mapper.ISystemJobLogMapper;
 import com.hb0730.boot.admin.project.monitor.job.model.dto.JobLogExportDTO;
@@ -45,7 +45,7 @@ public class SystemJobLogServiceImpl extends ServiceImpl<ISystemJobLogMapper, Sy
         QueryWrapper<SystemJobLogEntity> queryWrapper = getQuery(params);
         PageHelper.startPage(page, pageSize);
         PageInfo<SystemJobLogEntity> pageInfo = new PageInfo<>(super.list(queryWrapper));
-        return PageInfoUtil.toBean(pageInfo, SystemJobLogVO.class);
+        return PageUtils.toBean(pageInfo, SystemJobLogVO.class);
     }
 
     @Override

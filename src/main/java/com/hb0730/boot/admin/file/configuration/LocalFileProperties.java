@@ -1,9 +1,7 @@
 package com.hb0730.boot.admin.file.configuration;
 
 import lombok.Data;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -12,7 +10,7 @@ import java.nio.file.Paths;
 
 import static com.hb0730.boot.admin.commons.constant.SystemConstants.FILE_SEPARATOR;
 import static com.hb0730.boot.admin.commons.constant.SystemConstants.USER_HOME;
-import static com.hb0730.boot.admin.commons.utils.StringUtils.ensureSuffix;
+import static com.hb0730.boot.admin.commons.utils.commons.StringUtils.ensureSuffix;
 
 /**
  * <p>

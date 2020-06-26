@@ -11,7 +11,7 @@ import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
-import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
+import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
@@ -100,7 +100,7 @@ public class SystemRoleController extends BaseController {
             }
         }
         PageInfo<SystemRoleEntity> pageInfo = new PageInfo<>(systemRoleService.list(queryWrapper));
-        PageInfo<SystemRoleVO> voPageInfo = PageInfoUtil.toBean(pageInfo, SystemRoleVO.class);
+        PageInfo<SystemRoleVO> voPageInfo = PageUtils.toBean(pageInfo, SystemRoleVO.class);
         return ResponseResult.resultSuccess(voPageInfo);
     }
 

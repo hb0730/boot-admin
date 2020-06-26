@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.exception.BaseException;
+import com.hb0730.boot.admin.project.system.menu.permission.model.vo.PermissionParams;
 import com.hb0730.boot.admin.project.system.menu.permission.model.vo.PermissionParamsVO;
 import com.hb0730.boot.admin.project.system.permission.model.dto.SystemPermissionDTO;
 import com.hb0730.boot.admin.project.system.permission.model.entity.SystemPermissionEntity;
@@ -23,7 +24,7 @@ import java.util.Objects;
  * </P>
  *
  * @author bing_huang
- * @since V1.0
+ * @since V2.0
  */
 @Component
 public class PermissionHandle {
@@ -45,27 +46,26 @@ public class PermissionHandle {
         List<SystemPermissionEntity> entities = systemPermissionService.listByIds(ids);
         return BeanUtils.transformFromInBatch(entities, SystemPermissionDTO.class);
     }
-
     /**
      * <p>
      * 获取权限id
      * </p>
      *
      * @param ids idid
-     * @param vo  过滤条件
+     * @param params  过滤条件
      * @return 权限id
      */
-    public List<SystemPermissionDTO> getPermissionByIds(Collection<Long> ids, PermissionParamsVO vo) {
+    public List<SystemPermissionDTO> getPermissionByIds(Collection<Long> ids, PermissionParams params) {
         if (CollectionUtils.isEmpty(ids)) {
             return Lists.newArrayList();
         }
         QueryWrapper<SystemPermissionEntity> queryWrapper = new QueryWrapper<>();
-        if (!Objects.isNull(vo)) {
-            if (StringUtils.isNotBlank(vo.getMark())) {
-                queryWrapper.eq(SystemPermissionEntity.MARK, vo.getMark());
+        if (!Objects.isNull(params)) {
+            if (StringUtils.isNotBlank(params.getMark())) {
+                queryWrapper.eq(SystemPermissionEntity.MARK, params.getMark());
             }
-            if (StringUtils.isNotBlank(vo.getName())) {
-                queryWrapper.eq(SystemPermissionEntity.NAME, vo.getName());
+            if (StringUtils.isNotBlank(params.getName())) {
+                queryWrapper.eq(SystemPermissionEntity.NAME, params.getName());
             }
         }
         queryWrapper.in(SystemPermissionEntity.ID, ids);

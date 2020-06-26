@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.commons.utils;
+package com.hb0730.boot.admin.commons.utils.commons;
 
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;

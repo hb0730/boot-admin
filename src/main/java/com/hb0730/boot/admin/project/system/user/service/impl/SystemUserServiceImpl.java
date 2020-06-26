@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
-import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
+import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
 import com.hb0730.boot.admin.exception.BaseException;
@@ -56,7 +56,7 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
         PageHelper.startPage(page, pageSize);
         List<SystemUserEntity> entities = super.list(queryWrapper);
         PageInfo<SystemUserEntity> pageInfo = new PageInfo<>(entities);
-        return PageInfoUtil.toBean(pageInfo, SystemUserVO.class);
+        return PageUtils.toBean(pageInfo, SystemUserVO.class);
     }
 
     @Override

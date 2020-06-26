@@ -9,7 +9,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.constant.VueConstants;
-import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
+import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.project.system.dict.mapper.ISystemDictMapper;
 import com.hb0730.boot.admin.project.system.dict.model.entity.SystemDictEntity;
@@ -64,7 +64,7 @@ public class SystemDictServiceImpl extends ServiceImpl<ISystemDictMapper, System
         }
         List<SystemDictEntity> entities = super.list(queryWrapper);
         PageInfo<SystemDictEntity> pageInfo = new PageInfo<>(entities);
-        return PageInfoUtil.toBean(pageInfo, SystemDictVO.class);
+        return PageUtils.toBean(pageInfo, SystemDictVO.class);
     }
 
     @Override

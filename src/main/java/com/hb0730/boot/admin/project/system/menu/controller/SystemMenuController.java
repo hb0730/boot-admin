@@ -1,12 +1,12 @@
 package com.hb0730.boot.admin.project.system.menu.controller;
 
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.annotation.Log;
-import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
+import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
@@ -16,7 +16,7 @@ import com.hb0730.boot.admin.project.system.menu.model.entity.SystemMenuEntity;
 import com.hb0730.boot.admin.project.system.menu.model.vo.SystemMenuVO;
 import com.hb0730.boot.admin.project.system.menu.model.vo.TreeMenuVO;
 import com.hb0730.boot.admin.project.system.menu.permission.model.entity.SystemMenuPermissionEntity;
-import com.hb0730.boot.admin.project.system.menu.permission.model.vo.PermissionParamsVO;
+import com.hb0730.boot.admin.project.system.menu.permission.model.vo.PermissionParams;
 import com.hb0730.boot.admin.project.system.menu.permission.service.ISystemMenuPermissionService;
 import com.hb0730.boot.admin.project.system.menu.service.ISystemMenuService;
 import com.hb0730.boot.admin.project.system.permission.model.dto.SystemPermissionDTO;
@@ -58,7 +58,7 @@ public class SystemMenuController extends BaseController {
      * @return 树形菜单
      */
     @GetMapping("/tree/{isAll}")
-    public Result getAllTree(@PathVariable Integer isAll) {
+    public Result<List<TreeMenuVO>> getAllTree(@PathVariable Integer isAll) {
         List<TreeMenuVO> treeMenus = systemMenuService.getTreeMenuAll(isAll);
         return ResponseResult.resultSuccess(treeMenus);
     }
@@ -72,7 +72,7 @@ public class SystemMenuController extends BaseController {
     @PostMapping("/save")
     @Log(paramsName = "vo", module = ModuleName.MENU, title = "新增", businessType = BusinessTypeEnum.INSERT)
     @PreAuthorize("hasAnyAuthority('menu:save','ROLE_ADMIN','ROLE_MENU_ADMIN')")
-    public Result save(@Validated @RequestBody SystemMenuVO vo) {
+    public Result<String> save(@Validated @RequestBody SystemMenuVO vo) {
         SystemMenuEntity entity = BeanUtils.transformFrom(vo, SystemMenuEntity.class);
         systemMenuService.save(entity);
         return ResponseResult.resultSuccess("新增成功");
@@ -88,7 +88,7 @@ public class SystemMenuController extends BaseController {
     @PostMapping("/update/{id}")
     @Log(paramsName = "vo", module = ModuleName.MENU, title = "修改", businessType = BusinessTypeEnum.UPDATE)
     @PreAuthorize("hasAnyAuthority('menu:update','ROLE_ADMINISTRATOR','ROLE_MENU_ADMIN')")
-    public Result updateById(@PathVariable Long id, @Validated @RequestBody SystemMenuVO vo) {
+    public Result<String> updateById(@PathVariable Long id, @Validated @RequestBody SystemMenuVO vo) {
         SystemMenuEntity entity = BeanUtils.transformFrom(vo, SystemMenuEntity.class);
         assert entity != null;
         entity.setId(id);
@@ -107,7 +107,7 @@ public class SystemMenuController extends BaseController {
     @GetMapping("/delete/{id}")
     @Log(module = ModuleName.MENU, title = "删除", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('menu:delete','ROLE_ADMINISTRATOR','ROLE_MENU_ADMIN')")
-    public Result deleteById(@PathVariable Long id) {
+    public Result<String> deleteById(@PathVariable Long id) {
         systemMenuService.removeById(id);
         return ResponseResult.resultSuccess("删除成功");
     }
@@ -121,27 +121,23 @@ public class SystemMenuController extends BaseController {
      * @return 权限信息
      */
     @GetMapping("/permission/{menuId}")
-    public Result getPermissionByMenuId(@PathVariable Long menuId) {
+    public Result<List<SystemPermissionVO>> getPermissionByMenuId(@PathVariable Long menuId) {
         List<SystemPermissionVO> pageInfo = permissionService.getPermissionByMenuId(menuId);
         return ResponseResult.resultSuccess(pageInfo);
     }
 
     /**
-     * <p>
      * 根据菜单id获取权限(分页)
-     * </p>
      *
-     * @param menuId   菜单id
-     * @param page     页数
-     * @param pageSize 数量
-     * @param params   过滤条件
+     * @param menuId 菜单id
+     * @param params 过滤条件
      * @return 权限信息
      */
-    @PostMapping("/permission/{menuId}/{page}/{pageSize}")
+    @PostMapping("/permission/{menuId}")
     @PreAuthorize("hasAnyAuthority('menu:permission:query','ROLE_ADMINISTRATOR','ROLE_MENU_ADMIN')")
-    public Result getPermissionPageByMenuId(@PathVariable Long menuId, @PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody PermissionParamsVO params) {
-        PageInfo<SystemPermissionVO> pageInfo = permissionService.getPermissionByMenuId(menuId, page, pageSize, params);
-        return ResponseResult.resultSuccess(pageInfo);
+    public Result<Page<SystemPermissionVO>> getPermissionPageByMenuId(@PathVariable Long menuId, @RequestBody PermissionParams params) {
+        Page<SystemPermissionVO> page = permissionService.getPermissionByMenuId(menuId, params);
+        return ResponseResult.resultSuccess(page);
     }
 
     /**
@@ -156,7 +152,7 @@ public class SystemMenuController extends BaseController {
     @PostMapping("/permission/save/{menuId}")
     @Log(paramsName = "permissionVO", module = ModuleName.MENU, title = "菜单权限新增", businessType = BusinessTypeEnum.INSERT)
     @PreAuthorize("hasAnyAuthority('menu:permission:save','ROLE_ADMINISTRATOR','ROLE_MENU_ADMIN')")
-    public Result savePermissionByMenuId(@PathVariable Long menuId, @RequestBody SystemPermissionVO permissionVO) {
+    public Result<String> savePermissionByMenuId(@PathVariable Long menuId, @RequestBody SystemPermissionVO permissionVO) {
         permissionService.save(menuId, permissionVO);
         return ResponseResult.resultSuccess("新增成功");
     }
@@ -173,7 +169,7 @@ public class SystemMenuController extends BaseController {
     @PostMapping("/permission/update/{permissionId}")
     @Log(paramsName = "permissionVO", module = ModuleName.MENU, title = "菜单权限修改", businessType = BusinessTypeEnum.UPDATE)
     @PreAuthorize("hasAnyAuthority('menu:permission:update','ROLE_ADMINISTRATOR','ROLE_MENU_ADMIN')")
-    public Result updatePermissionById(@PathVariable Long permissionId, @RequestBody SystemPermissionVO permissionVO) {
+    public Result<String> updatePermissionById(@PathVariable Long permissionId, @RequestBody SystemPermissionVO permissionVO) {
         permissionService.updatePermissionById(permissionId, permissionVO);
         return ResponseResult.resultSuccess("修改成功");
     }
@@ -189,7 +185,7 @@ public class SystemMenuController extends BaseController {
     @GetMapping("/permission/delete/{permissionId}")
     @Log(module = ModuleName.MENU, title = "菜单权限删除", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('menu:permission:delete','ROLE_ADMINISTRATOR','ROLE_MENU_ADMIN')")
-    public Result deleteByPermissionId(@PathVariable Long permissionId) {
+    public Result<String> deleteByPermissionId(@PathVariable Long permissionId) {
         permissionService.deleteByPermissionId(permissionId);
         return ResponseResult.resultSuccess("修改成功");
     }
@@ -202,7 +198,7 @@ public class SystemMenuController extends BaseController {
      * @return Map<Long, Set < Long>>
      */
     @GetMapping("/permission/menu/all")
-    public Result getPermissionIdsAll() {
+    public Result<Map<Long, Set<Long>>> getPermissionIdsAll() {
         Map<Long, Set<Long>> permissionIds = permissionService.getPermissionIdByMenuId();
         return ResponseResult.resultSuccess(permissionIds);
     }
@@ -214,7 +210,7 @@ public class SystemMenuController extends BaseController {
      * @return 树形菜单
      */
     @GetMapping("/current")
-    public Result getCurrentUserMenu() {
+    public Result<List<Map<String, Object>>> getCurrentUserMenu() {
         LoginUser loginUser = SecurityUtils.getLoginUser();
         List<SystemPermissionDTO> permissions = loginUser.getPermissions();
         if (CollectionUtils.isEmpty(permissions)) {

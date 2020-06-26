@@ -10,7 +10,7 @@ import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.annotation.Log;
 import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
-import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
+import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.excel.ExcelConstant;
 import com.hb0730.boot.admin.commons.utils.excel.ExcelUtils;
@@ -70,7 +70,7 @@ public class SystemJobController extends BaseController {
         PageHelper.startPage(page, pageSize);
         QueryWrapper<SystemJobEntity> queryWrapper = query(params);
         PageInfo<SystemJobEntity> pageInfo = new PageInfo<>(systemJobService.list(queryWrapper));
-        PageInfo<SystemJobVO> info = PageInfoUtil.toBean(pageInfo, SystemJobVO.class);
+        PageInfo<SystemJobVO> info = PageUtils.toBean(pageInfo, SystemJobVO.class);
         return ResponseResult.resultSuccess(info);
     }
 

@@ -6,7 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.constant.enums.ValueEnum;
-import com.hb0730.boot.admin.commons.utils.PageInfoUtil;
+import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.project.monitor.operlog.mapper.ISystemOperLogMapper;
 import com.hb0730.boot.admin.project.monitor.operlog.model.dto.OperLogDTO;
@@ -43,7 +43,7 @@ public class SystemOperLogServiceImpl extends ServiceImpl<ISystemOperLogMapper, 
         PageHelper.startPage(page, pageSize);
         QueryWrapper<SystemOperLogEntity> queryWrapper = getQuery(params);
         PageInfo<SystemOperLogEntity> pageInfo = new PageInfo<>(super.list(queryWrapper));
-        return PageInfoUtil.toBean(pageInfo, SystemOperLogVO.class);
+        return PageUtils.toBean(pageInfo, SystemOperLogVO.class);
     }
 
     @Override

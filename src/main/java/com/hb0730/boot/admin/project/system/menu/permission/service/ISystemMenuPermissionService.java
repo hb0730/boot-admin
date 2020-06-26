@@ -1,8 +1,11 @@
 package com.hb0730.boot.admin.project.system.menu.permission.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
+import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.project.system.menu.permission.model.entity.SystemMenuPermissionEntity;
+import com.hb0730.boot.admin.project.system.menu.permission.model.vo.PermissionParams;
 import com.hb0730.boot.admin.project.system.menu.permission.model.vo.PermissionParamsVO;
 import com.hb0730.boot.admin.project.system.permission.model.vo.SystemPermissionVO;
 import org.springframework.lang.NonNull;
@@ -20,7 +23,7 @@ import java.util.Set;
  * @author bing_huang
  * @since 2020-03-26
  */
-public interface ISystemMenuPermissionService extends IService<SystemMenuPermissionEntity> {
+public interface ISystemMenuPermissionService extends IService<SystemMenuPermissionEntity>, IBaseService<PermissionParams, SystemMenuPermissionEntity> {
 
     /**
      * <p>
@@ -32,18 +35,17 @@ public interface ISystemMenuPermissionService extends IService<SystemMenuPermiss
      */
     List<SystemPermissionVO> getPermissionByMenuId(@NonNull Long menuId);
 
+
     /**
      * <p>
      * 根据菜单id获取权限信息(分页)
      * </p>
      *
-     * @param menuId   菜单id
-     * @param page     页数
-     * @param pageSize 数量
+     * @param menuId 菜单id
      * @param params 过滤条件
      * @return 是否成功
      */
-    PageInfo<SystemPermissionVO> getPermissionByMenuId(@NonNull Long menuId, Integer page, Integer pageSize, PermissionParamsVO params);
+    Page<SystemPermissionVO> getPermissionByMenuId(@NonNull Long menuId, PermissionParams params);
 
     /**
      * <p>
