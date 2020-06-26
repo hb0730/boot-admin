@@ -1,10 +1,12 @@
 package com.hb0730.boot.admin.project.monitor.job.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.hb0730.boot.admin.commons.domain.service.BaseServiceImpl;
 import com.hb0730.boot.admin.commons.utils.PageUtils;
+import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.project.monitor.job.mapper.ISystemJobLogMapper;
 import com.hb0730.boot.admin.project.monitor.job.model.dto.JobLogExportDTO;
@@ -18,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -33,24 +36,22 @@ import java.util.stream.Collectors;
  * @since 2020-04-07
  */
 @Service
-public class SystemJobLogServiceImpl extends ServiceImpl<ISystemJobLogMapper, SystemJobLogEntity> implements ISystemJobLogService {
+public class SystemJobLogServiceImpl extends BaseServiceImpl<ISystemJobLogMapper, SystemJobLogEntity> implements ISystemJobLogService {
     @Autowired
     private ISystemJobService systemJobService;
 
 
     @Override
-    public PageInfo<SystemJobLogVO> list(Integer page, Integer pageSize, JobLogParams params) {
-        page = page == null ? 1 : page;
-        pageSize = pageSize == null ? 10 : pageSize;
-        QueryWrapper<SystemJobLogEntity> queryWrapper = getQuery(params);
-        PageHelper.startPage(page, pageSize);
-        PageInfo<SystemJobLogEntity> pageInfo = new PageInfo<>(super.list(queryWrapper));
-        return PageUtils.toBean(pageInfo, SystemJobLogVO.class);
+    public Page<SystemJobLogVO> page(@NotNull JobLogParams params) {
+        @NotNull QueryWrapper<SystemJobLogEntity> query = query(params);
+        @NotNull Page<SystemJobLogEntity> page = QueryWrapperUtils.getPage(params);
+        page = super.page(page, query);
+        return PageUtils.toBean(page, SystemJobLogVO.class);
     }
 
     @Override
     public List<JobLogExportDTO> export(JobLogParams params) {
-        QueryWrapper<SystemJobLogEntity> queryWrapper = getQuery(params);
+        QueryWrapper<SystemJobLogEntity> queryWrapper = query(params);
         List<SystemJobLogEntity> entities = super.list(queryWrapper);
         List<JobLogExportDTO> export = BeanUtils.transformFromInBatch(entities, JobLogExportDTO.class);
         if (!CollectionUtils.isEmpty(export)) {
@@ -62,40 +63,31 @@ public class SystemJobLogServiceImpl extends ServiceImpl<ISystemJobLogMapper, Sy
         return export;
     }
 
-    /**
-     * <p>
-     * 组装过滤信息
-     * </p>
-     *
-     * @param params 过滤条件
-     * @return 查询条件
-     */
-    public QueryWrapper<SystemJobLogEntity> getQuery(JobLogParams params) {
-        QueryWrapper<SystemJobLogEntity> queryWrapper = new QueryWrapper<>();
-        if (Objects.nonNull(params)) {
-            if (Objects.nonNull(params.getJobId())) {
-                queryWrapper.eq(SystemJobLogEntity.JOB_ID, params.getJobId());
-            }
-            if (Objects.nonNull(params.getJobName())) {
-                QueryWrapper<SystemJobEntity> q1 = new QueryWrapper<>();
-                q1.like(SystemJobEntity.NAME, params.getJobName());
-                List<SystemJobEntity> list = systemJobService.list(q1);
-                if (!CollectionUtils.isEmpty(list)) {
-                    Set<Long> jobId = list.parallelStream().map(SystemJobEntity::getId).collect(Collectors.toSet());
-                    queryWrapper.in(SystemJobLogEntity.JOB_ID, jobId);
-                }
-            }
-            if (Objects.nonNull(params.getStatus())) {
-                queryWrapper.eq(SystemJobLogEntity.STATUS, params.getStatus());
-            }
-            if (Objects.nonNull(params.getStartTime()) && Objects.nonNull(params.getStopTime())) {
-                queryWrapper.between(SystemJobLogEntity.CREATE_TIME, params.getStartTime(), params.getStopTime());
-            } else if (Objects.nonNull(params.getStartTime())) {
-                queryWrapper.ge(SystemJobLogEntity.CREATE_TIME, params.getStartTime());
-            } else if (Objects.nonNull(params.getStopTime())) {
-                queryWrapper.le(SystemJobLogEntity.CREATE_TIME, params.getStopTime());
+    @Override
+    public @NotNull QueryWrapper<SystemJobLogEntity> query(@NotNull JobLogParams params) {
+        @NotNull QueryWrapper<SystemJobLogEntity> query = QueryWrapperUtils.getQuery(params);
+        if (Objects.nonNull(params.getJobId())) {
+            query.eq(SystemJobLogEntity.JOB_ID, params.getJobId());
+        }
+        if (Objects.nonNull(params.getJobName())) {
+            QueryWrapper<SystemJobEntity> q1 = new QueryWrapper<>();
+            q1.like(SystemJobEntity.NAME, params.getJobName());
+            List<SystemJobEntity> list = systemJobService.list(q1);
+            if (!CollectionUtils.isEmpty(list)) {
+                Set<Long> jobId = list.parallelStream().map(SystemJobEntity::getId).collect(Collectors.toSet());
+                query.in(SystemJobLogEntity.JOB_ID, jobId);
             }
         }
-        return queryWrapper;
+        if (Objects.nonNull(params.getStatus())) {
+            query.eq(SystemJobLogEntity.STATUS, params.getStatus());
+        }
+        if (Objects.nonNull(params.getStartTime()) && Objects.nonNull(params.getStopTime())) {
+            query.between(SystemJobLogEntity.CREATE_TIME, params.getStartTime(), params.getStopTime());
+        } else if (Objects.nonNull(params.getStartTime())) {
+            query.ge(SystemJobLogEntity.CREATE_TIME, params.getStartTime());
+        } else if (Objects.nonNull(params.getStopTime())) {
+            query.le(SystemJobLogEntity.CREATE_TIME, params.getStopTime());
+        }
+        return query;
     }
 }

@@ -1,8 +1,10 @@
 package com.hb0730.boot.admin.project.monitor.job.model.vo;
 
+import com.hb0730.boot.admin.commons.web.model.BaseParams;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -13,7 +15,9 @@ import java.util.Date;
  * @since V1.0
  */
 @Data
-public class JobLogParams implements Serializable {
+@ToString
+@EqualsAndHashCode(callSuper = true)
+public class JobLogParams extends BaseParams {
     /**
      * 任务id
      */

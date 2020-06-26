@@ -1,12 +1,14 @@
 package com.hb0730.boot.admin.project.monitor.job.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.github.pagehelper.PageInfo;
+import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.project.monitor.job.model.dto.JobLogExportDTO;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobLogEntity;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.JobLogParams;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.SystemJobLogVO;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -17,19 +19,18 @@ import java.util.List;
  * @author bing_huang
  * @since 2020-04-07
  */
-public interface ISystemJobLogService extends IService<SystemJobLogEntity> {
+public interface ISystemJobLogService extends IService<SystemJobLogEntity>, IBaseService<JobLogParams, SystemJobLogEntity> {
 
     /**
      * <p>
      * 查询定时任务日志
      * </p>
      *
-     * @param page     页数
-     * @param pageSize 数量
-     * @param params   定时任务过滤条件
+     * @param params 定时任务过滤条件
      * @return 分页后的日志
+     * @since v2.0
      */
-    PageInfo<SystemJobLogVO> list(Integer page, Integer pageSize, JobLogParams params);
+    Page<SystemJobLogVO> page(@NotNull JobLogParams params);
 
     /**
      * <p>
