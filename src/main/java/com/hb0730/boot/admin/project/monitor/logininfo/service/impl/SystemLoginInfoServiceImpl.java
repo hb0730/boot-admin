@@ -1,10 +1,10 @@
 package com.hb0730.boot.admin.project.monitor.logininfo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.hb0730.boot.admin.commons.utils.PageUtils;
+import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.project.monitor.logininfo.mapper.ISystemLoginInfoMapper;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.dto.LoginInfoDTO;
@@ -15,8 +15,11 @@ import com.hb0730.boot.admin.project.monitor.logininfo.service.ISystemLoginInfoS
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
+
+import static com.hb0730.boot.admin.commons.utils.QueryWrapperUtils.getQuery;
 
 /**
  * <p>
@@ -29,47 +32,41 @@ import java.util.Objects;
 @Service
 public class SystemLoginInfoServiceImpl extends ServiceImpl<ISystemLoginInfoMapper, SystemLoginInfoEntity> implements ISystemLoginInfoService {
 
+
     @Override
-    public PageInfo<SystemLoginfoVO> list(Integer page, Integer pageSize, LoginfoParams params) {
-        page = page == null ? 1 : page;
-        pageSize = pageSize == null ? 10 : pageSize;
-        QueryWrapper<SystemLoginInfoEntity> queryWrapper = getQuery(params);
-        PageHelper.startPage(page, pageSize);
-        PageInfo<SystemLoginInfoEntity> pageInfo = new PageInfo<>(super.list(queryWrapper));
-        return PageUtils.toBean(pageInfo, SystemLoginfoVO.class);
+    public Page<SystemLoginfoVO> page(LoginfoParams params) {
+        @NotNull QueryWrapper<SystemLoginInfoEntity> query = query(params);
+        @NotNull Page<SystemLoginInfoEntity> page = QueryWrapperUtils.getPage(params);
+        page = super.page(page, query);
+        return PageUtils.toBean(page, SystemLoginfoVO.class);
     }
+
 
     @Override
     public List<LoginInfoDTO> export(LoginfoParams params) {
-        QueryWrapper<SystemLoginInfoEntity> queryWrapper = getQuery(params);
+        QueryWrapper<SystemLoginInfoEntity> queryWrapper = query(params);
         List<SystemLoginInfoEntity> entities = super.list(queryWrapper);
         return BeanUtils.transformFromInBatch(entities, LoginInfoDTO.class);
     }
 
-    /**
-     * <p>
-     * 获取查询条件
-     * </p>
-     *
-     * @param params 过滤条件
-     * @return 查询条件
-     */
-    private QueryWrapper<SystemLoginInfoEntity> getQuery(LoginfoParams params) {
-        QueryWrapper<SystemLoginInfoEntity> queryWrapper = new QueryWrapper<>();
-        if (Objects.nonNull(params)) {
-            if (StringUtils.isNotBlank(params.getUsername())) {
-                queryWrapper.eq(SystemLoginInfoEntity.USERNAME, params.getUsername());
-            }
-            if (StringUtils.isNotBlank(params.getIpaddr())) {
-                queryWrapper.eq(SystemLoginInfoEntity.IPADDR, params.getIpaddr());
-            }
-            if (Objects.nonNull(params.getStartTime())) {
-                queryWrapper.apply("date_format(create_time,'%y%m%d') >= date_format({0},'%y%m%d')", params.getStartTime());
-            }
-            if (Objects.nonNull(params.getEndTime())) {
-                queryWrapper.apply("date_format(create_time,'%y%m%d') <= date_format({0},'%y%m%d')", params.getEndTime());
-            }
+    @Override
+    public @NotNull QueryWrapper<SystemLoginInfoEntity> query(@NotNull LoginfoParams params) {
+        @NotNull QueryWrapper<SystemLoginInfoEntity> query = getQuery(params);
+        if (StringUtils.isNotBlank(params.getUsername())) {
+            query.eq(SystemLoginInfoEntity.USERNAME, params.getUsername());
         }
-        return queryWrapper;
+        if (StringUtils.isNotBlank(params.getIpaddr())) {
+            query.eq(SystemLoginInfoEntity.IPADDR, params.getIpaddr());
+        }
+        if (Objects.nonNull(params.getStatus())) {
+            query.eq(SystemLoginInfoEntity.STATUS, params.getStatus());
+        }
+        if (Objects.nonNull(params.getStartTime())) {
+            query.apply("date_format(create_time,'%y%m%d') >= date_format({0},'%y%m%d')", params.getStartTime());
+        }
+        if (Objects.nonNull(params.getEndTime())) {
+            query.apply("date_format(create_time,'%y%m%d') <= date_format({0},'%y%m%d')", params.getEndTime());
+        }
+        return query;
     }
 }

@@ -1,7 +1,9 @@
 package com.hb0730.boot.admin.project.monitor.logininfo.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
+import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.dto.LoginInfoDTO;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.entity.SystemLoginInfoEntity;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.vo.LoginfoParams;
@@ -17,19 +19,16 @@ import java.util.List;
  * @author bing_huang
  * @since 2020-04-01
  */
-public interface ISystemLoginInfoService extends IService<SystemLoginInfoEntity> {
+public interface ISystemLoginInfoService extends IService<SystemLoginInfoEntity>, IBaseService<LoginfoParams, SystemLoginInfoEntity> {
 
     /**
-     * <p>
      * 分页查询
-     * </p>
      *
-     * @param page     页数
-     * @param pageSize 数量
-     * @param params   过滤条件
+     * @param params 过滤条件
      * @return 分页后信息
+     * @since v2.0
      */
-    PageInfo<SystemLoginfoVO> list(Integer page, Integer pageSize, LoginfoParams params);
+    Page<SystemLoginfoVO> page(LoginfoParams params);
 
     /**
      * <p>

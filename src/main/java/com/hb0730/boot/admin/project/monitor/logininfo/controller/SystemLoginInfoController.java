@@ -2,11 +2,11 @@ package com.hb0730.boot.admin.project.monitor.logininfo.controller;
 
 
 import com.alibaba.excel.support.ExcelTypeEnum;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.annotation.Log;
-import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
+import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.utils.excel.ExcelConstant;
 import com.hb0730.boot.admin.commons.utils.excel.ExcelUtils;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
@@ -50,15 +50,13 @@ public class SystemLoginInfoController extends BaseController {
      * 获取日志
      * </p>
      *
-     * @param page     页数
-     * @param pageSize 数量
-     * @param params   过滤参数
+     * @param params 过滤参数
      * @return 分页后的日志
      */
-    @PostMapping("/all/page/{page}/{pageSize}")
+    @PostMapping("/all/page")
     @PreAuthorize("hasAnyAuthority('login:log:query','ROLE_ADMINISTRATOR','ROLE_LOGIN_LOG_ADMIN')")
-    public Result getPageAll(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody LoginfoParams params) {
-        PageInfo<SystemLoginfoVO> list = systemLoginInfoService.list(page, pageSize, params);
+    public Result<Page<SystemLoginfoVO>> getPageAll(@RequestBody LoginfoParams params) {
+        Page<SystemLoginfoVO> list = systemLoginInfoService.page(params);
         return ResponseResult.resultSuccess(list);
     }
 
@@ -95,7 +93,7 @@ public class SystemLoginInfoController extends BaseController {
     @PostMapping("/delete")
     @Log(paramsName = "ids", module = ModuleName.LOGIN_INFO, title = "删除", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('login:log:delete','ROLE_ADMINISTRATOR','ROLE_LOGIN_LOG_ADMIN')")
-    public Result deleteLogin(@RequestBody List<Long> ids) {
+    public Result<String> deleteLogin(@RequestBody List<Long> ids) {
         if (CollectionUtils.isEmpty(ids)) {
             return ResponseResult.resultFall("请选择");
         }
@@ -113,7 +111,7 @@ public class SystemLoginInfoController extends BaseController {
     @GetMapping("/clean")
     @Log(module = ModuleName.LOGIN_INFO, title = "清空", businessType = BusinessTypeEnum.CLEAN)
     @PreAuthorize("hasAnyAuthority('login:log:clean','ROLE_ADMINISTRATOR','ROLE_LOGIN_LOG_ADMIN')")
-    public Result cleanLog() {
+    public Result<String> cleanLog() {
         List<SystemLoginInfoEntity> list = systemLoginInfoService.list();
         if (!CollectionUtils.isEmpty(list)) {
             Set<Long> ids = list.parallelStream().map(SystemLoginInfoEntity::getId).collect(Collectors.toSet());
