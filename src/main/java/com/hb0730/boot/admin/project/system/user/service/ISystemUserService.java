@@ -1,7 +1,9 @@
 package com.hb0730.boot.admin.project.system.user.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
+import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.commons.domain.service.IExportService;
 import com.hb0730.boot.admin.project.system.user.model.dto.LoginUserDTO;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserExcelDTO;
@@ -22,19 +24,15 @@ import java.util.List;
  * @author bing_huang
  * @since 2020-03-24
  */
-public interface ISystemUserService extends IService<SystemUserEntity>, IExportService<UserExcelDTO> {
+public interface ISystemUserService extends IBaseService<UserParams, SystemUserEntity>, IService<SystemUserEntity>, IExportService<UserExcelDTO> {
 
     /**
-     * <p>
      * 分页查询
-     * </p>
      *
-     * @param page     页数
-     * @param pageSize 数量
-     * @param params   过滤参数
+     * @param params 过滤参数
      * @return 分页后得数据
      */
-    PageInfo<SystemUserVO> list(Integer page, Integer pageSize, UserParams params);
+    Page<SystemUserVO> page(@NonNull UserParams params);
 
     /**
      * 用户保存

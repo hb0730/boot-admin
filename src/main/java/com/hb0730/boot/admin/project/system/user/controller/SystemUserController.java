@@ -4,7 +4,7 @@ package com.hb0730.boot.admin.project.system.user.controller;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.annotation.Log;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
@@ -62,7 +62,7 @@ public class SystemUserController extends BaseController {
      * @return 是否成功
      */
     @Deprecated
-    public Result save(SystemUserVO vo) {
+    public Result<String> save(SystemUserVO vo) {
         if (Objects.isNull(vo)) {
             return ResponseResult.resultFall("新增用户失败，用户账号为空");
         }
@@ -80,7 +80,7 @@ public class SystemUserController extends BaseController {
     @PostMapping("/save")
     @Log(paramsName = {"vo"}, module = ModuleName.USER, title = "用户保存", businessType = BusinessTypeEnum.INSERT)
     @PreAuthorize("hasAnyAuthority('user:save','ROLE_ADMINISTRATOR','ROLE_USER_ADMIN')")
-    public Result save(@Validated @RequestBody UserVO vo) {
+    public Result<String> save(@Validated @RequestBody UserVO vo) {
         if (Objects.isNull(vo)) {
             return ResponseResult.resultFall("新增用户失败，用户账号为空");
         }
@@ -114,7 +114,7 @@ public class SystemUserController extends BaseController {
      * @return 用户信息
      */
     @GetMapping("/info/{id}")
-    public Result getUserInfoById(@PathVariable Long id) {
+    public Result<SystemUserVO> getUserInfoById(@PathVariable Long id) {
         SystemUserEntity entity = systemUserService.getById(id);
         SystemUserVO vo = BeanUtils.transformFrom(entity, SystemUserVO.class);
         return ResponseResult.resultSuccess(vo);
@@ -131,7 +131,7 @@ public class SystemUserController extends BaseController {
      */
     @PostMapping("/update/info/{id}")
     @Deprecated
-    public Result updateInfoByUserId(@RequestBody SystemUserVO vo, @PathVariable Long id) {
+    public Result<String> updateInfoByUserId(@RequestBody SystemUserVO vo, @PathVariable Long id) {
         SystemUserEntity entity = systemUserService.getById(id);
         vo.setPassword(null);
         vo.setDeptId(null);
@@ -151,7 +151,7 @@ public class SystemUserController extends BaseController {
      */
     @PostMapping("/update/password/{id}")
     @Log(paramsName = {"oldPassword", "newPassword", "newPassword2"}, module = ModuleName.USER, title = "用户修改密码", businessType = BusinessTypeEnum.UPDATE)
-    public Result updatePasswordByUserId(String oldPassword, String newPassword, String newPassword2, @PathVariable Long id) {
+    public Result<String> updatePasswordByUserId(String oldPassword, String newPassword, String newPassword2, @PathVariable Long id) {
         if (StringUtils.isBlank(oldPassword)) {
             return ResponseResult.resultFall("原密码为空");
         }
@@ -178,16 +178,14 @@ public class SystemUserController extends BaseController {
      * 分页用户
      * </p>
      *
-     * @param page     页数
-     * @param pageSize 数量
-     * @param vo       过滤条件
+     * @param vo 过滤条件
      * @return 分页后的用户信息
      */
-    @PostMapping("/all/{page}/{pageSize}")
+    @PostMapping("/all")
     @PreAuthorize("hasAnyAuthority('user:query','ROLE_ADMINISTRATOR','ROLE_USER_ADMIN')")
-    public Result getUserPage(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody UserParams vo) {
-        PageInfo<SystemUserVO> info = systemUserService.list(page, pageSize, vo);
-        return ResponseResult.resultSuccess(info);
+    public Result<Page<SystemUserVO>> getUserPage(@RequestBody UserParams vo) {
+        Page<SystemUserVO> page = systemUserService.page(vo);
+        return ResponseResult.resultSuccess(page);
     }
 
 
@@ -200,7 +198,7 @@ public class SystemUserController extends BaseController {
      * @return 用户详情
      */
     @GetMapping("/user/info/{userId}")
-    public Result getUserInfo(@PathVariable Long userId) {
+    public Result<UserVO> getUserInfo(@PathVariable Long userId) {
         UserVO info = systemUserService.getUserInfo(userId);
         return ResponseResult.resultSuccess(info);
     }
@@ -215,7 +213,7 @@ public class SystemUserController extends BaseController {
     @PostMapping("/update/user/{userId}")
     @Log(paramsName = {"user"}, module = ModuleName.USER, title = "更新用户信息", businessType = BusinessTypeEnum.UPDATE)
     @PreAuthorize("hasAnyAuthority('user:update','ROLE_ADMINISTRATOR','ROLE_USER_ADMIN')")
-    public Result updateUserById(@RequestBody UserVO user, @PathVariable Long userId) {
+    public Result<String> updateUserById(@RequestBody UserVO user, @PathVariable Long userId) {
         if (Objects.isNull(user)) {
             return ResponseResult.resultSuccess("修改成功");
         }
@@ -234,7 +232,7 @@ public class SystemUserController extends BaseController {
     @GetMapping("/update/reset/password/{id}")
     @Log(module = ModuleName.USER, title = "重置密码", businessType = BusinessTypeEnum.UPDATE)
     @PreAuthorize("hasAnyAuthority('user:rest:password','ROLE_ADMINISTRATOR','ROLE_USER_ADMIN')")
-    public Result resetPassword(@PathVariable Long id) {
+    public Result<String> resetPassword(@PathVariable Long id) {
         systemUserService.resetPassword(id);
         return ResponseResult.resultSuccess("重置成功");
     }
@@ -251,7 +249,7 @@ public class SystemUserController extends BaseController {
     @GetMapping("/delete/{id}")
     @Log(module = ModuleName.USER, title = "删除用户", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('user:delete','ROLE_ADMINISTRATOR','ROLE_USER_ADMIN')")
-    public Result deleteById(@PathVariable Long id) {
+    public Result<String> deleteById(@PathVariable Long id) {
         systemUserService.removeById(id);
         return ResponseResult.resultSuccess("删除成功");
     }
@@ -267,7 +265,7 @@ public class SystemUserController extends BaseController {
     @PostMapping("/delete")
     @Log(module = ModuleName.USER, title = "删除用户", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('user:delete','ROLE_ADMINISTRATOR','ROLE_USER_ADMIN')")
-    public Result deleteByIds(@RequestBody List<Long> ids) {
+    public Result<String> deleteByIds(@RequestBody List<Long> ids) {
         if (!CollectionUtils.isEmpty(ids)) {
             systemUserService.removeByIds(ids);
             return ResponseResult.resultSuccess("删除成功");
@@ -310,7 +308,7 @@ public class SystemUserController extends BaseController {
     @PostMapping("/upload")
     @Log(module = ModuleName.USER, title = "用户导入", businessType = BusinessTypeEnum.IMPORT)
     @PreAuthorize("hasAnyAuthority('user:upload','ROLE_ADMINISTRATOR','ROLE_USER_ADMIN')")
-    public Result upload(MultipartFile file) throws IOException {
+    public Result<String> upload(MultipartFile file) throws IOException {
         EasyExcel.read(file.getInputStream(), UserExcelDTO.class, new UploadDataListener(systemUserService)).sheet().doRead();
         return ResponseResult.resultSuccess("导入成功");
     }

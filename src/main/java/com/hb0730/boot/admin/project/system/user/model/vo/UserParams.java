@@ -1,18 +1,22 @@
 package com.hb0730.boot.admin.project.system.user.model.vo;
 
+import com.hb0730.boot.admin.commons.web.model.BaseParams;
 import lombok.Data;
-
-import java.io.Serializable;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * <p>
+ * 用户请求
  * </P>
  *
  * @author bing_huang
  * @since V1.0
  */
 @Data
-public class UserParams implements Serializable {
+@ToString
+@EqualsAndHashCode(callSuper = true)
+public class UserParams extends BaseParams {
     /**
      * 组织id
      */

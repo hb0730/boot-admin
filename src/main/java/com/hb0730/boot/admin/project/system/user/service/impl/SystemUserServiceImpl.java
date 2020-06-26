@@ -1,11 +1,11 @@
 package com.hb0730.boot.admin.project.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.PageUtils;
+import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
 import com.hb0730.boot.admin.exception.BaseException;
@@ -49,14 +49,11 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
     private ISystemOrgService systemOrgService;
 
     @Override
-    public PageInfo<SystemUserVO> list(Integer page, Integer pageSize, UserParams params) {
-        page = page == null ? 1 : page;
-        pageSize = pageSize == null ? 10 : pageSize;
-        QueryWrapper<SystemUserEntity> queryWrapper = getQuery(params);
-        PageHelper.startPage(page, pageSize);
-        List<SystemUserEntity> entities = super.list(queryWrapper);
-        PageInfo<SystemUserEntity> pageInfo = new PageInfo<>(entities);
-        return PageUtils.toBean(pageInfo, SystemUserVO.class);
+    public Page<SystemUserVO> page(@NonNull UserParams params) {
+        QueryWrapper<SystemUserEntity> query = getQuery(params);
+        @NotNull Page<SystemUserEntity> page = QueryWrapperUtils.getPage(params);
+        page = super.page(page, query);
+        return PageUtils.toBean(page, SystemUserVO.class);
     }
 
     @Override
@@ -128,7 +125,7 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
 
     @Override
     public List<UserExcelDTO> export(UserParams params) {
-        QueryWrapper<SystemUserEntity> queryWrapper = getQuery(params);
+        QueryWrapper<SystemUserEntity> queryWrapper = query(params);
         List<SystemUserEntity> entities = super.list(queryWrapper);
         List<UserExcelDTO> dtos = BeanUtils.transformFromInBatch(entities, UserExcelDTO.class);
         if (!CollectionUtils.isEmpty(dtos)) {
@@ -225,5 +222,23 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
             }
         }
         return queryWrapper;
+    }
+
+    @Override
+    public @NotNull QueryWrapper<SystemUserEntity> query(@NotNull UserParams params) {
+        @NotNull QueryWrapper<SystemUserEntity> query = QueryWrapperUtils.getQuery(params);
+        if (!Objects.nonNull(params.getDeptId())) {
+            query.eq(SystemUserEntity.DEPTID, params.getDeptId());
+        }
+        if (StringUtils.isNotBlank(params.getNickName())) {
+            query.eq(SystemUserEntity.NICK_NAME, params.getNickName());
+        }
+        if (StringUtils.isNotBlank(params.getUsername())) {
+            query.eq(SystemUserEntity.USERNAME, params.getUsername());
+        }
+        if (Objects.nonNull(params.getIsEnabled())) {
+            query.eq(SystemUserEntity.IS_ENABLED, params.getIsEnabled());
+        }
+        return query;
     }
 }
