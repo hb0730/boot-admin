@@ -30,6 +30,7 @@ spring boot Admin management template
  * 消息管理: 公告,通知等
  * oss对象存储可视化
  * 系统缓存
+ * Quartz 定时任务
  
 # 前端
  <https://github.com/hb0730/boot-admin-ui>
