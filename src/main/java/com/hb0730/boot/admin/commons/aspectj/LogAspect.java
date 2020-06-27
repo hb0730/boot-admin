@@ -3,16 +3,20 @@ package com.hb0730.boot.admin.commons.aspectj;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.annotation.Log;
 import com.hb0730.boot.admin.commons.constant.enums.SystemStatusEnum;
+import com.hb0730.boot.admin.commons.utils.MessageUtils;
 import com.hb0730.boot.admin.commons.utils.ServletUtils;
 import com.hb0730.boot.admin.commons.utils.ip.IpUtils;
 import com.hb0730.boot.admin.commons.utils.json.GsonUtils;
 import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
+import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.exception.BaseException;
+import com.hb0730.boot.admin.exception.DemoException;
 import com.hb0730.boot.admin.manager.AsyncManager;
 import com.hb0730.boot.admin.manager.factory.AsyncFactory;
 import com.hb0730.boot.admin.project.monitor.operlog.model.entity.SystemOperLogEntity;
 import com.hb0730.boot.admin.security.model.LoginUser;
 import com.hb0730.boot.admin.security.service.ITokenService;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
@@ -41,8 +45,10 @@ import java.util.Map;
  */
 @Aspect
 @Component
+@AllArgsConstructor
 public class LogAspect {
     private static final Logger log = LoggerFactory.getLogger(LogAspect.class);
+    private final BootAdminProperties properties;
 
     /**
      * 配置织入点
@@ -79,8 +85,11 @@ public class LogAspect {
     void handleLog(final JoinPoint joinPoint, final Exception e, Object jsonResult) {
         try {
             Log log = getAnnotationLog(joinPoint);
+            boolean demoEnabled = properties.isDemoEnabled();
             if (log == null) {
                 return;
+            } else if (demoEnabled) {
+                throw new DemoException(MessageUtils.message("demo"));
             }
             // 获取当前的用户
             LoginUser loginUser = SpringUtils.getBean(ITokenService.class).getLoginUser(ServletUtils.getRequest());
