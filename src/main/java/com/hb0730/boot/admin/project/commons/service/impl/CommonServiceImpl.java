@@ -1,8 +1,7 @@
 package com.hb0730.boot.admin.project.commons.service.impl;
 
-import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
-import com.hb0730.boot.admin.commons.constant.enums.ValueEnum;
+import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.file.handler.FileHandlers;
 import com.hb0730.boot.admin.file.model.UploadResult;
 import com.hb0730.boot.admin.project.commons.service.ICommonService;
@@ -29,7 +28,7 @@ public class CommonServiceImpl implements ICommonService {
 
     @Override
     public UploadResult upload(MultipartFile file) {
-        AttachmentTypeEnum value = ValueEnum.valueToEnum(AttachmentTypeEnum.class, properties.getAttachmentType());
+        AttachmentTypeEnum value = properties.getAttachmentType();
         return fileHandlers.upload(file, value);
     }
 }

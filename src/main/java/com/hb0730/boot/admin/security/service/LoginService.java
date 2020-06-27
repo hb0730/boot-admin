@@ -2,7 +2,6 @@ package com.hb0730.boot.admin.security.service;
 
 import com.hb0730.boot.admin.commons.constant.enums.SystemStatusEnum;
 import com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum;
-import com.hb0730.boot.admin.commons.constant.enums.ValueEnum;
 import com.hb0730.boot.admin.commons.utils.MessageUtils;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.exception.BaseException;
@@ -77,7 +76,7 @@ public class LoginService {
 
 
     private ITokenService getToken() {
-        TokenTypeEnum tokenTypeEnum = ValueEnum.valueToEnum(TokenTypeEnum.class, properties.getTokenType());
+        TokenTypeEnum tokenTypeEnum = properties.getTokenType();
         return tokenHandlers.getImpl(tokenTypeEnum);
     }
 }

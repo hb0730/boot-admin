@@ -42,8 +42,8 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
      */
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        TokenTypeEnum tokenTypeEnum = ValueEnum.valueToEnum(TokenTypeEnum.class, properties.getTokenType());
-        ITokenService tokenService = tokenHandlers.getImpl(tokenTypeEnum);
+        TokenTypeEnum tokenType = properties.getTokenType();
+        ITokenService tokenService = tokenHandlers.getImpl(tokenType);
         LoginUser loginUser = tokenService.getLoginUser(request);
         if (Objects.nonNull(loginUser)) {
             tokenService.delLoginUser(request);

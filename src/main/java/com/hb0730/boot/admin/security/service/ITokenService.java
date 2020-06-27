@@ -6,6 +6,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 /**
@@ -70,6 +74,15 @@ public interface ITokenService {
 
     /**
      * <p>
+     * 验证令牌有效期，相差不足20分钟，自动刷新缓存
+     * </p>
+     *
+     * @param request 请求
+     */
+    void verifyAccessToken(HttpServletRequest request);
+
+    /**
+     * <p>
      * 删除用户信息
      * </p>
      *
@@ -102,4 +115,21 @@ public interface ITokenService {
      * @return true为支持类型
      */
     boolean supportType(@Nullable TokenTypeEnum type);
+
+    /**
+     * 从数据声明生成令牌
+     *
+     * @param values 数据声明
+     * @return 令牌
+     */
+    default String createToken(Map<String, String> values) {
+        MessageDigest digest;
+        try {
+            digest = MessageDigest.getInstance("MD5");
+            byte[] bytes = digest.digest(values.toString().getBytes(StandardCharsets.UTF_8));
+            return String.format("%032x", new BigInteger(1, bytes));
+        } catch (NoSuchAlgorithmException nsae) {
+            throw new IllegalStateException("MD5 algorithm not available.  Fatal (should be in the JDK).", nsae);
+        }
+    }
 }

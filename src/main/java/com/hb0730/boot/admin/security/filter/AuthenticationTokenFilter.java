@@ -1,7 +1,5 @@
 package com.hb0730.boot.admin.security.filter;
 
-import com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum;
-import com.hb0730.boot.admin.commons.constant.enums.ValueEnum;
 import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.security.handle.TokenHandlers;
@@ -48,10 +46,10 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        ITokenService tokenService = tokenHandlers.getImpl(ValueEnum.valueToEnum(TokenTypeEnum.class, properties.getTokenType()));
-        LoginUser loginUser = tokenService.getLoginUser(request);
+        ITokenService service = tokenHandlers.getImpl(properties.getTokenType());
+        LoginUser loginUser = service.getLoginUser(request);
         if (!Objects.isNull(loginUser) && StringUtils.isEmpty(SecurityUtils.getAuthentication())) {
-            tokenService.verifyAccessToken(loginUser);
+            service.verifyAccessToken(loginUser);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);

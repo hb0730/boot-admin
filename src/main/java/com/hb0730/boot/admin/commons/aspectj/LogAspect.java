@@ -3,8 +3,6 @@ package com.hb0730.boot.admin.commons.aspectj;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.annotation.Log;
 import com.hb0730.boot.admin.commons.constant.enums.SystemStatusEnum;
-import com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum;
-import com.hb0730.boot.admin.commons.constant.enums.ValueEnum;
 import com.hb0730.boot.admin.commons.utils.ServletUtils;
 import com.hb0730.boot.admin.commons.utils.ip.IpUtils;
 import com.hb0730.boot.admin.commons.utils.json.GsonUtils;
@@ -86,8 +84,9 @@ public class LogAspect {
                 return;
             }
             // 获取当前的用户
-//            LoginUser loginUser = SpringUtils.getBean(TokenServiceImpl.class).getLoginUser(ServletUtils.getRequest());
-            LoginUser loginUser = SpringUtils.getBean(TokenHandlers.class).getImpl(ValueEnum.valueToEnum(TokenTypeEnum.class, SpringUtils.getBean(BootAdminProperties.class).getTokenType())).getLoginUser(ServletUtils.getRequest());
+            LoginUser loginUser = SpringUtils.getBean(TokenHandlers.class)
+                    .getImpl(SpringUtils.getBean(BootAdminProperties.class)
+                            .getTokenType()).getLoginUser(ServletUtils.getRequest());
             // 日志存储
 
             SystemOperLogEntity entity = new SystemOperLogEntity();
