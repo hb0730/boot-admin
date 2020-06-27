@@ -32,9 +32,11 @@ public class InMemoryTokenServiceImpl extends AbstractTokenService {
 
     private final Long expire;
     private final Long refreshTime;
+    private final BootAdminProperties properties;
 
     public InMemoryTokenServiceImpl(BootAdminProperties properties) {
         super(properties);
+        this.properties = properties;
         expire = TimeUnit.MILLISECONDS.convert(properties.getTokenConfig().getExpireTime(), properties.getTokenConfig().getTimeUnit());
         refreshTime = TimeUnit.MILLISECONDS.convert(properties.getTokenConfig().getRefreshTime(), properties.getTokenConfig().getTimeUnit());
     }
@@ -94,26 +96,16 @@ public class InMemoryTokenServiceImpl extends AbstractTokenService {
         LoginUser loginUser = getLoginUser(request);
         long expireTime = loginUser.getExpireTime();
         long currentTime = System.currentTimeMillis();
-        if (expireTime - currentTime <= MILLIS_MINUTE_TEN) {
+        if (expireTime - currentTime <= refreshTime) {
             refreshAccessToken(loginUser);
         }
     }
 
     @Override
     public void delLoginUser(HttpServletRequest request) {
-        LoginUser loginUser = getLoginUser(request);
-        if (Objects.nonNull(loginUser)) {
-            long expireTime = loginUser.getExpireTime();
-            long currentTime = System.currentTimeMillis();
-            if (expireTime - currentTime <= MILLIS_MINUTE_TEN) {
-                // 获取请求携带的令牌
-                String accessToken = getAccessToken(request);
-                //用户令牌
-                String accessTokenKey = getAccessTokenKey(accessToken);
-                // 存储登录token
-                loginCache.put(accessTokenKey, loginUser.getToken());
-                refreshAccessToken(loginUser);
-            }
+        String accessToken = getAccessToken(request);
+        if (StringUtils.isNotBlank(accessToken)) {
+            deleteAccessToken(accessToken);
         }
     }
 

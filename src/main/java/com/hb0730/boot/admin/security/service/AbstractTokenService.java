@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * @author bing_huang
  * @date 2020/06/27 10:52
- * @since V1.0
+ * @since V2.0
  */
 public abstract class AbstractTokenService implements ITokenService {
     @Getter
