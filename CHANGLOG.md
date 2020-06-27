@@ -1,5 +1,7 @@
-# v1.0.1.beta
- * add redis token 
+# v2.0.0
+ * update 更改page使用mybatisPlus自带分页，去除pagehelper
+ * update 更新token存储
+ * update 更新oss存储
 # v1.0.0
  * 模拟实现spring security认证登录,角色,权限以及注销等
  * 实现了RBAC认证
