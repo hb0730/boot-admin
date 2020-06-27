@@ -2,7 +2,7 @@ package com.hb0730.boot.admin.project.commons.controller;
 
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
-import com.hb0730.boot.admin.file.model.UploadResult;
+import com.hb0730.boot.admin.oss.model.UploadResult;
 import com.hb0730.boot.admin.project.commons.service.ICommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

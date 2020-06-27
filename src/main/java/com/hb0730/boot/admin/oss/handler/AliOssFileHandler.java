@@ -1,13 +1,13 @@
-package com.hb0730.boot.admin.file.handler;
+package com.hb0730.boot.admin.oss.handler;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.PutObjectResult;
 import com.hb0730.boot.admin.commons.utils.ImageUtils;
 import com.hb0730.boot.admin.exception.FileOperationException;
-import com.hb0730.boot.admin.file.configuration.AliOssProperties;
+import com.hb0730.boot.admin.oss.configuration.AliOssProperties;
 import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
-import com.hb0730.boot.admin.file.model.UploadResult;
+import com.hb0730.boot.admin.oss.model.UploadResult;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.shaded.commons.io.FilenameUtils;
 import org.jetbrains.annotations.NotNull;

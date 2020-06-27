@@ -2,8 +2,8 @@ package com.hb0730.boot.admin.project.commons.service.impl;
 
 import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
-import com.hb0730.boot.admin.file.handler.FileHandlers;
-import com.hb0730.boot.admin.file.model.UploadResult;
+import com.hb0730.boot.admin.oss.handler.FileHandlers;
+import com.hb0730.boot.admin.oss.model.UploadResult;
 import com.hb0730.boot.admin.project.commons.service.ICommonService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

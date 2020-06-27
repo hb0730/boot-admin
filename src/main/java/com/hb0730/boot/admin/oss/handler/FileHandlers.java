@@ -1,8 +1,8 @@
-package com.hb0730.boot.admin.file.handler;
+package com.hb0730.boot.admin.oss.handler;
 
 import com.hb0730.boot.admin.exception.FileUploadException;
 import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
-import com.hb0730.boot.admin.file.model.UploadResult;
+import com.hb0730.boot.admin.oss.model.UploadResult;
 import org.springframework.context.ApplicationContext;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;

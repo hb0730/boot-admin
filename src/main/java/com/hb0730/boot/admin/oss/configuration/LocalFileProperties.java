@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.file.configuration;
+package com.hb0730.boot.admin.oss.configuration;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

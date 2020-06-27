@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.file.model;
+package com.hb0730.boot.admin.oss.model;
 
 import lombok.Data;
 import lombok.ToString;

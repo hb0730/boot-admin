@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.project.commons.service;
 
-import com.hb0730.boot.admin.file.model.UploadResult;
+import com.hb0730.boot.admin.oss.model.UploadResult;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
