@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.oss.handler;
+package com.hb0730.boot.admin.oss.handler.impl;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
@@ -8,6 +8,7 @@ import com.hb0730.boot.admin.commons.utils.ImageUtils;
 import com.hb0730.boot.admin.exception.FileOperationException;
 import com.hb0730.boot.admin.oss.configuration.properties.AliOssProperties;
 import com.hb0730.boot.admin.oss.configuration.properties.OssProperties;
+import com.hb0730.boot.admin.oss.handler.OssHandler;
 import com.hb0730.boot.admin.oss.model.UploadResult;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.shaded.commons.io.FilenameUtils;

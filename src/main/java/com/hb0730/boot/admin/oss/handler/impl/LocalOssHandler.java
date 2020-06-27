@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.oss.handler;
+package com.hb0730.boot.admin.oss.handler.impl;
 
 import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
 import com.hb0730.boot.admin.commons.utils.ImageUtils;
@@ -6,6 +6,7 @@ import com.hb0730.boot.admin.exception.FileOperationException;
 import com.hb0730.boot.admin.exception.FileUploadException;
 import com.hb0730.boot.admin.oss.configuration.properties.LocalOssProperties;
 import com.hb0730.boot.admin.oss.configuration.properties.OssProperties;
+import com.hb0730.boot.admin.oss.handler.OssHandler;
 import com.hb0730.boot.admin.oss.model.UploadResult;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.velocity.shaded.commons.io.FilenameUtils;
