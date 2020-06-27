@@ -1,8 +1,9 @@
-package com.hb0730.boot.admin.oss.configuration;
+package com.hb0730.boot.admin.oss.configuration.properties;
 
+import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,15 +23,21 @@ import static com.hb0730.boot.admin.commons.utils.commons.StringUtils.ensureSuff
  */
 @Data
 @ConfigurationProperties(prefix = "boot.admin.oss.local")
-@Component
-public class LocalFileProperties {
+@Configuration
+public class LocalOssProperties implements OssProperties {
     /**
      * 上传路径
      */
     private String profile = ensureSuffix(USER_HOME, FILE_SEPARATOR) + ".bootAdmin" + FILE_SEPARATOR;
 
-    public LocalFileProperties() throws IOException {
+    public LocalOssProperties() throws IOException {
+        super();
         // Create work directory if not exist
         Files.createDirectories(Paths.get(profile));
+    }
+
+    @Override
+    public boolean supportType(AttachmentTypeEnum type) {
+        return AttachmentTypeEnum.LOCAL.equals(type);
     }
 }

@@ -17,9 +17,9 @@ import static com.hb0730.boot.admin.commons.constant.SystemConstants.FILE_SEPARA
  * </P>
  *
  * @author bing_huang
- * @since V1.0
+ * @since V2.0
  */
-public interface FileHandler {
+public interface OssHandler {
     MediaType IMAGE_TYPE = MediaType.valueOf("image/*");
 
     /**

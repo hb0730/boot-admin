@@ -1,10 +1,11 @@
 package com.hb0730.boot.admin.oss.handler;
 
+import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
 import com.hb0730.boot.admin.commons.utils.ImageUtils;
 import com.hb0730.boot.admin.exception.FileOperationException;
 import com.hb0730.boot.admin.exception.FileUploadException;
-import com.hb0730.boot.admin.oss.configuration.LocalFileProperties;
-import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
+import com.hb0730.boot.admin.oss.configuration.properties.LocalOssProperties;
+import com.hb0730.boot.admin.oss.configuration.properties.OssProperties;
 import com.hb0730.boot.admin.oss.model.UploadResult;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.velocity.shaded.commons.io.FilenameUtils;
@@ -12,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,10 +37,9 @@ import static com.hb0730.boot.admin.commons.constant.SystemConstants.FILE_SEPARA
  * @author bing_huang
  * @since V1.0
  */
-@Component
-public class LocalFileHandler implements FileHandler {
+public class LocalOssHandler implements OssHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(LocalFileHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(LocalOssHandler.class);
     /**
      * 文件上传路径前缀
      */
@@ -67,8 +66,9 @@ public class LocalFileHandler implements FileHandler {
 
     ReentrantLock lock = new ReentrantLock();
 
-    public LocalFileHandler(LocalFileProperties fileProperties) {
-        fileProfile = FileHandler.normalizeDirectory(fileProperties.getProfile());
+    public LocalOssHandler(OssProperties properties) {
+        LocalOssProperties fileProperties = (LocalOssProperties) properties;
+        fileProfile = OssHandler.normalizeDirectory(fileProperties.getProfile());
         checkWorkDir();
     }
 
@@ -140,7 +140,7 @@ public class LocalFileHandler implements FileHandler {
             boolean isSvg = "svg".equals(extension);
 
             // Check file type
-            if (FileHandler.isImageType(uploadResult.getMediaType()) && !isSvg) {
+            if (OssHandler.isImageType(uploadResult.getMediaType()) && !isSvg) {
                 lock.lock();
                 try {
                     // Upload a thumbnail

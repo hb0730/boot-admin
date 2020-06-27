@@ -1,7 +1,9 @@
-package com.hb0730.boot.admin.oss.configuration;
+package com.hb0730.boot.admin.oss.configuration.properties;
 
+import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,9 +15,9 @@ import org.springframework.stereotype.Component;
  * @since V1.0
  */
 @Data
-@Component
 @ConfigurationProperties(prefix = "boot.admin.oss.aliyun")
-public class AliOssProperties {
+@Configuration
+public class AliOssProperties implements OssProperties {
     /**
      * Endpoint
      */
@@ -43,4 +45,9 @@ public class AliOssProperties {
      * 缩略样式
      */
     private String thumbnailStyleRule;
+
+    @Override
+    public boolean supportType(AttachmentTypeEnum type) {
+        return AttachmentTypeEnum.ALIOSS.equals(type);
+    }
 }

@@ -3,10 +3,11 @@ package com.hb0730.boot.admin.oss.handler;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.PutObjectResult;
+import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
 import com.hb0730.boot.admin.commons.utils.ImageUtils;
 import com.hb0730.boot.admin.exception.FileOperationException;
-import com.hb0730.boot.admin.oss.configuration.AliOssProperties;
-import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
+import com.hb0730.boot.admin.oss.configuration.properties.AliOssProperties;
+import com.hb0730.boot.admin.oss.configuration.properties.OssProperties;
 import com.hb0730.boot.admin.oss.model.UploadResult;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.shaded.commons.io.FilenameUtils;
@@ -25,12 +26,11 @@ import java.util.Objects;
  * @author bing_huang
  * @since V1.0
  */
-@Component
-public class AliOssFileHandler implements FileHandler {
-    private AliOssProperties properties;
+public class AliOssFileHandler implements OssHandler {
+    private final AliOssProperties properties;
 
-    public AliOssFileHandler(AliOssProperties properties) {
-        this.properties = properties;
+    public AliOssFileHandler(OssProperties ossProperties) {
+        this.properties = (AliOssProperties) ossProperties;
     }
 
     @NotNull
@@ -80,7 +80,7 @@ public class AliOssFileHandler implements FileHandler {
             uploadResult.setSize(file.getSize());
 
             // Handle thumbnail
-            if (FileHandler.isImageType(uploadResult.getMediaType())) {
+            if (OssHandler.isImageType(uploadResult.getMediaType())) {
                 BufferedImage image = ImageUtils.getImageFromFile(file.getInputStream(), extension);
                 uploadResult.setWidth(image.getWidth());
                 uploadResult.setHeight(image.getHeight());

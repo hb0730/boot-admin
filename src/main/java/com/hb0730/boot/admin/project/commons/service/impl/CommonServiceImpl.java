@@ -1,8 +1,6 @@
 package com.hb0730.boot.admin.project.commons.service.impl;
 
-import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
-import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
-import com.hb0730.boot.admin.oss.handler.FileHandlers;
+import com.hb0730.boot.admin.oss.handler.OssHandler;
 import com.hb0730.boot.admin.oss.model.UploadResult;
 import com.hb0730.boot.admin.project.commons.service.ICommonService;
 import org.springframework.stereotype.Service;
@@ -18,17 +16,14 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Service
 public class CommonServiceImpl implements ICommonService {
-    private FileHandlers fileHandlers;
-    private BootAdminProperties properties;
+    private final OssHandler ossHandler;
 
-    public CommonServiceImpl(FileHandlers fileHandlers, BootAdminProperties properties) {
-        this.fileHandlers = fileHandlers;
-        this.properties = properties;
+    public CommonServiceImpl(OssHandler ossHandler) {
+        this.ossHandler = ossHandler;
     }
 
     @Override
     public UploadResult upload(MultipartFile file) {
-        AttachmentTypeEnum value = properties.getAttachmentType();
-        return fileHandlers.upload(file, value);
+        return ossHandler.upload(file);
     }
 }
