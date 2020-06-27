@@ -1,13 +1,11 @@
 package com.hb0730.boot.admin.project.monitor.useronline.service.impl;
 
 import com.google.common.collect.Lists;
-import com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.project.monitor.useronline.model.vo.ParamsVO;
 import com.hb0730.boot.admin.project.monitor.useronline.model.vo.UserOnlineVO;
 import com.hb0730.boot.admin.project.monitor.useronline.service.IUserOnlineService;
-import com.hb0730.boot.admin.security.handle.TokenHandlers;
 import com.hb0730.boot.admin.security.model.LoginUser;
 import com.hb0730.boot.admin.security.service.ITokenService;
 import org.apache.commons.lang3.StringUtils;
@@ -29,19 +27,12 @@ import java.util.stream.Collectors;
  */
 @Service
 public class UserOnlineServiceImpl implements IUserOnlineService {
-    //    @Autowired
-//    private ITokenService service;
-    private TokenHandlers tokenHandlers;
-    private BootAdminProperties properties;
+    private final ITokenService tokenService;
+    private final BootAdminProperties properties;
 
-    public UserOnlineServiceImpl(TokenHandlers tokenHandlers, BootAdminProperties properties) {
-        this.tokenHandlers = tokenHandlers;
+    public UserOnlineServiceImpl(ITokenService tokenService, BootAdminProperties properties) {
+        this.tokenService = tokenService;
         this.properties = properties;
-    }
-
-    private ITokenService getTokenService() {
-        TokenTypeEnum tokenType = properties.getTokenType();
-        return tokenHandlers.getImpl(tokenType);
     }
 
     @Override
@@ -69,7 +60,7 @@ public class UserOnlineServiceImpl implements IUserOnlineService {
             return false;
         }
         for (String s : token) {
-            getTokenService().deleteAccessToken(s);
+            tokenService.deleteAccessToken(s);
         }
         return true;
     }
@@ -82,7 +73,7 @@ public class UserOnlineServiceImpl implements IUserOnlineService {
      * @return 缓存用户
      */
     private List<UserOnlineVO> getOnline() {
-        Map<String, UserDetails> online = getTokenService().getOnline();
+        Map<String, UserDetails> online = tokenService.getOnline();
         if (!CollectionUtils.isEmpty(online)) {
             List<UserOnlineVO> lists = Lists.newArrayList();
             for (Map.Entry<String, UserDetails> detailsEntry : online.entrySet()) {

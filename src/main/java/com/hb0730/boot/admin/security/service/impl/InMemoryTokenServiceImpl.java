@@ -1,6 +1,11 @@
 package com.hb0730.boot.admin.security.service.impl;
 
+import com.alicp.jetcache.Cache;
+import com.alicp.jetcache.anno.CacheType;
+import com.alicp.jetcache.anno.CreateCache;
+import com.hb0730.boot.admin.commons.constant.RedisConstants;
 import com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum;
+import com.hb0730.boot.admin.commons.utils.json.GsonUtils;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.security.model.LoginUser;
 import com.hb0730.boot.admin.security.service.AbstractTokenService;
@@ -11,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -23,10 +27,8 @@ import java.util.concurrent.TimeUnit;
  * @since V1.0
  */
 public class InMemoryTokenServiceImpl extends AbstractTokenService {
-    // 存储令牌 token
-    private final ConcurrentHashMap<String, String> accessTokenStore = new ConcurrentHashMap<String, String>();
-    // 存储token 用户
-    private final ConcurrentHashMap<String, LoginUser> authenticationStore = new ConcurrentHashMap<String, LoginUser>();
+    @CreateCache(cacheType = CacheType.LOCAL, area = RedisConstants.REDIS_JETCACHE_AREA, name = RedisConstants.REDIS_JETCACHE_NAME_LOGIN)
+    private Cache<String, Object> loginCache;
 
     private final Long expire;
     private final Long refreshTime;
@@ -45,9 +47,8 @@ public class InMemoryTokenServiceImpl extends AbstractTokenService {
             //用户令牌
             String accessTokenKey = getAccessTokenKey(accessToken);
             // 用户key
-            String userTokenKey = String.valueOf(accessTokenStore.get(accessTokenKey));
-
-            return authenticationStore.get(getUserTokenKey(userTokenKey));
+            String userTokenKey = String.valueOf(loginCache.get(accessTokenKey));
+            return GsonUtils.gsonToBean(GsonUtils.json2String(loginCache.get(getUserTokenKey(userTokenKey))), LoginUser.class);
         }
         return null;
     }
@@ -64,7 +65,7 @@ public class InMemoryTokenServiceImpl extends AbstractTokenService {
         String newAccessToken = getAccessTokenKey(accessToken);
         // 存储登录token
 //        accessTokenStore.put(newAccessToken, token, expire, TimeUnit.MILLISECONDS);
-        accessTokenStore.put(newAccessToken, token);
+        loginCache.put(newAccessToken, token);
         // 返回 登录令牌
         return accessToken;
     }
@@ -76,7 +77,7 @@ public class InMemoryTokenServiceImpl extends AbstractTokenService {
         //根据token缓存
         String userTokenKey = getUserTokenKey(loginUser.getToken());
         //        authenticationStore.put(tokenKey, loginUser);
-        authenticationStore.put(userTokenKey, loginUser);
+        loginCache.put(userTokenKey, loginUser);
     }
 
     @Override
@@ -110,7 +111,7 @@ public class InMemoryTokenServiceImpl extends AbstractTokenService {
                 //用户令牌
                 String accessTokenKey = getAccessTokenKey(accessToken);
                 // 存储登录token
-                accessTokenStore.put(accessTokenKey, loginUser.getToken());
+                loginCache.put(accessTokenKey, loginUser.getToken());
                 refreshAccessToken(loginUser);
             }
         }
@@ -119,22 +120,21 @@ public class InMemoryTokenServiceImpl extends AbstractTokenService {
     @Override
     public void deleteAccessToken(String accessToken) {
         if (StringUtils.isNotBlank(accessToken)) {
-            String token = String.valueOf(accessTokenStore.get(getAccessTokenKey(accessToken)));
-            authenticationStore.remove(getUserTokenKey(token));
-            accessTokenStore.remove(getAccessTokenKey(accessToken));
+            String token = String.valueOf(loginCache.get(getAccessTokenKey(accessToken)));
+            loginCache.remove(getUserTokenKey(token));
+            loginCache.remove(getAccessTokenKey(accessToken));
         }
     }
 
     @Override
     public Map<String, UserDetails> getOnline() {
-        Map<String, UserDetails> maps = new ConcurrentHashMap<>();
-        if (accessTokenStore.size() > 0) {
-            for (Map.Entry<String, String> entry : accessTokenStore.entrySet()) {
-                String key = entry.getKey();
-                maps.put(key, authenticationStore.get(getUserTokenKey(entry.getValue())));
-            }
-            return maps;
-        }
+//        if (accessTokenStore.size() > 0) {
+//            for (Map.Entry<String, String> entry : accessTokenStore.entrySet()) {
+//                String key = entry.getKey();
+//                maps.put(key, authenticationStore.get(getUserTokenKey(entry.getValue())));
+//            }
+//            return maps;
+//        }
         return null;
     }
 

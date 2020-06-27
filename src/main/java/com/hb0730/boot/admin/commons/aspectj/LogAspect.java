@@ -7,13 +7,12 @@ import com.hb0730.boot.admin.commons.utils.ServletUtils;
 import com.hb0730.boot.admin.commons.utils.ip.IpUtils;
 import com.hb0730.boot.admin.commons.utils.json.GsonUtils;
 import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
-import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.manager.AsyncManager;
 import com.hb0730.boot.admin.manager.factory.AsyncFactory;
 import com.hb0730.boot.admin.project.monitor.operlog.model.entity.SystemOperLogEntity;
-import com.hb0730.boot.admin.security.handle.TokenHandlers;
 import com.hb0730.boot.admin.security.model.LoginUser;
+import com.hb0730.boot.admin.security.service.ITokenService;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
@@ -84,9 +83,7 @@ public class LogAspect {
                 return;
             }
             // 获取当前的用户
-            LoginUser loginUser = SpringUtils.getBean(TokenHandlers.class)
-                    .getImpl(SpringUtils.getBean(BootAdminProperties.class)
-                            .getTokenType()).getLoginUser(ServletUtils.getRequest());
+            LoginUser loginUser = SpringUtils.getBean(ITokenService.class).getLoginUser(ServletUtils.getRequest());
             // 日志存储
 
             SystemOperLogEntity entity = new SystemOperLogEntity();

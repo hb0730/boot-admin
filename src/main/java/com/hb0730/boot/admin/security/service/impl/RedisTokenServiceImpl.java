@@ -16,9 +16,7 @@ import io.lettuce.core.RedisFuture;
 import io.lettuce.core.api.async.RedisAsyncCommands;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,16 +35,15 @@ import java.util.concurrent.TimeUnit;
  * @author bing_huang
  * @since V1.0
  */
-@Component
 public class RedisTokenServiceImpl extends AbstractTokenService {
     @CreateCache(cacheType = CacheType.REMOTE, area = RedisConstants.REDIS_JETCACHE_AREA, name = RedisConstants.REDIS_JETCACHE_NAME_LOGIN)
     private Cache<String, Object> loginCache;
-    @Autowired
     @Getter
-    private BootAdminProperties properties;
+    private final BootAdminProperties properties;
 
     public RedisTokenServiceImpl(BootAdminProperties properties) {
         super(properties);
+        this.properties = properties;
     }
 
     @Override
@@ -106,7 +103,8 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
         if (Objects.nonNull(loginUser)) {
             long expireTime = loginUser.getExpireTime();
             long currentTime = System.currentTimeMillis();
-            if (expireTime - currentTime <= MILLIS_MINUTE_TEN) {
+            long refreshTime = TimeUnit.MILLISECONDS.convert(properties.getTokenConfig().getRefreshTime(), properties.getTokenConfig().getTimeUnit());
+            if (expireTime - currentTime <= refreshTime) {
                 // 获取请求携带的令牌
                 String accessToken = getAccessToken(request);
                 //用户令牌

@@ -2,7 +2,6 @@ package com.hb0730.boot.admin.security.filter;
 
 import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
-import com.hb0730.boot.admin.security.handle.TokenHandlers;
 import com.hb0730.boot.admin.security.model.LoginUser;
 import com.hb0730.boot.admin.security.service.ITokenService;
 import org.jetbrains.annotations.NotNull;
@@ -33,23 +32,22 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     /**
      * token service
      */
-    private final TokenHandlers tokenHandlers;
+    private final ITokenService tokenService;
     /**
-     * tokenpeizhi
+     * token 配置
      */
     private final BootAdminProperties properties;
 
-    public AuthenticationTokenFilter(TokenHandlers tokenHandlers, BootAdminProperties properties) {
-        this.tokenHandlers = tokenHandlers;
+    public AuthenticationTokenFilter(ITokenService tokenService, BootAdminProperties properties) {
+        this.tokenService = tokenService;
         this.properties = properties;
     }
 
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        ITokenService service = tokenHandlers.getImpl(properties.getTokenType());
-        LoginUser loginUser = service.getLoginUser(request);
+        LoginUser loginUser = tokenService.getLoginUser(request);
         if (!Objects.isNull(loginUser) && StringUtils.isEmpty(SecurityUtils.getAuthentication())) {
-            service.verifyAccessToken(loginUser);
+            tokenService.verifyAccessToken(loginUser);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);

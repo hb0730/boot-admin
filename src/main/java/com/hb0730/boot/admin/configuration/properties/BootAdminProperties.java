@@ -4,7 +4,7 @@ import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
 import com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * @since V1.0
  */
 @Data
-@Component
+@Configuration
 @ConfigurationProperties(prefix = "boot.admin")
 public class BootAdminProperties {
     /**

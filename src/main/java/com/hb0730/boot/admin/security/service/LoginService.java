@@ -1,14 +1,12 @@
 package com.hb0730.boot.admin.security.service;
 
 import com.hb0730.boot.admin.commons.constant.enums.SystemStatusEnum;
-import com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum;
 import com.hb0730.boot.admin.commons.utils.MessageUtils;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.exception.UserPasswordNotMatchException;
 import com.hb0730.boot.admin.manager.AsyncManager;
 import com.hb0730.boot.admin.manager.factory.AsyncFactory;
-import com.hb0730.boot.admin.security.handle.TokenHandlers;
 import com.hb0730.boot.admin.security.model.LoginSuccess;
 import com.hb0730.boot.admin.security.model.LoginUser;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,12 +27,12 @@ public class LoginService {
 
     private final AuthenticationManager authenticationManager;
     private final BootAdminProperties properties;
-    private final TokenHandlers tokenHandlers;
+    private final ITokenService tokenService;
 
-    public LoginService(AuthenticationManager authenticationManager, BootAdminProperties properties, TokenHandlers tokenHandlers) {
+    public LoginService(AuthenticationManager authenticationManager, BootAdminProperties properties, ITokenService tokenService) {
         this.authenticationManager = authenticationManager;
         this.properties = properties;
-        this.tokenHandlers = tokenHandlers;
+        this.tokenService = tokenService;
     }
 
     /**
@@ -66,17 +64,11 @@ public class LoginService {
         }
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         // 生成token
-        String accessToken = getToken().createAccessToken(loginUser);
+        String accessToken = tokenService.createAccessToken(loginUser);
         LoginSuccess success = new LoginSuccess();
         success.setAccessToken(accessToken);
         success.setLoginUser(loginUser);
         AsyncManager.me().execute(AsyncFactory.recordLoginInfo(username, SystemStatusEnum.SUCCESS.getValue(), MessageUtils.message("login.success")));
         return success;
-    }
-
-
-    private ITokenService getToken() {
-        TokenTypeEnum tokenTypeEnum = properties.getTokenType();
-        return tokenHandlers.getImpl(tokenTypeEnum);
     }
 }

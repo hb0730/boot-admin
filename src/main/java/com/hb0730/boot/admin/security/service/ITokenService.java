@@ -21,16 +21,6 @@ import java.util.Map;
  */
 public interface ITokenService {
     /*
-     * 会话超时时间，默认2小时
-     */
-    long MILLIS_SECOND = 1000;
-
-    /*
-     *置换保护时间，默认1小时
-     */
-
-    long MILLIS_MINUTE = 60 * MILLIS_SECOND;
-    /*
      *旧token延迟过期时间
      */
 

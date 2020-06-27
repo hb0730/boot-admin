@@ -1,8 +1,6 @@
 package com.hb0730.boot.admin.security.handle;
 
 import com.hb0730.boot.admin.commons.constant.enums.SystemStatusEnum;
-import com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum;
-import com.hb0730.boot.admin.commons.constant.enums.ValueEnum;
 import com.hb0730.boot.admin.commons.utils.MessageUtils;
 import com.hb0730.boot.admin.commons.utils.ServletUtils;
 import com.hb0730.boot.admin.commons.utils.json.GsonUtils;
@@ -29,21 +27,18 @@ import java.util.Objects;
 @Configuration
 public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
     private final BootAdminProperties properties;
-    private final TokenHandlers tokenHandlers;
+    private final ITokenService tokenService;
 
-    public LogoutSuccessHandlerImpl(BootAdminProperties properties, TokenHandlers tokenHandlers) {
+    public LogoutSuccessHandlerImpl(BootAdminProperties properties, ITokenService tokenService) {
         this.properties = properties;
-        this.tokenHandlers = tokenHandlers;
+        this.tokenService = tokenService;
     }
 
     /**
      * 退出处理
-     *
      */
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        TokenTypeEnum tokenType = properties.getTokenType();
-        ITokenService tokenService = tokenHandlers.getImpl(tokenType);
         LoginUser loginUser = tokenService.getLoginUser(request);
         if (Objects.nonNull(loginUser)) {
             tokenService.delLoginUser(request);
