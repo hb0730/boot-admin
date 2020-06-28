@@ -107,7 +107,7 @@ public class SystemMenuPermissionServiceImpl extends BaseServiceImpl<ISystemMenu
     @Override
     public Map<Long, Set<Long>> getPermissionIdByMenuId() {
         QueryWrapper<SystemMenuPermissionEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(SystemMenuPermissionEntity.IS_ENABLED, SystemConstants.USE);
+        queryWrapper.eq(SystemMenuPermissionEntity.IS_ENABLED, SystemConstants.ENABLED);
         queryWrapper.groupBy(SystemMenuPermissionEntity.MENU_ID);
         List<SystemMenuPermissionEntity> entities = super.list(queryWrapper);
         if (CollectionUtils.isEmpty(entities)) {
@@ -118,7 +118,7 @@ public class SystemMenuPermissionServiceImpl extends BaseServiceImpl<ISystemMenu
             Long menuId = entity.getMenuId();
             QueryWrapper<SystemMenuPermissionEntity> q1 = new QueryWrapper<>();
             q1.eq(SystemMenuPermissionEntity.MENU_ID, menuId);
-            q1.eq(SystemMenuPermissionEntity.IS_ENABLED, SystemConstants.USE);
+            q1.eq(SystemMenuPermissionEntity.IS_ENABLED, SystemConstants.ENABLED);
             q1.select(SystemMenuPermissionEntity.PERMISSION_ID);
             List<SystemMenuPermissionEntity> permissionEntities = super.list(q1);
             if (!CollectionUtils.isEmpty(permissionEntities)) {
@@ -135,7 +135,7 @@ public class SystemMenuPermissionServiceImpl extends BaseServiceImpl<ISystemMenu
             return Lists.newArrayList();
         }
         QueryWrapper<SystemMenuPermissionEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(SystemMenuPermissionEntity.IS_ENABLED, SystemConstants.USE);
+        queryWrapper.eq(SystemMenuPermissionEntity.IS_ENABLED, SystemConstants.ENABLED);
         queryWrapper.in(SystemMenuPermissionEntity.PERMISSION_ID, permissionIds);
         queryWrapper.select(SystemMenuPermissionEntity.PERMISSION_ID, SystemMenuPermissionEntity.MENU_ID);
         return super.list(queryWrapper);

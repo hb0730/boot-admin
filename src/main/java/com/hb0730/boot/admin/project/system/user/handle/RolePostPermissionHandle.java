@@ -81,7 +81,7 @@ public class RolePostPermissionHandle {
             return Lists.newArrayList();
         }
         QueryWrapper<SystemRoleEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(SystemRoleEntity.IS_ENABLED, SystemConstants.USE);
+        queryWrapper.eq(SystemRoleEntity.IS_ENABLED, SystemConstants.ENABLED);
         queryWrapper.in(SystemRoleEntity.ID, roleIds);
         List<SystemRoleEntity> entities = systemRoleService.list(queryWrapper);
         return BeanUtils.transformFromInBatch(entities, SystemRoleDTO.class);
@@ -98,7 +98,7 @@ public class RolePostPermissionHandle {
             return Lists.newArrayList();
         }
         QueryWrapper<SystemPostEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(SystemPostEntity.IS_ENABLED, SystemConstants.USE);
+        queryWrapper.eq(SystemPostEntity.IS_ENABLED, SystemConstants.ENABLED);
         queryWrapper.in(SystemPostEntity.ID, postIds);
         List<SystemPostEntity> entities = systemPostService.list(queryWrapper);
         return BeanUtils.transformFromInBatch(entities, SystemPostDTO.class);
@@ -115,7 +115,7 @@ public class RolePostPermissionHandle {
             return Lists.newArrayList();
         }
         QueryWrapper<SystemRolePermissionEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(SystemRolePermissionEntity.IS_ENABLED, SystemConstants.USE);
+        queryWrapper.eq(SystemRolePermissionEntity.IS_ENABLED, SystemConstants.ENABLED);
         queryWrapper.in(SystemRolePermissionEntity.ROLE_ID, roleIds);
         List<SystemRolePermissionEntity> list = systemRolePermissionService.list(queryWrapper);
         if (CollectionUtils.isEmpty(list)) {
@@ -137,7 +137,7 @@ public class RolePostPermissionHandle {
             return Lists.newArrayList();
         }
         QueryWrapper<SystemPermissionEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(SystemPermissionEntity.IS_ENABLED, SystemConstants.USE);
+        queryWrapper.eq(SystemPermissionEntity.IS_ENABLED, SystemConstants.ENABLED);
         queryWrapper.in(SystemPermissionEntity.ID, permissionIds);
         List<SystemPermissionEntity> entities = systemPermissionService.list(queryWrapper);
         return BeanUtils.transformFromInBatch(entities, SystemPermissionDTO.class);

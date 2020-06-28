@@ -151,8 +151,8 @@ public class SystemDictController extends BaseController {
      * @return map格式的数据字典
      */
     @GetMapping("/map")
-    public Result<Map<String, List>> getDictForMap() {
-        Map<String, List> map = systemDictService.getDictForMap();
+    public Result<Map<String, List<Map<String, Object>>>> getDictForMap() {
+        Map<String, List<Map<String, Object>>> map = systemDictService.getDictForMap();
         return ResponseResult.resultSuccess(map);
     }
 

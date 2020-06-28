@@ -1,22 +1,29 @@
 package com.hb0730.boot.admin.project.system.dict.service.impl;
 
+import com.alicp.jetcache.Cache;
+import com.alicp.jetcache.anno.CacheType;
+import com.alicp.jetcache.anno.CreateCache;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.hb0730.boot.admin.commons.constant.ActionEnum;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.constant.VueConstants;
 import com.hb0730.boot.admin.commons.domain.service.BaseServiceImpl;
 import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
+import com.hb0730.boot.admin.commons.utils.cache.DictCacheUtils;
+import com.hb0730.boot.admin.event.dict.DictEvent;
 import com.hb0730.boot.admin.project.system.dict.mapper.ISystemDictMapper;
 import com.hb0730.boot.admin.project.system.dict.model.entity.SystemDictEntity;
 import com.hb0730.boot.admin.project.system.dict.model.vo.DictParams;
 import com.hb0730.boot.admin.project.system.dict.model.vo.SystemDictVO;
 import com.hb0730.boot.admin.project.system.dict.service.ISystemDictService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.ApplicationContext;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +32,7 @@ import org.springframework.util.CollectionUtils;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * <p>
@@ -36,11 +44,21 @@ import java.util.Map;
  */
 @Service
 public class SystemDictServiceImpl extends BaseServiceImpl<ISystemDictMapper, SystemDictEntity> implements ISystemDictService {
+    @CreateCache(cacheType = CacheType.REMOTE, area = SystemConstants.RedisConstants.REDIS_JETCACHE_AREA, name = SystemConstants.RedisConstants.REDIS_JETCACHE_NAME_DICT)
+    private Cache<String, Map<String, List<Map<String, Object>>>> cache;
+    private final ApplicationContext applicationContext;
+
+    public SystemDictServiceImpl(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean save(SystemDictEntity entity) {
         entity.setParentId(entity.getParentId() == null ? SystemConstants.PARENT_ID : entity.getParentId());
-        return super.save(entity);
+        boolean save = super.save(entity);
+        applicationContext.publishEvent(new DictEvent(this, ActionEnum.SAVE));
+        return save;
     }
 
 
@@ -59,36 +77,56 @@ public class SystemDictServiceImpl extends BaseServiceImpl<ISystemDictMapper, Sy
     public boolean updateById(@NonNull Long id, SystemDictVO vo) {
         SystemDictEntity entity = super.getById(id);
         BeanUtils.updateProperties(vo, entity);
-        return super.updateById(entity);
+        updateTypeByParentId(id, entity.getNumber());
+        boolean b = super.updateById(entity);
+        applicationContext.publishEvent(new DictEvent(this, ActionEnum.UPDATE));
+        return b;
     }
 
     @Override
-    @NonNull
     @Transactional(rollbackFor = Exception.class)
     public boolean removeById(@NonNull Long id) {
         UpdateWrapper<SystemDictEntity> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.set(SystemDictEntity.IS_ENABLED, SystemConstants.NOT_USE);
+        updateWrapper.set(SystemDictEntity.IS_ENABLED, SystemConstants.UN_ENABLED);
         updateWrapper.eq(SystemDictEntity.ID, id);
         super.update(updateWrapper);
-        return super.removeById(id);
+        boolean b = super.removeById(id);
+        applicationContext.publishEvent(new DictEvent(this, ActionEnum.DELETE));
+        return b;
+    }
+
+
+    @Override
+    public Map<String, List<Map<String, Object>>> getDictForMap() {
+        Map<String, List<Map<String, Object>>> cache = null;
+        try {
+            cache = DictCacheUtils.getCache();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (CollectionUtils.isEmpty(cache)) {
+            cache();
+            cache = DictCacheUtils.getCache();
+        }
+        return cache;
     }
 
     @Override
-    public Map<String, List> getDictForMap() {
+    public void cache() {
         // group 分出类型
         QueryWrapper<SystemDictEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.groupBy(SystemDictEntity.DICT_TYPE);
-        queryWrapper.eq(SystemDictEntity.IS_ENABLED, SystemConstants.USE);
+        queryWrapper.eq(SystemDictEntity.IS_ENABLED, SystemConstants.ENABLED);
         queryWrapper.ne(SystemDictEntity.PARENT_ID, SystemConstants.PARENT_ID);
         queryWrapper.select(SystemDictEntity.DICT_TYPE);
         List<SystemDictEntity> entities = super.list(queryWrapper);
-        Map<String, List> maps = Maps.newHashMapWithExpectedSize(entities.size());
+        Map<String, List<Map<String, Object>>> maps = Maps.newHashMapWithExpectedSize(entities.size());
         if (!CollectionUtils.isEmpty(entities)) {
             entities.forEach((type) -> {
                 // 类型对应的值
                 QueryWrapper<SystemDictEntity> q1 = new QueryWrapper<>();
                 q1.eq(SystemDictEntity.DICT_TYPE, type.getDictType());
-                q1.eq(SystemDictEntity.IS_ENABLED, SystemConstants.USE);
+                q1.eq(SystemDictEntity.IS_ENABLED, SystemConstants.ENABLED);
                 q1.select(SystemDictEntity.DICT_LABEL, SystemDictEntity.DICT_VALUE);
                 List<SystemDictEntity> valueEntity = super.list(q1);
                 List<Map<String, Object>> list = Lists.newArrayListWithExpectedSize(valueEntity.size());
@@ -103,7 +141,8 @@ public class SystemDictServiceImpl extends BaseServiceImpl<ISystemDictMapper, Sy
                 maps.put(type.getDictType(), list);
             });
         }
-        return maps;
+        cache.put(SystemConstants.RedisConstants.REDIS_JETCACHE_KEY_DICT + -1, maps);
+
     }
 
     @Override
@@ -120,5 +159,21 @@ public class SystemDictServiceImpl extends BaseServiceImpl<ISystemDictMapper, Sy
         }
 
         return query;
+    }
+
+    /**
+     * 根据父id更新类型
+     *
+     * @param parentId 父id
+     * @param type     类型
+     */
+    private void updateTypeByParentId(Long parentId, String type) {
+        if (Objects.isNull(parentId)) {
+            return;
+        }
+        UpdateWrapper<SystemDictEntity> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set(SystemDictEntity.DICT_TYPE, type);
+        updateWrapper.eq(SystemDictEntity.PARENT_ID, parentId);
+        super.update(updateWrapper);
     }
 }

@@ -40,7 +40,7 @@ public class SystemOrgServiceImpl extends BaseServiceImpl<ISystemOrgMapper, Syst
             entity.setAncestors(String.valueOf(entity.getParentId()));
         } else {
             QueryWrapper<SystemOrgEntity> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq(SystemOrgEntity.IS_ENABLED, SystemConstants.USE);
+            queryWrapper.eq(SystemOrgEntity.IS_ENABLED, SystemConstants.ENABLED);
             queryWrapper.eq(SystemOrgEntity.ID, entity.getParentId());
             SystemOrgEntity parentEntity = super.getOne(queryWrapper);
             if (Objects.isNull(parentEntity)) {
@@ -65,7 +65,7 @@ public class SystemOrgServiceImpl extends BaseServiceImpl<ISystemOrgMapper, Syst
     @Transactional(rollbackFor = Exception.class)
     public boolean removeById(Serializable id) {
         UpdateWrapper<SystemOrgEntity> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.set(SystemOrgEntity.IS_ENABLED, SystemConstants.NOT_USE);
+        updateWrapper.set(SystemOrgEntity.IS_ENABLED, SystemConstants.UN_ENABLED);
         updateWrapper.eq(SystemOrgEntity.ID, id);
         // 当前组织存在用户 删除该怎么办
 

@@ -43,7 +43,7 @@ public class SystemRoleServiceImpl extends BaseServiceImpl<ISystemRoleMapper, Sy
         if (Objects.nonNull(params.getIsEnabled())) {
             query.eq(SystemRoleEntity.IS_ENABLED, params.getIsEnabled());
         } else if (!Objects.isNull(params.getIsAll()) && !Objects.equals(params.getIsAll(), SystemConstants.IS_ALL)) {
-            query.eq(SystemRoleEntity.IS_ENABLED, SystemConstants.USE);
+            query.eq(SystemRoleEntity.IS_ENABLED, SystemConstants.ENABLED);
         }
         return query;
     }

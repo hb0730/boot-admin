@@ -58,7 +58,7 @@ public class UserRolePostHandle {
                 SystemUserRoleEntity entity = new SystemUserRoleEntity();
                 entity.setRoleId(role);
                 entity.setUserId(userId);
-                entity.setIsEnabled(SystemConstants.USE);
+                entity.setIsEnabled(SystemConstants.ENABLED);
                 list.add(entity);
             });
             systemUserRoleService.saveBatch(list);
@@ -83,7 +83,7 @@ public class UserRolePostHandle {
                 SystemUserPostEntity entity = new SystemUserPostEntity();
                 entity.setPostId(post);
                 entity.setUserId(userId);
-                entity.setIsEnabled(SystemConstants.USE);
+                entity.setIsEnabled(SystemConstants.ENABLED);
                 list.add(entity);
             });
             systemUserPostService.saveBatch(list);

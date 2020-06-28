@@ -153,7 +153,7 @@ public class SystemRoleController extends BaseController {
     @GetMapping("/permission/id/{id}")
     public Result<Set<Long>> getPermissionByRoleId(@PathVariable Long id) {
         QueryWrapper<SystemRolePermissionEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(SystemRolePermissionEntity.IS_ENABLED, SystemConstants.USE);
+        queryWrapper.eq(SystemRolePermissionEntity.IS_ENABLED, SystemConstants.ENABLED);
         queryWrapper.eq(SystemRolePermissionEntity.ROLE_ID, id);
         List<SystemRolePermissionEntity> entity = systemRolePermissionService.list(queryWrapper);
         Set<Long> permissionIds = Sets.newConcurrentHashSet();
@@ -203,7 +203,7 @@ public class SystemRoleController extends BaseController {
     @GetMapping("/org/role/{roleId}")
     public Result<List<Long>> getOrgIdByRoleId(@PathVariable Long roleId) {
         QueryWrapper<SystemRoleOrgEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(SystemRoleOrgEntity.IS_ENABLED, SystemConstants.USE);
+        queryWrapper.eq(SystemRoleOrgEntity.IS_ENABLED, SystemConstants.ENABLED);
         queryWrapper.eq(SystemRoleOrgEntity.ROLE_ID, roleId);
         List<SystemRoleOrgEntity> list = systemRoleOrgService.list(queryWrapper);
         if (CollectionUtils.isEmpty(list)) {

@@ -73,7 +73,7 @@ public class SystemPostServiceImpl extends BaseServiceImpl<ISystemPostMapper, Sy
     @Transactional(rollbackFor = Exception.class)
     public boolean deleteById(@NonNull Long id) {
         UpdateWrapper<SystemPostEntity> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.set(SystemPostEntity.IS_ENABLED, SystemConstants.NOT_USE);
+        updateWrapper.set(SystemPostEntity.IS_ENABLED, SystemConstants.UN_ENABLED);
         updateWrapper.eq(SystemPostEntity.ID, id);
         super.update(updateWrapper);
         return super.removeById(id);

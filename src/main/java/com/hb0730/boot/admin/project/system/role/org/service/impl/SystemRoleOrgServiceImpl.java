@@ -54,7 +54,7 @@ public class SystemRoleOrgServiceImpl extends BaseServiceImpl<ISystemRoleOrgMapp
         list.removeAll(orgIds);
         saveOrUpdate(roleId, updateList);
         saveOrUpdate(roleId, saveList);
-        updateState(roleId, list, SystemConstants.NOT_USE);
+        updateState(roleId, list, SystemConstants.UN_ENABLED);
         return true;
 
     }
@@ -75,7 +75,7 @@ public class SystemRoleOrgServiceImpl extends BaseServiceImpl<ISystemRoleOrgMapp
             SystemRoleOrgEntity entity = new SystemRoleOrgEntity();
             entity.setRoleId(roleId);
             entity.setOrgId(orgId);
-            entity.setIsEnabled(SystemConstants.USE);
+            entity.setIsEnabled(SystemConstants.ENABLED);
             e1.add(entity);
         });
         return super.saveBatch(e1);
@@ -138,7 +138,7 @@ public class SystemRoleOrgServiceImpl extends BaseServiceImpl<ISystemRoleOrgMapp
             addNew(roleId, saveOrg);
         }
         if (!CollectionUtils.isEmpty(updateOrg)) {
-            updateState(roleId, updateOrg, SystemConstants.USE);
+            updateState(roleId, updateOrg, SystemConstants.ENABLED);
         }
         return true;
     }

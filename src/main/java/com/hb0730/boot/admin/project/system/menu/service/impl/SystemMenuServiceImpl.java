@@ -91,7 +91,7 @@ public class SystemMenuServiceImpl extends BaseServiceImpl<ISystemMenuMapper, Sy
         Set<Long> menuIdsSet = com.google.common.collect.Sets.newHashSet(menuIds);
         Set<Long> ids = Sets.newHashSet();
         QueryWrapper<SystemMenuEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(SystemMenuEntity.IS_ENABLED, SystemConstants.USE);
+        queryWrapper.eq(SystemMenuEntity.IS_ENABLED, SystemConstants.ENABLED);
         List<SystemMenuEntity> allMenu = super.list(queryWrapper);
         menuIdsSet.forEach(id -> {
             SystemMenuEntity entity = getById(id);

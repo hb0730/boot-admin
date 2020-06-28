@@ -61,5 +61,10 @@ public interface ISystemDictService extends IService<SystemDictEntity>, IBaseSer
      *
      * @return map类型的数据字典
      */
-    Map<String, List> getDictForMap();
+    Map<String, List<Map<String, Object>>> getDictForMap();
+
+    /**
+     * 更新缓存
+     */
+    void cache();
 }

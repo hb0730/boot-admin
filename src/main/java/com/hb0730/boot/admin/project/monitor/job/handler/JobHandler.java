@@ -66,8 +66,8 @@ public class JobHandler {
                 addJob(list);
                 break;
             case UPDATE:
-                Set<Long> notEnabledIds = job.stream().filter((entity) -> entity.getIsEnabled().equals(SystemConstants.NOT_USE)).map(SystemJobEntity::getId).collect(Collectors.toSet());
-                Set<Long> enabledIds = job.stream().filter((entity) -> entity.getIsEnabled().equals(SystemConstants.USE)).map(SystemJobEntity::getId).collect(Collectors.toSet());
+                Set<Long> notEnabledIds = job.stream().filter((entity) -> entity.getIsEnabled().equals(SystemConstants.UN_ENABLED)).map(SystemJobEntity::getId).collect(Collectors.toSet());
+                Set<Long> enabledIds = job.stream().filter((entity) -> entity.getIsEnabled().equals(SystemConstants.ENABLED)).map(SystemJobEntity::getId).collect(Collectors.toSet());
                 cancel(notEnabledIds);
 
                 if (!CollectionUtils.isEmpty(enabledIds)) {
@@ -174,7 +174,7 @@ public class JobHandler {
             queryWrapper.in(SystemJobEntity.ID, ids);
         }
         if (type == ActionEnum.SAVE || type == ActionEnum.SELECT) {
-            queryWrapper.eq(SystemJobEntity.IS_ENABLED, SystemConstants.USE);
+            queryWrapper.eq(SystemJobEntity.IS_ENABLED, SystemConstants.ENABLED);
         }
 
         return mapper.selectList(queryWrapper);

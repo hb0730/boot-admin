@@ -4,6 +4,8 @@
  * update 更新oss存储
  * update 更新异常机制
  * update 更新springboot启动执行机制
+ * add  新增字典表缓存
+ * update  常量名称
 # v1.0.0
  * 模拟实现spring security认证登录,角色,权限以及注销等
  * 实现了RBAC认证

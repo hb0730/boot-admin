@@ -20,6 +20,6 @@ public class SystemDictServiceImplTest {
     private ISystemDictService systemDictService;
     @Test
     public void getDictForMap() {
-        Map<String, List> dictForMap = systemDictService.getDictForMap();
+        Map<String, List<Map<String, Object>>> dictForMap = systemDictService.getDictForMap();
     }
 }

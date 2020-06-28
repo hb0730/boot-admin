@@ -62,14 +62,14 @@ public class SystemRolePermissionServiceImpl extends BaseServiceImpl<ISystemRole
         list.removeAll(permissionIds);
         saveOrUpdate(roleId, updateList);
         saveOrUpdate(roleId, saveList);
-        updateState(roleId, list, SystemConstants.NOT_USE);
+        updateState(roleId, list, SystemConstants.UN_ENABLED);
         return true;
     }
 
     @Override
     public Map<Long, Set<Long>> getPermissionIdsByRoleId(@NonNull Long roleId) {
         QueryWrapper<SystemRolePermissionEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(SystemRolePermissionEntity.IS_ENABLED, SystemConstants.USE);
+        queryWrapper.eq(SystemRolePermissionEntity.IS_ENABLED, SystemConstants.ENABLED);
         queryWrapper.eq(SystemRolePermissionEntity.ROLE_ID, roleId);
         queryWrapper.select(SystemRolePermissionEntity.PERMISSION_ID);
         List<SystemRolePermissionEntity> entities = super.list(queryWrapper);
@@ -95,7 +95,7 @@ public class SystemRolePermissionServiceImpl extends BaseServiceImpl<ISystemRole
                 SystemRolePermissionEntity entity = new SystemRolePermissionEntity();
                 entity.setRoleId(roleId);
                 entity.setPermissionId(permissionId);
-                entity.setIsEnabled(SystemConstants.USE);
+                entity.setIsEnabled(SystemConstants.ENABLED);
                 entities.add(entity);
             });
         }
@@ -133,7 +133,7 @@ public class SystemRolePermissionServiceImpl extends BaseServiceImpl<ISystemRole
             addNew(roleId, savePermission);
         }
         if (!CollectionUtils.isEmpty(updatePermission)) {
-            updateState(roleId, updatePermission, SystemConstants.USE);
+            updateState(roleId, updatePermission, SystemConstants.ENABLED);
         }
         return true;
     }
@@ -154,7 +154,7 @@ public class SystemRolePermissionServiceImpl extends BaseServiceImpl<ISystemRole
             queryWrapper.eq(SystemRolePermissionEntity.PERMISSION_ID, permissionId);
             SystemRolePermissionEntity entity = super.getOne(queryWrapper);
             if (!Objects.isNull(entity)) {
-                entity.setIsEnabled(isUse == null ? SystemConstants.USE : isUse);
+                entity.setIsEnabled(isUse == null ? SystemConstants.ENABLED : isUse);
                 entities.add(entity);
             }
         });
@@ -177,9 +177,9 @@ public class SystemRolePermissionServiceImpl extends BaseServiceImpl<ISystemRole
         QueryWrapper<SystemRolePermissionEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(SystemRolePermissionEntity.ROLE_ID, roleId);
         if (isUse) {
-            queryWrapper.eq(SystemRolePermissionEntity.IS_ENABLED, SystemConstants.USE);
+            queryWrapper.eq(SystemRolePermissionEntity.IS_ENABLED, SystemConstants.ENABLED);
         } else {
-            queryWrapper.eq(SystemRolePermissionEntity.IS_ENABLED, SystemConstants.NOT_USE);
+            queryWrapper.eq(SystemRolePermissionEntity.IS_ENABLED, SystemConstants.UN_ENABLED);
         }
         List<SystemRolePermissionEntity> entities = super.list(queryWrapper);
         Set<Long> permissionIds = Sets.newConcurrentHashSet();
