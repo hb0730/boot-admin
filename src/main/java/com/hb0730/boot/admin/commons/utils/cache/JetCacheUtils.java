@@ -3,6 +3,7 @@ package com.hb0730.boot.admin.commons.utils.cache;
 import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.anno.method.SpringCacheContext;
 import com.alicp.jetcache.anno.support.CacheManager;
+import com.hb0730.boot.admin.commons.constant.RedisConstants;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 
 import javax.validation.constraints.NotNull;
@@ -40,14 +41,14 @@ public class JetCacheUtils {
 
     /**
      * 获取cache <br>
-     * are 默认为{@link SystemConstants.RedisConstants#REDIS_JETCACHE_AREA}
+     * are 默认为{@link RedisConstants#REDIS_JETCACHE_AREA}
      *
      * @param cacheName 指定缓存的名称，不是必须的，如果没有指定，会使用类名+方法名。
      * @return 获取cache
      * @see JetCacheUtils#getCache(String, String)
      */
     public static Cache getCache(@NotNull String cacheName) {
-        return getCache(SystemConstants.RedisConstants.REDIS_JETCACHE_AREA, cacheName);
+        return getCache(RedisConstants.REDIS_JETCACHE_AREA, cacheName);
     }
 
 }

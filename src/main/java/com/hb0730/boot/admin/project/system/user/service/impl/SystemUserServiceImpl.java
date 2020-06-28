@@ -7,6 +7,7 @@ import com.hb0730.boot.admin.commons.domain.service.BaseServiceImpl;
 import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
+import com.hb0730.boot.admin.commons.utils.cache.DictCacheUtils;
 import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
 import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.exception.file.FileUploadException;
@@ -118,7 +119,9 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
     @Transactional(rollbackFor = Exception.class)
     public boolean resetPassword(@NonNull Long id) {
         SystemUserEntity entity = super.getById(id);
-        String encryptPassword = SecurityUtils.encryptPassword(SystemConstants.DEFAULT_PASSWORD);
+        Object value = DictCacheUtils.getValue(SystemConstants.REDIS_CACHE, SystemConstants.DEFAULT_CACHE_PASSWORD);
+        String password = value == null ? SystemConstants.DEFAULT_PASSWORD : String.valueOf(value);
+        String encryptPassword = SecurityUtils.encryptPassword(password);
         entity.setPassword(encryptPassword);
         return super.updateById(entity);
     }

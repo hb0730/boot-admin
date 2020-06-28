@@ -17,4 +17,9 @@ public class RedisConstants {
      * jetcache user name
      */
     public static final String REDIS_JETCACHE_NAME_LOGIN = "login_cache";
+
+    /**
+     * 字典缓存
+     */
+    public static final String REDIS_JETCACHE_NAME_DICT = "dict_cache";
 }

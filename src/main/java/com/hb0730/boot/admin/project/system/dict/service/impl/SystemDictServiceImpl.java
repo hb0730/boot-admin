@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.constant.ActionEnum;
+import com.hb0730.boot.admin.commons.constant.RedisConstants;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.constant.VueConstants;
 import com.hb0730.boot.admin.commons.domain.service.BaseServiceImpl;
@@ -44,7 +45,7 @@ import java.util.Objects;
  */
 @Service
 public class SystemDictServiceImpl extends BaseServiceImpl<ISystemDictMapper, SystemDictEntity> implements ISystemDictService {
-    @CreateCache(cacheType = CacheType.REMOTE, area = SystemConstants.RedisConstants.REDIS_JETCACHE_AREA, name = SystemConstants.RedisConstants.REDIS_JETCACHE_NAME_DICT)
+    @CreateCache(cacheType = CacheType.REMOTE, area = RedisConstants.REDIS_JETCACHE_AREA, name = RedisConstants.REDIS_JETCACHE_NAME_DICT)
     private Cache<String, Map<String, List<Map<String, Object>>>> cache;
     private final ApplicationContext applicationContext;
 
@@ -141,7 +142,7 @@ public class SystemDictServiceImpl extends BaseServiceImpl<ISystemDictMapper, Sy
                 maps.put(type.getDictType(), list);
             });
         }
-        cache.put(SystemConstants.RedisConstants.REDIS_JETCACHE_KEY_DICT + -1, maps);
+        cache.put(DictCacheUtils.getDictKey("-1"), maps);
 
     }
 

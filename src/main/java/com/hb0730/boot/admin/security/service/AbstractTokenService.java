@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.security.service;
 
 import com.google.common.collect.Maps;
-import com.hb0730.boot.admin.commons.constant.SecurityConstants;
+import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.ServletUtils;
 import com.hb0730.boot.admin.commons.utils.ip.IpUtils;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
@@ -32,20 +32,20 @@ public abstract class AbstractTokenService implements ITokenService {
      * 获取用户令牌
      *
      * @param accessToken 令牌
-     * @return {@link SecurityConstants#LOGIN_TOKEN_KEY}+accessToken
+     * @return {@link SystemConstants.SecurityConstants#LOGIN_TOKEN_KEY_PREFIX}+accessToken
      */
     public String getAccessTokenKey(String accessToken) {
-        return SecurityConstants.LOGIN_TOKEN_KEY + accessToken;
+        return SystemConstants.SecurityConstants.LOGIN_TOKEN_KEY_PREFIX + accessToken;
     }
 
     /**
      * 获取用户缓存的key
      *
      * @param key key
-     * @return {@link SecurityConstants#LOGIN_USER_KEY}+key
+     * @return {@link SystemConstants.SecurityConstants#LOGIN_USER_KEY_PREFIX}+key
      */
     public String getUserTokenKey(String key) {
-        return SecurityConstants.LOGIN_USER_KEY + key;
+        return SystemConstants.SecurityConstants.LOGIN_USER_KEY_PREFIX + key;
     }
 
     /**
@@ -87,7 +87,7 @@ public abstract class AbstractTokenService implements ITokenService {
     public String extractKey(String key) {
         Map<String, String> maps = Maps.newHashMap();
         maps.put("secret", properties.getTokenConfig().getSecret());
-        maps.put(SecurityConstants.LOGIN_USER_KEY, key);
+        maps.put(SystemConstants.SecurityConstants.LOGIN_USER_KEY_PREFIX, key);
         return createToken(maps);
     }
 }

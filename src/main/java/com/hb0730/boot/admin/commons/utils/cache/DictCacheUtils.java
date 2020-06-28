@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.commons.utils.cache;
 
 import com.alicp.jetcache.Cache;
+import com.hb0730.boot.admin.commons.constant.RedisConstants;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
 import com.hb0730.boot.admin.project.system.dict.service.ISystemDictService;
@@ -30,12 +31,12 @@ public class DictCacheUtils {
     public static Map<String, List<Map<String, Object>>> getCache() {
         Cache<String, Map<String, List<Map<String, Object>>>> cache = null;
         try {
-            cache = JetCacheUtils.getCache(SystemConstants.RedisConstants.REDIS_JETCACHE_NAME_DICT);
+            cache = JetCacheUtils.getCache(RedisConstants.REDIS_JETCACHE_NAME_DICT);
         } catch (Exception e) {
             cache();
-            cache = JetCacheUtils.getCache(SystemConstants.RedisConstants.REDIS_JETCACHE_NAME_DICT);
+            cache = JetCacheUtils.getCache(RedisConstants.REDIS_JETCACHE_NAME_DICT);
         }
-        return cache.get(SystemConstants.RedisConstants.REDIS_JETCACHE_KEY_DICT+ -1);
+        return cache.get(getDictKey("-1"));
     }
 
 
@@ -45,8 +46,8 @@ public class DictCacheUtils {
      * </p>
      */
     public static void deleteCache() {
-        Cache cache = JetCacheUtils.getCache(SystemConstants.RedisConstants.REDIS_JETCACHE_NAME_DICT);
-        cache.remove(SystemConstants.RedisConstants.REDIS_JETCACHE_KEY_DICT+ -1);
+        Cache cache = JetCacheUtils.getCache(RedisConstants.REDIS_JETCACHE_NAME_DICT);
+        cache.remove(getDictKey("-1"));
     }
 
     /**
@@ -90,6 +91,17 @@ public class DictCacheUtils {
             }
         }
         return object;
+    }
+
+    /**
+     * 前缀+key
+     *
+     * @param key key
+     * @return 前缀+key
+     * @see com.hb0730.boot.admin.commons.constant.SystemConstants.DictConstants#DICT_KEY_PREFIX
+     */
+    public static String getDictKey(String key) {
+        return SystemConstants.DictConstants.DICT_KEY_PREFIX + key;
     }
 
 }

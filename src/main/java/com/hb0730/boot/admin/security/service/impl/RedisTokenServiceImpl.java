@@ -5,7 +5,7 @@ import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.anno.CreateCache;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.constant.RedisConstants;
-import com.hb0730.boot.admin.commons.constant.SecurityConstants;
+import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum;
 import com.hb0730.boot.admin.commons.utils.json.GsonUtils;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
@@ -139,12 +139,12 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
         RedisClient client = loginCache.unwrap(RedisClient.class);
         RedisAsyncCommands<String, String> commands = client.connect().async();
 
-        RedisFuture<List<String>> keys = commands.keys(RedisConstants.REDIS_JETCACHE_NAME_LOGIN + SecurityConstants.LOGIN_TOKEN_KEY + "*");
+        RedisFuture<List<String>> keys = commands.keys(RedisConstants.REDIS_JETCACHE_NAME_LOGIN + SystemConstants.SecurityConstants.LOGIN_TOKEN_KEY_PREFIX + "*");
         try {
             List<String> strings = keys.get();
             if (!CollectionUtils.isEmpty(strings)) {
                 for (String string : strings) {
-                    String accessToken = StringUtils.remove(string, RedisConstants.REDIS_JETCACHE_NAME_LOGIN + SecurityConstants.LOGIN_TOKEN_KEY);
+                    String accessToken = StringUtils.remove(string, RedisConstants.REDIS_JETCACHE_NAME_LOGIN + SystemConstants.SecurityConstants.LOGIN_TOKEN_KEY_PREFIX);
                     String userKey = (String) loginCache.get(getAccessTokenKey(accessToken));
                     LoginUser loginUser = (LoginUser) loginCache.get(getUserTokenKey(userKey));
                     if (Objects.nonNull(loginUser)) {

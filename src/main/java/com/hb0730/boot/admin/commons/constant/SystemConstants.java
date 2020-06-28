@@ -39,47 +39,57 @@ public class SystemConstants {
      * 是否全部
      */
     public static final int IS_ALL = -1;
-
+    public static final String IS_ALL_CACHE = "IS_ALL";
     /**
      * 修改
      */
     public static final int IS_UPDATE = 1;
+    public static final String IS_UPDATE_CACHE = "IS_UPDATE";
     /**
      * 非修改
      */
     public static final int NO_UPDATE = 0;
+    public static final String NO_UPDATE_CACHE = "NO_UPDATE";
     /**
      * 默认父id为-1
      */
     public static final long PARENT_ID = -1L;
+    public static final String PARENT_ID_CACHE = "PARENT_ID";
 
     /**
      * 默认密码
      */
     public static final String DEFAULT_PASSWORD = "123456";
 
+    public static final String DEFAULT_CACHE_PASSWORD = "DEFAULT_PASSWORD";
+
     /**
      * 路径分隔符
      */
     public static final String FILE_SEPARATOR = File.separator;
 
-    public static class RedisConstants {
-        /**
-         * jetcache area
-         */
-        public static final String REDIS_JETCACHE_AREA = "boot-admin";
-        /**
-         * jetcache 登录缓存
-         */
-        public static final String REDIS_JETCACHE_NAME_LOGIN = "login_cache";
-
-        /**
-         * 字典缓存
-         */
-        public static final String REDIS_JETCACHE_NAME_DICT = "dict_cache";
+    /**
+     * redis 缓存 前缀
+     */
+    public static class DictConstants {
         /**
          * 字典表缓存的key
          */
-        public static final String REDIS_JETCACHE_KEY_DICT = "system_dict:";
+        public static final String DICT_KEY_PREFIX = "system_dict:";
+    }
+
+    /**
+     * security 常量
+     */
+    public static class SecurityConstants {
+        /**
+         * 登录用户 redis key
+         */
+        public static final String LOGIN_TOKEN_KEY_PREFIX = "login_tokens:";
+
+        /**
+         * 令牌前缀
+         */
+        public static final String LOGIN_USER_KEY_PREFIX = "login_user_key:";
     }
 }
