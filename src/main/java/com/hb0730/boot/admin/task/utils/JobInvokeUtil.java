@@ -1,12 +1,14 @@
-package com.hb0730.boot.admin.task.spring;
+package com.hb0730.boot.admin.task.utils;
 
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.json.GsonUtils;
 import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
+import com.hb0730.boot.admin.task.spring.TaskConstant;
 import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
+import javax.validation.constraints.NotBlank;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -17,7 +19,7 @@ import java.util.*;
  * </P>
  *
  * @author bing_huang
- * @since V1.0
+ * @since V2.0
  */
 public class JobInvokeUtil {
 
@@ -30,13 +32,23 @@ public class JobInvokeUtil {
         String beanName = constant.getBeanName();
         String methodName = constant.getMethodName();
         String params = constant.getParams();
+        invokeMethod(beanName, methodName, params);
+    }
+
+    /**
+     * 调用任务方法
+     *
+     * @param beanName   类名
+     * @param methodName 方法名
+     * @param params     方法参数
+     */
+    public static void invokeMethod(@NotBlank String beanName, @NotBlank String methodName, String params) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         List<Object[]> methodParams = getMethodParams(params);
         if (SpringUtils.containsBean(beanName)) {
             Object o = SpringUtils.getBean(beanName);
             invokeMethod(o, methodName, methodParams);
         } else {
-            //  clazz.getDeclaredConstructor().newInstance()
-            Object o = Class.forName(beanName).newInstance();
+            Object o = Class.forName(beanName).getDeclaredConstructor().newInstance();
             invokeMethod(o, methodName, methodParams);
 
         }
@@ -134,7 +146,7 @@ public class JobInvokeUtil {
                 }
                 // Float
             } else if (clazz.getTypeName().equals(Float.class.getTypeName())) {
-                if (org.apache.commons.lang3.StringUtils.containsIgnoreCase(entry.getValue().toString(), "F")) {
+                if (StringUtils.containsIgnoreCase(entry.getValue().toString(), "F")) {
                     classs.add(new Object[]{Float.valueOf(StringUtils.replaceIgnoreCase(entry.getValue().toString(), "F", "")), clazz});
 
                 } else {
@@ -142,7 +154,7 @@ public class JobInvokeUtil {
                 }
                 //Double
             } else if (clazz.getTypeName().equals(Double.class.getTypeName())) {
-                if (org.apache.commons.lang3.StringUtils.containsIgnoreCase(entry.getValue().toString(), "D")) {
+                if (StringUtils.containsIgnoreCase(entry.getValue().toString(), "D")) {
                     classs.add(new Object[]{Double.valueOf(StringUtils.replaceIgnoreCase(entry.getValue().toString(), "D", "")), clazz});
 
                 } else {

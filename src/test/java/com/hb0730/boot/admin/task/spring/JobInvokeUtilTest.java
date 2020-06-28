@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.task.spring;
 
 import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
+import com.hb0730.boot.admin.task.utils.JobInvokeUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,8 +10,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.lang.reflect.InvocationTargetException;
 
-import static org.junit.Assert.*;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @ActiveProfiles("dev")
@@ -18,7 +17,7 @@ public class JobInvokeUtilTest {
 
     @Test
     public void invokeMethod() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        TaskConstant taskConstant=new TaskConstant();
+        TaskConstant taskConstant = new TaskConstant();
         taskConstant.setMethodName("params");
         taskConstant.setBeanName("taskTest");
         taskConstant.setParams("{\"java.lang.String\":\"test\"}");
