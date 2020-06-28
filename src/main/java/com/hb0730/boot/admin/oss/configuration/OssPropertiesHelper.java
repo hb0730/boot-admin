@@ -41,12 +41,13 @@ public class OssPropertiesHelper {
     }
 
     /**
-     * Adds file handlers.
+     * Adds handlers.
      *
-     * @param fileHandlers file handler collection
-     * @return current file handlers
+     * @param fileHandlers handler collection
+     * @return current  handlers
      */
     @NonNull
+    @SuppressWarnings("UnusedReturnValue")
     public OssPropertiesHelper addFileHandlers(@Nullable Collection<OssProperties> fileHandlers) {
         if (!CollectionUtils.isEmpty(fileHandlers)) {
             this.fileHandlers.addAll(fileHandlers);
