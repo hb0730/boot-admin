@@ -58,6 +58,13 @@ public interface ISystemJobService extends IService<SystemJobEntity>, IExportSer
     boolean deleteByIds(Collection<Long> ids);
 
     /**
+     * 立即执行
+     *
+     * @param id id
+     */
+    void executor(Long id);
+
+    /**
      * 导出
      *
      * @param params 导出参数

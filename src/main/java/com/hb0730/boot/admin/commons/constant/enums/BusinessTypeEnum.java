@@ -55,6 +55,11 @@ public enum BusinessTypeEnum implements ValueEnum<Integer> {
      * 清空数据
      */
     CLEAN("清空数据", 8),
+
+    /**
+     * 执行
+     */
+    EXECUTOR("执行", 9),
     ;
     @Getter
     @Setter
@@ -70,4 +75,5 @@ public enum BusinessTypeEnum implements ValueEnum<Integer> {
     @Override
     public Integer getValue() {
         return value;
-    }}
+    }
+}

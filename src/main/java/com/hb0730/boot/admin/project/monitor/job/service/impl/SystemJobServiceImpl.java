@@ -10,15 +10,18 @@ import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.event.job.JobEvent;
 import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.exception.file.FileUploadException;
+import com.hb0730.boot.admin.manager.AsyncManager;
 import com.hb0730.boot.admin.project.monitor.job.mapper.ISystemJobMapper;
 import com.hb0730.boot.admin.project.monitor.job.model.dto.JobExportDto;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobEntity;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.JobParams;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.SystemJobVO;
 import com.hb0730.boot.admin.project.monitor.job.service.ISystemJobService;
+import com.hb0730.boot.admin.task.spring.TaskConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.support.CronSequenceGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -103,11 +106,63 @@ public class SystemJobServiceImpl extends BaseServiceImpl<ISystemJobMapper, Syst
     }
 
     @Override
+    @Async
+    public void executor(Long id) {
+        SystemJobEntity entity = super.getById(id);
+        if (Objects.isNull(entity)) {
+            return;
+        }
+        TaskConstant constant = new TaskConstant();
+        constant.setBeanName(entity.getBeanName());
+        constant.setMethodName(entity.getMethodName());
+        constant.setCron(entity.getCron());
+        constant.setTaskId(String.valueOf(entity.getId()));
+        constant.setParams(entity.getParams());
+        AsyncManager.me().executorJob(constant);
+    }
+
+    @Override
     public List<JobExportDto> export(@NotNull JobParams params) {
         @NotNull QueryWrapper<SystemJobEntity> query = query(params);
         List<SystemJobEntity> entities = super.list(query);
         return BeanUtils.transformFromInBatch(entities, JobExportDto.class);
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean upload(Collection<JobExportDto> list) {
+        System.out.println("导入");
+        QueryWrapper<SystemJobEntity> queryWrapper = new QueryWrapper<>();
+        list.forEach((dto) -> {
+            String number = dto.getNumber();
+            queryWrapper.eq(SystemJobEntity.NUMBER, number);
+            int count = super.count(queryWrapper);
+            if (count > 0) {
+                throw new FileUploadException("定时任务 %s 已存在，请检查", number);
+            }
+            SystemJobEntity entity = new SystemJobEntity();
+            org.springframework.beans.BeanUtils.copyProperties(dto, entity);
+            verify(entity);
+        });
+        List<SystemJobEntity> entities = BeanUtils.transformFromInBatch(list, SystemJobEntity.class);
+        return saveBatch(entities);
+    }
+
+    @Override
+    public @NotNull QueryWrapper<SystemJobEntity> query(@NotNull JobParams params) {
+        @NotNull QueryWrapper<SystemJobEntity> query = QueryWrapperUtils.getQuery(params);
+        if (StringUtils.isNotBlank(params.getNumber())) {
+            query.eq(SystemJobEntity.NUMBER, params.getNumber());
+        }
+        if (StringUtils.isNotBlank(params.getName())) {
+            query.like(SystemJobEntity.NAME, params.getName());
+        }
+        if (Objects.nonNull(params.getEnabled())) {
+            query.eq(SystemJobEntity.IS_ENABLED, params.getEnabled());
+        }
+        return query;
+    }
+
 
     private void verify(SystemJobEntity entity) {
         if (StringUtils.isBlank(entity.getNumber())) {
@@ -122,40 +177,5 @@ public class SystemJobServiceImpl extends BaseServiceImpl<ISystemJobMapper, Syst
         if (StringUtils.isBlank(entity.getCron()) || !CronSequenceGenerator.isValidExpression(entity.getCron())) {
             throw new BaseException("定时任务cron 表达式不合法");
         }
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean upload(Collection<JobExportDto> list) {
-        System.out.println("导入");
-        QueryWrapper<SystemJobEntity> queryWrapper = new QueryWrapper<>();
-        list.forEach((dto) -> {
-            String number = dto.getNumber();
-            queryWrapper.eq(SystemJobEntity.NUMBER, number);
-            int count = super.count(queryWrapper);
-            if (count > 0) {
-                throw new FileUploadException("定时任务 %s 已存在，请检查",number);
-            }
-            SystemJobEntity entity = new SystemJobEntity();
-            org.springframework.beans.BeanUtils.copyProperties(dto, entity);
-            verify(entity);
-        });
-        List<SystemJobEntity> entities = BeanUtils.transformFromInBatch(list, SystemJobEntity.class);
-        return saveBatch(entities);
-    }
-
-    @Override
-    public @NotNull QueryWrapper<SystemJobEntity> query(@NotNull JobParams params) {
-        @NotNull QueryWrapper<SystemJobEntity> query = QueryWrapperUtils.getQuery(params);
-        if (Objects.nonNull(params.getNumber())) {
-            query.eq(SystemJobEntity.NUMBER, params.getNumber());
-        }
-        if (Objects.nonNull(params.getName())) {
-            query.like(SystemJobEntity.NAME, params.getName());
-        }
-        if (Objects.nonNull(params.getEnabled())) {
-            query.eq(SystemJobEntity.IS_ENABLED, params.getEnabled());
-        }
-        return query;
     }
 }

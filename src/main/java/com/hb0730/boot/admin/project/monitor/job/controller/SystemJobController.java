@@ -150,6 +150,20 @@ public class SystemJobController extends BaseController {
     }
 
     /**
+     * 立即执行
+     *
+     * @param id id
+     * @return 是否成功
+     */
+    @GetMapping("/{id}")
+    @Log(paramsName = ModuleName.JOB, title = "立即执行", businessType = BusinessTypeEnum.EXECUTOR)
+    @PreAuthorize("hasAnyAuthority('job:executor','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
+    public Result<String> executor(@PathVariable Long id) {
+        systemJobService.executor(id);
+        return ResponseResult.resultSuccess("执行成功");
+    }
+
+    /**
      * <p>
      * 导入
      * </p>

@@ -2,6 +2,8 @@ package com.hb0730.boot.admin.manager;
 
 import com.hb0730.boot.admin.commons.utils.Threads;
 import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
+import com.hb0730.boot.admin.task.spring.SchedulingRunnable;
+import com.hb0730.boot.admin.task.spring.TaskConstant;
 
 import java.util.TimerTask;
 import java.util.concurrent.ScheduledExecutorService;
@@ -46,6 +48,15 @@ public class AsyncManager {
      */
     public void execute(TimerTask task) {
         executor.schedule(task, OPERATE_DELAY_TIME, TimeUnit.MILLISECONDS);
+    }
+    /**
+     * 立即执行job
+     *
+     * @param constant 任务参数
+     */
+    public void executorJob(TaskConstant constant) {
+        SchedulingRunnable runnable = new SchedulingRunnable(constant);
+        executor.schedule(runnable, OPERATE_DELAY_TIME, TimeUnit.MILLISECONDS);
     }
 
     /**
