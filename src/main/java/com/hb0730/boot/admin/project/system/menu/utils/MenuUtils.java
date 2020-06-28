@@ -3,6 +3,7 @@ package com.hb0730.boot.admin.project.system.menu.utils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
 import com.hb0730.boot.admin.project.system.menu.mapper.ISystemMenuMapper;
@@ -135,7 +136,7 @@ public class MenuUtils {
      */
     private static void getChildren(TreeMenuVO vo, Set<Long> ids) {
         List<TreeMenuVO> childrens = vo.getChildren();
-        if (CollectionUtils.isEmpty(childrens)) {
+        if (CollectionUtils.isEmpty(childrens) || SystemConstants.UN_ENABLED == vo.getIsEnabled()) {
             return;
         }
         List<TreeMenuVO> collect = childrens.stream().filter(e1 -> ids.contains(e1.getId())).collect(Collectors.toList());

@@ -7,6 +7,7 @@
  * add  新增字典表缓存
  * update  常量名称
  * add quartz定时任务实现
+ * fix 修复菜单禁用失败
 # v1.0.0
  * 模拟实现spring security认证登录,角色,权限以及注销等
  * 实现了RBAC认证
