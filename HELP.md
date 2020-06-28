@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.hb0730.boot-admin' is invalid and this project uses 'com.hb0730.bootadmin' instead.
+* The original package name 'com.hb0730.boot-admin' is invalid and this project uses 'com.hb0730.boot.admin' instead.
 
 # Getting Started
 
