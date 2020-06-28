@@ -14,9 +14,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 默认oss注册实现
+ *
  * @author bing_huang
  * @date 2020/06/28 17:38
- * @since V1.0
+ * @since V2.0
  */
 @AllArgsConstructor
 @Component

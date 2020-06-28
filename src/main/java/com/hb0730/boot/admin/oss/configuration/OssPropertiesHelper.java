@@ -13,6 +13,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 /**
+ * oss配置
+ *
  * @author bing_huang
  * @date 2020/06/27 12:59
  * @since V2.0

@@ -4,9 +4,11 @@ import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
 import org.springframework.lang.Nullable;
 
 /**
+ * oss 配置
+ *
  * @author bing_huang
  * @date 2020/06/27 12:57
- * @since V1.0
+ * @since V2.0
  */
 public interface OssProperties {
     /**

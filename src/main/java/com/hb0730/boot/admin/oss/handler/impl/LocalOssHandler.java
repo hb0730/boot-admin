@@ -4,7 +4,7 @@ import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
 import com.hb0730.boot.admin.commons.utils.ImageUtils;
 import com.hb0730.boot.admin.exception.file.FileOperationException;
 import com.hb0730.boot.admin.exception.file.FileUploadException;
-import com.hb0730.boot.admin.oss.configuration.properties.LocalOssProperties;
+import com.hb0730.boot.admin.oss.configuration.properties.impl.LocalOssProperties;
 import com.hb0730.boot.admin.oss.configuration.properties.OssProperties;
 import com.hb0730.boot.admin.oss.handler.OssHandler;
 import com.hb0730.boot.admin.oss.model.UploadResult;

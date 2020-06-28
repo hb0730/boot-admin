@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Map;
 
 /**
+ * oss 自动装配
+ *
  * @author bing_huang
  * @date 2020/06/27 13:03
  * @since V2.0
@@ -20,7 +22,6 @@ import java.util.Map;
 @Configuration
 @AllArgsConstructor
 public class OssConfiguration {
-    private final OssPropertiesHelper helper;
     private final BootAdminProperties properties;
     private final ApplicationContext context;
     private final OssFactory factory;
@@ -35,9 +36,7 @@ public class OssConfiguration {
         AttachmentTypeEnum attachmentType = properties.getAttachmentType();
         // 调用
         Map<String, OssRegistry> beans = context.getBeansOfType(OssRegistry.class);
-        for (OssRegistry value : beans.values()) {
-            value.registry();
-        }
+        beans.values().parallelStream().forEach(OssRegistry::registry);
         return factory.getHandler(attachmentType);
     }
 }

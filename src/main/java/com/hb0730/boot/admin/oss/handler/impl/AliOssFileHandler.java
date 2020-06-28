@@ -6,7 +6,7 @@ import com.aliyun.oss.model.PutObjectResult;
 import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
 import com.hb0730.boot.admin.commons.utils.ImageUtils;
 import com.hb0730.boot.admin.exception.file.FileOperationException;
-import com.hb0730.boot.admin.oss.configuration.properties.AliOssProperties;
+import com.hb0730.boot.admin.oss.configuration.properties.impl.AliOssProperties;
 import com.hb0730.boot.admin.oss.configuration.properties.OssProperties;
 import com.hb0730.boot.admin.oss.handler.OssHandler;
 import com.hb0730.boot.admin.oss.model.UploadResult;

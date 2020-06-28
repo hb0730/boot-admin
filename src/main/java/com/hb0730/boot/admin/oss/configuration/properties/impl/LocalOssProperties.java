@@ -1,6 +1,7 @@
-package com.hb0730.boot.admin.oss.configuration.properties;
+package com.hb0730.boot.admin.oss.configuration.properties.impl;
 
 import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
+import com.hb0730.boot.admin.oss.configuration.properties.OssProperties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
