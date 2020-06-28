@@ -15,7 +15,7 @@ import com.hb0730.boot.admin.commons.utils.excel.UploadDataListener;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
-import com.hb0730.boot.admin.exception.ExportException;
+import com.hb0730.boot.admin.exception.export.ExportException;
 import com.hb0730.boot.admin.project.system.post.model.dto.PostExcelDto;
 import com.hb0730.boot.admin.project.system.post.model.entity.SystemPostEntity;
 import com.hb0730.boot.admin.project.system.post.model.vo.PostParams;

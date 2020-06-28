@@ -24,7 +24,6 @@ public abstract class AbstractBootAdminException extends RuntimeException {
         super(message, cause);
     }
 
-    @NonNull
     public abstract String getStatus();
 
     @Nullable

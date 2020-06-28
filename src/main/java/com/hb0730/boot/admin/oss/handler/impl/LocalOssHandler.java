@@ -2,8 +2,8 @@ package com.hb0730.boot.admin.oss.handler.impl;
 
 import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
 import com.hb0730.boot.admin.commons.utils.ImageUtils;
-import com.hb0730.boot.admin.exception.FileOperationException;
-import com.hb0730.boot.admin.exception.FileUploadException;
+import com.hb0730.boot.admin.exception.file.FileOperationException;
+import com.hb0730.boot.admin.exception.file.FileUploadException;
 import com.hb0730.boot.admin.oss.configuration.properties.LocalOssProperties;
 import com.hb0730.boot.admin.oss.configuration.properties.OssProperties;
 import com.hb0730.boot.admin.oss.handler.OssHandler;
@@ -40,7 +40,7 @@ import static com.hb0730.boot.admin.commons.constant.SystemConstants.FILE_SEPARA
  */
 public class LocalOssHandler implements OssHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(LocalOssHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LocalOssHandler.class);
     /**
      * 文件上传路径前缀
      */
@@ -79,13 +79,13 @@ public class LocalOssHandler implements OssHandler {
     private void checkWorkDir() {
         Path path = Paths.get(fileProfile);
         if (!Files.isDirectory(path)) {
-            throw new FileUploadException(path + " ,不是文件目录");
+            throw new FileUploadException("%s ,不是文件目录", path);
         }
         if (!Files.isReadable(path)) {
-            throw new FileUploadException(path + " ,不可读");
+            throw new FileUploadException("%s ,不可读", path);
         }
         if (!Files.isWritable(path)) {
-            throw new FileUploadException(path + " ,不可写");
+            throw new FileUploadException("%s ,不可写", path);
         }
     }
 
@@ -108,7 +108,7 @@ public class LocalOssHandler implements OssHandler {
 
         // d:/sss/eds.txt -> txt
         String extension = FilenameUtils.getExtension(originalFilename);
-        logger.debug("Base name: [{}], extension: [{}] of original filename: [{}]", baseName, extension, file.getOriginalFilename());
+        LOGGER.debug("Base name: [{}], extension: [{}] of original filename: [{}]", baseName, extension, file.getOriginalFilename());
 
         // Build sub file path
         String subFilePath = subDir + baseName + '.' + extension;
@@ -116,7 +116,7 @@ public class LocalOssHandler implements OssHandler {
         // Get upload path
         Path uploadPath = Paths.get(fileProfile, subFilePath);
 
-        logger.info("Uploading to directory: [{}]", uploadPath.toString());
+        LOGGER.info("Uploading to directory: [{}]", uploadPath.toString());
 
 
         try {
@@ -173,8 +173,8 @@ public class LocalOssHandler implements OssHandler {
 
             return uploadResult;
         } catch (IOException e) {
-            logger.error("Failed to upload file to local: " + uploadPath, e);
-            throw new FileUploadException("上传附件失败").setErrorData(uploadPath);
+            LOGGER.error("Failed to upload file to local {} ", uploadPath, e);
+            throw new FileUploadException("附件上传失败 %s", e, uploadPath);
         }
     }
 
@@ -188,7 +188,7 @@ public class LocalOssHandler implements OssHandler {
         try {
             Files.delete(path);
         } catch (IOException e) {
-            throw new FileOperationException("附件 " + key + " 删除失败");
+//            throw new FileOperationException("附件 " + key + " 删除失败");
         }
 
         String basename = FilenameUtils.getBaseName(key);
@@ -201,10 +201,11 @@ public class LocalOssHandler implements OssHandler {
         try {
             boolean deleteResult = Files.deleteIfExists(thumbnailPath);
             if (!deleteResult) {
-                logger.warn("Thumbnail: [{}] may not exist", thumbnailPath.toString());
+                LOGGER.warn("Thumbnail: [{}] may not exist", thumbnailPath.toString());
             }
         } catch (IOException e) {
-            throw new FileOperationException("附件缩略图 " + thumbnailName + " 删除失败");
+            LOGGER.error("附件缩略图 {} 删除失败", thumbnailName, e);
+            throw new FileOperationException("附件缩略图 %s 删除失败", e, thumbnailName);
         }
     }
 
@@ -223,12 +224,12 @@ public class LocalOssHandler implements OssHandler {
         try {
             Files.createFile(thumbPath);
             // Convert to thumbnail and copy the thumbnail
-            logger.debug("Trying to generate thumbnail: [{}]", thumbPath.toString());
+            LOGGER.debug("Trying to generate thumbnail: [{}]", thumbPath.toString());
             Thumbnails.of(originalImage).size(THUMB_WIDTH, THUMB_HEIGHT).keepAspectRatio(true).toFile(thumbPath.toFile());
-            logger.debug("Generated thumbnail image, and wrote the thumbnail to [{}]", thumbPath.toString());
+            LOGGER.debug("Generated thumbnail image, and wrote the thumbnail to [{}]", thumbPath.toString());
             result = true;
         } catch (Throwable t) {
-            logger.warn("Failed to generate thumbnail: [{}]", thumbPath);
+            LOGGER.warn("Failed to generate thumbnail: [{}]", thumbPath);
         }
         return result;
     }

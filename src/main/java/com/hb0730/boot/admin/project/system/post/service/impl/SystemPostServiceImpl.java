@@ -9,7 +9,7 @@ import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.exception.BaseException;
-import com.hb0730.boot.admin.exception.FileUploadException;
+import com.hb0730.boot.admin.exception.file.FileUploadException;
 import com.hb0730.boot.admin.project.system.post.mapper.ISystemPostMapper;
 import com.hb0730.boot.admin.project.system.post.model.dto.PostExcelDto;
 import com.hb0730.boot.admin.project.system.post.model.entity.SystemPostEntity;

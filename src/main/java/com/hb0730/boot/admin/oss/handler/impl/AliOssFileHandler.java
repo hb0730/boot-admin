@@ -5,7 +5,7 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.PutObjectResult;
 import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
 import com.hb0730.boot.admin.commons.utils.ImageUtils;
-import com.hb0730.boot.admin.exception.FileOperationException;
+import com.hb0730.boot.admin.exception.file.FileOperationException;
 import com.hb0730.boot.admin.oss.configuration.properties.AliOssProperties;
 import com.hb0730.boot.admin.oss.configuration.properties.OssProperties;
 import com.hb0730.boot.admin.oss.handler.OssHandler;
@@ -13,8 +13,9 @@ import com.hb0730.boot.admin.oss.model.UploadResult;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.shaded.commons.io.FilenameUtils;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.image.BufferedImage;
@@ -28,6 +29,7 @@ import java.util.Objects;
  * @since V1.0
  */
 public class AliOssFileHandler implements OssHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AliOssFileHandler.class);
     private final AliOssProperties properties;
 
     public AliOssFileHandler(OssProperties ossProperties) {
@@ -68,7 +70,9 @@ public class AliOssFileHandler implements OssHandler {
 
             PutObjectResult putObjectResult = ossClient.putObject(bucketName, upFilePath.toString(), file.getInputStream());
             if (putObjectResult == null) {
-                throw new FileOperationException("上传附件 " + file.getOriginalFilename() + " 到阿里云失败 ");
+                LOGGER.error("上传附件 {} 到阿里云失败", file.getOriginalFilename());
+                throw new FileOperationException("上传附件 %s 到阿里云失败", file.getOriginalFilename());
+
             }
 
             // Response result

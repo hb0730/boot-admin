@@ -9,7 +9,7 @@ import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.event.job.JobEvent;
 import com.hb0730.boot.admin.exception.BaseException;
-import com.hb0730.boot.admin.exception.FileUploadException;
+import com.hb0730.boot.admin.exception.file.FileUploadException;
 import com.hb0730.boot.admin.project.monitor.job.mapper.ISystemJobMapper;
 import com.hb0730.boot.admin.project.monitor.job.model.dto.JobExportDto;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobEntity;
@@ -134,8 +134,7 @@ public class SystemJobServiceImpl extends BaseServiceImpl<ISystemJobMapper, Syst
             queryWrapper.eq(SystemJobEntity.NUMBER, number);
             int count = super.count(queryWrapper);
             if (count > 0) {
-                String s = String.format("定时任务 %s 已存在，请检查", number);
-                throw new FileUploadException(s);
+                throw new FileUploadException("定时任务 %s 已存在，请检查",number);
             }
             SystemJobEntity entity = new SystemJobEntity();
             org.springframework.beans.BeanUtils.copyProperties(dto, entity);

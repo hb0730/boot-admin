@@ -1,9 +1,6 @@
 package com.hb0730.boot.admin.exception;
 
-import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.util.StringUtils;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * <p>
@@ -23,71 +20,45 @@ public class BaseException extends AbstractBootAdminException {
      */
     private String code;
 
-    /**
-     * 错误码对应的参数
-     */
-    private Object[] args;
+    private String message;
+
+    public BaseException(String message) {
+        super(message);
+        this.message = message;
+    }
+
+    public BaseException(String module, String code, String message) {
+        super(String.format("%s %s %s", code, module, message));
+        this.module = module;
+        this.code = code;
+        this.message = message;
+    }
+
+    public BaseException(String module, String code, String message, Throwable e) {
+        super(String.format("%s %s %s", code, module, message), e);
+        this.module = module;
+        this.code = code;
+        this.message = message;
+    }
+
+    public BaseException(String message, Throwable e) {
+        super(message, e);
+        this.message = message;
+    }
+
+    public BaseException(String message, Object... args) {
+        super(String.format(message, args));
+        this.message = message;
+    }
+
+    public BaseException(String message, Throwable e, Object... args) {
+        super(String.format(message, args), e);
+        this.message = message;
+    }
+
 
     @Override
     public String getStatus() {
-        return code;
-    }
-
-    /**
-     * 错误消息
-     */
-    private String defaultMessage;
-
-    public BaseException(String module, String code, Object[] args, String defaultMessage) {
-        super(defaultMessage);
-        this.module = module;
-        this.code = code;
-        this.args = args;
-        this.defaultMessage = defaultMessage;
-    }
-
-    public BaseException(String module, String code, Object[] args) {
-        this(module, code, args, null);
-    }
-
-    public BaseException(String module, String defaultMessage) {
-        this(module, null, null, defaultMessage);
-    }
-
-    public BaseException(String code, Object[] args) {
-        this(null, code, args, null);
-    }
-
-    public BaseException(String defaultMessage) {
-        this(null, null, null, defaultMessage);
-    }
-
-    @Override
-    public String getMessage() {
-        String message = null;
-        if (!StringUtils.isEmpty(code)) {
-            MessageSource messageSource = SpringUtils.getBean(MessageSource.class);
-            return messageSource.getMessage(code, args, LocaleContextHolder.getLocale());
-        }
-        if (message == null) {
-            message = defaultMessage;
-        }
-        return message;
-    }
-
-    public String getModule() {
-        return module;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public Object[] getArgs() {
-        return args;
-    }
-
-    public String getDefaultMessage() {
-        return defaultMessage;
+        return this.code;
     }
 }

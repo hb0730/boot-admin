@@ -10,7 +10,7 @@ import com.hb0730.boot.admin.commons.utils.json.GsonUtils;
 import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.exception.BaseException;
-import com.hb0730.boot.admin.exception.DemoException;
+import com.hb0730.boot.admin.exception.demo.DemoException;
 import com.hb0730.boot.admin.manager.AsyncManager;
 import com.hb0730.boot.admin.manager.factory.AsyncFactory;
 import com.hb0730.boot.admin.project.monitor.operlog.model.entity.SystemOperLogEntity;
