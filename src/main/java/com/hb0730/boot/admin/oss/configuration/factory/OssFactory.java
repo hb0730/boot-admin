@@ -4,6 +4,7 @@ import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
 import com.hb0730.boot.admin.oss.configuration.OssConfiguration;
 import com.hb0730.boot.admin.oss.handler.OssHandler;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import java.util.Map;
  * @date 2020/06/28 16:50
  * @since V2.0
  */
+@Component
 public class OssFactory {
     /**
      * Map中的Value是 ServiceBean
