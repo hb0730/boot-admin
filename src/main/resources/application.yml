@@ -6,10 +6,10 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url:
+    url: jdbc:mysql://localhost:3306/boot-admin?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
     username:
     password:
-    platform:
+    platform: mysql
     hikari:
       minimum-idle: 5
       maximum-pool-size: 10
@@ -43,33 +43,33 @@ mybatis-plus:
       update-strategy: ignored
       insert-strategy: ignored
       select-strategy: ignored
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 management:
   endpoints:
     web:
       exposure:
         include: '*'
-# token配置
-token:
-  # 令牌自定义标识
-  header: Authorization
-  # 令牌秘钥
-  secret: abcdefghijklmnopqrstuvwxyz
-  # 令牌有效期（默认30分钟）
-  expireTime: 30
-
+# boot-admin
 boot:
   admin:
     name: boot-admin
     version: 1.0.0
     copyrightYear: 2020
     demoEnabled: false
-    attachmentType: 1
-    tokenType: 1
+    attachmentType: ALIOSS
+    tokenType: REDIS
+    token-config:
+      header: Authorization
+      secret: abcdefghijklmnopqrstuvwxyz
+      expireTime: 30
+      timeUnit: DAYS
+      prefix: "Bearer "
+      refreshTime: 10
     oss:
       local:
-        # 注意 填写当前路径 如果使用docker请创建当前填写路径
-        profile: /root/log
+        profile:
       aliyun:
         endPoint:
         accessKey:
@@ -98,3 +98,4 @@ jetcache:
         minIdle: 5
         maxIdle: 20
         maxTotal: 50
+
