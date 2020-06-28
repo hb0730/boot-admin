@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
+import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
 import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
 import com.hb0730.boot.admin.project.system.menu.mapper.ISystemMenuMapper;
 import com.hb0730.boot.admin.project.system.menu.model.entity.SystemMenuEntity;
@@ -67,6 +68,10 @@ public class MenuUtils {
     private static List<SystemMenuEntity> getMenusByParentId(Long parentId) {
         QueryWrapper<SystemMenuEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(SystemMenuEntity.PARENT_ID, parentId);
+        if (!Objects.requireNonNull(SecurityUtils.getLoginUser()).isAdmin()) {
+            queryWrapper.eq(SystemMenuEntity.IS_ENABLED, SystemConstants.ENABLED);
+        }
+
         return getMapper().selectList(queryWrapper);
     }
 
