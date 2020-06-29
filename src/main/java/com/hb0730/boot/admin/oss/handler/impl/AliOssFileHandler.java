@@ -2,6 +2,7 @@ package com.hb0730.boot.admin.oss.handler.impl;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.oss.model.DeleteObjectsRequest;
 import com.aliyun.oss.model.PutObjectResult;
 import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
 import com.hb0730.boot.admin.commons.utils.ImageUtils;
@@ -17,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
+import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.image.BufferedImage;
@@ -107,7 +109,21 @@ public class AliOssFileHandler implements OssHandler {
 
     @Override
     public void delete(@NotNull String key) {
+        Assert.notNull(key, "File key must not be blank");
+        String endPoint = properties.getEndPoint();
+        String accessKey = properties.getAccessKey();
+        String accessSecret = properties.getAccessSecret();
+        String bucketName = properties.getBucketName();
+        // Init OSS client
+        OSS ossClient = new OSSClientBuilder().build(endPoint, accessKey, accessSecret);
 
+        try {
+            ossClient.deleteObject(new DeleteObjectsRequest(bucketName).withKey(key));
+        } catch (Exception e) {
+            throw new FileOperationException("附件 " + key + " 从阿里云删除失败", e);
+        } finally {
+            ossClient.shutdown();
+        }
     }
 
     @Override

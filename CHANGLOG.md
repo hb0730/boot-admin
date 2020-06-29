@@ -1,3 +1,5 @@
+# v2.0.1
+ * fix 修复阿里云Oss上传删除方法
 # v2.0.0
  * update 更改page使用mybatisPlus自带分页，去除pagehelper
  * update 更新token存储
