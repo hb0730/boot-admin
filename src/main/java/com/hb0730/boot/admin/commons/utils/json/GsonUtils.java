@@ -22,9 +22,7 @@ public class GsonUtils {
     private static Gson gson = null;
 
     static {
-        if (gson == null) {
-            gson = new Gson();
-        }
+        gson = new Gson();
     }
 
 

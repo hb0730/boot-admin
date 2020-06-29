@@ -1,5 +1,8 @@
 package com.hb0730.boot.admin.commons.utils.ip;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -14,6 +17,8 @@ import java.util.Objects;
  * @since V1.0
  */
 public class IpUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(IpUtils.class);
+
     public static String getIpAddr(HttpServletRequest request) {
         if (request == null) {
             return "unknown";
@@ -36,7 +41,7 @@ public class IpUtils {
             ip = request.getRemoteAddr();
         }
 
-        return "0:0:0:0:0:0:0:1".equals(ip) ? "127.0.0.1" : ip;
+        return internalIp(ip) ? "127.0.0.1" : ip;
     }
 
     public static boolean internalIp(String ip) {
@@ -51,24 +56,24 @@ public class IpUtils {
         final byte b0 = addr[0];
         final byte b1 = addr[1];
         // 10.x.x.x/8
-        final byte SECTION_1 = 0x0A;
+        final byte section1 = 0x0A;
         // 172.16.x.x/12
-        final byte SECTION_2 = (byte) 0xAC;
-        final byte SECTION_3 = (byte) 0x10;
-        final byte SECTION_4 = (byte) 0x1F;
+        final byte section2 = (byte) 0xAC;
+        final byte section3 = (byte) 0x10;
+        final byte section4 = (byte) 0x1F;
         // 192.168.x.x/16
-        final byte SECTION_5 = (byte) 0xC0;
-        final byte SECTION_6 = (byte) 0xA8;
+        final byte section5 = (byte) 0xC0;
+        final byte section6 = (byte) 0xA8;
         switch (b0) {
-            case SECTION_1:
+            case section1:
                 return true;
-            case SECTION_2:
-                if (b1 >= SECTION_3 && b1 <= SECTION_4) {
+            case section2:
+                if (b1 >= section3 && b1 <= section4) {
                     return true;
                 }
-            case SECTION_5:
+            case section5:
                 switch (b1) {
-                    case SECTION_6:
+                    case section6:
                         return true;
                 }
             default:
@@ -95,8 +100,9 @@ public class IpUtils {
             switch (elements.length) {
                 case 1:
                     l = Long.parseLong(elements[0]);
-                    if ((l < 0L) || (l > 4294967295L))
+                    if ((l < 0L) || (l > 4294967295L)) {
                         return null;
+                    }
                     bytes[0] = (byte) (int) (l >> 24 & 0xFF);
                     bytes[1] = (byte) (int) ((l & 0xFFFFFF) >> 16 & 0xFF);
                     bytes[2] = (byte) (int) ((l & 0xFFFF) >> 8 & 0xFF);
@@ -104,12 +110,14 @@ public class IpUtils {
                     break;
                 case 2:
                     l = Integer.parseInt(elements[0]);
-                    if ((l < 0L) || (l > 255L))
+                    if ((l < 0L) || (l > 255L)) {
                         return null;
+                    }
                     bytes[0] = (byte) (int) (l & 0xFF);
                     l = Integer.parseInt(elements[1]);
-                    if ((l < 0L) || (l > 16777215L))
+                    if ((l < 0L) || (l > 16777215L)) {
                         return null;
+                    }
                     bytes[1] = (byte) (int) (l >> 16 & 0xFF);
                     bytes[2] = (byte) (int) ((l & 0xFFFF) >> 8 & 0xFF);
                     bytes[3] = (byte) (int) (l & 0xFF);
@@ -117,21 +125,24 @@ public class IpUtils {
                 case 3:
                     for (i = 0; i < 2; ++i) {
                         l = Integer.parseInt(elements[i]);
-                        if ((l < 0L) || (l > 255L))
+                        if ((l < 0L) || (l > 255L)) {
                             return null;
+                        }
                         bytes[i] = (byte) (int) (l & 0xFF);
                     }
                     l = Integer.parseInt(elements[2]);
-                    if ((l < 0L) || (l > 65535L))
+                    if ((l < 0L) || (l > 65535L)) {
                         return null;
+                    }
                     bytes[2] = (byte) (int) (l >> 8 & 0xFF);
                     bytes[3] = (byte) (int) (l & 0xFF);
                     break;
                 case 4:
                     for (i = 0; i < 4; ++i) {
                         l = Integer.parseInt(elements[i]);
-                        if ((l < 0L) || (l > 255L))
+                        if ((l < 0L) || (l > 255L)) {
                             return null;
+                        }
                         bytes[i] = (byte) (int) (l & 0xFF);
                     }
                     break;
@@ -144,18 +155,30 @@ public class IpUtils {
         return bytes;
     }
 
+    /**
+     * 本机地址
+     *
+     * @return 地址ip
+     */
     public static String getHostIp() {
         try {
             return InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
+            LOGGER.error("获取ip失败", e);
         }
         return "127.0.0.1";
     }
 
+    /**
+     * 获取本机名称
+     *
+     * @return 名称
+     */
     public static String getHostName() {
         try {
             return InetAddress.getLocalHost().getHostName();
         } catch (UnknownHostException e) {
+            LOGGER.error("获取本机名称失败", e);
         }
         return "未知";
     }

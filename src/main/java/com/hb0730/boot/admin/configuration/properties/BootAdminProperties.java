@@ -41,6 +41,11 @@ public class BootAdminProperties {
     private boolean demoEnabled = false;
 
     /**
+     * 获取地址
+     */
+    private boolean addressEnabled = false;
+
+    /**
      * 文件上传类型
      */
     private AttachmentTypeEnum attachmentType = AttachmentTypeEnum.LOCAL;
