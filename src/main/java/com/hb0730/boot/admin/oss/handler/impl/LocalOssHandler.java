@@ -2,10 +2,11 @@ package com.hb0730.boot.admin.oss.handler.impl;
 
 import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
 import com.hb0730.boot.admin.commons.utils.ImageUtils;
+import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.exception.file.FileOperationException;
 import com.hb0730.boot.admin.exception.file.FileUploadException;
-import com.hb0730.boot.admin.oss.configuration.properties.impl.LocalOssProperties;
 import com.hb0730.boot.admin.oss.configuration.properties.OssProperties;
+import com.hb0730.boot.admin.oss.configuration.properties.impl.LocalOssProperties;
 import com.hb0730.boot.admin.oss.handler.OssHandler;
 import com.hb0730.boot.admin.oss.model.UploadResult;
 import net.coobird.thumbnailator.Thumbnails;
@@ -67,10 +68,12 @@ public class LocalOssHandler implements OssHandler {
 
     ReentrantLock lock = new ReentrantLock();
 
-    public LocalOssHandler(OssProperties properties) {
-        LocalOssProperties fileProperties = (LocalOssProperties) properties;
+    public LocalOssHandler(OssProperties ossProperties, BootAdminProperties properties) {
+        LocalOssProperties fileProperties = (LocalOssProperties) ossProperties;
         fileProfile = OssHandler.normalizeDirectory(fileProperties.getProfile());
-        checkWorkDir();
+        if (AttachmentTypeEnum.LOCAL.equals(properties.getAttachmentType())) {
+            checkWorkDir();
+        }
     }
 
     /**
