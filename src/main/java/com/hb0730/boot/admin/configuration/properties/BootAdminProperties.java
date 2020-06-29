@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.configuration.properties;
 
 import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
+import com.hb0730.boot.admin.commons.constant.enums.JobTypeEnum;
 import com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -49,6 +50,11 @@ public class BootAdminProperties {
      * @see  com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum
      */
     private TokenTypeEnum tokenType = TokenTypeEnum.LOCAL;
+
+    /**
+     * 任务的实现
+     */
+    private JobTypeEnum jobType = JobTypeEnum.SPRING;
 
     private TokenProperties tokenConfig = new TokenProperties();
 
