@@ -26,11 +26,10 @@ spring boot Admin management template
  * token存储方式: 提供内存模式与redis存储
  * oss存储方式: 提供本地local与阿里云OSS存储 
  * spring security认证: 支持spring security el表达式
+ * Quartz 定时任务
 ## 未实现
  * 消息管理: 公告,通知等
  * oss对象存储可视化
- * 系统缓存
- * Quartz 定时任务
  
 # 前端
  <https://github.com/hb0730/boot-admin-ui>
