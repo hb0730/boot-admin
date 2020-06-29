@@ -1,10 +1,11 @@
 version: '3.1'
 services:
-  hohofast:
+  boot-admin:
     restart: always
     image: boot-admin
     environment:
       - JAVA_OPTS=-server -Xms512m -Xmx512m -Xmn512m -XX:MaxMetaspaceSize=512m -Dspring.profiles.active=test
+      - TZ: 'Asia/Shanghai'
     volumes:
     ports:
       - 8080:8088
