@@ -4,8 +4,13 @@ services:
     restart: always
     image: boot-admin
     environment:
-      - SPRING_PROFILES_ACTIVE=test
-      - JAVA_OPTS=-server -Xms512m -Xmx512m -Xmn512m -XX:MaxMetaspaceSize=512m
+      - JAVA_OPTS=-server -Xms512m -Xmx512m -Xmn512m -XX:MaxMetaspaceSize=512m -Dspring.profiles.active=test
     volumes:
     ports:
       - 8080:8088
+    container_name: boot-admin
+    networks:
+      - docker-net
+networks:
+  docker-net:
+    external: true

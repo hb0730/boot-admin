@@ -8,7 +8,5 @@ RUN_CMD="$RUN_CMD -jar"
 
 RUN_CMD="$RUN_CMD /app/app.jar"
 
-RUN_CMD="$RUN_CMD --spring.profiles.active=$SPRING_PROFILES_ACTIVE"
-
 echo $RUN_CMD
 eval $RUN_CMD
