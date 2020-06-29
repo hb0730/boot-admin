@@ -126,6 +126,7 @@ boot:
     demoEnabled: false
     attachmentType: ALIOSS
     tokenType: REDIS
+    job-type: spring
     token-config:
       header: Authorization
       secret: abcdefghijklmnopqrstuvwxyz
