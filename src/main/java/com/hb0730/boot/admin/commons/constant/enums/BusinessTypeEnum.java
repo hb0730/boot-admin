@@ -30,7 +30,7 @@ public enum BusinessTypeEnum implements ValueEnum<Integer> {
     /**
      * 删除
      */
-    DELETE("修改", 3),
+    DELETE("删除", 3),
 
     /**
      * 授权

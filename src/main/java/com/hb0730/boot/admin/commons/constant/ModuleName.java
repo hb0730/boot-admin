@@ -62,4 +62,9 @@ public final class ModuleName {
      * 任务调度日志
      */
     public static final String JOBLOG = "任务调度日志";
+
+    /**
+     * 资源管理
+     */
+    public static final String IMAGE="资源管理";
 }

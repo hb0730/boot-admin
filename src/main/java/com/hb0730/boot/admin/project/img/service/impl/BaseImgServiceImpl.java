@@ -24,10 +24,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -57,6 +62,23 @@ public class BaseImgServiceImpl extends BaseServiceImpl<IBaseImgMapper, BaseImgE
         QueryWrapper<BaseImgEntity> query = query(params);
         List<BaseImgEntity> list = super.list(query);
         return BeanUtils.transformFromInBatch(list, BaseImgVO.class);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean removeById(Serializable id) {
+        BaseImgEntity entity = super.getById(id);
+        handler.delete(entity.getFileKey());
+        return super.removeById(id);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean removeByIds(Collection<? extends Serializable> idList) {
+        List<BaseImgEntity> entities = super.listByIds(idList);
+        Set<String> keys = entities.parallelStream().map(BaseImgEntity::getFileKey).collect(Collectors.toSet());
+        keys.forEach(handler::delete);
+        return super.removeByIds(idList);
     }
 
     @Override
