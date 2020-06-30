@@ -121,7 +121,7 @@ public class SystemPostServiceImpl extends BaseServiceImpl<ISystemPostMapper, Sy
     @Override
     public @NonNull
     QueryWrapper<SystemPostEntity> query(@NonNull PostParams params) {
-        @NonNull QueryWrapper<SystemPostEntity> query = QueryWrapperUtils.getQuery(params);
+        QueryWrapper<SystemPostEntity> query = QueryWrapperUtils.getQuery(params);
         if (StringUtils.isNotBlank(params.getName())) {
             query.eq(SystemPostEntity.NAME, params.getName());
         }

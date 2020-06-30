@@ -71,7 +71,7 @@ public class SystemMenuController extends BaseController {
      */
     @PostMapping("/save")
     @Log(paramsName = "vo", module = ModuleName.MENU, title = "新增", businessType = BusinessTypeEnum.INSERT)
-    @PreAuthorize("hasAnyAuthority('menu:save','ROLE_ADMIN','ROLE_MENU_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('menu:save','ROLE_ADMINISTRATOR','ROLE_ADMIN','ROLE_MENU_ADMIN')")
     public Result<String> save(@Validated @RequestBody SystemMenuVO vo) {
         SystemMenuEntity entity = BeanUtils.transformFrom(vo, SystemMenuEntity.class);
         systemMenuService.save(entity);

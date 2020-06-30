@@ -71,6 +71,7 @@ public class MenuUtils {
         if (!Objects.requireNonNull(SecurityUtils.getLoginUser()).isAdmin()) {
             queryWrapper.eq(SystemMenuEntity.IS_ENABLED, SystemConstants.ENABLED);
         }
+        queryWrapper.orderByAsc(SystemMenuEntity.SORT);
 
         return getMapper().selectList(queryWrapper);
     }
