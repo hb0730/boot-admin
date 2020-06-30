@@ -14,10 +14,10 @@ import com.hb0730.boot.admin.oss.handler.OssHandler;
 import com.hb0730.boot.admin.oss.model.UploadResult;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.shaded.commons.io.FilenameUtils;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
+import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,9 +39,9 @@ public class AliOssFileHandler implements OssHandler {
         this.properties = (AliOssProperties) ossProperties;
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public UploadResult upload(@NotNull MultipartFile file) {
+    public UploadResult upload(@NonNull MultipartFile file) {
         String endPoint = properties.getEndPoint();
         String accessKey = properties.getAccessKey();
         String accessSecret = properties.getAccessSecret();
@@ -108,7 +108,7 @@ public class AliOssFileHandler implements OssHandler {
     }
 
     @Override
-    public void delete(@NotNull String key) {
+    public void delete(@NonNull String key) {
         Assert.notNull(key, "File key must not be blank");
         String endPoint = properties.getEndPoint();
         String accessKey = properties.getAccessKey();

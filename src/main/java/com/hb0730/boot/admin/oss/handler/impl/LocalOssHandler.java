@@ -11,10 +11,10 @@ import com.hb0730.boot.admin.oss.handler.OssHandler;
 import com.hb0730.boot.admin.oss.model.UploadResult;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.velocity.shaded.commons.io.FilenameUtils;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
+import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -92,9 +92,9 @@ public class LocalOssHandler implements OssHandler {
         }
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public UploadResult upload(@NotNull MultipartFile file) {
+    public UploadResult upload(@NonNull MultipartFile file) {
         Calendar current = Calendar.getInstance();
         // Get month and day of month
         int year = current.get(Calendar.YEAR);
@@ -182,7 +182,7 @@ public class LocalOssHandler implements OssHandler {
     }
 
     @Override
-    public void delete(@NotNull String key) {
+    public void delete(@NonNull String key) {
         // Get path
         Path path = Paths.get(fileProfile, key);
 

@@ -13,9 +13,9 @@ import com.hb0730.boot.admin.project.monitor.logininfo.model.vo.LoginfoParams;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.vo.SystemLoginfoVO;
 import com.hb0730.boot.admin.project.monitor.logininfo.service.ISystemLoginInfoService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,8 +35,8 @@ public class SystemLoginInfoServiceImpl extends BaseServiceImpl<ISystemLoginInfo
 
     @Override
     public Page<SystemLoginfoVO> page(LoginfoParams params) {
-        @NotNull QueryWrapper<SystemLoginInfoEntity> query = query(params);
-        @NotNull Page<SystemLoginInfoEntity> page = QueryWrapperUtils.getPage(params);
+        QueryWrapper<SystemLoginInfoEntity> query = query(params);
+        Page<SystemLoginInfoEntity> page = QueryWrapperUtils.getPage(params);
         page = super.page(page, query);
         return PageUtils.toBean(page, SystemLoginfoVO.class);
     }
@@ -50,8 +50,9 @@ public class SystemLoginInfoServiceImpl extends BaseServiceImpl<ISystemLoginInfo
     }
 
     @Override
-    public @NotNull QueryWrapper<SystemLoginInfoEntity> query(@NotNull LoginfoParams params) {
-        @NotNull QueryWrapper<SystemLoginInfoEntity> query = getQuery(params);
+    @NonNull
+    public QueryWrapper<SystemLoginInfoEntity> query(@NonNull LoginfoParams params) {
+        QueryWrapper<SystemLoginInfoEntity> query = getQuery(params);
         if (StringUtils.isNotBlank(params.getUsername())) {
             query.eq(SystemLoginInfoEntity.USERNAME, params.getUsername());
         }

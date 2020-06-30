@@ -10,6 +10,7 @@ import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobEntity;
 import com.hb0730.boot.admin.task.spring.DynamicTask;
 import com.hb0730.boot.admin.task.spring.TaskConstant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -87,7 +88,7 @@ public class SpringImpl extends AbstractJob {
     }
 
     @Override
-    public boolean supportType(JobTypeEnum type) {
+    public boolean supportType(@NonNull JobTypeEnum type) {
         return JobTypeEnum.SPRING.equals(type);
     }
 

@@ -16,7 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,8 +31,9 @@ import java.util.Objects;
 public class SystemRoleServiceImpl extends BaseServiceImpl<ISystemRoleMapper, SystemRoleEntity> implements ISystemRoleService {
 
     @Override
+    @NonNull
     public QueryWrapper<SystemRoleEntity> query(@NonNull RoleParams params) {
-        @NotNull QueryWrapper<SystemRoleEntity> query = QueryWrapperUtils.getQuery(params);
+        QueryWrapper<SystemRoleEntity> query = QueryWrapperUtils.getQuery(params);
         if (StringUtils.isNotBlank(params.getEnname())) {
             query.like(SystemRoleEntity.ENNAME, params.getEnname());
         }
@@ -49,16 +49,16 @@ public class SystemRoleServiceImpl extends BaseServiceImpl<ISystemRoleMapper, Sy
     }
 
     @Override
-    public List<SystemRoleVO> list(@NotNull RoleParams params) {
+    public List<SystemRoleVO> list(@NonNull RoleParams params) {
         QueryWrapper<SystemRoleEntity> query = query(params);
         List<SystemRoleEntity> entities = super.list(query);
         return BeanUtils.transformFromInBatch(entities, SystemRoleVO.class);
     }
 
     @Override
-    public Page<SystemRoleVO> page(@NotNull RoleParams params) {
+    public Page<SystemRoleVO> page(@NonNull RoleParams params) {
         QueryWrapper<SystemRoleEntity> query = query(params);
-        @NotNull Page<SystemRoleEntity> page = QueryWrapperUtils.getPage(params);
+        Page<SystemRoleEntity> page = QueryWrapperUtils.getPage(params);
         page = super.page(page, query);
         return PageUtils.toBean(page, SystemRoleVO.class);
     }

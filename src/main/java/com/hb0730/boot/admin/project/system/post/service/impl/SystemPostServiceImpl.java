@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -42,16 +41,16 @@ public class SystemPostServiceImpl extends BaseServiceImpl<ISystemPostMapper, Sy
 
 
     @Override
-    public Page<SystemPostVO> page(@NotNull PostParams params) {
-        @NotNull QueryWrapper<SystemPostEntity> query = query(params);
-        @NotNull Page<SystemPostEntity> page = QueryWrapperUtils.getPage(params);
+    public Page<SystemPostVO> page(@NonNull PostParams params) {
+        QueryWrapper<SystemPostEntity> query = query(params);
+        Page<SystemPostEntity> page = QueryWrapperUtils.getPage(params);
         page = super.page(page, query);
         return PageUtils.toBean(page, SystemPostVO.class);
     }
 
     @Override
-    public List<SystemPostVO> list(@NotNull PostParams params) {
-        @NotNull QueryWrapper<SystemPostEntity> query = query(params);
+    public List<SystemPostVO> list(@NonNull PostParams params) {
+        QueryWrapper<SystemPostEntity> query = query(params);
         List<SystemPostEntity> list = super.list(query);
         return BeanUtils.transformFromInBatch(list, SystemPostVO.class);
     }
@@ -120,8 +119,9 @@ public class SystemPostServiceImpl extends BaseServiceImpl<ISystemPostMapper, Sy
     }
 
     @Override
-    public @NotNull QueryWrapper<SystemPostEntity> query(@NotNull PostParams params) {
-        @NotNull QueryWrapper<SystemPostEntity> query = QueryWrapperUtils.getQuery(params);
+    public @NonNull
+    QueryWrapper<SystemPostEntity> query(@NonNull PostParams params) {
+        @NonNull QueryWrapper<SystemPostEntity> query = QueryWrapperUtils.getQuery(params);
         if (StringUtils.isNotBlank(params.getName())) {
             query.eq(SystemPostEntity.NAME, params.getName());
         }

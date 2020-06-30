@@ -2,8 +2,8 @@ package com.hb0730.boot.admin.task.quartz;
 
 import com.hb0730.boot.admin.task.utils.JobInvokeUtil;
 import com.hb0730.boot.admin.task.utils.LoggerInfo;
+import lombok.NonNull;
 import lombok.SneakyThrows;
-import org.jetbrains.annotations.NotNull;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.slf4j.Logger;
@@ -25,7 +25,7 @@ public class Job extends QuartzJobBean {
 
     @SneakyThrows
     @Override
-    protected void executeInternal(@NotNull JobExecutionContext jobExecutionContext) {
+    protected void executeInternal(@NonNull JobExecutionContext jobExecutionContext) {
         LoggerInfo.before();
         JobDataMap jobDataMap = jobExecutionContext.getJobDetail().getJobDataMap();
         try {

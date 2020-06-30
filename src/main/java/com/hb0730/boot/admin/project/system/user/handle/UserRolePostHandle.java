@@ -3,16 +3,15 @@ package com.hb0730.boot.admin.project.system.user.handle;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
+import com.hb0730.boot.admin.project.system.user.model.vo.UserVO;
 import com.hb0730.boot.admin.project.system.user.post.model.entity.SystemUserPostEntity;
 import com.hb0730.boot.admin.project.system.user.post.service.ISystemUserPostService;
 import com.hb0730.boot.admin.project.system.user.role.model.entity.SystemUserRoleEntity;
 import com.hb0730.boot.admin.project.system.user.role.service.ISystemUserRoleService;
-import com.hb0730.boot.admin.project.system.user.model.vo.UserVO;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -28,6 +27,7 @@ import java.util.stream.Collectors;
 public class UserRolePostHandle {
     private ISystemUserRoleService systemUserRoleService;
     private ISystemUserPostService systemUserPostService;
+
     public UserRolePostHandle(ISystemUserRoleService systemUserRoleService, ISystemUserPostService systemUserPostService) {
         this.systemUserRoleService = systemUserRoleService;
         this.systemUserPostService = systemUserPostService;
@@ -113,7 +113,7 @@ public class UserRolePostHandle {
      * @param userId 用户id
      * @return 角色id
      */
-    public List<Long> getRoleIdByUserId(@NotNull Long userId) {
+    public List<Long> getRoleIdByUserId(@NonNull Long userId) {
         QueryWrapper<SystemUserRoleEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(SystemUserRoleEntity.USER_ID, userId);
         List<SystemUserRoleEntity> list = systemUserRoleService.list(queryWrapper);
@@ -131,7 +131,7 @@ public class UserRolePostHandle {
      * @param userId 用户id
      * @return 岗位id
      */
-    public List<Long> getPostIdByUserId(@NotNull Long userId) {
+    public List<Long> getPostIdByUserId(@NonNull Long userId) {
         QueryWrapper<SystemUserPostEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(SystemUserPostEntity.USER_ID, userId);
         List<SystemUserPostEntity> list = systemUserPostService.list(queryWrapper);
@@ -148,7 +148,7 @@ public class UserRolePostHandle {
      *
      * @param vo 用户信息
      */
-    public void getRoleIdAndPostIdByUser(@NotNull UserVO vo) {
+    public void getRoleIdAndPostIdByUser(@NonNull UserVO vo) {
         Long id = vo.getId();
         if (Objects.isNull(id)) {
             return;

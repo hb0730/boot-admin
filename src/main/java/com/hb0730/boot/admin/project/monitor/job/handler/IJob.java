@@ -2,8 +2,8 @@ package com.hb0730.boot.admin.project.monitor.job.handler;
 
 import com.hb0730.boot.admin.commons.constant.ActionEnum;
 import com.hb0730.boot.admin.commons.constant.enums.JobTypeEnum;
+import org.springframework.lang.NonNull;
 
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 /**
@@ -33,6 +33,6 @@ public interface IJob {
      * @param type 附件类型
      * @return true为支持类型
      */
-    boolean supportType(@NotNull JobTypeEnum type);
+    boolean supportType(@NonNull JobTypeEnum type);
 
 }

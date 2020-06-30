@@ -21,13 +21,13 @@ import com.hb0730.boot.admin.task.spring.TaskConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.lang.NonNull;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.support.CronSequenceGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -75,16 +75,16 @@ public class SystemJobServiceImpl extends BaseServiceImpl<ISystemJobMapper, Syst
     }
 
     @Override
-    public Page<SystemJobVO> page(@NotNull JobParams params) {
-        @NotNull QueryWrapper<SystemJobEntity> query = query(params);
-        @NotNull Page<SystemJobEntity> page = QueryWrapperUtils.getPage(params);
+    public Page<SystemJobVO> page(@NonNull JobParams params) {
+        QueryWrapper<SystemJobEntity> query = query(params);
+        Page<SystemJobEntity> page = QueryWrapperUtils.getPage(params);
         page = super.page(page, query);
         return PageUtils.toBean(page, SystemJobVO.class);
     }
 
     @Override
-    public List<SystemJobVO> list(@NotNull JobParams params) {
-        @NotNull QueryWrapper<SystemJobEntity> query = query(params);
+    public List<SystemJobVO> list(@NonNull JobParams params) {
+        QueryWrapper<SystemJobEntity> query = query(params);
         List<SystemJobEntity> list = super.list(query);
         return BeanUtils.transformFromInBatch(list, SystemJobVO.class);
     }
@@ -122,8 +122,8 @@ public class SystemJobServiceImpl extends BaseServiceImpl<ISystemJobMapper, Syst
     }
 
     @Override
-    public List<JobExportDto> export(@NotNull JobParams params) {
-        @NotNull QueryWrapper<SystemJobEntity> query = query(params);
+    public List<JobExportDto> export(@NonNull JobParams params) {
+        QueryWrapper<SystemJobEntity> query = query(params);
         List<SystemJobEntity> entities = super.list(query);
         return BeanUtils.transformFromInBatch(entities, JobExportDto.class);
     }
@@ -149,8 +149,9 @@ public class SystemJobServiceImpl extends BaseServiceImpl<ISystemJobMapper, Syst
     }
 
     @Override
-    public @NotNull QueryWrapper<SystemJobEntity> query(@NotNull JobParams params) {
-        @NotNull QueryWrapper<SystemJobEntity> query = QueryWrapperUtils.getQuery(params);
+    @NonNull
+    public QueryWrapper<SystemJobEntity> query(@NonNull JobParams params) {
+        QueryWrapper<SystemJobEntity> query = QueryWrapperUtils.getQuery(params);
         if (StringUtils.isNotBlank(params.getNumber())) {
             query.eq(SystemJobEntity.NUMBER, params.getNumber());
         }

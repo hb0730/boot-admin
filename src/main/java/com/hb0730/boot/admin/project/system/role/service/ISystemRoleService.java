@@ -6,8 +6,8 @@ import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.project.system.role.model.entity.SystemRoleEntity;
 import com.hb0730.boot.admin.project.system.role.model.vo.RoleParams;
 import com.hb0730.boot.admin.project.system.role.model.vo.SystemRoleVO;
+import org.springframework.lang.NonNull;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -26,7 +26,7 @@ public interface ISystemRoleService extends IService<SystemRoleEntity>, IBaseSer
      * @param params 请求参数
      * @return 列表
      */
-    List<SystemRoleVO> list(@NotNull RoleParams params);
+    List<SystemRoleVO> list(@NonNull RoleParams params);
 
     /**
      * 分页查询
@@ -34,5 +34,5 @@ public interface ISystemRoleService extends IService<SystemRoleEntity>, IBaseSer
      * @param params 请求参数
      * @return 分页列表
      */
-    Page<SystemRoleVO> page(@NotNull RoleParams params);
+    Page<SystemRoleVO> page(@NonNull RoleParams params);
 }

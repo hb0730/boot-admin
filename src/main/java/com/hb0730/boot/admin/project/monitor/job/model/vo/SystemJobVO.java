@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 /**
  * <p>
@@ -45,13 +45,13 @@ public class SystemJobVO extends BusinessVO {
     /**
      * 调用目标
      */
-    @NotNull(message = "调用不为空")
+    @NotBlank(message = "调用不为空")
     private String beanName;
 
     /**
      * 调用方法
      */
-    @NotNull(message = "调用方法不为空")
+    @NotBlank(message = "调用方法不为空")
     private String methodName;
 
     /**
@@ -62,6 +62,6 @@ public class SystemJobVO extends BusinessVO {
     /**
      * 表达式
      */
-    @NotNull(message = "表达式不为空")
+    @NotBlank(message = "表达式不为空")
     private String cron;
 }

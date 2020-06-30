@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -58,7 +57,7 @@ public class SystemMenuPermissionServiceImpl extends BaseServiceImpl<ISystemMenu
     public Page<SystemPermissionVO> getPermissionByMenuId(@NonNull Long menuId, PermissionParams params) {
         QueryWrapper<SystemMenuPermissionEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(SystemMenuPermissionEntity.MENU_ID, menuId);
-        @NotNull Page<SystemMenuPermissionEntity> page = QueryWrapperUtils.getPage(params);
+        Page<SystemMenuPermissionEntity> page = QueryWrapperUtils.getPage(params);
         page = super.page(page, queryWrapper);
         if (CollectionUtils.isEmpty(page.getRecords())) {
             return PageUtils.toBean(page, SystemPermissionVO.class);
@@ -141,9 +140,10 @@ public class SystemMenuPermissionServiceImpl extends BaseServiceImpl<ISystemMenu
         return super.list(queryWrapper);
     }
 
+    @NonNull
     @Override
-    public QueryWrapper<SystemMenuPermissionEntity> query(PermissionParams params) {
-        @NotNull QueryWrapper<SystemMenuPermissionEntity> query = QueryWrapperUtils.getQuery(params);
+    public QueryWrapper<SystemMenuPermissionEntity> query(@NonNull PermissionParams params) {
+        QueryWrapper<SystemMenuPermissionEntity> query = QueryWrapperUtils.getQuery(params);
 
         return query;
     }

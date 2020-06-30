@@ -7,9 +7,9 @@ import com.hb0730.boot.admin.commons.constant.enums.JobTypeEnum;
 import com.hb0730.boot.admin.project.monitor.job.mapper.ISystemJobMapper;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobEntity;
 import lombok.AllArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 
@@ -43,7 +43,7 @@ public abstract class AbstractJob implements IJob {
     }
 
     @Override
-    public boolean supportType(@NotNull JobTypeEnum type) {
+    public boolean supportType(@NonNull JobTypeEnum type) {
         return false;
     }
 }

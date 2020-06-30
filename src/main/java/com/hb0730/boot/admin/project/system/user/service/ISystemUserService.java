@@ -12,7 +12,6 @@ import com.hb0730.boot.admin.project.system.user.model.vo.UserParams;
 import com.hb0730.boot.admin.project.system.user.model.vo.UserVO;
 import org.springframework.lang.NonNull;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -47,7 +46,7 @@ public interface ISystemUserService extends IBaseService<UserParams, SystemUserE
      * @param userId 用户id
      * @return 用户详情
      */
-    UserVO getUserInfo(@NotNull Long userId);
+    UserVO getUserInfo(@NonNull Long userId);
 
     /**
      * 修改用户

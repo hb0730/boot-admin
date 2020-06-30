@@ -1,7 +1,5 @@
 package com.hb0730.boot.admin.exception;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * <p>
  * </P>

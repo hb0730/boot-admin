@@ -7,8 +7,8 @@ import com.hb0730.boot.admin.project.monitor.job.model.dto.JobLogExportDTO;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobLogEntity;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.JobLogParams;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.SystemJobLogVO;
+import org.springframework.lang.NonNull;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -30,7 +30,7 @@ public interface ISystemJobLogService extends IService<SystemJobLogEntity>, IBas
      * @return 分页后的日志
      * @since v2.0
      */
-    Page<SystemJobLogVO> page(@NotNull JobLogParams params);
+    Page<SystemJobLogVO> page(@NonNull JobLogParams params);
 
     /**
      * <p>

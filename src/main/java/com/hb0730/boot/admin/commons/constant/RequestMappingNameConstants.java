@@ -70,4 +70,9 @@ public interface RequestMappingNameConstants {
      * 定时任务日志
      */
     String REQUEST_JOB_LOG = "/api/v1/monitor/joblog";
+
+    /**
+     * 图库
+     */
+    String REQUEST_BASE_IMG = "/api/v1/base/img";
 }

@@ -8,8 +8,8 @@ import com.hb0730.boot.admin.project.monitor.job.model.dto.JobExportDto;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobEntity;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.JobParams;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.SystemJobVO;
+import org.springframework.lang.NonNull;
 
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,7 +29,7 @@ public interface ISystemJobService extends IService<SystemJobEntity>, IExportSer
      * @param params 过滤参数
      * @return 分页列表
      */
-    Page<SystemJobVO> page(@NotNull JobParams params);
+    Page<SystemJobVO> page(@NonNull JobParams params);
 
     /**
      * 列表查询
@@ -37,7 +37,7 @@ public interface ISystemJobService extends IService<SystemJobEntity>, IExportSer
      * @param params 过滤参数
      * @return 列表
      */
-    List<SystemJobVO> list(@NotNull JobParams params);
+    List<SystemJobVO> list(@NonNull JobParams params);
 
     /**
      * 根据id删除
@@ -70,5 +70,5 @@ public interface ISystemJobService extends IService<SystemJobEntity>, IExportSer
      * @param params 导出参数
      * @return 导出列表
      */
-    List<JobExportDto> export(@NotNull JobParams params);
+    List<JobExportDto> export(@NonNull JobParams params);
 }

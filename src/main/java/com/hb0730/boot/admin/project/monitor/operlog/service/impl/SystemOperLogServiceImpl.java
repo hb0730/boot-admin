@@ -17,10 +17,10 @@ import com.hb0730.boot.admin.project.monitor.operlog.service.ISystemOperLogServi
 import com.hb0730.boot.admin.project.system.user.model.entity.SystemUserEntity;
 import com.hb0730.boot.admin.project.system.user.util.UserUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -37,9 +37,9 @@ import java.util.stream.Collectors;
 public class SystemOperLogServiceImpl extends BaseServiceImpl<ISystemOperLogMapper, SystemOperLogEntity> implements ISystemOperLogService {
 
     @Override
-    public Page<SystemOperLogVO> page(@NotNull OperLogParams params) {
-        @NotNull QueryWrapper<SystemOperLogEntity> query = query(params);
-        @NotNull Page<SystemOperLogEntity> page = QueryWrapperUtils.getPage(params);
+    public Page<SystemOperLogVO> page(@NonNull OperLogParams params) {
+        QueryWrapper<SystemOperLogEntity> query = query(params);
+        Page<SystemOperLogEntity> page = QueryWrapperUtils.getPage(params);
         page = super.page(page, query);
         return PageUtils.toBean(page, SystemOperLogVO.class);
     }
@@ -56,8 +56,9 @@ public class SystemOperLogServiceImpl extends BaseServiceImpl<ISystemOperLogMapp
     }
 
     @Override
-    public @NotNull QueryWrapper<SystemOperLogEntity> query(@NotNull OperLogParams params) {
-        @NotNull QueryWrapper<SystemOperLogEntity> query = QueryWrapperUtils.getQuery(params);
+    @NonNull
+    public QueryWrapper<SystemOperLogEntity> query(@NonNull OperLogParams params) {
+        QueryWrapper<SystemOperLogEntity> query = QueryWrapperUtils.getQuery(params);
         if (StringUtils.isNotBlank(params.getModule())) {
             query.eq(SystemOperLogEntity.MODULE, params.getModule());
         }

@@ -2,8 +2,7 @@ package com.hb0730.boot.admin.commons.domain.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hb0730.boot.admin.commons.web.model.BaseParams;
-
-import javax.validation.constraints.NotNull;
+import org.springframework.lang.NonNull;
 
 /**
  * service 基类
@@ -20,6 +19,6 @@ public interface IBaseService<P extends BaseParams, E> {
      * @param params 请求参数
      * @return QueryWrapper
      */
-    @NotNull
-    QueryWrapper<E> query(@NotNull P params);
+    @NonNull
+    QueryWrapper<E> query(@NonNull P params);
 }

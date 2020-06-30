@@ -30,7 +30,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -66,9 +65,9 @@ public class SystemDictServiceImpl extends BaseServiceImpl<ISystemDictMapper, Sy
     @Override
     public Page<SystemDictVO> page(Long parentId, @NonNull DictParams params) {
         parentId = parentId == null ? SystemConstants.PARENT_ID : parentId;
-        @NotNull QueryWrapper<SystemDictEntity> query = query(params);
+        QueryWrapper<SystemDictEntity> query = query(params);
         query.eq(SystemDictEntity.PARENT_ID, parentId);
-        @NotNull Page<SystemDictEntity> page = QueryWrapperUtils.getPage(params);
+        Page<SystemDictEntity> page = QueryWrapperUtils.getPage(params);
         page = super.page(page, query);
         return PageUtils.toBean(page, SystemDictVO.class);
     }
@@ -147,8 +146,9 @@ public class SystemDictServiceImpl extends BaseServiceImpl<ISystemDictMapper, Sy
     }
 
     @Override
-    public @NotNull QueryWrapper<SystemDictEntity> query(@NotNull DictParams params) {
-        @NotNull QueryWrapper<SystemDictEntity> query = QueryWrapperUtils.getQuery(params);
+    @NonNull
+    public QueryWrapper<SystemDictEntity> query(@NonNull DictParams params) {
+        QueryWrapper<SystemDictEntity> query = QueryWrapperUtils.getQuery(params);
         if (StringUtils.isNotBlank(params.getName())) {
             query.eq(SystemDictEntity.NAME, params.getName());
         }

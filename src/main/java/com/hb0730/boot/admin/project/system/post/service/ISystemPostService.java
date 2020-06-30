@@ -10,7 +10,6 @@ import com.hb0730.boot.admin.project.system.post.model.vo.PostParams;
 import com.hb0730.boot.admin.project.system.post.model.vo.SystemPostVO;
 import org.springframework.lang.NonNull;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -30,7 +29,7 @@ public interface ISystemPostService extends IBaseService<PostParams, SystemPostE
      * @return 分页后信息
      * @since v2.0
      */
-    Page<SystemPostVO> page(@NotNull PostParams params);
+    Page<SystemPostVO> page(@NonNull PostParams params);
 
     /**
      * 列表查询
@@ -39,7 +38,7 @@ public interface ISystemPostService extends IBaseService<PostParams, SystemPostE
      * @return 列表
      * @since v2.0
      */
-    List<SystemPostVO> list(@NotNull PostParams params);
+    List<SystemPostVO> list(@NonNull PostParams params);
 
     /**
      * 根据id删除

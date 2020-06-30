@@ -5,9 +5,9 @@ import com.hb0730.boot.admin.commons.constant.RedisConstants;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
 import com.hb0730.boot.admin.project.system.dict.service.ISystemDictService;
+import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
@@ -71,7 +71,7 @@ public class DictCacheUtils {
      * @param dictDataKey 字典项编码
      * @return 得到字典项值
      */
-    public static Object getValue(@NotNull String dictKey, @NotNull String dictDataKey) {
+    public static Object getValue(@NonNull String dictKey, @NonNull String dictDataKey) {
         Map<String, List<Map<String, Object>>> cache = getCache();
         Object object = null;
         if (CollectionUtils.isEmpty(cache)) {

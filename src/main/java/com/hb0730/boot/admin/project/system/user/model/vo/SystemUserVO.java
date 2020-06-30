@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -26,18 +26,18 @@ public class SystemUserVO extends BusinessVO {
     /**
      * 用户账号
      */
-    @NotEmpty(message = "用户账号不为空")
+    @NotBlank(message = "用户账号不为空")
     private String username;
 
     /**
      * 用户密码
      */
-    @NotEmpty(message = "用户密码不为空")
+    @NotBlank(message = "用户密码不为空")
     private String password;
     /**
      * 用户昵称
      */
-    @NotEmpty(message = "用户昵称不为空")
+    @NotBlank(message = "用户昵称不为空")
     private String nickName;
 
     /**

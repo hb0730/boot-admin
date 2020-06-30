@@ -6,11 +6,11 @@ import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.hb0730.boot.admin.commons.domain.ExcelDomain;
 import com.hb0730.boot.admin.commons.utils.file.WebFilenameUtils;
+import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.constraints.NotNull;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -43,7 +43,7 @@ public class ExcelUtils {
      * @param clazz         head
      * @param <T>           excel domain 泛型
      */
-    public static <T extends ExcelDomain> void writeWeb(@NotNull HttpServletResponse response, @NotNull Map<String, Object> data, ExcelTypeEnum excelTypeEnum, Class<T> clazz) throws IOException {
+    public static <T extends ExcelDomain> void writeWeb(@NonNull HttpServletResponse response, @NonNull Map<String, Object> data, ExcelTypeEnum excelTypeEnum, Class<T> clazz) throws IOException {
         String filename = data.get(ExcelConstant.FILE_NAME).toString();
         List datas = (List) data.get(ExcelConstant.DATA_LIST);
         setResponseHeader(response, filename, excelTypeEnum);
@@ -62,11 +62,11 @@ public class ExcelUtils {
      * @param clazz         head
      * @param <T>           excel domain 泛型
      */
-    public static <T extends ExcelDomain> void writeSheetWeb(@NotNull HttpServletResponse response, @NotNull Map<String, Object> data, ExcelTypeEnum excelTypeEnum, Class<T> clazz) throws IOException {
+    public static <T extends ExcelDomain> void writeSheetWeb(@NonNull HttpServletResponse response, @NonNull Map<String, Object> data, ExcelTypeEnum excelTypeEnum, Class<T> clazz) throws IOException {
         String filename = data.get(ExcelConstant.FILE_NAME).toString();
         setResponseHeader(response, filename, excelTypeEnum);
         Map<String, List<T>> maps = (Map<String, List<T>>) data.get(ExcelConstant.MAP_LIST);
-        writeSheet(response.getOutputStream(),maps,excelTypeEnum,clazz);
+        writeSheet(response.getOutputStream(), maps, excelTypeEnum, clazz);
     }
 
     /**
@@ -80,7 +80,7 @@ public class ExcelUtils {
      * @param clazz         head
      * @param <T>           excel domain 泛型
      */
-    public static <T extends ExcelDomain> void write(@NotNull OutputStream outputStream, @NotNull List<T> data, ExcelTypeEnum excelTypeEnum, Class<T> clazz) throws IOException {
+    public static <T extends ExcelDomain> void write(@NonNull OutputStream outputStream, @NonNull List<T> data, ExcelTypeEnum excelTypeEnum, Class<T> clazz) throws IOException {
         excelTypeEnum = excelTypeEnum == null ? ExcelTypeEnum.XLS : excelTypeEnum;
         EasyExcel.write(outputStream, clazz).excelType(excelTypeEnum).sheet("sheet1").doWrite(data);
         outputStream.flush();
@@ -97,7 +97,7 @@ public class ExcelUtils {
      * @param clazz         head
      * @param <T>           excel domain 泛型
      */
-    public static <T extends ExcelDomain> void writeSheet(@NotNull OutputStream outputStream, Map<String, List<T>> data, ExcelTypeEnum excelTypeEnum, Class<T> clazz) {
+    public static <T extends ExcelDomain> void writeSheet(@NonNull OutputStream outputStream, Map<String, List<T>> data, ExcelTypeEnum excelTypeEnum, Class<T> clazz) {
         excelTypeEnum = excelTypeEnum == null ? ExcelTypeEnum.XLS : excelTypeEnum;
         ExcelWriter writer = EasyExcel.write(outputStream, clazz).excelType(excelTypeEnum).build();
         if (!CollectionUtils.isEmpty(data)) {
@@ -117,8 +117,8 @@ public class ExcelUtils {
      * @param excelProperties excel配置
      * @return 输出流
      */
-    @NotNull
-    public static OutputStream getOutputStream(@NotNull ExcelProperties excelProperties) throws FileNotFoundException {
+    @NonNull
+    public static OutputStream getOutputStream(@NonNull ExcelProperties excelProperties) throws FileNotFoundException {
         String path = excelProperties.getPath();
         String fileName = excelProperties.getFileName();
         ExcelTypeEnum excelType = excelProperties.getExcelType();

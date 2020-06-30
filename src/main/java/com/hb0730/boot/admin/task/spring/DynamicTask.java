@@ -2,10 +2,10 @@ package com.hb0730.boot.admin.task.spring;
 
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.CronTask;
@@ -41,7 +41,7 @@ public class DynamicTask implements SchedulingConfigurer {
     private volatile List<TaskConstant> taskConstants = Lists.newArrayList();
 
     @Override
-    public void configureTasks(@NotNull ScheduledTaskRegistrar registrar) {
+    public void configureTasks(@NonNull ScheduledTaskRegistrar registrar) {
         this.registrar = registrar;
         this.registrar.addTriggerTask(() -> {
             if (!CollectionUtils.isEmpty(taskConstants)) {
@@ -164,7 +164,7 @@ public class DynamicTask implements SchedulingConfigurer {
             scheduledFutures.remove(taskId).cancel(false);
             cronTasks.remove(taskId);
         }
-        TaskConstant constant = new TaskConstant(beanName,methodName,params,expression,taskId);
+        TaskConstant constant = new TaskConstant(beanName, methodName, params, expression, taskId);
         SchedulingRunnable runnable = new SchedulingRunnable(constant);
         CronTask task = new CronTask(runnable, expression);
         addTriggerTask(taskId, task);

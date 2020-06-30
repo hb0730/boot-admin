@@ -29,7 +29,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -52,7 +51,7 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
     @Override
     public Page<SystemUserVO> page(@NonNull UserParams params) {
         QueryWrapper<SystemUserEntity> query = getQuery(params);
-        @NotNull Page<SystemUserEntity> page = QueryWrapperUtils.getPage(params);
+        Page<SystemUserEntity> page = QueryWrapperUtils.getPage(params);
         page = super.page(page, query);
         return PageUtils.toBean(page, SystemUserVO.class);
     }
@@ -78,9 +77,10 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
     }
 
     @Override
-    public UserVO getUserInfo(@NotNull Long userId) {
+    public UserVO getUserInfo(@NonNull Long userId) {
         SystemUserEntity entity = super.getById(userId);
         UserVO userVO = BeanUtils.transformFrom(entity, UserVO.class);
+        assert userVO != null;
         postPermissionHandle.getUserRolePostHandle().getRoleIdAndPostIdByUser(userVO);
         return userVO;
     }
@@ -228,8 +228,9 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
     }
 
     @Override
-    public @NotNull QueryWrapper<SystemUserEntity> query(@NotNull UserParams params) {
-        @NotNull QueryWrapper<SystemUserEntity> query = QueryWrapperUtils.getQuery(params);
+    @NonNull
+    public QueryWrapper<SystemUserEntity> query(@NonNull UserParams params) {
+        QueryWrapper<SystemUserEntity> query = QueryWrapperUtils.getQuery(params);
         if (!Objects.nonNull(params.getDeptId())) {
             query.eq(SystemUserEntity.DEPTID, params.getDeptId());
         }

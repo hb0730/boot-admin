@@ -15,10 +15,10 @@ import com.hb0730.boot.admin.project.monitor.job.model.vo.SystemJobLogVO;
 import com.hb0730.boot.admin.project.monitor.job.service.ISystemJobLogService;
 import com.hb0730.boot.admin.project.monitor.job.service.ISystemJobService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -40,9 +40,9 @@ public class SystemJobLogServiceImpl extends BaseServiceImpl<ISystemJobLogMapper
 
 
     @Override
-    public Page<SystemJobLogVO> page(@NotNull JobLogParams params) {
-        @NotNull QueryWrapper<SystemJobLogEntity> query = query(params);
-        @NotNull Page<SystemJobLogEntity> page = QueryWrapperUtils.getPage(params);
+    public Page<SystemJobLogVO> page(@NonNull JobLogParams params) {
+        QueryWrapper<SystemJobLogEntity> query = query(params);
+        Page<SystemJobLogEntity> page = QueryWrapperUtils.getPage(params);
         page = super.page(page, query);
         return PageUtils.toBean(page, SystemJobLogVO.class);
     }
@@ -62,8 +62,9 @@ public class SystemJobLogServiceImpl extends BaseServiceImpl<ISystemJobLogMapper
     }
 
     @Override
-    public @NotNull QueryWrapper<SystemJobLogEntity> query(@NotNull JobLogParams params) {
-        @NotNull QueryWrapper<SystemJobLogEntity> query = QueryWrapperUtils.getQuery(params);
+    @NonNull
+    public QueryWrapper<SystemJobLogEntity> query(@NonNull JobLogParams params) {
+        QueryWrapper<SystemJobLogEntity> query = QueryWrapperUtils.getQuery(params);
         if (Objects.nonNull(params.getJobId())) {
             query.eq(SystemJobLogEntity.JOB_ID, params.getJobId());
         }

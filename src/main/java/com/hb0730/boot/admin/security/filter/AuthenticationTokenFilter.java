@@ -4,7 +4,7 @@ import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.security.model.LoginUser;
 import com.hb0730.boot.admin.security.service.ITokenService;
-import org.jetbrains.annotations.NotNull;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -44,7 +44,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         LoginUser loginUser = tokenService.getLoginUser(request);
         if (!Objects.isNull(loginUser) && StringUtils.isEmpty(SecurityUtils.getAuthentication())) {
             tokenService.verifyAccessToken(loginUser);

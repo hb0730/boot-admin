@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.commons.constant.enums.SortTypeEnum;
 import com.hb0730.boot.admin.commons.domain.BusinessDomain;
 import com.hb0730.boot.admin.commons.web.model.BaseParams;
+import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -29,8 +29,8 @@ public class QueryWrapperUtils {
      * @see Page
      * @since v1.1
      */
-    @NotNull
-    public static <T extends BusinessDomain, M extends BaseParams> Page<T> getPage(@NotNull M params) {
+    @NonNull
+    public static <T extends BusinessDomain, M extends BaseParams> Page<T> getPage(@NonNull M params) {
         return new Page<>(params.getPageNum(), params.getPageSize());
     }
 
@@ -42,8 +42,8 @@ public class QueryWrapperUtils {
      * @param <T>    实体类型
      * @return {@link QueryWrapper}
      */
-    @NotNull
-    public static <P extends BaseParams, T extends BusinessDomain> QueryWrapper<T> getQuery(@NotNull P params) {
+    @NonNull
+    public static <P extends BaseParams, T extends BusinessDomain> QueryWrapper<T> getQuery(@NonNull P params) {
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
         List<String> groupColumn = params.getGroupColumn();
         if (!CollectionUtils.isEmpty(groupColumn)) {

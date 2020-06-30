@@ -5,9 +5,9 @@ import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.lang.NonNull;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import javax.validation.constraints.NotNull;
 import java.util.*;
 
 import static com.hb0730.boot.admin.task.quartz.QuartzConstant.JobInfo.*;
@@ -30,7 +30,7 @@ public class QuartzUtils {
      * @param scheduler 定时任务
      * @param model     调度参数
      */
-    public static void addJob(@NotNull Class<? extends QuartzJobBean> jobClass, @NotNull Scheduler scheduler, @NotNull JobModel model) throws SchedulerException {
+    public static void addJob(@NonNull Class<? extends QuartzJobBean> jobClass, @NonNull Scheduler scheduler, @NonNull JobModel model) throws SchedulerException {
         if (!CronUtils.isValid(model.getCron())) {
             throw new com.hb0730.boot.admin.exception.scheduler.SchedulerException("cron 表达式不正确");
         }
@@ -44,7 +44,7 @@ public class QuartzUtils {
      * @param scheduler 定时任务
      * @param model     调度参数
      */
-    public static void updateJob(@NotNull Class<? extends QuartzJobBean> jobClass, @NotNull Scheduler scheduler, @NotNull JobModel model) throws SchedulerException {
+    public static void updateJob(@NonNull Class<? extends QuartzJobBean> jobClass, @NonNull Scheduler scheduler, @NonNull JobModel model) throws SchedulerException {
         // 删除任务
         deleteJob(scheduler, model.getJobName(), model.getJobGroupName());
         // 在添加
@@ -57,7 +57,7 @@ public class QuartzUtils {
      * @param jobName      任务名称
      * @param jobGroupName 任务组名
      */
-    public static void deleteJob(@NotNull Scheduler scheduler, @NotNull String jobName, @NotNull String jobGroupName) throws SchedulerException {
+    public static void deleteJob(@NonNull Scheduler scheduler, @NonNull String jobName, @NonNull String jobGroupName) throws SchedulerException {
         JobKey jobKey = getJobKey(jobName, jobGroupName);
         if (scheduler.checkExists(jobKey)) {
             LOGGER.debug("删除时任务 {},{}", jobName, jobGroupName);
@@ -73,7 +73,7 @@ public class QuartzUtils {
      * @param jobName      任务名称
      * @param jobGroupName 任务组名
      */
-    public static void pauseJob(@NotNull Scheduler scheduler, @NotNull String jobName, @NotNull String jobGroupName) throws SchedulerException {
+    public static void pauseJob(@NonNull Scheduler scheduler, @NonNull String jobName, @NonNull String jobGroupName) throws SchedulerException {
         JobKey jobKey = getJobKey(jobName, jobGroupName);
         if (scheduler.checkExists(jobKey)) {
             LOGGER.debug("暂停时任务 {},{}", jobName, jobGroupName);
@@ -88,7 +88,7 @@ public class QuartzUtils {
      * @param jobName      任务名称
      * @param jobGroupName 任务组名
      */
-    public static void resumeJob(@NotNull Scheduler scheduler, @NotNull String jobName, @NotNull String jobGroupName) throws SchedulerException {
+    public static void resumeJob(@NonNull Scheduler scheduler, @NonNull String jobName, @NonNull String jobGroupName) throws SchedulerException {
         JobKey jobKey = getJobKey(jobName, jobGroupName);
         if (scheduler.checkExists(jobKey)) {
             LOGGER.debug("恢复定时任务 {},{}", jobName, jobGroupName);
@@ -103,7 +103,7 @@ public class QuartzUtils {
      * @param jobName      任务名称
      * @param jobGroupName 任务组名
      */
-    public static void runJobNow(@NotNull Scheduler scheduler, @NotNull String jobName, @NotNull String jobGroupName) throws SchedulerException {
+    public static void runJobNow(@NonNull Scheduler scheduler, @NonNull String jobName, @NonNull String jobGroupName) throws SchedulerException {
         JobKey jobKey = getJobKey(jobName, jobGroupName);
         if (scheduler.checkExists(jobKey)) {
             LOGGER.debug("立即执行定时任务 {},{}", jobName, jobGroupName);
@@ -117,7 +117,7 @@ public class QuartzUtils {
      *
      * @return 任务列表
      */
-    public static List<Map<String, Object>> queryAllJob(@NotNull Scheduler scheduler) throws SchedulerException {
+    public static List<Map<String, Object>> queryAllJob(@NonNull Scheduler scheduler) throws SchedulerException {
         List<Map<String, Object>> jobList = null;
         GroupMatcher<JobKey> matcher = GroupMatcher.anyJobGroup();
         Set<JobKey> jobKeys = scheduler.getJobKeys(matcher);
@@ -149,7 +149,7 @@ public class QuartzUtils {
      * @param scheduler 定时任务
      * @return job key 列表
      */
-    public static <T> List<T> queryAllJobKeyName(@NotNull Scheduler scheduler) throws SchedulerException {
+    public static <T> List<T> queryAllJobKeyName(@NonNull Scheduler scheduler) throws SchedulerException {
         GroupMatcher<JobKey> matcher = GroupMatcher.anyJobGroup();
         Set<JobKey> jobKeys = scheduler.getJobKeys(matcher);
         List<T> keys = new ArrayList<>();
@@ -166,7 +166,7 @@ public class QuartzUtils {
      *
      * @return 任务列表
      */
-    public static List<Map<String, Object>> queryRunJob(@NotNull Scheduler scheduler) throws SchedulerException {
+    public static List<Map<String, Object>> queryRunJob(@NonNull Scheduler scheduler) throws SchedulerException {
         List<Map<String, Object>> jobList = null;
         List<JobExecutionContext> executingJobs = scheduler.getCurrentlyExecutingJobs();
         jobList = new ArrayList<Map<String, Object>>(executingJobs.size());
@@ -196,7 +196,7 @@ public class QuartzUtils {
      * @param scheduler 任务调度
      * @return job key name集合
      */
-    public static <T> List<T> queryRunJobKeyName(@NotNull Scheduler scheduler) throws SchedulerException {
+    public static <T> List<T> queryRunJobKeyName(@NonNull Scheduler scheduler) throws SchedulerException {
         List<T> keys = Lists.newArrayList();
         List<JobExecutionContext> executingJobs = scheduler.getCurrentlyExecutingJobs();
         for (JobExecutionContext executingJob : executingJobs) {

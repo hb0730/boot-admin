@@ -4,9 +4,7 @@ import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.anno.method.SpringCacheContext;
 import com.alicp.jetcache.anno.support.CacheManager;
 import com.hb0730.boot.admin.commons.constant.RedisConstants;
-import com.hb0730.boot.admin.commons.constant.SystemConstants;
-
-import javax.validation.constraints.NotNull;
+import org.springframework.lang.NonNull;
 
 /**
  * jetcache utils
@@ -35,7 +33,7 @@ public class JetCacheUtils {
      * @return 获取cache
      * @see SpringCacheContext#init()
      */
-    public static Cache getCache(@NotNull String are, @NotNull String cacheName) {
+    public static Cache getCache(@NonNull String are, @NonNull String cacheName) {
         return getCacheManger().getCache(are, cacheName);
     }
 
@@ -47,7 +45,7 @@ public class JetCacheUtils {
      * @return 获取cache
      * @see JetCacheUtils#getCache(String, String)
      */
-    public static Cache getCache(@NotNull String cacheName) {
+    public static Cache getCache(@NonNull String cacheName) {
         return getCache(RedisConstants.REDIS_JETCACHE_AREA, cacheName);
     }
 

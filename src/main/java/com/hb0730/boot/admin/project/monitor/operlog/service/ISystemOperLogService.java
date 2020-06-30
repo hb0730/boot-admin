@@ -7,8 +7,8 @@ import com.hb0730.boot.admin.project.monitor.operlog.model.dto.OperLogDTO;
 import com.hb0730.boot.admin.project.monitor.operlog.model.entity.SystemOperLogEntity;
 import com.hb0730.boot.admin.project.monitor.operlog.model.vo.OperLogParams;
 import com.hb0730.boot.admin.project.monitor.operlog.model.vo.SystemOperLogVO;
+import org.springframework.lang.NonNull;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -28,7 +28,7 @@ public interface ISystemOperLogService extends IService<SystemOperLogEntity>, IB
      * @return 分页后的信息
      * @since v2.0
      */
-    Page<SystemOperLogVO> page(@NotNull OperLogParams params);
+    Page<SystemOperLogVO> page(@NonNull OperLogParams params);
 
     /**
      * 导出
