@@ -40,6 +40,7 @@
         <thumbnailator.version>0.4.11</thumbnailator.version>
         <image4j.version>0.7zensight1</image4j.version>
         <aliyun.sdk.oss.version>3.8.0</aliyun.sdk.oss.version>
+        <aliyun.sdk.sms.version>4.5.1</aliyun.sdk.sms.version>
         <easyexcel.version>2.1.6</easyexcel.version>
     </properties>
 
@@ -189,6 +190,12 @@
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
             <version>${aliyun.sdk.oss.version}</version>
+        </dependency>
+        <!--aliyun sms-->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>${aliyun.sdk.sms.version}</version>
         </dependency>
         <!--easyExcel 解析 导入导出-->
         <dependency>

@@ -32,6 +32,7 @@ spring boot Admin management template
  * oss存储方式: 提供本地local与阿里云OSS存储 
  * spring security认证: 支持spring security el表达式
  * Quartz 定时任务
+ * msm短信消息
 ## 未实现
  * 消息管理: 公告,通知等
  * oss对象存储可视化
@@ -56,3 +57,4 @@ spring boot Admin management template
  * [RuoYi-Vue](https://github.com/yangzongzhuan/RuoYi-Vue)
  * [pdMan](https://gitee.com/robergroup/pdman)
  * [halo](https://github.com/halo-dev/halo)
+ * [jackieonway](https://github.com/jackieonway/sms-spring-boot-project)
