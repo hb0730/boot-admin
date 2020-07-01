@@ -50,6 +50,8 @@ spring boot Admin management template
   * gson 2.8.6
   * lombok 1.18.10
   * easyexcel 2.1.6
+  * aliyun-java-sdk 4.51
+  * aliyun-sdk-oss 3.8.0
 # 在线访问地址
   http://admin.hb0730.com
   
