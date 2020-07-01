@@ -3,6 +3,8 @@
  * fix 修复菜单新增无权限以及排序失效
  * add 新增图片资源管理(beta)
  * fix 修复在线用户登录时间排序
+ * add 新增sms短信服务
+ * add 新增mail邮件服务
 # v2.0.0
  * update 更改page使用mybatisPlus自带分页，去除pagehelper
  * update 更新token存储
