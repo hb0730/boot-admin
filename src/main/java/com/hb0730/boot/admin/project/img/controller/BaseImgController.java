@@ -2,12 +2,14 @@ package com.hb0730.boot.admin.project.img.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.annotation.Log;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
+import com.hb0730.boot.admin.oss.model.UploadResult;
 import com.hb0730.boot.admin.project.img.model.vo.BaseImgParams;
 import com.hb0730.boot.admin.project.img.model.vo.BaseImgVO;
 import com.hb0730.boot.admin.project.img.service.IBaseImgService;
@@ -96,9 +98,9 @@ public class BaseImgController extends BaseController {
     @PreAuthorize("hasAnyRole('base:image:upload','ROLE_ADMINISTRATOR','ROLE_BASE_ADMIN')")
     @Log(module = ModuleName.IMAGE, title = "上传", businessType = BusinessTypeEnum.EXECUTOR, isSaveRequestData = false)
     @PostMapping("/upload")
-    public Result<String> upload(@RequestPart("file") MultipartFile file) {
-        service.upload(file);
-        return ResponseResult.resultSuccess("上传成功");
+    public Result<UploadResult> upload(@RequestPart("file") MultipartFile file) {
+        UploadResult result = service.upload(file);
+        return ResponseResult.resultSuccess(result);
     }
 
     /**
@@ -110,11 +112,13 @@ public class BaseImgController extends BaseController {
     @PreAuthorize("hasAnyRole('base:image:upload','ROLE_ADMINISTRATOR','ROLE_BASE_ADMIN')")
     @Log(module = ModuleName.IMAGE, title = "上传", businessType = BusinessTypeEnum.EXECUTOR, isSaveRequestData = false)
     @PostMapping("/uploads")
-    public Result<String> uploads(@RequestPart("files") MultipartFile[] files) {
+    public Result<List<UploadResult>> uploads(@RequestPart("files") MultipartFile[] files) {
+        List<UploadResult> results = Lists.newArrayList();
         for (MultipartFile file : files) {
-            service.upload(file);
+            UploadResult result = service.upload(file);
+            results.add(result);
         }
-        return ResponseResult.resultSuccess("上传成功");
+        return ResponseResult.resultSuccess(results);
     }
 }
 
