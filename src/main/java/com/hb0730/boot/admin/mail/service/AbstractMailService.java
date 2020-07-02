@@ -111,12 +111,12 @@ public abstract class AbstractMailService implements MailService {
     /**
      * 如果线程池是启用状态则发送模板消息
      *
-     * @param tryToSync 是否异步
-     * @param callback  回调
+     * @param tryToAsync 是否异步
+     * @param callback   回调
      */
-    protected void sendMailTemplate(Boolean tryToSync, @NonNull Callback callback) {
+    protected void sendMailTemplate(Boolean tryToAsync, @NonNull Callback callback) {
         ExecutorService executorService = getExecutorService();
-        if (tryToSync && executorService != null) {
+        if (tryToAsync && executorService != null) {
             executorService.execute(() -> sendMailTemplate(callback));
         } else {
             sendMailTemplate(callback);
