@@ -17,7 +17,7 @@ public class MailProperties extends org.springframework.boot.autoconfigure.mail.
 
     public MailProperties(boolean needDebug) {
         // set some default properties
-        addProperties("mail.debug", Boolean.TRUE.toString());
+        addProperties("mail.debug", String.valueOf(needDebug));
         addProperties("mail.smtp.auth", Boolean.TRUE.toString());
         addProperties("mail.smtp.ssl.enable", Boolean.TRUE.toString());
         addProperties("mail.smtp.timeout", "10000");
