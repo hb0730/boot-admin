@@ -21,7 +21,7 @@ public class SmsAutoConfigureTest {
         AliyunSmsParams params = new AliyunSmsParams();
         params.setSignName("Blog微");
         params.setTemplateId("SMS_194910435");
-        params.setPhoneNumbers(new String[]{"17673654989"});
+        params.setPhoneNumbers(new String[]{""});
         params.setTemplateParam("{\"code\":\"測試\"}");
         params.setOutId("hhhass");
         Object o = smsService.sendBatchSms(params);
