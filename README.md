@@ -32,7 +32,8 @@ spring boot Admin management template
  * oss存储方式: 提供本地local与阿里云OSS存储 
  * spring security认证: 支持spring security el表达式
  * Quartz 定时任务
- * msm短信消息
+ * sms短信服务
+ * mail邮件服务
 ## 未实现
  * 消息管理: 公告,通知等
  * oss对象存储可视化

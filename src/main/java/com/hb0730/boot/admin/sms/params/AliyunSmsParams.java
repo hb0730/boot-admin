@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.sms.model.params;
+package com.hb0730.boot.admin.sms.params;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,13 +8,13 @@ import lombok.ToString;
  * aliyun 请求参数
  *
  * @author bing_huang
- * @date 2020/07/01 8:59
+ * @date 2020/07/03 10:46
  * @since V1.0
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString
-public class AliyunSmsParams extends BaseParams {
+public class AliyunSmsParams extends BaseSmsParams {
     /**
      * 手机号
      */
@@ -24,11 +24,6 @@ public class AliyunSmsParams extends BaseParams {
      * 签名名称
      */
     private String signName;
-
-    /**
-     * 模板code
-     */
-    private String templateCode;
 
     /**
      * 模板参数
@@ -49,5 +44,6 @@ public class AliyunSmsParams extends BaseParams {
      * 是否批量发送
      */
     private boolean isSendBatchSms = false;
+
 
 }

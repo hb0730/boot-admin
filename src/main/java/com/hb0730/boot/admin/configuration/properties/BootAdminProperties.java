@@ -2,6 +2,7 @@ package com.hb0730.boot.admin.configuration.properties;
 
 import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
 import com.hb0730.boot.admin.commons.constant.enums.JobTypeEnum;
+import com.hb0730.boot.admin.commons.constant.enums.SmsTypeEnum;
 import com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -56,6 +57,17 @@ public class BootAdminProperties {
      */
     private TokenTypeEnum tokenType = TokenTypeEnum.LOCAL;
 
+    /**
+     * sm类型
+     */
+    private SmsTypeEnum smsType = SmsTypeEnum.ALIYUN;
+    /**
+     * sms默认实现
+     *
+     * @see com.hb0730.boot.admin.sms.adapter.SmsAdapter
+     * @see com.hb0730.boot.admin.sms.adapter.DefaultAdapter
+     */
+    private String smsImpl = "default";
     /**
      * 任务的实现
      */
