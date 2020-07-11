@@ -90,8 +90,9 @@ public class AliOssFileHandler implements OssHandler {
             // Handle thumbnail
             if (OssHandler.isImageType(uploadResult.getMediaType())) {
                 BufferedImage image = ImageUtils.getImageFromFile(file.getInputStream(), extension);
-                uploadResult.setWidth(image.getWidth());
-                uploadResult.setHeight(image.getHeight());
+                // image ==null exension jpg
+                uploadResult.setWidth(image == null ? null : image.getWidth());
+                uploadResult.setHeight(image == null ? null : image.getHeight());
                 if (ImageUtils.EXTENSION_ICO.equals(extension)) {
                     uploadResult.setThumbPath(filePath);
                 } else {
