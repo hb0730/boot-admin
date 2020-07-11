@@ -155,8 +155,8 @@ public class LocalOssHandler implements OssHandler {
                     // Read as image
                     BufferedImage originalImage = ImageUtils.getImageFromFile(new FileInputStream(uploadPath.toFile()), extension);
                     // Set width and height
-                    uploadResult.setWidth(originalImage.getWidth());
-                    uploadResult.setHeight(originalImage.getHeight());
+                    uploadResult.setWidth(originalImage==null?null:originalImage.getWidth());
+                    uploadResult.setHeight(originalImage==null?null:originalImage.getHeight());
 
                     // Generate thumbnail
                     boolean result = generateThumbnail(originalImage, thumbnailPath, extension);
