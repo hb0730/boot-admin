@@ -57,6 +57,12 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
     }
 
     @Override
+    @Deprecated
+    public List<SystemUserVO> list(@NonNull UserParams params) {
+        return null;
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean save(@NonNull UserVO vo) {
         isNotNull(vo, SystemConstants.NO_UPDATE);

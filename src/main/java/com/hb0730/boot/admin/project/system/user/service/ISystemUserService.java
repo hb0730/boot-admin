@@ -10,6 +10,7 @@ import com.hb0730.boot.admin.project.system.user.model.entity.SystemUserEntity;
 import com.hb0730.boot.admin.project.system.user.model.vo.SystemUserVO;
 import com.hb0730.boot.admin.project.system.user.model.vo.UserParams;
 import com.hb0730.boot.admin.project.system.user.model.vo.UserVO;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
@@ -22,7 +23,7 @@ import java.util.List;
  * @author bing_huang
  * @since 2020-03-24
  */
-public interface ISystemUserService extends IBaseService<UserParams, SystemUserEntity>, IService<SystemUserEntity>, IExportService<UserExcelDTO> {
+public interface ISystemUserService extends IBaseService<UserParams, SystemUserVO, SystemUserEntity>,IExportService<UserExcelDTO> {
 
     /**
      * 分页查询
@@ -30,7 +31,8 @@ public interface ISystemUserService extends IBaseService<UserParams, SystemUserE
      * @param params 过滤参数
      * @return 分页后得数据
      */
-    Page<SystemUserVO> page(@NonNull UserParams params);
+    @Override
+    Page<SystemUserVO> page( @NonNull UserParams params);
 
     /**
      * 用户保存

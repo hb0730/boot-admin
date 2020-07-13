@@ -6,6 +6,7 @@ import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.project.system.role.model.entity.SystemRoleEntity;
 import com.hb0730.boot.admin.project.system.role.model.vo.RoleParams;
 import com.hb0730.boot.admin.project.system.role.model.vo.SystemRoleVO;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
  * @author bing_huang
  * @since 2020-03-27
  */
-public interface ISystemRoleService extends IService<SystemRoleEntity>, IBaseService<RoleParams, SystemRoleEntity> {
+public interface ISystemRoleService extends IBaseService<RoleParams, SystemRoleVO, SystemRoleEntity> {
 
     /**
      * 列表查询
@@ -26,6 +27,7 @@ public interface ISystemRoleService extends IService<SystemRoleEntity>, IBaseSer
      * @param params 请求参数
      * @return 列表
      */
+    @Override
     List<SystemRoleVO> list(@NonNull RoleParams params);
 
     /**
@@ -34,5 +36,6 @@ public interface ISystemRoleService extends IService<SystemRoleEntity>, IBaseSer
      * @param params 请求参数
      * @return 分页列表
      */
+    @Override
     Page<SystemRoleVO> page(@NonNull RoleParams params);
 }

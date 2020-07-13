@@ -1,13 +1,13 @@
 package com.hb0730.boot.admin.project.monitor.job.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.commons.domain.service.IExportService;
 import com.hb0730.boot.admin.project.monitor.job.model.dto.JobExportDto;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobEntity;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.JobParams;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.SystemJobVO;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.lang.NonNull;
 
 import java.util.Collection;
@@ -21,7 +21,7 @@ import java.util.List;
  * @author bing_huang
  * @since 2020-04-06
  */
-public interface ISystemJobService extends IService<SystemJobEntity>, IExportService<JobExportDto>, IBaseService<JobParams, SystemJobEntity> {
+public interface ISystemJobService extends IExportService<JobExportDto>, IBaseService<JobParams, SystemJobVO, SystemJobEntity> {
 
     /**
      * 分页查询
@@ -29,6 +29,7 @@ public interface ISystemJobService extends IService<SystemJobEntity>, IExportSer
      * @param params 过滤参数
      * @return 分页列表
      */
+    @Override
     Page<SystemJobVO> page(@NonNull JobParams params);
 
     /**
@@ -37,6 +38,7 @@ public interface ISystemJobService extends IService<SystemJobEntity>, IExportSer
      * @param params 过滤参数
      * @return 列表
      */
+    @Override
     List<SystemJobVO> list(@NonNull JobParams params);
 
     /**

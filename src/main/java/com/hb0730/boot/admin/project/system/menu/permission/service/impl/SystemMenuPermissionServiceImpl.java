@@ -18,6 +18,7 @@ import com.hb0730.boot.admin.project.system.menu.permission.service.ISystemMenuP
 import com.hb0730.boot.admin.project.system.permission.model.dto.SystemPermissionDTO;
 import com.hb0730.boot.admin.project.system.permission.model.entity.SystemPermissionEntity;
 import com.hb0730.boot.admin.project.system.permission.model.vo.SystemPermissionVO;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -138,6 +139,18 @@ public class SystemMenuPermissionServiceImpl extends BaseServiceImpl<ISystemMenu
         queryWrapper.in(SystemMenuPermissionEntity.PERMISSION_ID, permissionIds);
         queryWrapper.select(SystemMenuPermissionEntity.PERMISSION_ID, SystemMenuPermissionEntity.MENU_ID);
         return super.list(queryWrapper);
+    }
+
+    @Override
+    @Deprecated
+    public Page<SystemPermissionVO> page(@NotNull @NonNull PermissionParams params) {
+        return null;
+    }
+
+    @Override
+    @Deprecated
+    public List<SystemPermissionVO> list(@NonNull PermissionParams params) {
+        return null;
     }
 
     @NonNull

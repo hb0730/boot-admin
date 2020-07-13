@@ -34,11 +34,17 @@ public class SystemLoginInfoServiceImpl extends BaseServiceImpl<ISystemLoginInfo
 
 
     @Override
-    public Page<SystemLoginfoVO> page(LoginfoParams params) {
+    public Page<SystemLoginfoVO> page(@NonNull LoginfoParams params) {
         QueryWrapper<SystemLoginInfoEntity> query = query(params);
         Page<SystemLoginInfoEntity> page = QueryWrapperUtils.getPage(params);
         page = super.page(page, query);
         return PageUtils.toBean(page, SystemLoginfoVO.class);
+    }
+
+    @Override
+    @Deprecated
+    public List<SystemLoginfoVO> list(@NonNull LoginfoParams params) {
+        return null;
     }
 
 

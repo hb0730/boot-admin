@@ -1,7 +1,6 @@
 package com.hb0730.boot.admin.project.system.menu.permission.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.project.system.menu.permission.model.entity.SystemMenuPermissionEntity;
 import com.hb0730.boot.admin.project.system.menu.permission.model.vo.PermissionParams;
@@ -21,7 +20,7 @@ import java.util.Set;
  * @author bing_huang
  * @since 2020-03-26
  */
-public interface ISystemMenuPermissionService extends IService<SystemMenuPermissionEntity>, IBaseService<PermissionParams, SystemMenuPermissionEntity> {
+public interface ISystemMenuPermissionService extends IBaseService<PermissionParams, SystemPermissionVO, SystemMenuPermissionEntity> {
 
     /**
      * <p>

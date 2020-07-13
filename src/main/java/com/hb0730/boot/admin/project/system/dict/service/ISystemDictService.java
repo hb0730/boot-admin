@@ -1,7 +1,6 @@
 package com.hb0730.boot.admin.project.system.dict.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.project.system.dict.model.entity.SystemDictEntity;
 import com.hb0730.boot.admin.project.system.dict.model.vo.DictParams;
@@ -19,7 +18,7 @@ import java.util.Map;
  * @author bing_huang
  * @since 2020-03-30
  */
-public interface ISystemDictService extends IService<SystemDictEntity>, IBaseService<DictParams, SystemDictEntity> {
+public interface ISystemDictService extends IBaseService<DictParams, SystemDictVO, SystemDictEntity> {
 
     /**
      * 获取分页数据

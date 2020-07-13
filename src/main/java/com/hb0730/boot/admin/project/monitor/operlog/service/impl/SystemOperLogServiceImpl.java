@@ -17,6 +17,7 @@ import com.hb0730.boot.admin.project.monitor.operlog.service.ISystemOperLogServi
 import com.hb0730.boot.admin.project.system.user.model.entity.SystemUserEntity;
 import com.hb0730.boot.admin.project.system.user.util.UserUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -37,11 +38,17 @@ import java.util.stream.Collectors;
 public class SystemOperLogServiceImpl extends BaseServiceImpl<ISystemOperLogMapper, SystemOperLogEntity> implements ISystemOperLogService {
 
     @Override
-    public Page<SystemOperLogVO> page(@NonNull OperLogParams params) {
+    public Page<SystemOperLogVO> page(@NotNull @NonNull OperLogParams params) {
         QueryWrapper<SystemOperLogEntity> query = query(params);
         Page<SystemOperLogEntity> page = QueryWrapperUtils.getPage(params);
         page = super.page(page, query);
         return PageUtils.toBean(page, SystemOperLogVO.class);
+    }
+
+    @Override
+    @Deprecated
+    public List<SystemOperLogVO> list(@NonNull OperLogParams params) {
+        return null;
     }
 
     @Override

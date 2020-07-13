@@ -1,12 +1,12 @@
 package com.hb0730.boot.admin.project.monitor.job.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.project.monitor.job.model.dto.JobLogExportDTO;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobLogEntity;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.JobLogParams;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.SystemJobLogVO;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
  * @author bing_huang
  * @since 2020-04-07
  */
-public interface ISystemJobLogService extends IService<SystemJobLogEntity>, IBaseService<JobLogParams, SystemJobLogEntity> {
+public interface ISystemJobLogService extends IBaseService<JobLogParams, SystemJobLogVO, SystemJobLogEntity> {
 
     /**
      * <p>
@@ -30,7 +30,8 @@ public interface ISystemJobLogService extends IService<SystemJobLogEntity>, IBas
      * @return 分页后的日志
      * @since v2.0
      */
-    Page<SystemJobLogVO> page(@NonNull JobLogParams params);
+    @Override
+    Page<SystemJobLogVO> page(@NotNull @NonNull JobLogParams params);
 
     /**
      * <p>

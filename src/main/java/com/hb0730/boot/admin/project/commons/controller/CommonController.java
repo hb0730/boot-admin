@@ -29,9 +29,9 @@ public class CommonController {
      * 通用上传请求
      */
     @PostMapping("/common/upload")
-    public Result uploadFile(@RequestPart("file") MultipartFile file) throws Exception {
+    public Result<UploadResult> uploadFile(@RequestPart("file") MultipartFile file) throws Exception {
         UploadResult upload = commonService.upload(file);
-        upload.setFilePath(upload.getFilePath().replace(FILE_SEPARATOR,"/"));
+        upload.setFilePath(upload.getFilePath().replace(FILE_SEPARATOR, "/"));
         return ResponseResult.resultSuccess(upload);
     }
 }

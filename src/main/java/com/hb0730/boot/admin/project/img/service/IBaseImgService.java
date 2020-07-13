@@ -7,6 +7,7 @@ import com.hb0730.boot.admin.oss.model.UploadResult;
 import com.hb0730.boot.admin.project.img.model.entity.BaseImgEntity;
 import com.hb0730.boot.admin.project.img.model.vo.BaseImgParams;
 import com.hb0730.boot.admin.project.img.model.vo.BaseImgVO;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.lang.NonNull;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,14 +21,15 @@ import java.util.List;
  * @author bing_huang
  * @since 2020-06-30
  */
-public interface IBaseImgService extends IService<BaseImgEntity>, IBaseService<BaseImgParams, BaseImgEntity> {
+public interface IBaseImgService extends IBaseService<BaseImgParams, BaseImgVO, BaseImgEntity> {
     /**
      * 分页查询
      *
      * @param params 请求参数
      * @return 分页列表
      */
-    Page<BaseImgVO> page(@NonNull BaseImgParams params);
+    @Override
+    Page<BaseImgVO> page(@NotNull @NonNull BaseImgParams params);
 
     /**
      * 列表查询
@@ -35,6 +37,7 @@ public interface IBaseImgService extends IService<BaseImgEntity>, IBaseService<B
      * @param params 请求参数
      * @return 列表
      */
+    @Override
     List<BaseImgVO> list(@NonNull BaseImgParams params);
 
     /**

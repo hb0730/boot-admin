@@ -24,6 +24,7 @@ import com.hb0730.boot.admin.project.system.dict.model.vo.DictParams;
 import com.hb0730.boot.admin.project.system.dict.model.vo.SystemDictVO;
 import com.hb0730.boot.admin.project.system.dict.service.ISystemDictService;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -143,6 +144,18 @@ public class SystemDictServiceImpl extends BaseServiceImpl<ISystemDictMapper, Sy
         }
         cache.put(DictCacheUtils.getDictKey("-1"), maps);
 
+    }
+
+    @Override
+    @Deprecated
+    public Page<SystemDictVO> page(@NotNull @NonNull DictParams params) {
+        return null;
+    }
+
+    @Override
+    @Deprecated
+    public List<SystemDictVO> list(@NonNull DictParams params) {
+        return null;
     }
 
     @Override

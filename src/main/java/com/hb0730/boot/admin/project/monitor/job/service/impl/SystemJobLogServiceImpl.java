@@ -14,6 +14,7 @@ import com.hb0730.boot.admin.project.monitor.job.model.vo.JobLogParams;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.SystemJobLogVO;
 import com.hb0730.boot.admin.project.monitor.job.service.ISystemJobLogService;
 import com.hb0730.boot.admin.project.monitor.job.service.ISystemJobService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -40,11 +41,17 @@ public class SystemJobLogServiceImpl extends BaseServiceImpl<ISystemJobLogMapper
 
 
     @Override
-    public Page<SystemJobLogVO> page(@NonNull JobLogParams params) {
+    public Page<SystemJobLogVO> page(@NotNull @NonNull JobLogParams params) {
         QueryWrapper<SystemJobLogEntity> query = query(params);
         Page<SystemJobLogEntity> page = QueryWrapperUtils.getPage(params);
         page = super.page(page, query);
         return PageUtils.toBean(page, SystemJobLogVO.class);
+    }
+
+    @Override
+    @Deprecated
+    public List<SystemJobLogVO> list(@NonNull JobLogParams params) {
+        return null;
     }
 
     @Override
