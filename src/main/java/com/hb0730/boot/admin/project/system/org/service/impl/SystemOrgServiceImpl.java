@@ -2,14 +2,17 @@ package com.hb0730.boot.admin.project.system.org.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.domain.service.BaseServiceImpl;
+import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.project.system.menu.model.entity.SystemMenuEntity;
 import com.hb0730.boot.admin.project.system.org.mapper.ISystemOrgMapper;
 import com.hb0730.boot.admin.project.system.org.model.entity.SystemOrgEntity;
+import com.hb0730.boot.admin.project.system.org.model.vo.OrgParams;
 import com.hb0730.boot.admin.project.system.org.model.vo.SystemOrgVO;
 import com.hb0730.boot.admin.project.system.org.model.vo.TreeOrgVO;
 import com.hb0730.boot.admin.project.system.org.service.ISystemOrgService;
@@ -140,4 +143,20 @@ public class SystemOrgServiceImpl extends BaseServiceImpl<ISystemOrgMapper, Syst
     }
 
 
+    @Override
+    @Deprecated
+    public Page<SystemOrgVO> page(@NonNull OrgParams params) {
+        return null;
+    }
+
+    @Override
+    public List<SystemOrgVO> list(@NonNull OrgParams params) {
+        return null;
+    }
+
+    @Override
+    public QueryWrapper<SystemOrgEntity> query(@NonNull OrgParams params) {
+        QueryWrapper<SystemOrgEntity> query = QueryWrapperUtils.getQuery(params);
+        return query;
+    }
 }

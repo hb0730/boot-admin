@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.project.system.menu.model.vo;
 
 import com.hb0730.boot.admin.commons.web.model.BusinessVO;
+import com.hb0730.boot.admin.project.system.menu.model.entity.SystemMenuEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,7 +16,7 @@ import javax.validation.constraints.NotEmpty;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SystemMenuVO extends BusinessVO {
+public class SystemMenuVO extends BusinessVO<SystemMenuEntity> {
     /**
      * 备注
      */

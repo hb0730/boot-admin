@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.project.monitor.job.model.vo;
 
 import com.hb0730.boot.admin.commons.web.model.BusinessVO;
+import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -18,7 +19,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class SystemJobVO extends BusinessVO {
+public class SystemJobVO extends BusinessVO<SystemJobEntity> {
 
     private static final long serialVersionUID = 1L;
 

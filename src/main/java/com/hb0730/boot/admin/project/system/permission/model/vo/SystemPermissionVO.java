@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.project.system.permission.model.vo;
 
 import com.hb0730.boot.admin.commons.web.model.BusinessVO;
+import com.hb0730.boot.admin.project.system.permission.model.entity.SystemPermissionEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,7 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SystemPermissionVO extends BusinessVO {
+public class SystemPermissionVO extends BusinessVO<SystemPermissionEntity> {
 
     /**
      * 备注

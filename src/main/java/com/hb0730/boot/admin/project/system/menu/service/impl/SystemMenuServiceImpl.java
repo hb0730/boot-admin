@@ -2,15 +2,18 @@ package com.hb0730.boot.admin.project.system.menu.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.domain.service.BaseServiceImpl;
+import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
 import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.project.system.menu.mapper.ISystemMenuMapper;
 import com.hb0730.boot.admin.project.system.menu.model.entity.SystemMenuEntity;
+import com.hb0730.boot.admin.project.system.menu.model.vo.SystemMenuParams;
 import com.hb0730.boot.admin.project.system.menu.model.vo.SystemMenuVO;
 import com.hb0730.boot.admin.project.system.menu.model.vo.TreeMenuVO;
 import com.hb0730.boot.admin.project.system.menu.service.ISystemMenuService;
@@ -179,5 +182,23 @@ public class SystemMenuServiceImpl extends BaseServiceImpl<ISystemMenuMapper, Sy
             entity.setDelFlag(0);
         }
 
+    }
+
+    @Override
+    @Deprecated
+    public Page<SystemMenuVO> page(@NonNull SystemMenuParams params) {
+        return null;
+    }
+
+    @Override
+    public List<SystemMenuVO> list(@NonNull SystemMenuParams params) {
+        return null;
+    }
+
+    @Override
+    @NonNull
+    public QueryWrapper<SystemMenuEntity> query(@NonNull SystemMenuParams params) {
+        QueryWrapper<SystemMenuEntity> query = QueryWrapperUtils.getQuery(params);
+        return query;
     }
 }

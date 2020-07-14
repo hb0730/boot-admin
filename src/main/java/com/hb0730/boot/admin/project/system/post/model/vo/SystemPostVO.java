@@ -1,10 +1,7 @@
 package com.hb0730.boot.admin.project.system.post.model.vo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.hb0730.boot.admin.commons.domain.BusinessDomain;
 import com.hb0730.boot.admin.commons.web.model.BusinessVO;
+import com.hb0730.boot.admin.project.system.post.model.entity.SystemPostEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -20,9 +17,9 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class SystemPostVO extends BusinessVO {
+public class SystemPostVO extends BusinessVO<SystemPostEntity> {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 备注

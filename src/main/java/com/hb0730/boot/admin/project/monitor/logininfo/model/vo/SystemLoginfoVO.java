@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.project.monitor.logininfo.model.vo;
 
 import com.hb0730.boot.admin.commons.web.model.BusinessVO;
+import com.hb0730.boot.admin.project.monitor.logininfo.model.entity.SystemLoginInfoEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -16,7 +17,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class SystemLoginfoVO extends BusinessVO {
+public class SystemLoginfoVO extends BusinessVO<SystemLoginInfoEntity> {
 
     private static final long serialVersionUID = 1L;
 

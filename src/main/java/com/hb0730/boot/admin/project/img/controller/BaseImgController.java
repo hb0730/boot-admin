@@ -6,14 +6,15 @@ import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.annotation.Log;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
+import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
 import com.hb0730.boot.admin.oss.model.UploadResult;
+import com.hb0730.boot.admin.project.img.model.entity.BaseImgEntity;
 import com.hb0730.boot.admin.project.img.model.vo.BaseImgParams;
 import com.hb0730.boot.admin.project.img.model.vo.BaseImgVO;
 import com.hb0730.boot.admin.project.img.service.IBaseImgService;
-import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,9 +36,13 @@ import static com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants
  */
 @RestController
 @RequestMapping(REQUEST_BASE_IMG)
-@AllArgsConstructor
-public class BaseImgController extends BaseController<BaseImgParams, BaseImgVO, Long> {
+public class BaseImgController extends BaseController<BaseImgParams, BaseImgVO, Long, BaseImgEntity> {
     private final IBaseImgService service;
+
+    public BaseImgController(IBaseImgService service) {
+        super(service);
+        this.service = service;
+    }
 
     /**
      * 查询

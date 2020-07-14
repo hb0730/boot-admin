@@ -18,7 +18,6 @@ import com.hb0730.boot.admin.project.monitor.logininfo.model.entity.SystemLoginI
 import com.hb0730.boot.admin.project.monitor.logininfo.model.vo.LoginfoParams;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.vo.SystemLoginfoVO;
 import com.hb0730.boot.admin.project.monitor.logininfo.service.ISystemLoginInfoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -41,9 +40,13 @@ import static com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants
  */
 @RestController
 @RequestMapping(REQUEST_LOGININFO)
-public class SystemLoginInfoController extends BaseController<LoginfoParams, SystemLoginfoVO, Long> {
-    @Autowired
-    private ISystemLoginInfoService systemLoginInfoService;
+public class SystemLoginInfoController extends BaseController<LoginfoParams, SystemLoginfoVO, Long, SystemLoginInfoEntity> {
+    private final ISystemLoginInfoService systemLoginInfoService;
+
+    public SystemLoginInfoController(ISystemLoginInfoService systemLoginInfoService) {
+        super(systemLoginInfoService);
+        this.systemLoginInfoService = systemLoginInfoService;
+    }
 
     /**
      * <p>

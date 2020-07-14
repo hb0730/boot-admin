@@ -22,7 +22,6 @@ import com.hb0730.boot.admin.project.system.role.org.service.ISystemRoleOrgServi
 import com.hb0730.boot.admin.project.system.role.permission.model.entity.SystemRolePermissionEntity;
 import com.hb0730.boot.admin.project.system.role.permission.service.ISystemRolePermissionService;
 import com.hb0730.boot.admin.project.system.role.service.ISystemRoleService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -42,13 +41,19 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping(RequestMappingNameConstants.REQUEST_ROLE)
-public class SystemRoleController extends BaseController<RoleParams, SystemRoleVO, Long> {
-    @Autowired
-    private ISystemRoleService systemRoleService;
-    @Autowired
-    private ISystemRolePermissionService systemRolePermissionService;
-    @Autowired
-    private ISystemRoleOrgService systemRoleOrgService;
+public class SystemRoleController extends BaseController<RoleParams, SystemRoleVO, Long, SystemRoleEntity> {
+    private final ISystemRoleService systemRoleService;
+    private final ISystemRolePermissionService systemRolePermissionService;
+    private final ISystemRoleOrgService systemRoleOrgService;
+
+    public SystemRoleController(ISystemRoleService systemRoleService,
+                                ISystemRolePermissionService systemRolePermissionService,
+                                ISystemRoleOrgService systemRoleOrgService) {
+        super(systemRoleService);
+        this.systemRoleService = systemRoleService;
+        this.systemRolePermissionService = systemRolePermissionService;
+        this.systemRoleOrgService = systemRoleOrgService;
+    }
 
     /**
      * 获取全部角色
@@ -105,7 +110,7 @@ public class SystemRoleController extends BaseController<RoleParams, SystemRoleV
 //    @PostMapping("/update/{id}")
     @Log(paramsName = {"vo"}, module = ModuleName.ROLE, title = "角色修改", businessType = BusinessTypeEnum.UPDATE)
     @PreAuthorize("hasAnyAuthority('role:update','ROLE_ADMINISTRATOR','ROLE_ROLE_ADMIN')")
-    public Result<String> updateById(Long id,SystemRoleVO vo) {
+    public Result<String> updateById(Long id, SystemRoleVO vo) {
         vo.setId(id);
         systemRoleService.updateById(BeanUtils.transformFrom(vo, SystemRoleEntity.class));
         return ResponseResult.resultSuccess("修改成功");

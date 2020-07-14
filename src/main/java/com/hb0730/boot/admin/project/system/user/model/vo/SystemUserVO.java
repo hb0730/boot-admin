@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.project.system.user.model.vo;
 
 import com.hb0730.boot.admin.commons.web.model.BusinessVO;
+import com.hb0730.boot.admin.project.system.user.model.entity.SystemUserEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -19,7 +20,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class SystemUserVO extends BusinessVO {
+public class SystemUserVO extends BusinessVO<SystemUserEntity> {
 
     private static final long serialVersionUID = 1L;
     private Long id;

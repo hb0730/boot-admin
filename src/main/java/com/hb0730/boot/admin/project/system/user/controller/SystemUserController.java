@@ -26,10 +26,8 @@ import com.hb0730.boot.admin.project.system.user.model.vo.UserParams;
 import com.hb0730.boot.admin.project.system.user.model.vo.UserVO;
 import com.hb0730.boot.admin.project.system.user.service.ISystemUserService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,9 +47,13 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping(RequestMappingNameConstants.REQUEST_USER)
-public class SystemUserController extends BaseController<UserParams, UserVO, Long> {
-    @Autowired
-    private ISystemUserService systemUserService;
+public class SystemUserController extends BaseController<UserParams, UserVO, Long, SystemUserEntity> {
+    private final ISystemUserService systemUserService;
+
+    public SystemUserController(ISystemUserService systemUserService) {
+        super();
+        this.systemUserService = systemUserService;
+    }
 
     /**
      * <p>
@@ -81,7 +83,7 @@ public class SystemUserController extends BaseController<UserParams, UserVO, Lon
 //    @PostMapping("/save")
     @Log(paramsName = {"vo"}, module = ModuleName.USER, title = "用户保存", businessType = BusinessTypeEnum.INSERT)
     @PreAuthorize("hasAnyAuthority('user:save','ROLE_ADMINISTRATOR','ROLE_USER_ADMIN')")
-    public Result<String> save( UserVO vo) {
+    public Result<String> save(UserVO vo) {
         if (Objects.isNull(vo)) {
             return ResponseResult.resultFall("新增用户失败，用户账号为空");
         }

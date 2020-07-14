@@ -18,7 +18,6 @@ import com.hb0730.boot.admin.project.monitor.operlog.model.entity.SystemOperLogE
 import com.hb0730.boot.admin.project.monitor.operlog.model.vo.OperLogParams;
 import com.hb0730.boot.admin.project.monitor.operlog.model.vo.SystemOperLogVO;
 import com.hb0730.boot.admin.project.monitor.operlog.service.ISystemOperLogService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -41,9 +40,13 @@ import static com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants
  */
 @RestController
 @RequestMapping(REQUEST_OPERLOG)
-public class SystemOperLogController extends BaseController<OperLogParams, SystemOperLogVO, Long> {
-    @Autowired
-    private ISystemOperLogService systemOperLogService;
+public class SystemOperLogController extends BaseController<OperLogParams, SystemOperLogVO, Long, SystemOperLogEntity> {
+    private final ISystemOperLogService systemOperLogService;
+
+    public SystemOperLogController(ISystemOperLogService systemOperLogService) {
+        super(systemOperLogService);
+        this.systemOperLogService = systemOperLogService;
+    }
 
     /**
      * <p>

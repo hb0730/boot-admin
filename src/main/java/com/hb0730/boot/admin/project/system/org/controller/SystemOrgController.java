@@ -14,10 +14,11 @@ import com.hb0730.boot.admin.project.system.org.model.vo.OrgParams;
 import com.hb0730.boot.admin.project.system.org.model.vo.SystemOrgVO;
 import com.hb0730.boot.admin.project.system.org.model.vo.TreeOrgVO;
 import com.hb0730.boot.admin.project.system.org.service.ISystemOrgService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -31,9 +32,13 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(RequestMappingNameConstants.REQUEST_ORG)
-public class SystemOrgController extends BaseController<OrgParams, SystemOrgVO, Long> {
-    @Autowired
-    private ISystemOrgService systemOrgService;
+public class SystemOrgController extends BaseController<OrgParams, SystemOrgVO, Long, SystemOrgEntity> {
+    private final ISystemOrgService systemOrgService;
+
+    public SystemOrgController(ISystemOrgService systemOrgService) {
+        super(systemOrgService);
+        this.systemOrgService = systemOrgService;
+    }
 
     /**
      * <p>
@@ -75,7 +80,7 @@ public class SystemOrgController extends BaseController<OrgParams, SystemOrgVO, 
 //    @PostMapping("/update/{id}")
     @Log(paramsName = "vo", module = ModuleName.ORG, title = "修改组织", businessType = BusinessTypeEnum.UPDATE)
     @PreAuthorize("hasAnyAuthority('org:update','ROLE_ADMINISTRATOR','ROLE_ADMIN_ORG')")
-    public Result updateById( Long id, SystemOrgVO vo) {
+    public Result updateById(Long id, SystemOrgVO vo) {
         vo.setId(id);
         SystemOrgEntity entity = BeanUtils.transformFrom(vo, SystemOrgEntity.class);
         systemOrgService.updateById(entity);

@@ -21,7 +21,6 @@ import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobEntity;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.JobParams;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.SystemJobVO;
 import com.hb0730.boot.admin.project.monitor.job.service.ISystemJobService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -44,10 +43,13 @@ import static com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants
  */
 @RestController
 @RequestMapping(REQUEST_JOB)
-public class SystemJobController extends BaseController<JobParams, SystemJobVO, Long> {
-    @Autowired
-    private ISystemJobService systemJobService;
+public class SystemJobController extends BaseController<JobParams, SystemJobVO, Long, SystemJobEntity> {
+    private final ISystemJobService systemJobService;
 
+    public SystemJobController(ISystemJobService systemJobService) {
+        super(systemJobService);
+        this.systemJobService = systemJobService;
+    }
 
     /**
      * <p>

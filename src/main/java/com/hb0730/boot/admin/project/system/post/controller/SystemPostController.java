@@ -21,7 +21,6 @@ import com.hb0730.boot.admin.project.system.post.model.entity.SystemPostEntity;
 import com.hb0730.boot.admin.project.system.post.model.vo.PostParams;
 import com.hb0730.boot.admin.project.system.post.model.vo.SystemPostVO;
 import com.hb0730.boot.admin.project.system.post.service.ISystemPostService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,9 +46,13 @@ import static com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants
  */
 @RestController
 @RequestMapping(REQUEST_POST)
-public class SystemPostController extends BaseController<PostParams, SystemPostVO, Long> {
-    @Autowired
-    private ISystemPostService systemPostService;
+public class SystemPostController extends BaseController<PostParams, SystemPostVO, Long, SystemPostEntity> {
+    private final ISystemPostService systemPostService;
+
+    public SystemPostController(ISystemPostService systemPostService) {
+        super(systemPostService);
+        this.systemPostService = systemPostService;
+    }
 
     /**
      * <p>

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hb0730.boot.admin.commons.domain.BusinessDomain;
 import com.hb0730.boot.admin.commons.web.model.BusinessVO;
+import com.hb0730.boot.admin.project.system.org.model.entity.SystemOrgEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -22,7 +23,7 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class SystemOrgVO extends BusinessVO {
+public class SystemOrgVO extends BusinessVO<SystemOrgEntity> {
 
     private static final long serialVersionUID=1L;
 

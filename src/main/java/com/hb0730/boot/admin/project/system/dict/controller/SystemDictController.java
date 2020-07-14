@@ -18,7 +18,6 @@ import com.hb0730.boot.admin.project.system.dict.model.vo.DictParams;
 import com.hb0730.boot.admin.project.system.dict.model.vo.SystemDictVO;
 import com.hb0730.boot.admin.project.system.dict.service.ISystemDictService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
@@ -38,9 +37,13 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping(RequestMappingNameConstants.REQUEST_DICT)
-public class SystemDictController extends BaseController<DictParams, SystemDictVO, Long> {
-    @Autowired
-    private ISystemDictService systemDictService;
+public class SystemDictController extends BaseController<DictParams, SystemDictVO, Long, SystemDictEntity> {
+    private final ISystemDictService systemDictService;
+
+    public SystemDictController(ISystemDictService systemDictService) {
+        super(systemDictService);
+        this.systemDictService = systemDictService;
+    }
 
     /**
      * 数据字典(管理)

@@ -19,7 +19,6 @@ import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobLogEntity
 import com.hb0730.boot.admin.project.monitor.job.model.vo.JobLogParams;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.SystemJobLogVO;
 import com.hb0730.boot.admin.project.monitor.job.service.ISystemJobLogService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -40,9 +39,13 @@ import static com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants
  */
 @RestController
 @RequestMapping(REQUEST_JOB_LOG)
-public class SystemJobLogController extends BaseController<JobLogParams, SystemJobLogVO, Long> {
-    @Autowired
-    private ISystemJobLogService systemJobLogService;
+public class SystemJobLogController extends BaseController<JobLogParams, SystemJobLogVO, Long, SystemJobLogEntity> {
+    private final ISystemJobLogService systemJobLogService;
+
+    public SystemJobLogController(ISystemJobLogService systemJobLogService) {
+        super(systemJobLogService);
+        this.systemJobLogService = systemJobLogService;
+    }
 
     /**
      * <p>

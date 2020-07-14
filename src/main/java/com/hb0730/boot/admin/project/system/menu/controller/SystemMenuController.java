@@ -23,7 +23,6 @@ import com.hb0730.boot.admin.project.system.menu.service.ISystemMenuService;
 import com.hb0730.boot.admin.project.system.permission.model.dto.SystemPermissionDTO;
 import com.hb0730.boot.admin.project.system.permission.model.vo.SystemPermissionVO;
 import com.hb0730.boot.admin.security.model.LoginUser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -43,11 +42,15 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping(RequestMappingNameConstants.REQUEST_MENU)
-public class SystemMenuController extends BaseController<SystemMenuParams, SystemMenuVO, Long> {
-    @Autowired
-    private ISystemMenuService systemMenuService;
-    @Autowired
-    private ISystemMenuPermissionService permissionService;
+public class SystemMenuController extends BaseController<SystemMenuParams, SystemMenuVO, Long, SystemMenuEntity> {
+    private final ISystemMenuService systemMenuService;
+    private final ISystemMenuPermissionService permissionService;
+
+    public SystemMenuController(ISystemMenuService systemMenuService, ISystemMenuPermissionService permissionService) {
+        super(systemMenuService);
+        this.systemMenuService = systemMenuService;
+        this.permissionService = permissionService;
+    }
 
     /**
      * <p>

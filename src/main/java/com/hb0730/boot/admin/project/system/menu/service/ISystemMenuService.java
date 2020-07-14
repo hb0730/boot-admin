@@ -1,7 +1,8 @@
 package com.hb0730.boot.admin.project.system.menu.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.project.system.menu.model.entity.SystemMenuEntity;
+import com.hb0730.boot.admin.project.system.menu.model.vo.SystemMenuParams;
 import com.hb0730.boot.admin.project.system.menu.model.vo.SystemMenuVO;
 import com.hb0730.boot.admin.project.system.menu.model.vo.TreeMenuVO;
 import org.springframework.lang.NonNull;
@@ -18,7 +19,7 @@ import java.util.Map;
  * @author bing_huang
  * @since 2020-03-26
  */
-public interface ISystemMenuService extends IService<SystemMenuEntity> {
+public interface ISystemMenuService extends IBaseService<SystemMenuParams, SystemMenuVO, SystemMenuEntity> {
     /**
      * <p>
      * 获取全部树形菜单
