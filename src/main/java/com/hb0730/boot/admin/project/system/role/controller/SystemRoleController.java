@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping(RequestMappingNameConstants.REQUEST_ROLE)
-public class SystemRoleController extends BaseController {
+public class SystemRoleController extends BaseController<RoleParams, SystemRoleVO, Long> {
     @Autowired
     private ISystemRoleService systemRoleService;
     @Autowired
@@ -85,10 +85,11 @@ public class SystemRoleController extends BaseController {
      * @param vo 角色信息
      * @return 是否成功
      */
-    @PostMapping("/save")
+    @Override
+//    @PostMapping("/save")
     @Log(paramsName = {"vo"}, module = ModuleName.ROLE, title = "角色保存", businessType = BusinessTypeEnum.INSERT)
     @PreAuthorize("hasAnyAuthority('role:save','ROLE_ADMINISTRATOR','ROLE_ROLE_ADMIN')")
-    public Result<String> save(@RequestBody SystemRoleVO vo) {
+    public Result<String> save(SystemRoleVO vo) {
         systemRoleService.save(BeanUtils.transformFrom(vo, SystemRoleEntity.class));
         return ResponseResult.resultSuccess("保存成功");
     }
@@ -100,10 +101,11 @@ public class SystemRoleController extends BaseController {
      * @param vo 角色信息
      * @return 是否成功
      */
-    @PostMapping("/update/{id}")
+    @Override
+//    @PostMapping("/update/{id}")
     @Log(paramsName = {"vo"}, module = ModuleName.ROLE, title = "角色修改", businessType = BusinessTypeEnum.UPDATE)
     @PreAuthorize("hasAnyAuthority('role:update','ROLE_ADMINISTRATOR','ROLE_ROLE_ADMIN')")
-    public Result<String> updateById(@PathVariable Long id, @RequestBody SystemRoleVO vo) {
+    public Result<String> updateById(Long id,SystemRoleVO vo) {
         vo.setId(id);
         systemRoleService.updateById(BeanUtils.transformFrom(vo, SystemRoleEntity.class));
         return ResponseResult.resultSuccess("修改成功");
@@ -115,10 +117,11 @@ public class SystemRoleController extends BaseController {
      * @param id id
      * @return 是否成功
      */
-    @GetMapping("/delete/{id}")
+    @Override
+//    @GetMapping("/delete/{id}")
     @Log(module = ModuleName.ROLE, title = "角色删除", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('role:delete','ROLE_ADMINISTRATOR','ROLE_ROLE_ADMIN')")
-    public Result<String> deleteById(@PathVariable Long id) {
+    public Result<String> deleteById(Long id) {
         systemRoleService.removeById(id);
         return ResponseResult.resultSuccess("修改成功");
     }
@@ -131,10 +134,11 @@ public class SystemRoleController extends BaseController {
      * @param id id
      * @return 是否成功
      */
-    @PostMapping("/delete")
+    @Override
+//    @PostMapping("/delete")
     @Log(module = ModuleName.ROLE, title = "角色删除", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('role:delete','ROLE_ADMINISTRATOR','ROLE_ROLE_ADMIN')")
-    public Result<String> deleteByIds(@RequestBody List<Long> id) {
+    public Result<String> deleteByIds(List<Long> id) {
         if (!CollectionUtils.isEmpty(id)) {
             systemRoleService.removeByIds(id);
             return ResponseResult.resultSuccess("修改成功");

@@ -1,10 +1,9 @@
 package com.hb0730.boot.admin.project.system.user.role.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -16,6 +15,7 @@ import com.hb0730.boot.admin.commons.web.controller.BaseController;
  */
 @RestController
 @RequestMapping("/user.role/system-user-role-entity")
+@Deprecated
 public class SystemUserRoleController extends BaseController {
 
 }

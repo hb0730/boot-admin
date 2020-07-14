@@ -49,7 +49,7 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping(RequestMappingNameConstants.REQUEST_USER)
-public class SystemUserController extends BaseController {
+public class SystemUserController extends BaseController<UserParams, UserVO, Long> {
     @Autowired
     private ISystemUserService systemUserService;
 
@@ -77,10 +77,11 @@ public class SystemUserController extends BaseController {
      * @param vo 用户信息
      * @return 是否成功
      */
-    @PostMapping("/save")
+    @Override
+//    @PostMapping("/save")
     @Log(paramsName = {"vo"}, module = ModuleName.USER, title = "用户保存", businessType = BusinessTypeEnum.INSERT)
     @PreAuthorize("hasAnyAuthority('user:save','ROLE_ADMINISTRATOR','ROLE_USER_ADMIN')")
-    public Result<String> save(@Validated @RequestBody UserVO vo) {
+    public Result<String> save( UserVO vo) {
         if (Objects.isNull(vo)) {
             return ResponseResult.resultFall("新增用户失败，用户账号为空");
         }
@@ -246,10 +247,11 @@ public class SystemUserController extends BaseController {
      * @param id 是否成功
      * @return 是否成功
      */
-    @GetMapping("/delete/{id}")
+    @Override
+//    @GetMapping("/delete/{id}")
     @Log(module = ModuleName.USER, title = "删除用户", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('user:delete','ROLE_ADMINISTRATOR','ROLE_USER_ADMIN')")
-    public Result<String> deleteById(@PathVariable Long id) {
+    public Result<String> deleteById(Long id) {
         systemUserService.removeById(id);
         return ResponseResult.resultSuccess("删除成功");
     }
@@ -262,10 +264,11 @@ public class SystemUserController extends BaseController {
      * @param ids id
      * @return 是否成功
      */
-    @PostMapping("/delete")
+    @Override
+//    @PostMapping("/delete")
     @Log(module = ModuleName.USER, title = "删除用户", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('user:delete','ROLE_ADMINISTRATOR','ROLE_USER_ADMIN')")
-    public Result<String> deleteByIds(@RequestBody List<Long> ids) {
+    public Result<String> deleteByIds(List<Long> ids) {
         if (!CollectionUtils.isEmpty(ids)) {
             systemUserService.removeByIds(ids);
             return ResponseResult.resultSuccess("删除成功");

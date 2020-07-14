@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(RequestMappingNameConstants.REQUEST_PERMISSION)
+@Deprecated
 public class SystemPermissionController extends BaseController {
 
 }

@@ -13,6 +13,7 @@ import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
 import com.hb0730.boot.admin.project.system.menu.model.entity.SystemMenuEntity;
+import com.hb0730.boot.admin.project.system.menu.model.vo.SystemMenuParams;
 import com.hb0730.boot.admin.project.system.menu.model.vo.SystemMenuVO;
 import com.hb0730.boot.admin.project.system.menu.model.vo.TreeMenuVO;
 import com.hb0730.boot.admin.project.system.menu.permission.model.entity.SystemMenuPermissionEntity;
@@ -25,7 +26,6 @@ import com.hb0730.boot.admin.security.model.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping(RequestMappingNameConstants.REQUEST_MENU)
-public class SystemMenuController extends BaseController {
+public class SystemMenuController extends BaseController<SystemMenuParams, SystemMenuVO, Long> {
     @Autowired
     private ISystemMenuService systemMenuService;
     @Autowired
@@ -69,10 +69,11 @@ public class SystemMenuController extends BaseController {
      * @param vo 菜单信息
      * @return 是否成功
      */
-    @PostMapping("/save")
+    @Override
+//    @PostMapping("/save")
     @Log(paramsName = "vo", module = ModuleName.MENU, title = "新增", businessType = BusinessTypeEnum.INSERT)
     @PreAuthorize("hasAnyAuthority('menu:save','ROLE_ADMINISTRATOR','ROLE_ADMIN','ROLE_MENU_ADMIN')")
-    public Result<String> save(@Validated @RequestBody SystemMenuVO vo) {
+    public Result<String> save(SystemMenuVO vo) {
         SystemMenuEntity entity = BeanUtils.transformFrom(vo, SystemMenuEntity.class);
         systemMenuService.save(entity);
         return ResponseResult.resultSuccess("新增成功");
@@ -85,10 +86,11 @@ public class SystemMenuController extends BaseController {
      * @param vo 菜单信息
      * @return 是否成功
      */
-    @PostMapping("/update/{id}")
+    @Override
+//    @PostMapping("/update/{id}")
     @Log(paramsName = "vo", module = ModuleName.MENU, title = "修改", businessType = BusinessTypeEnum.UPDATE)
     @PreAuthorize("hasAnyAuthority('menu:update','ROLE_ADMINISTRATOR','ROLE_MENU_ADMIN')")
-    public Result<String> updateById(@PathVariable Long id, @Validated @RequestBody SystemMenuVO vo) {
+    public Result<String> updateById(Long id, SystemMenuVO vo) {
         SystemMenuEntity entity = BeanUtils.transformFrom(vo, SystemMenuEntity.class);
         assert entity != null;
         entity.setId(id);
@@ -104,10 +106,11 @@ public class SystemMenuController extends BaseController {
      * @param id id
      * @return 是否成功
      */
-    @GetMapping("/delete/{id}")
+    @Override
+//    @GetMapping("/delete/{id}")
     @Log(module = ModuleName.MENU, title = "删除", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('menu:delete','ROLE_ADMINISTRATOR','ROLE_MENU_ADMIN')")
-    public Result<String> deleteById(@PathVariable Long id) {
+    public Result<String> deleteById(Long id) {
         systemMenuService.removeById(id);
         return ResponseResult.resultSuccess("删除成功");
     }

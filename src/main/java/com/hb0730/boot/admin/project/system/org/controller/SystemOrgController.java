@@ -2,14 +2,15 @@ package com.hb0730.boot.admin.project.system.org.controller;
 
 
 import com.hb0730.boot.admin.commons.annotation.Log;
-import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
+import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
 import com.hb0730.boot.admin.project.system.org.model.entity.SystemOrgEntity;
+import com.hb0730.boot.admin.project.system.org.model.vo.OrgParams;
 import com.hb0730.boot.admin.project.system.org.model.vo.SystemOrgVO;
 import com.hb0730.boot.admin.project.system.org.model.vo.TreeOrgVO;
 import com.hb0730.boot.admin.project.system.org.service.ISystemOrgService;
@@ -30,7 +31,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(RequestMappingNameConstants.REQUEST_ORG)
-public class SystemOrgController extends BaseController {
+public class SystemOrgController extends BaseController<OrgParams, SystemOrgVO, Long> {
     @Autowired
     private ISystemOrgService systemOrgService;
 
@@ -42,10 +43,11 @@ public class SystemOrgController extends BaseController {
      * @param org 组织参数信息
      * @return 是否成功
      */
-    @PostMapping("/save")
+    @Override
+//    @PostMapping("/save")
     @Log(paramsName = "org", module = ModuleName.ORG, title = "保存组织", businessType = BusinessTypeEnum.INSERT)
     @PreAuthorize("hasAnyAuthority('org:save','ROLE_ADMINISTRATOR','ROLE_ADMIN_ORG')")
-    public Result save(@Validated @RequestBody SystemOrgVO org) {
+    public Result save(SystemOrgVO org) {
         SystemOrgEntity entity = BeanUtils.transformFrom(org, SystemOrgEntity.class);
         systemOrgService.save(entity);
         return ResponseResult.resultSuccess("保存成功");
@@ -69,10 +71,11 @@ public class SystemOrgController extends BaseController {
      * @param vo 组织信息
      * @return 是否成功
      */
-    @PostMapping("/update/{id}")
+    @Override
+//    @PostMapping("/update/{id}")
     @Log(paramsName = "vo", module = ModuleName.ORG, title = "修改组织", businessType = BusinessTypeEnum.UPDATE)
     @PreAuthorize("hasAnyAuthority('org:update','ROLE_ADMINISTRATOR','ROLE_ADMIN_ORG')")
-    public Result updateById(@PathVariable Long id, @Validated @RequestBody SystemOrgVO vo) {
+    public Result updateById( Long id, SystemOrgVO vo) {
         vo.setId(id);
         SystemOrgEntity entity = BeanUtils.transformFrom(vo, SystemOrgEntity.class);
         systemOrgService.updateById(entity);
@@ -85,10 +88,11 @@ public class SystemOrgController extends BaseController {
      * @param id 组织id
      * @return 是否成功
      */
-    @GetMapping("/delete/{id}")
+    @Override
+//    @GetMapping("/delete/{id}")
     @Log(module = ModuleName.ORG, title = "删除组织", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('org:delete','ROLE_ADMINISTRATOR','ROLE_ADMIN_ORG')")
-    public Result delete(@PathVariable Long id) {
+    public Result deleteById(Long id) {
         systemOrgService.removeById(id);
         return ResponseResult.resultSuccess("修改成功");
     }

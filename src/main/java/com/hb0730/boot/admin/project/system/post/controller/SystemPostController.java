@@ -24,7 +24,10 @@ import com.hb0730.boot.admin.project.system.post.service.ISystemPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +47,7 @@ import static com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants
  */
 @RestController
 @RequestMapping(REQUEST_POST)
-public class SystemPostController extends BaseController {
+public class SystemPostController extends BaseController<PostParams, SystemPostVO, Long> {
     @Autowired
     private ISystemPostService systemPostService;
 
@@ -56,10 +59,11 @@ public class SystemPostController extends BaseController {
      * @param vo 岗位
      * @return 是否成功
      */
-    @PostMapping("/save")
+    @Override
+//    @PostMapping("/save")
     @Log(paramsName = {"vo"}, module = ModuleName.POST, title = "岗位保存", businessType = BusinessTypeEnum.INSERT)
     @PreAuthorize("hasAnyAuthority('post:save','ROLE_ADMINISTRATOR','ROLE_POST_ADMIN')")
-    public Result<String> save(@RequestBody SystemPostVO vo) {
+    public Result<String> save(SystemPostVO vo) {
         SystemPostEntity entity = BeanUtils.transformFrom(vo, SystemPostEntity.class);
         systemPostService.save(entity);
         return ResponseResult.resultSuccess("保存成功");
@@ -105,10 +109,11 @@ public class SystemPostController extends BaseController {
      * @param vo 岗位信息
      * @return 是否成功
      */
-    @PostMapping("/update/{id}")
+    @Override
+//    @PostMapping("/update/{id}")
     @Log(paramsName = {"vo"}, module = ModuleName.POST, title = "岗位修改", businessType = BusinessTypeEnum.UPDATE)
     @PreAuthorize("hasAnyAuthority('post:update','ROLE_ADMINISTRATOR','ROLE_POST_ADMIN')")
-    public Result<String> updateById(@PathVariable Long id, @RequestBody SystemPostVO vo) {
+    public Result<String> updateById(Long id, SystemPostVO vo) {
         SystemPostEntity entity = systemPostService.getById(id);
         BeanUtils.updateProperties(vo, entity);
         systemPostService.updateById(entity);
@@ -121,10 +126,11 @@ public class SystemPostController extends BaseController {
      * @param id 岗位id
      * @return 是否成功
      */
-    @GetMapping("/delete/{id}")
+//    @GetMapping("/delete/{id}")
+    @Override
     @Log(module = ModuleName.POST, title = "岗位删除", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('post:delete','ROLE_ADMINISTRATOR','ROLE_POST_ADMIN')")
-    public Result<String> deleteById(@PathVariable Long id) {
+    public Result<String> deleteById(Long id) {
         systemPostService.deleteById(id);
         return ResponseResult.resultSuccess("修改成功");
     }
@@ -137,10 +143,11 @@ public class SystemPostController extends BaseController {
      * @param ids 岗位id
      * @return 是否成功
      */
-    @PostMapping("/delete")
+    @Override
+//    @PostMapping("/delete")
     @Log(module = ModuleName.POST, title = "岗位删除", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('post:delete','ROLE_ADMINISTRATOR','ROLE_POST_ADMIN')")
-    public Result<String> deleteByIds(@RequestBody List<Long> ids) {
+    public Result<String> deleteByIds(List<Long> ids) {
         if (!CollectionUtils.isEmpty(ids)) {
             systemPostService.removeByIds(ids);
             return ResponseResult.resultSuccess("修改成功");

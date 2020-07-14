@@ -41,7 +41,7 @@ import static com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants
  */
 @RestController
 @RequestMapping(REQUEST_OPERLOG)
-public class SystemOperLogController extends BaseController {
+public class SystemOperLogController extends BaseController<OperLogParams, SystemOperLogVO, Long> {
     @Autowired
     private ISystemOperLogService systemOperLogService;
 
@@ -68,10 +68,11 @@ public class SystemOperLogController extends BaseController {
      * @param ids 日志id
      * @return 是否成功
      */
-    @PostMapping("/delete")
+    @Override
+//    @PostMapping("/delete")
     @Log(paramsName = "ids", module = ModuleName.OPER_LOG, title = "删除", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('oper:log:delete','ROLE_ADMINISTRATOR','ROLE_OPER_LOG_ADMIN')")
-    public Result<String> deleteByIds(@RequestBody List<Long> ids) {
+    public Result<String> deleteByIds(List<Long> ids) {
         if (CollectionUtils.isEmpty(ids)) {
             return ResponseResult.resultFall("请选择");
         }

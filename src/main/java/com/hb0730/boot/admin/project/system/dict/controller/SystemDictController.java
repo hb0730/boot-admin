@@ -38,7 +38,7 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping(RequestMappingNameConstants.REQUEST_DICT)
-public class SystemDictController extends BaseController {
+public class SystemDictController extends BaseController<DictParams, SystemDictVO, Long> {
     @Autowired
     private ISystemDictService systemDictService;
 
@@ -79,10 +79,11 @@ public class SystemDictController extends BaseController {
      * @param vo 字典参数
      * @return 是否成功
      */
-    @PostMapping("/save")
+    @Override
+//    @PostMapping("/save")
     @PreAuthorize("hasAnyAuthority('dict:save','ROLE_ADMINISTRATOR','ROLE_DICT_ADMIN')")
     @Log(paramsName = "vo", module = ModuleName.DICT, title = "新增", businessType = BusinessTypeEnum.INSERT)
-    public Result<String> save(@RequestBody SystemDictVO vo) {
+    public Result<String> save(SystemDictVO vo) {
         if (Objects.isNull(vo.getParentId())) {
             vo.setParentId(SystemConstants.PARENT_ID);
         }
@@ -101,10 +102,11 @@ public class SystemDictController extends BaseController {
      * @param vo 参数
      * @return 是否成
      */
-    @PostMapping("/update/{id}")
+    @Override
+//    @PostMapping("/update/{id}")
     @PreAuthorize("hasAnyAuthority('dict:update','ROLE_ADMINISTRATOR','ROLE_DICT_ADMIN')")
     @Log(paramsName = {"vo"}, module = ModuleName.DICT, title = "修改", businessType = BusinessTypeEnum.UPDATE)
-    public Result<String> updateById(@PathVariable Long id, @RequestBody SystemDictVO vo) {
+    public Result<String> updateById(Long id, SystemDictVO vo) {
         verify(vo);
         systemDictService.updateById(id, vo);
         return ResponseResult.resultSuccess("保存成功");
@@ -118,10 +120,11 @@ public class SystemDictController extends BaseController {
      * @param id id
      * @return 是否成功
      */
-    @GetMapping("/delete/id/{id}")
+    @Override
+//    @GetMapping("/delete/id/{id}")
     @PreAuthorize("hasAnyAuthority('dict:delete','ROLE_ADMINISTRATOR','ROLE_DICT_ADMIN')")
     @Log(module = ModuleName.DICT, title = "删除", businessType = BusinessTypeEnum.DELETE)
-    public Result<String> deleteById(@PathVariable Long id) {
+    public Result<String> deleteById(Long id) {
         systemDictService.removeById(id);
         return ResponseResult.resultSuccess("删除成功");
     }
@@ -132,10 +135,11 @@ public class SystemDictController extends BaseController {
      * @param ids id
      * @return 是否成功
      */
-    @PostMapping("/delete/id")
+    @Override
+//    @PostMapping("/delete/id")
     @PreAuthorize("hasAnyAuthority('dict:delete','ROLE_ADMINISTRATOR','ROLE_DICT_ADMIN')")
     @Log(module = ModuleName.DICT, title = "删除", businessType = BusinessTypeEnum.DELETE)
-    public Result<String> deleteByIds(@RequestBody List<Long> ids) {
+    public Result<String> deleteByIds(List<Long> ids) {
         if (!CollectionUtils.isEmpty(ids)) {
             systemDictService.removeByIds(ids);
             return ResponseResult.resultSuccess("删除成功");

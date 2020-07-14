@@ -40,7 +40,7 @@ import static com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants
  */
 @RestController
 @RequestMapping(REQUEST_JOB_LOG)
-public class SystemJobLogController extends BaseController {
+public class SystemJobLogController extends BaseController<JobLogParams, SystemJobLogVO, Long> {
     @Autowired
     private ISystemJobLogService systemJobLogService;
 
@@ -91,10 +91,11 @@ public class SystemJobLogController extends BaseController {
      * @param ids 日志id
      * @return 是否成功
      */
-    @PostMapping("/delete")
+    @Override
+//    @PostMapping("/delete")
     @Log(paramsName = "ids", module = ModuleName.JOBLOG, title = "删除", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('jog:log:delete','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
-    public Result<String> deleteByIds(@RequestBody List<Long> ids) {
+    public Result<String> deleteByIds(List<Long> ids) {
         if (CollectionUtils.isEmpty(ids)) {
             return ResponseResult.resultFall("请选择");
         }

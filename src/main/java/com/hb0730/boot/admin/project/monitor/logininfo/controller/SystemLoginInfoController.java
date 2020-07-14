@@ -41,7 +41,7 @@ import static com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants
  */
 @RestController
 @RequestMapping(REQUEST_LOGININFO)
-public class SystemLoginInfoController extends BaseController {
+public class SystemLoginInfoController extends BaseController<LoginfoParams, SystemLoginfoVO, Long> {
     @Autowired
     private ISystemLoginInfoService systemLoginInfoService;
 
@@ -90,10 +90,11 @@ public class SystemLoginInfoController extends BaseController {
      * @param ids id
      * @return 是否成功
      */
-    @PostMapping("/delete")
+    @Override
+//    @PostMapping("/delete")
     @Log(paramsName = "ids", module = ModuleName.LOGIN_INFO, title = "删除", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('login:log:delete','ROLE_ADMINISTRATOR','ROLE_LOGIN_LOG_ADMIN')")
-    public Result<String> deleteLogin(@RequestBody List<Long> ids) {
+    public Result<String> deleteByIds(List<Long> ids) {
         if (CollectionUtils.isEmpty(ids)) {
             return ResponseResult.resultFall("请选择");
         }

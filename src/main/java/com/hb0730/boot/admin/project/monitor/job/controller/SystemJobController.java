@@ -24,7 +24,6 @@ import com.hb0730.boot.admin.project.monitor.job.service.ISystemJobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -45,7 +44,7 @@ import static com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants
  */
 @RestController
 @RequestMapping(REQUEST_JOB)
-public class SystemJobController extends BaseController {
+public class SystemJobController extends BaseController<JobParams, SystemJobVO, Long> {
     @Autowired
     private ISystemJobService systemJobService;
 
@@ -84,10 +83,11 @@ public class SystemJobController extends BaseController {
      * @param vo 定时任务信息
      * @return 是否成功
      */
-    @PostMapping("/save")
+    @Override
+//    @PostMapping("/save")
     @Log(paramsName = "vo", module = ModuleName.JOB, title = "新增", businessType = BusinessTypeEnum.INSERT)
     @PreAuthorize("hasAnyAuthority('job:save','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
-    public Result<String> save(@Validated @RequestBody SystemJobVO vo) {
+    public Result<String> save(SystemJobVO vo) {
         SystemJobEntity entity = BeanUtils.transformFrom(vo, SystemJobEntity.class);
         systemJobService.save(entity);
         assert entity != null;
@@ -103,10 +103,11 @@ public class SystemJobController extends BaseController {
      * @param vo 定时任务信息
      * @return 是否成功
      */
-    @PostMapping("/update/{id}")
+    @Override
+//    @PostMapping("/update/{id}")
     @Log(paramsName = "vo", module = ModuleName.JOB, title = "修改", businessType = BusinessTypeEnum.UPDATE)
     @PreAuthorize("hasAnyAuthority('job:update','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
-    public Result<String> update(@PathVariable Long id, @Validated @RequestBody SystemJobVO vo) {
+    public Result<String> updateById(Long id, SystemJobVO vo) {
         vo.setId(id);
         SystemJobEntity entity = BeanUtils.transformFrom(vo, SystemJobEntity.class);
         systemJobService.updateById(entity);
@@ -122,10 +123,11 @@ public class SystemJobController extends BaseController {
      * @param id id
      * @return 是否成功
      */
+    @Override
     @Log(module = ModuleName.JOB, title = "删除", businessType = BusinessTypeEnum.DELETE)
-    @GetMapping("/delete/{id}")
+//    @GetMapping("/delete/{id}")
     @PreAuthorize("hasAnyAuthority('job:delete','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
-    public Result<String> deleteById(@PathVariable Long id) {
+    public Result<String> deleteById(Long id) {
         systemJobService.removeById(id);
         return ResponseResult.resultSuccess("修改成功");
     }
@@ -138,10 +140,11 @@ public class SystemJobController extends BaseController {
      * @param id id
      * @return 是否成功
      */
+    @Override
     @Log(paramsName = "id", module = ModuleName.JOB, title = "删除", businessType = BusinessTypeEnum.DELETE)
-    @PostMapping("/delete")
+//    @PostMapping("/delete")
     @PreAuthorize("hasAnyAuthority('job:delete','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
-    public Result<String> deleteById(@RequestBody List<Long> id) {
+    public Result<String> deleteByIds(List<Long> id) {
         if (CollectionUtils.isEmpty(id)) {
             return ResponseResult.resultFall("请选择");
         }

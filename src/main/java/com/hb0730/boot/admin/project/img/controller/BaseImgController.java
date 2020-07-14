@@ -15,7 +15,10 @@ import com.hb0730.boot.admin.project.img.model.vo.BaseImgVO;
 import com.hb0730.boot.admin.project.img.service.IBaseImgService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -33,7 +36,7 @@ import static com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants
 @RestController
 @RequestMapping(REQUEST_BASE_IMG)
 @AllArgsConstructor
-public class BaseImgController extends BaseController {
+public class BaseImgController extends BaseController<BaseImgParams, BaseImgVO, Long> {
     private final IBaseImgService service;
 
     /**
@@ -42,9 +45,10 @@ public class BaseImgController extends BaseController {
      * @param params 请求
      * @return 分页列表
      */
-    @PostMapping("/list/page")
+    @Override
+//    @PostMapping("/list/page")
     @PreAuthorize("hasAnyRole('base:image:query','ROLE_ADMINISTRATOR','ROLE_BASE_ADMIN')")
-    public Result<Page<BaseImgVO>> page(@RequestBody BaseImgParams params) {
+    public Result<Page<BaseImgVO>> page(BaseImgParams params) {
         Page<BaseImgVO> page = service.page(params);
         return ResponseResult.resultSuccess(page);
     }
@@ -55,8 +59,9 @@ public class BaseImgController extends BaseController {
      * @param params 请求参数
      * @return 列表
      */
-    @PostMapping("/list")
-    public Result<List<BaseImgVO>> list(@RequestBody BaseImgParams params) {
+    @Override
+//    @PostMapping("/list")
+    public Result<List<BaseImgVO>> list(BaseImgParams params) {
         List<BaseImgVO> list = service.list(params);
         return ResponseResult.resultSuccess(list);
     }
@@ -67,10 +72,11 @@ public class BaseImgController extends BaseController {
      * @param id id
      * @return 是否成功
      */
-    @GetMapping("/delete/{id}")
+    @Override
+//    @GetMapping("/delete/{id}")
     @PreAuthorize("hasAnyRole('base:image:delete','ROLE_ADMINISTRATOR','ROLE_BASE_ADMIN')")
     @Log(module = ModuleName.IMAGE, title = "删除", businessType = BusinessTypeEnum.DELETE)
-    public Result<String> deleteById(@PathVariable Long id) {
+    public Result<String> deleteById(Long id) {
         service.removeById(id);
         return ResponseResult.resultSuccess("删除成功");
     }
@@ -81,10 +87,11 @@ public class BaseImgController extends BaseController {
      * @param ids id集合
      * @return 是否成功
      */
-    @PostMapping("/delete")
+    @Override
+//    @PostMapping("/delete")
     @PreAuthorize("hasAnyRole('base:image:delete','ROLE_ADMINISTRATOR','ROLE_BASE_ADMIN')")
     @Log(paramsName = "ids", module = ModuleName.IMAGE, title = "删除", businessType = BusinessTypeEnum.DELETE)
-    public Result<String> deleteByIds(@RequestBody List<Long> ids) {
+    public Result<String> deleteByIds(List<Long> ids) {
         service.removeByIds(ids);
         return ResponseResult.resultSuccess("删除成功");
     }
