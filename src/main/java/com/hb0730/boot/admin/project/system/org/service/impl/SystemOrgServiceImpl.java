@@ -154,6 +154,7 @@ public class SystemOrgServiceImpl extends BaseServiceImpl<ISystemOrgMapper, Syst
         return null;
     }
 
+    @NonNull
     @Override
     public QueryWrapper<SystemOrgEntity> query(@NonNull OrgParams params) {
         QueryWrapper<SystemOrgEntity> query = QueryWrapperUtils.getQuery(params);

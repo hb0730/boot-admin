@@ -1,11 +1,12 @@
 package com.hb0730.boot.admin.project.system.menu.model.vo;
 
+import com.hb0730.boot.admin.commons.utils.convert.InputConverter;
 import com.hb0730.boot.admin.commons.web.model.BusinessVO;
 import com.hb0730.boot.admin.project.system.menu.model.entity.SystemMenuEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 /**
  * <p>
@@ -16,7 +17,7 @@ import javax.validation.constraints.NotEmpty;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SystemMenuVO extends BusinessVO<SystemMenuEntity> {
+public class SystemMenuVO extends BusinessVO implements InputConverter<SystemMenuEntity> {
     /**
      * 备注
      */
@@ -30,7 +31,7 @@ public class SystemMenuVO extends BusinessVO<SystemMenuEntity> {
     /**
      * 名称
      */
-    @NotEmpty(message = "菜单名称不能为空")
+    @NotBlank(message = "菜单名称不能为空")
     private String name;
 
     /**
@@ -41,7 +42,7 @@ public class SystemMenuVO extends BusinessVO<SystemMenuEntity> {
     /**
      * 路径
      */
-    @NotEmpty(message = "菜单路径不能为空")
+    @NotBlank(message = "菜单路径不能为空")
     private String url;
 
     /**

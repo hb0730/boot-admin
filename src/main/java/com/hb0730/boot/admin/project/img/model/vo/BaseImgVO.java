@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.img.model.vo;
 
+import com.hb0730.boot.admin.commons.utils.convert.InputConverter;
 import com.hb0730.boot.admin.commons.web.model.BusinessVO;
 import com.hb0730.boot.admin.project.img.model.entity.BaseImgEntity;
 import lombok.Data;
@@ -15,7 +16,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class BaseImgVO extends BusinessVO<BaseImgEntity> {
+public class BaseImgVO extends BusinessVO implements InputConverter<BaseImgEntity> {
 
     private static final long serialVersionUID = 1L;
 

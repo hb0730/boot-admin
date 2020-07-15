@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.system.user.model.vo;
 
+import com.hb0730.boot.admin.commons.utils.convert.InputConverter;
 import com.hb0730.boot.admin.commons.web.model.BusinessVO;
 import com.hb0730.boot.admin.project.system.user.model.entity.SystemUserEntity;
 import lombok.Data;
@@ -20,7 +21,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class SystemUserVO extends BusinessVO<SystemUserEntity> {
+public class SystemUserVO extends BusinessVO implements InputConverter<SystemUserEntity> {
 
     private static final long serialVersionUID = 1L;
     private Long id;

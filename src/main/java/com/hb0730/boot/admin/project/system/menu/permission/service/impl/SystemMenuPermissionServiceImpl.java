@@ -153,6 +153,7 @@ public class SystemMenuPermissionServiceImpl extends BaseServiceImpl<ISystemMenu
         return null;
     }
 
+    @NotNull
     @NonNull
     @Override
     public QueryWrapper<SystemMenuPermissionEntity> query(@NonNull PermissionParams params) {

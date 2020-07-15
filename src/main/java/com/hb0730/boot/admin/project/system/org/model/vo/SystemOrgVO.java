@@ -1,9 +1,6 @@
 package com.hb0730.boot.admin.project.system.org.model.vo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.hb0730.boot.admin.commons.domain.BusinessDomain;
+import com.hb0730.boot.admin.commons.utils.convert.InputConverter;
 import com.hb0730.boot.admin.commons.web.model.BusinessVO;
 import com.hb0730.boot.admin.project.system.org.model.entity.SystemOrgEntity;
 import lombok.Data;
@@ -23,9 +20,9 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class SystemOrgVO extends BusinessVO<SystemOrgEntity> {
+public class SystemOrgVO extends BusinessVO implements InputConverter<SystemOrgEntity> {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 备注
@@ -56,7 +53,7 @@ public class SystemOrgVO extends BusinessVO<SystemOrgEntity> {
     /**
      * 编码
      */
-    @NotEmpty(message ="编码不为空")
+    @NotEmpty(message = "编码不为空")
     private String number;
 
     /**

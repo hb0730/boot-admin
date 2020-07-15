@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.project.monitor.job.model.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hb0730.boot.admin.commons.utils.convert.InputConverter;
 import com.hb0730.boot.admin.commons.web.model.BusinessVO;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobLogEntity;
 import lombok.Data;
@@ -20,7 +21,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class SystemJobLogVO extends BusinessVO<SystemJobLogEntity> {
+public class SystemJobLogVO extends BusinessVO implements InputConverter<SystemJobLogEntity> {
 
     private static final long serialVersionUID = 1L;
 

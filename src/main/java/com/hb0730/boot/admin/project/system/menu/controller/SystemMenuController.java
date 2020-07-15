@@ -7,9 +7,9 @@ import com.hb0730.boot.admin.commons.annotation.Log;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
 import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
+import com.hb0730.boot.admin.commons.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
-import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
 import com.hb0730.boot.admin.project.system.menu.model.entity.SystemMenuEntity;
@@ -25,6 +25,7 @@ import com.hb0730.boot.admin.project.system.permission.model.vo.SystemPermission
 import com.hb0730.boot.admin.security.model.LoginUser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,7 +43,8 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping(RequestMappingNameConstants.REQUEST_MENU)
-public class SystemMenuController extends BaseController<SystemMenuParams, SystemMenuVO, Long, SystemMenuEntity> {
+@Validated
+public class SystemMenuController extends AbstractBaseController<Long, SystemMenuVO, SystemMenuParams, SystemMenuEntity> {
     private final ISystemMenuService systemMenuService;
     private final ISystemMenuPermissionService permissionService;
 
@@ -73,13 +75,10 @@ public class SystemMenuController extends BaseController<SystemMenuParams, Syste
      * @return 是否成功
      */
     @Override
-//    @PostMapping("/save")
     @Log(paramsName = "vo", module = ModuleName.MENU, title = "新增", businessType = BusinessTypeEnum.INSERT)
     @PreAuthorize("hasAnyAuthority('menu:save','ROLE_ADMINISTRATOR','ROLE_ADMIN','ROLE_MENU_ADMIN')")
-    public Result<String> save(SystemMenuVO vo) {
-        SystemMenuEntity entity = BeanUtils.transformFrom(vo, SystemMenuEntity.class);
-        systemMenuService.save(entity);
-        return ResponseResult.resultSuccess("新增成功");
+    public Result<String> save(@Validated @RequestBody SystemMenuVO vo) {
+        return super.save(vo);
     }
 
     /**
@@ -90,10 +89,9 @@ public class SystemMenuController extends BaseController<SystemMenuParams, Syste
      * @return 是否成功
      */
     @Override
-//    @PostMapping("/update/{id}")
     @Log(paramsName = "vo", module = ModuleName.MENU, title = "修改", businessType = BusinessTypeEnum.UPDATE)
     @PreAuthorize("hasAnyAuthority('menu:update','ROLE_ADMINISTRATOR','ROLE_MENU_ADMIN')")
-    public Result<String> updateById(Long id, SystemMenuVO vo) {
+    public Result<String> updateById(@PathVariable("id") Long id, @Validated @RequestBody SystemMenuVO vo) {
         SystemMenuEntity entity = BeanUtils.transformFrom(vo, SystemMenuEntity.class);
         assert entity != null;
         entity.setId(id);
@@ -110,12 +108,10 @@ public class SystemMenuController extends BaseController<SystemMenuParams, Syste
      * @return 是否成功
      */
     @Override
-//    @GetMapping("/delete/{id}")
     @Log(module = ModuleName.MENU, title = "删除", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('menu:delete','ROLE_ADMINISTRATOR','ROLE_MENU_ADMIN')")
-    public Result<String> deleteById(Long id) {
-        systemMenuService.removeById(id);
-        return ResponseResult.resultSuccess("删除成功");
+    public Result<String> deleteById(@PathVariable("id") @Validated Long id) {
+        return super.deleteById(id);
     }
 
     /**

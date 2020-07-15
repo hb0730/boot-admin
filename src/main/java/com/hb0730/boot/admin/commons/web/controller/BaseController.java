@@ -7,11 +7,12 @@ import com.hb0730.boot.admin.commons.web.model.BaseParams;
 import com.hb0730.boot.admin.commons.web.model.BusinessVO;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * <p>
@@ -24,74 +25,74 @@ import java.util.Optional;
  * @author bing_huang
  * @since V1.0
  */
-@Validated
+
 public abstract class BaseController<P extends BaseParams, V extends BusinessVO<E>, TYPE extends Serializable, E extends BusinessDomain> implements IBaseController<P, V, TYPE> {
-    private Optional<IBaseService<P, V, E>> service;
+    private final IBaseService<P, V, E> service;
 
     public BaseController(IBaseService<P, V, E> service) {
-        this.service = Optional.ofNullable(service);
+        this.service = service;
     }
 
     public BaseController() {
-        service = Optional.empty();
+        service = null;
     }
 
     @Override
-    public Result<Page<V>> page(P params) {
-        if (service.isPresent()) {
-            Page<V> page = service.get().page(params);
+    public Result<Page<V>> page(@RequestBody P params) {
+        if (null != service) {
+            Page<V> page = service.page(params);
             return ResponseResult.resultSuccess(page);
         }
         return null;
     }
 
     @Override
-    public Result<List<V>> list(P params) {
-        if (service.isPresent()) {
+    public Result<List<V>> list(@RequestBody P params) {
+        if (null != service) {
 
-            List<V> list = service.get().list(params);
+            List<V> list = service.list(params);
             return ResponseResult.resultSuccess(list);
         }
         return null;
     }
 
     @Override
-    public Result<String> save(V vo) {
-        if (service.isPresent()) {
+    public Result<String> save(@RequestBody V vo) {
+        if (null != service) {
 
             E e = vo.convertTo();
-            service.get().save(e);
+            service.save(e);
             return ResponseResult.resultSuccess("保存成功");
         }
         return null;
     }
 
     @Override
-    public Result<String> updateById(TYPE id, V vo) {
-        if (service.isPresent()) {
+    @PostMapping("/update/{id}")
+    public Result<String> updateById(@PathVariable("id") TYPE id, @RequestBody V vo) {
+        if (null != service) {
 
             E e = vo.convertTo();
-            service.get().updateById(e);
+            service.updateById(e);
             return ResponseResult.resultSuccess("修改成功");
         }
         return null;
     }
 
     @Override
-    public Result<String> deleteById(TYPE id) {
-        if (service.isPresent()) {
+    public Result<String> deleteById(@PathVariable TYPE id) {
+        if (null != service) {
 
-            service.get().removeById(id);
+            service.removeById(id);
             return ResponseResult.resultSuccess("删除成功");
         }
         return null;
     }
 
     @Override
-    public Result<String> deleteByIds(List<TYPE> ids) {
-        if (service.isPresent()) {
-
-            service.get().removeByIds(ids);
+    public Result<String> deleteByIds(@RequestBody List<TYPE> ids) {
+        if (null != service) {
+            service.removeByIds(ids);
             return ResponseResult.resultSuccess("删除成功");
         }
         return null;

@@ -1,7 +1,5 @@
 package com.hb0730.boot.admin.commons.web.model;
 
-import com.hb0730.boot.admin.commons.domain.BusinessDomain;
-import com.hb0730.boot.admin.commons.utils.convert.InputConverter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,7 +13,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class BusinessVO<E extends BusinessDomain> extends BaseVO implements InputConverter<E> {
+public class BusinessVO extends BaseVO {
 
     private static final long serialVersionUID = 9123860922498374224L;
     /**

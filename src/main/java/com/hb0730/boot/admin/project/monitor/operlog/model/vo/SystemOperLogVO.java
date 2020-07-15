@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.monitor.operlog.model.vo;
 
+import com.hb0730.boot.admin.commons.utils.convert.InputConverter;
 import com.hb0730.boot.admin.commons.web.model.BusinessVO;
 import com.hb0730.boot.admin.project.monitor.operlog.model.entity.SystemOperLogEntity;
 import lombok.Data;
@@ -17,7 +18,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class SystemOperLogVO extends BusinessVO<SystemOperLogEntity> {
+public class SystemOperLogVO extends BusinessVO implements InputConverter<SystemOperLogEntity> {
 
     private static final long serialVersionUID = 1L;
 

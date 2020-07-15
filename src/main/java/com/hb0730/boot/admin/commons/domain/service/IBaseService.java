@@ -20,6 +20,7 @@ import java.util.List;
  * @date 2020/06/26 12:10
  * @since V1.0
  */
+@SuppressWarnings({"rawtypes"})
 public interface IBaseService<P extends BaseParams, V extends BusinessVO, E extends BusinessDomain> extends IService<E> {
     /**
      * 分页

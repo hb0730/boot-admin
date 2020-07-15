@@ -6,7 +6,6 @@ import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.annotation.Log;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
-import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
@@ -51,7 +50,6 @@ public class BaseImgController extends BaseController<BaseImgParams, BaseImgVO, 
      * @return 分页列表
      */
     @Override
-//    @PostMapping("/list/page")
     @PreAuthorize("hasAnyRole('base:image:query','ROLE_ADMINISTRATOR','ROLE_BASE_ADMIN')")
     public Result<Page<BaseImgVO>> page(BaseImgParams params) {
         Page<BaseImgVO> page = service.page(params);
@@ -65,7 +63,6 @@ public class BaseImgController extends BaseController<BaseImgParams, BaseImgVO, 
      * @return 列表
      */
     @Override
-//    @PostMapping("/list")
     public Result<List<BaseImgVO>> list(BaseImgParams params) {
         List<BaseImgVO> list = service.list(params);
         return ResponseResult.resultSuccess(list);
@@ -78,7 +75,6 @@ public class BaseImgController extends BaseController<BaseImgParams, BaseImgVO, 
      * @return 是否成功
      */
     @Override
-//    @GetMapping("/delete/{id}")
     @PreAuthorize("hasAnyRole('base:image:delete','ROLE_ADMINISTRATOR','ROLE_BASE_ADMIN')")
     @Log(module = ModuleName.IMAGE, title = "删除", businessType = BusinessTypeEnum.DELETE)
     public Result<String> deleteById(Long id) {
@@ -93,7 +89,6 @@ public class BaseImgController extends BaseController<BaseImgParams, BaseImgVO, 
      * @return 是否成功
      */
     @Override
-//    @PostMapping("/delete")
     @PreAuthorize("hasAnyRole('base:image:delete','ROLE_ADMINISTRATOR','ROLE_BASE_ADMIN')")
     @Log(paramsName = "ids", module = ModuleName.IMAGE, title = "删除", businessType = BusinessTypeEnum.DELETE)
     public Result<String> deleteByIds(List<Long> ids) {

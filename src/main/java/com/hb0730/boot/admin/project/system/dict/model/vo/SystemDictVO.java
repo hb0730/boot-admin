@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.system.dict.model.vo;
 
+import com.hb0730.boot.admin.commons.utils.convert.InputConverter;
 import com.hb0730.boot.admin.commons.web.model.BusinessVO;
 import com.hb0730.boot.admin.project.system.dict.model.entity.SystemDictEntity;
 import lombok.Data;
@@ -17,7 +18,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class SystemDictVO extends BusinessVO<SystemDictEntity> {
+public class SystemDictVO extends BusinessVO implements InputConverter<SystemDictEntity> {
 
     private static final long serialVersionUID = 1L;
 

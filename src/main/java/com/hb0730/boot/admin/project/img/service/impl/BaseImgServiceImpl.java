@@ -19,7 +19,6 @@ import com.hb0730.boot.admin.project.img.model.vo.BaseImgParams;
 import com.hb0730.boot.admin.project.img.model.vo.BaseImgVO;
 import com.hb0730.boot.admin.project.img.service.IBaseImgService;
 import lombok.AllArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
@@ -108,7 +107,7 @@ public class BaseImgServiceImpl extends BaseServiceImpl<IBaseImgMapper, BaseImgE
 
     @NonNull
     @Override
-    public QueryWrapper<BaseImgEntity> query(@NotNull BaseImgParams params) {
+    public QueryWrapper<BaseImgEntity> query(@NonNull BaseImgParams params) {
         Assert.notNull(params, "请求参数不为空");
         QueryWrapper<BaseImgEntity> query = QueryWrapperUtils.getQuery(params);
         return query;
