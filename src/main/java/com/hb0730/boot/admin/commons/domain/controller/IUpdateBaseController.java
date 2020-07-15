@@ -1,9 +1,9 @@
 package com.hb0730.boot.admin.commons.domain.controller;
 
-import com.hb0730.boot.admin.commons.domain.BusinessDomain;
+import com.hb0730.boot.admin.commons.domain.model.domain.BusinessDomain;
+import com.hb0730.boot.admin.commons.domain.model.web.BusinessVO;
 import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
-import com.hb0730.boot.admin.commons.web.model.BusinessVO;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
 import org.springframework.validation.annotation.Validated;
@@ -23,7 +23,7 @@ import java.io.Serializable;
  * @date 2020/07/15 9:24
  * @since V1.0
  */
-public interface IUpdateBaseController<ID extends Serializable, V extends BusinessVO<ENTITY>, ENTITY extends BusinessDomain> extends IBaseController<ENTITY> {
+public interface IUpdateBaseController<ID extends Serializable, V extends BusinessVO, ENTITY extends BusinessDomain> extends IBaseController<ENTITY> {
 
     /**
      * 根据id修改

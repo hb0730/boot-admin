@@ -2,7 +2,7 @@ package com.hb0730.boot.admin.project.monitor.job.model.dto;
 
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
-import com.hb0730.boot.admin.commons.domain.ExcelDomain;
+import com.hb0730.boot.admin.commons.domain.model.domain.ExcelDomain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

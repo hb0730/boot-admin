@@ -1,8 +1,8 @@
 package com.hb0730.boot.admin.commons.web.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hb0730.boot.admin.commons.web.model.BaseParams;
-import com.hb0730.boot.admin.commons.web.model.BusinessVO;
+import com.hb0730.boot.admin.commons.domain.model.web.BaseParams;
+import com.hb0730.boot.admin.commons.domain.model.web.BusinessVO;
 import com.hb0730.boot.admin.commons.web.response.Result;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;

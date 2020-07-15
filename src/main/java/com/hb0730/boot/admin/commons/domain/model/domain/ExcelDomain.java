@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.commons.domain;
+package com.hb0730.boot.admin.commons.domain.model.domain;
 
 import com.alibaba.excel.annotation.ExcelIgnore;
 import lombok.Data;

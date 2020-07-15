@@ -1,10 +1,11 @@
 package com.hb0730.boot.admin.commons.web.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hb0730.boot.admin.commons.domain.BusinessDomain;
+import com.hb0730.boot.admin.commons.domain.model.domain.BusinessDomain;
+import com.hb0730.boot.admin.commons.domain.model.web.BaseParams;
+import com.hb0730.boot.admin.commons.domain.model.web.BusinessVO;
 import com.hb0730.boot.admin.commons.domain.service.IBaseService;
-import com.hb0730.boot.admin.commons.web.model.BaseParams;
-import com.hb0730.boot.admin.commons.web.model.BusinessVO;
+import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +27,7 @@ import java.util.List;
  * @since V1.0
  */
 
-public abstract class BaseController<P extends BaseParams, V extends BusinessVO<E>, TYPE extends Serializable, E extends BusinessDomain> implements IBaseController<P, V, TYPE> {
+public abstract class BaseController<P extends BaseParams, V extends BusinessVO, TYPE extends Serializable, E extends BusinessDomain> implements IBaseController<P, V, TYPE> {
     private final IBaseService<P, V, E> service;
 
     public BaseController(IBaseService<P, V, E> service) {
@@ -59,9 +60,8 @@ public abstract class BaseController<P extends BaseParams, V extends BusinessVO<
     @Override
     public Result<String> save(@RequestBody V vo) {
         if (null != service) {
-
-            E e = vo.convertTo();
-            service.save(e);
+//            E e = vo.convertTo();
+//            service.save(e);
             return ResponseResult.resultSuccess("保存成功");
         }
         return null;
@@ -72,8 +72,8 @@ public abstract class BaseController<P extends BaseParams, V extends BusinessVO<
     public Result<String> updateById(@PathVariable("id") TYPE id, @RequestBody V vo) {
         if (null != service) {
 
-            E e = vo.convertTo();
-            service.updateById(e);
+//            E e = vo.convertTo();
+//            service.updateById(e);
             return ResponseResult.resultSuccess("修改成功");
         }
         return null;

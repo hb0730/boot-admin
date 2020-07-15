@@ -1,9 +1,8 @@
 package com.hb0730.boot.admin.project.monitor.job.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.hb0730.boot.admin.commons.domain.BusinessDomain;
+import com.hb0730.boot.admin.commons.domain.model.domain.BusinessDomain;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,7 +10,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 定时任务 
+ * 定时任务
  * </p>
  *
  * @author bing_huang

@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.commons.web.model;
+package com.hb0730.boot.admin.commons.domain.model.web;
 
 import lombok.Data;
 import lombok.ToString;

@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.project.system.role.model.dto;
 
-import com.hb0730.boot.admin.commons.domain.BusinessDomain;
+import com.hb0730.boot.admin.commons.domain.model.domain.BusinessDomain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

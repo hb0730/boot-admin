@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.system.menu.model.vo;
 
 import com.hb0730.boot.admin.commons.utils.convert.InputConverter;
-import com.hb0730.boot.admin.commons.web.model.BusinessVO;
+import com.hb0730.boot.admin.commons.domain.model.web.BusinessVO;
 import com.hb0730.boot.admin.project.system.menu.model.entity.SystemMenuEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

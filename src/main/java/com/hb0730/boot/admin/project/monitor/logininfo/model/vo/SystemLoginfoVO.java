@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.monitor.logininfo.model.vo;
 
 import com.hb0730.boot.admin.commons.utils.convert.InputConverter;
-import com.hb0730.boot.admin.commons.web.model.BusinessVO;
+import com.hb0730.boot.admin.commons.domain.model.web.BusinessVO;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.entity.SystemLoginInfoEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

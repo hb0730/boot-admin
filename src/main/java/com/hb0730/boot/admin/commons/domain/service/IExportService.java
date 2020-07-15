@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.commons.domain.service;
 
-import com.hb0730.boot.admin.commons.domain.ExcelDomain;
+import com.hb0730.boot.admin.commons.domain.model.domain.ExcelDomain;
 
 import java.util.Collection;
 

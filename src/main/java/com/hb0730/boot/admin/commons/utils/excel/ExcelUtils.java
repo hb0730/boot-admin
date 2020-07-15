@@ -4,7 +4,7 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.write.metadata.WriteSheet;
-import com.hb0730.boot.admin.commons.domain.ExcelDomain;
+import com.hb0730.boot.admin.commons.domain.model.domain.ExcelDomain;
 import com.hb0730.boot.admin.commons.utils.file.WebFilenameUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;

@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.project.img.model.vo;
 
-import com.hb0730.boot.admin.commons.web.model.BaseParams;
+import com.hb0730.boot.admin.commons.domain.model.web.BaseParams;
 
 /**
  * 过滤参数
