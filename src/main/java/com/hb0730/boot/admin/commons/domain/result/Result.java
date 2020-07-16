@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.commons.web.response;
+package com.hb0730.boot.admin.commons.domain.result;
 
 import java.io.Serializable;
 import java.util.Objects;

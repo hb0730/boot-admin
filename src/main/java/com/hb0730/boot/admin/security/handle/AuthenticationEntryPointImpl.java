@@ -2,9 +2,9 @@ package com.hb0730.boot.admin.security.handle;
 
 import com.hb0730.boot.admin.commons.utils.json.GsonUtils;
 import com.hb0730.boot.admin.commons.utils.ServletUtils;
-import com.hb0730.boot.admin.commons.web.response.CodeStatusEnum;
-import com.hb0730.boot.admin.commons.web.response.ResponseResult;
-import com.hb0730.boot.admin.commons.web.response.Result;
+import com.hb0730.boot.admin.commons.domain.result.CodeStatusEnum;
+import com.hb0730.boot.admin.commons.domain.result.ResponseResult;
+import com.hb0730.boot.admin.commons.domain.result.Result;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
