@@ -1,7 +1,6 @@
 package com.hb0730.boot.admin.project.system.menu.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -21,6 +20,7 @@ import com.hb0730.boot.admin.project.system.menu.utils.MenuUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
@@ -59,11 +59,8 @@ public class SystemMenuServiceImpl extends BaseServiceImpl<ISystemMenuMapper, Sy
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean removeById(Serializable id) {
-        UpdateWrapper<SystemMenuEntity> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.set(SystemMenuEntity.IS_ENABLED, 0);
-        updateWrapper.eq(SystemMenuEntity.ID, id);
-        super.update(updateWrapper);
         return super.removeById(id);
     }
 

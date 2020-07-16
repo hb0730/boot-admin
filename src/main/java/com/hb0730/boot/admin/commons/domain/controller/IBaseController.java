@@ -12,6 +12,8 @@ import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 public interface IBaseController<ENTITY extends BusinessDomain> {
     /**
      * 获取实体的类型
+     *
+     * @return entity class
      */
     Class<ENTITY> getEntityClass();
 

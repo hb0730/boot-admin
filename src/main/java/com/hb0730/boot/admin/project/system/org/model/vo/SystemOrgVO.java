@@ -1,13 +1,13 @@
 package com.hb0730.boot.admin.project.system.org.model.vo;
 
-import com.hb0730.boot.admin.commons.utils.convert.InputConverter;
 import com.hb0730.boot.admin.commons.domain.model.web.BusinessVO;
+import com.hb0730.boot.admin.commons.utils.convert.InputConverter;
 import com.hb0730.boot.admin.project.system.org.model.entity.SystemOrgEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 /**
  * <p>
@@ -42,7 +42,7 @@ public class SystemOrgVO extends BusinessVO implements InputConverter<SystemOrgE
     /**
      * 名称
      */
-    @NotEmpty(message = "名称不为空")
+    @NotBlank(message = "名称不为空")
     private String name;
 
     /**
@@ -53,7 +53,7 @@ public class SystemOrgVO extends BusinessVO implements InputConverter<SystemOrgE
     /**
      * 编码
      */
-    @NotEmpty(message = "编码不为空")
+    @NotBlank(message = "编码不为空")
     private String number;
 
     /**
@@ -69,7 +69,7 @@ public class SystemOrgVO extends BusinessVO implements InputConverter<SystemOrgE
     /**
      * 负责人
      */
-    @NotEmpty(message = "编码不为空")
+    @NotBlank(message = "编码不为空")
     private String leader;
 
     /**

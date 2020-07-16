@@ -8,8 +8,8 @@ import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
+import com.hb0730.boot.admin.commons.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
-import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
 import com.hb0730.boot.admin.exception.BaseException;
@@ -37,7 +37,7 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping(RequestMappingNameConstants.REQUEST_DICT)
-public class SystemDictController extends BaseController<DictParams, SystemDictVO, Long, SystemDictEntity> {
+public class SystemDictController extends AbstractBaseController<Long, SystemDictVO, DictParams, SystemDictEntity> {
     private final ISystemDictService systemDictService;
 
     public SystemDictController(ISystemDictService systemDictService) {
@@ -83,17 +83,14 @@ public class SystemDictController extends BaseController<DictParams, SystemDictV
      * @return 是否成功
      */
     @Override
-//    @PostMapping("/save")
     @PreAuthorize("hasAnyAuthority('dict:save','ROLE_ADMINISTRATOR','ROLE_DICT_ADMIN')")
     @Log(paramsName = "vo", module = ModuleName.DICT, title = "新增", businessType = BusinessTypeEnum.INSERT)
-    public Result<String> save(SystemDictVO vo) {
+    public Result<String> save(@RequestBody SystemDictVO vo) {
         if (Objects.isNull(vo.getParentId())) {
             vo.setParentId(SystemConstants.PARENT_ID);
         }
         verify(vo);
-        SystemDictEntity entity = BeanUtils.transformFrom(vo, SystemDictEntity.class);
-        systemDictService.save(entity);
-        return ResponseResult.resultSuccess("保存成功");
+        return super.save(vo);
     }
 
     /**
@@ -106,13 +103,12 @@ public class SystemDictController extends BaseController<DictParams, SystemDictV
      * @return 是否成
      */
     @Override
-//    @PostMapping("/update/{id}")
     @PreAuthorize("hasAnyAuthority('dict:update','ROLE_ADMINISTRATOR','ROLE_DICT_ADMIN')")
     @Log(paramsName = {"vo"}, module = ModuleName.DICT, title = "修改", businessType = BusinessTypeEnum.UPDATE)
-    public Result<String> updateById(Long id, SystemDictVO vo) {
+    public Result<String> updateById(@PathVariable("id") Long id, @RequestBody SystemDictVO vo) {
         verify(vo);
         systemDictService.updateById(id, vo);
-        return ResponseResult.resultSuccess("保存成功");
+        return ResponseResult.resultSuccess("修改成功");
     }
 
     /**
@@ -124,12 +120,10 @@ public class SystemDictController extends BaseController<DictParams, SystemDictV
      * @return 是否成功
      */
     @Override
-//    @GetMapping("/delete/id/{id}")
     @PreAuthorize("hasAnyAuthority('dict:delete','ROLE_ADMINISTRATOR','ROLE_DICT_ADMIN')")
     @Log(module = ModuleName.DICT, title = "删除", businessType = BusinessTypeEnum.DELETE)
-    public Result<String> deleteById(Long id) {
-        systemDictService.removeById(id);
-        return ResponseResult.resultSuccess("删除成功");
+    public Result<String> deleteById(@PathVariable("id") Long id) {
+        return super.deleteById(id);
     }
 
     /**
@@ -139,15 +133,10 @@ public class SystemDictController extends BaseController<DictParams, SystemDictV
      * @return 是否成功
      */
     @Override
-//    @PostMapping("/delete/id")
     @PreAuthorize("hasAnyAuthority('dict:delete','ROLE_ADMINISTRATOR','ROLE_DICT_ADMIN')")
     @Log(module = ModuleName.DICT, title = "删除", businessType = BusinessTypeEnum.DELETE)
-    public Result<String> deleteByIds(List<Long> ids) {
-        if (!CollectionUtils.isEmpty(ids)) {
-            systemDictService.removeByIds(ids);
-            return ResponseResult.resultSuccess("删除成功");
-        }
-        return ResponseResult.resultFall("请选择");
+    public Result<String> deleteByIds(@RequestBody List<Long> ids) {
+        return super.deleteByIds(ids);
     }
 
     /**

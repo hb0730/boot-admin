@@ -35,7 +35,7 @@ public interface IDeleteBaseController<ID extends Serializable, ENTITY extends B
         IBaseService service = getBaseService();
         if (service != null) {
             service.removeById(id);
-            ResponseResult.resultSuccess("删除成功");
+            return ResponseResult.resultSuccess("删除成功");
         }
         return ResponseResult.resultFall("删除失败");
     }
@@ -52,7 +52,7 @@ public interface IDeleteBaseController<ID extends Serializable, ENTITY extends B
         IBaseService service = getBaseService();
         if (service != null && !CollectionUtils.isEmpty(ids)) {
             service.removeByIds(ids);
-            ResponseResult.resultSuccess("删除成功");
+            return ResponseResult.resultSuccess("删除成功");
         }
         return ResponseResult.resultFall("删除失败");
     }

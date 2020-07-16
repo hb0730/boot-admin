@@ -10,8 +10,7 @@ import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
-import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
-import com.hb0730.boot.admin.commons.web.controller.BaseController;
+import com.hb0730.boot.admin.commons.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
 import com.hb0730.boot.admin.project.system.role.model.entity.SystemRoleEntity;
@@ -41,7 +40,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping(RequestMappingNameConstants.REQUEST_ROLE)
-public class SystemRoleController extends BaseController<RoleParams, SystemRoleVO, Long, SystemRoleEntity> {
+public class SystemRoleController extends AbstractBaseController<Long, SystemRoleVO, RoleParams, SystemRoleEntity> {
     private final ISystemRoleService systemRoleService;
     private final ISystemRolePermissionService systemRolePermissionService;
     private final ISystemRoleOrgService systemRoleOrgService;
@@ -91,12 +90,10 @@ public class SystemRoleController extends BaseController<RoleParams, SystemRoleV
      * @return 是否成功
      */
     @Override
-//    @PostMapping("/save")
     @Log(paramsName = {"vo"}, module = ModuleName.ROLE, title = "角色保存", businessType = BusinessTypeEnum.INSERT)
     @PreAuthorize("hasAnyAuthority('role:save','ROLE_ADMINISTRATOR','ROLE_ROLE_ADMIN')")
-    public Result<String> save(SystemRoleVO vo) {
-        systemRoleService.save(BeanUtils.transformFrom(vo, SystemRoleEntity.class));
-        return ResponseResult.resultSuccess("保存成功");
+    public Result<String> save(@RequestBody SystemRoleVO vo) {
+        return super.save(vo);
     }
 
     /**
@@ -107,13 +104,11 @@ public class SystemRoleController extends BaseController<RoleParams, SystemRoleV
      * @return 是否成功
      */
     @Override
-//    @PostMapping("/update/{id}")
     @Log(paramsName = {"vo"}, module = ModuleName.ROLE, title = "角色修改", businessType = BusinessTypeEnum.UPDATE)
     @PreAuthorize("hasAnyAuthority('role:update','ROLE_ADMINISTRATOR','ROLE_ROLE_ADMIN')")
-    public Result<String> updateById(Long id, SystemRoleVO vo) {
+    public Result<String> updateById(@PathVariable("id") Long id, @RequestBody SystemRoleVO vo) {
         vo.setId(id);
-        systemRoleService.updateById(BeanUtils.transformFrom(vo, SystemRoleEntity.class));
-        return ResponseResult.resultSuccess("修改成功");
+        return super.updateById(id, vo);
     }
 
     /**
@@ -123,12 +118,10 @@ public class SystemRoleController extends BaseController<RoleParams, SystemRoleV
      * @return 是否成功
      */
     @Override
-//    @GetMapping("/delete/{id}")
     @Log(module = ModuleName.ROLE, title = "角色删除", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('role:delete','ROLE_ADMINISTRATOR','ROLE_ROLE_ADMIN')")
-    public Result<String> deleteById(Long id) {
-        systemRoleService.removeById(id);
-        return ResponseResult.resultSuccess("修改成功");
+    public Result<String> deleteById(@PathVariable("id") Long id) {
+        return super.deleteById(id);
     }
 
     /**
@@ -140,15 +133,10 @@ public class SystemRoleController extends BaseController<RoleParams, SystemRoleV
      * @return 是否成功
      */
     @Override
-//    @PostMapping("/delete")
     @Log(module = ModuleName.ROLE, title = "角色删除", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('role:delete','ROLE_ADMINISTRATOR','ROLE_ROLE_ADMIN')")
-    public Result<String> deleteByIds(List<Long> id) {
-        if (!CollectionUtils.isEmpty(id)) {
-            systemRoleService.removeByIds(id);
-            return ResponseResult.resultSuccess("修改成功");
-        }
-        return ResponseResult.resultFall("请选择");
+    public Result<String> deleteByIds(@RequestBody List<Long> id) {
+        return super.deleteByIds(id);
     }
     /*******权限***************/
     /**

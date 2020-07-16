@@ -37,10 +37,9 @@ public interface IUpdateBaseController<ID extends Serializable, V extends Busine
     default Result<String> updateById(@PathVariable("id") ID id, @Validated @RequestBody V vo) {
         IBaseService service = getBaseService();
         if (null != service) {
-//            ENTITY entity = vo.convertTo();
             ENTITY entity = BeanUtils.transformFrom(vo, getEntityClass());
             service.updateById(entity);
-            ResponseResult.resultSuccess("修改成功");
+            return ResponseResult.resultSuccess("修改成功");
         }
         return ResponseResult.resultFall("修改失败");
     }
