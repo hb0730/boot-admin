@@ -39,7 +39,7 @@ public interface ISystemDictService extends IBaseService<DictParams, SystemDictV
      * @param vo 参数
      * @return 是否成功
      */
-    boolean updateById(@NonNull Long id, SystemDictVO vo);
+    boolean updateById(@NonNull Long id, @NonNull SystemDictVO vo);
 
 
     /**

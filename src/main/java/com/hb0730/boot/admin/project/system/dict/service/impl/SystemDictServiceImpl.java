@@ -12,11 +12,12 @@ import com.hb0730.boot.admin.commons.constant.ActionEnum;
 import com.hb0730.boot.admin.commons.constant.RedisConstants;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.constant.VueConstants;
-import com.hb0730.boot.admin.commons.domain.service.BaseServiceImpl;
+import com.hb0730.boot.admin.commons.domain.service.SuperBaseServiceImpl;
 import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.cache.DictCacheUtils;
+import com.hb0730.boot.admin.commons.utils.validator.ValidatorUtils;
 import com.hb0730.boot.admin.event.dict.DictEvent;
 import com.hb0730.boot.admin.project.system.dict.mapper.ISystemDictMapper;
 import com.hb0730.boot.admin.project.system.dict.model.entity.SystemDictEntity;
@@ -44,7 +45,7 @@ import java.util.Objects;
  * @since 2020-03-30
  */
 @Service
-public class SystemDictServiceImpl extends BaseServiceImpl<ISystemDictMapper, SystemDictEntity> implements ISystemDictService {
+public class SystemDictServiceImpl extends SuperBaseServiceImpl<DictParams, SystemDictVO, ISystemDictMapper, SystemDictEntity> implements ISystemDictService {
     @CreateCache(cacheType = CacheType.REMOTE, area = RedisConstants.REDIS_JETCACHE_AREA, name = RedisConstants.REDIS_JETCACHE_NAME_DICT)
     private Cache<String, Map<String, List<Map<String, Object>>>> cache;
     private final ApplicationContext applicationContext;
@@ -75,7 +76,7 @@ public class SystemDictServiceImpl extends BaseServiceImpl<ISystemDictMapper, Sy
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean updateById(@NonNull Long id, SystemDictVO vo) {
+    public boolean updateById(@NonNull Long id, @NonNull SystemDictVO vo) {
         SystemDictEntity entity = super.getById(id);
         BeanUtils.updateProperties(vo, entity);
         updateTypeByParentId(id, entity.getNumber());
@@ -156,6 +157,14 @@ public class SystemDictServiceImpl extends BaseServiceImpl<ISystemDictMapper, Sy
     @Deprecated
     public List<SystemDictVO> list(@NonNull DictParams params) {
         return null;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean save(@NonNull SystemDictVO vo) {
+        ValidatorUtils.validate(vo);
+        SystemDictEntity entity = vo.convertTo();
+        return this.save(entity);
     }
 
     @Override

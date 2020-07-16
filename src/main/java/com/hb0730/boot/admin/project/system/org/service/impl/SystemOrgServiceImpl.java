@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
-import com.hb0730.boot.admin.commons.domain.service.BaseServiceImpl;
+import com.hb0730.boot.admin.commons.domain.service.SuperBaseServiceImpl;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.exception.BaseException;
@@ -34,7 +34,7 @@ import java.util.Objects;
  * @since 2020-03-26
  */
 @Service
-public class SystemOrgServiceImpl extends BaseServiceImpl<ISystemOrgMapper, SystemOrgEntity> implements ISystemOrgService {
+public class SystemOrgServiceImpl extends SuperBaseServiceImpl<OrgParams, SystemOrgVO, ISystemOrgMapper, SystemOrgEntity> implements ISystemOrgService {
 
     @Override
     public boolean save(SystemOrgEntity entity) {

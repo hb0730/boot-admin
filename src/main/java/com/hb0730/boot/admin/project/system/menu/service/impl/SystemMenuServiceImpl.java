@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
-import com.hb0730.boot.admin.commons.domain.service.BaseServiceImpl;
+import com.hb0730.boot.admin.commons.domain.service.SuperBaseServiceImpl;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
@@ -17,7 +17,6 @@ import com.hb0730.boot.admin.project.system.menu.model.vo.SystemMenuVO;
 import com.hb0730.boot.admin.project.system.menu.model.vo.TreeMenuVO;
 import com.hb0730.boot.admin.project.system.menu.service.ISystemMenuService;
 import com.hb0730.boot.admin.project.system.menu.utils.MenuUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,9 +34,7 @@ import java.util.*;
  * @since 2020-03-26
  */
 @Service
-public class SystemMenuServiceImpl extends BaseServiceImpl<ISystemMenuMapper, SystemMenuEntity> implements ISystemMenuService {
-    @Autowired
-    private ISystemMenuMapper menuMapper;
+public class SystemMenuServiceImpl extends SuperBaseServiceImpl<SystemMenuParams, SystemMenuVO, ISystemMenuMapper, SystemMenuEntity> implements ISystemMenuService {
 
     public SystemMenuServiceImpl() {
     }
@@ -197,5 +194,15 @@ public class SystemMenuServiceImpl extends BaseServiceImpl<ISystemMenuMapper, Sy
     public QueryWrapper<SystemMenuEntity> query(@NonNull SystemMenuParams params) {
         QueryWrapper<SystemMenuEntity> query = QueryWrapperUtils.getQuery(params);
         return query;
+    }
+
+    @Override
+    public boolean updateById(@NonNull SystemMenuVO vo) {
+        Long id = vo.getId();
+        if (Objects.isNull(id)) {
+            throw new BaseException("id为空");
+        }
+        SystemMenuEntity entity = vo.convertTo();
+        return this.updateById(entity);
     }
 }

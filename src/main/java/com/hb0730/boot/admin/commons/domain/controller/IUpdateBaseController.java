@@ -3,7 +3,6 @@ package com.hb0730.boot.admin.commons.domain.controller;
 import com.hb0730.boot.admin.commons.domain.model.domain.BusinessDomain;
 import com.hb0730.boot.admin.commons.domain.model.web.BusinessVO;
 import com.hb0730.boot.admin.commons.domain.service.IBaseService;
-import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
 import org.springframework.validation.annotation.Validated;
@@ -37,8 +36,7 @@ public interface IUpdateBaseController<ID extends Serializable, V extends Busine
     default Result<String> updateById(@PathVariable("id") ID id, @Validated @RequestBody V vo) {
         IBaseService service = getBaseService();
         if (null != service) {
-            ENTITY entity = BeanUtils.transformFrom(vo, getEntityClass());
-            service.updateById(entity);
+            service.updateById(vo);
             return ResponseResult.resultSuccess("修改成功");
         }
         return ResponseResult.resultFall("修改失败");

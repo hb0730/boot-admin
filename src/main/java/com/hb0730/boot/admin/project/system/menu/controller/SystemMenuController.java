@@ -8,7 +8,6 @@ import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
 import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.domain.controller.AbstractBaseController;
-import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
@@ -92,11 +91,13 @@ public class SystemMenuController extends AbstractBaseController<Long, SystemMen
     @Log(paramsName = "vo", module = ModuleName.MENU, title = "修改", businessType = BusinessTypeEnum.UPDATE)
     @PreAuthorize("hasAnyAuthority('menu:update','ROLE_ADMINISTRATOR','ROLE_MENU_ADMIN')")
     public Result<String> updateById(@PathVariable("id") Long id, @Validated @RequestBody SystemMenuVO vo) {
-        SystemMenuEntity entity = BeanUtils.transformFrom(vo, SystemMenuEntity.class);
-        assert entity != null;
-        entity.setId(id);
-        systemMenuService.updateById(entity);
-        return ResponseResult.resultSuccess("修改成功");
+//        SystemMenuEntity entity = BeanUtils.transformFrom(vo, SystemMenuEntity.class);
+//        assert entity != null;
+//        entity.setId(id);
+//        systemMenuService.updateById(entity);
+//        return ResponseResult.resultSuccess("修改成功");
+        vo.setId(id);
+        return super.updateById(id, vo);
     }
 
     /**
