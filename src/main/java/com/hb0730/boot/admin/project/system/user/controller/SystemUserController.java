@@ -10,12 +10,12 @@ import com.hb0730.boot.admin.commons.annotation.Log;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
 import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
+import com.hb0730.boot.admin.commons.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.utils.excel.ExcelConstant;
 import com.hb0730.boot.admin.commons.utils.excel.ExcelUtils;
 import com.hb0730.boot.admin.commons.utils.excel.UploadDataListener;
 import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
-import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
 import com.hb0730.boot.admin.exception.export.ExportException;
@@ -47,7 +47,7 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping(RequestMappingNameConstants.REQUEST_USER)
-public class SystemUserController extends BaseController<UserParams, UserVO, Long, SystemUserEntity> {
+public class SystemUserController extends AbstractBaseController<Long, UserVO, UserParams, SystemUserEntity> {
     private final ISystemUserService systemUserService;
 
     public SystemUserController(ISystemUserService systemUserService) {
@@ -80,10 +80,9 @@ public class SystemUserController extends BaseController<UserParams, UserVO, Lon
      * @return 是否成功
      */
     @Override
-//    @PostMapping("/save")
     @Log(paramsName = {"vo"}, module = ModuleName.USER, title = "用户保存", businessType = BusinessTypeEnum.INSERT)
     @PreAuthorize("hasAnyAuthority('user:save','ROLE_ADMINISTRATOR','ROLE_USER_ADMIN')")
-    public Result<String> save(UserVO vo) {
+    public Result<String> save(@RequestBody UserVO vo) {
         if (Objects.isNull(vo)) {
             return ResponseResult.resultFall("新增用户失败，用户账号为空");
         }
@@ -250,10 +249,9 @@ public class SystemUserController extends BaseController<UserParams, UserVO, Lon
      * @return 是否成功
      */
     @Override
-//    @GetMapping("/delete/{id}")
     @Log(module = ModuleName.USER, title = "删除用户", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('user:delete','ROLE_ADMINISTRATOR','ROLE_USER_ADMIN')")
-    public Result<String> deleteById(Long id) {
+    public Result<String> deleteById(@PathVariable("id") Long id) {
         systemUserService.removeById(id);
         return ResponseResult.resultSuccess("删除成功");
     }
@@ -267,10 +265,9 @@ public class SystemUserController extends BaseController<UserParams, UserVO, Lon
      * @return 是否成功
      */
     @Override
-//    @PostMapping("/delete")
     @Log(module = ModuleName.USER, title = "删除用户", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('user:delete','ROLE_ADMINISTRATOR','ROLE_USER_ADMIN')")
-    public Result<String> deleteByIds(List<Long> ids) {
+    public Result<String> deleteByIds(@RequestBody List<Long> ids) {
         if (!CollectionUtils.isEmpty(ids)) {
             systemUserService.removeByIds(ids);
             return ResponseResult.resultSuccess("删除成功");

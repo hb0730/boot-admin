@@ -8,11 +8,10 @@ import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.annotation.Log;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
-import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
+import com.hb0730.boot.admin.commons.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.commons.utils.excel.ExcelConstant;
 import com.hb0730.boot.admin.commons.utils.excel.ExcelUtils;
 import com.hb0730.boot.admin.commons.utils.excel.UploadDataListener;
-import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
 import com.hb0730.boot.admin.exception.export.ExportException;
@@ -22,7 +21,6 @@ import com.hb0730.boot.admin.project.monitor.job.model.vo.JobParams;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.SystemJobVO;
 import com.hb0730.boot.admin.project.monitor.job.service.ISystemJobService;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,7 +41,7 @@ import static com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants
  */
 @RestController
 @RequestMapping(REQUEST_JOB)
-public class SystemJobController extends BaseController<JobParams, SystemJobVO, Long, SystemJobEntity> {
+public class SystemJobController extends AbstractBaseController<Long, SystemJobVO, JobParams, SystemJobEntity> {
     private final ISystemJobService systemJobService;
 
     public SystemJobController(ISystemJobService systemJobService) {
@@ -86,14 +84,10 @@ public class SystemJobController extends BaseController<JobParams, SystemJobVO, 
      * @return 是否成功
      */
     @Override
-//    @PostMapping("/save")
     @Log(paramsName = "vo", module = ModuleName.JOB, title = "新增", businessType = BusinessTypeEnum.INSERT)
     @PreAuthorize("hasAnyAuthority('job:save','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
-    public Result<String> save(SystemJobVO vo) {
-        SystemJobEntity entity = BeanUtils.transformFrom(vo, SystemJobEntity.class);
-        systemJobService.save(entity);
-        assert entity != null;
-        return ResponseResult.resultSuccess("新增成功");
+    public Result<String> save(@RequestBody SystemJobVO vo) {
+        return super.save(vo);
     }
 
     /**
@@ -106,15 +100,11 @@ public class SystemJobController extends BaseController<JobParams, SystemJobVO, 
      * @return 是否成功
      */
     @Override
-//    @PostMapping("/update/{id}")
     @Log(paramsName = "vo", module = ModuleName.JOB, title = "修改", businessType = BusinessTypeEnum.UPDATE)
     @PreAuthorize("hasAnyAuthority('job:update','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
-    public Result<String> updateById(Long id, SystemJobVO vo) {
+    public Result<String> updateById(@PathVariable Long id, @RequestBody SystemJobVO vo) {
         vo.setId(id);
-        SystemJobEntity entity = BeanUtils.transformFrom(vo, SystemJobEntity.class);
-        systemJobService.updateById(entity);
-        assert entity != null;
-        return ResponseResult.resultSuccess("修改成功");
+        return super.updateById(id, vo);
     }
 
     /**
@@ -127,11 +117,9 @@ public class SystemJobController extends BaseController<JobParams, SystemJobVO, 
      */
     @Override
     @Log(module = ModuleName.JOB, title = "删除", businessType = BusinessTypeEnum.DELETE)
-//    @GetMapping("/delete/{id}")
     @PreAuthorize("hasAnyAuthority('job:delete','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
-    public Result<String> deleteById(Long id) {
-        systemJobService.removeById(id);
-        return ResponseResult.resultSuccess("修改成功");
+    public Result<String> deleteById(@PathVariable Long id) {
+        return super.deleteById(id);
     }
 
     /**
@@ -144,14 +132,9 @@ public class SystemJobController extends BaseController<JobParams, SystemJobVO, 
      */
     @Override
     @Log(paramsName = "id", module = ModuleName.JOB, title = "删除", businessType = BusinessTypeEnum.DELETE)
-//    @PostMapping("/delete")
     @PreAuthorize("hasAnyAuthority('job:delete','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
-    public Result<String> deleteByIds(List<Long> id) {
-        if (CollectionUtils.isEmpty(id)) {
-            return ResponseResult.resultFall("请选择");
-        }
-        systemJobService.removeByIds(id);
-        return ResponseResult.resultSuccess("修改成功");
+    public Result<String> deleteByIds(@RequestBody List<Long> id) {
+        return super.deleteByIds(id);
     }
 
     /**

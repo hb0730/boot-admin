@@ -7,9 +7,9 @@ import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.annotation.Log;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
+import com.hb0730.boot.admin.commons.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.commons.utils.excel.ExcelConstant;
 import com.hb0730.boot.admin.commons.utils.excel.ExcelUtils;
-import com.hb0730.boot.admin.commons.web.controller.BaseController;
 import com.hb0730.boot.admin.commons.web.response.ResponseResult;
 import com.hb0730.boot.admin.commons.web.response.Result;
 import com.hb0730.boot.admin.exception.export.ExportException;
@@ -40,7 +40,7 @@ import static com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants
  */
 @RestController
 @RequestMapping(REQUEST_LOGININFO)
-public class SystemLoginInfoController extends BaseController<LoginfoParams, SystemLoginfoVO, Long, SystemLoginInfoEntity> {
+public class SystemLoginInfoController extends AbstractBaseController<Long, SystemLoginfoVO, LoginfoParams, SystemLoginInfoEntity> {
     private final ISystemLoginInfoService systemLoginInfoService;
 
     public SystemLoginInfoController(ISystemLoginInfoService systemLoginInfoService) {
@@ -94,15 +94,10 @@ public class SystemLoginInfoController extends BaseController<LoginfoParams, Sys
      * @return 是否成功
      */
     @Override
-//    @PostMapping("/delete")
     @Log(paramsName = "ids", module = ModuleName.LOGIN_INFO, title = "删除", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('login:log:delete','ROLE_ADMINISTRATOR','ROLE_LOGIN_LOG_ADMIN')")
-    public Result<String> deleteByIds(List<Long> ids) {
-        if (CollectionUtils.isEmpty(ids)) {
-            return ResponseResult.resultFall("请选择");
-        }
-        systemLoginInfoService.removeByIds(ids);
-        return ResponseResult.resultSuccess("删除成功");
+    public Result<String> deleteByIds(@RequestBody List<Long> ids) {
+        return super.deleteByIds(ids);
     }
 
     /**

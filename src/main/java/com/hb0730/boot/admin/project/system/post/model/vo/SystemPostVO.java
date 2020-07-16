@@ -1,11 +1,13 @@
 package com.hb0730.boot.admin.project.system.post.model.vo;
 
-import com.hb0730.boot.admin.commons.utils.convert.InputConverter;
 import com.hb0730.boot.admin.commons.domain.model.web.BusinessVO;
+import com.hb0730.boot.admin.commons.utils.convert.InputConverter;
 import com.hb0730.boot.admin.project.system.post.model.entity.SystemPostEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * <p>
@@ -35,6 +37,7 @@ public class SystemPostVO extends BusinessVO implements InputConverter<SystemPos
     /**
      * 岗位名称
      */
+    @NotBlank(message = "岗位名称不为空")
     private String name;
 
     /**
@@ -45,6 +48,7 @@ public class SystemPostVO extends BusinessVO implements InputConverter<SystemPos
     /**
      * 岗位编码
      */
+    @NotBlank(message = "岗位编码不为空")
     private String number;
 
     /**
