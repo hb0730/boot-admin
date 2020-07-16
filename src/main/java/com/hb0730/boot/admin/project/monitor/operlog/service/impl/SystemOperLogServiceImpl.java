@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.constant.enums.ValueEnum;
-import com.hb0730.boot.admin.commons.domain.service.SuperBaseServiceImpl;
+import com.hb0730.boot.admin.commons.domain.service.SuperBaseService;
 import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
  * @since 2020-04-02
  */
 @Service
-public class SystemOperLogServiceImpl extends SuperBaseServiceImpl<OperLogParams, SystemOperLogVO, ISystemOperLogMapper, SystemOperLogEntity> implements ISystemOperLogService {
+public class SystemOperLogServiceImpl extends SuperBaseService<OperLogParams, SystemOperLogVO, ISystemOperLogMapper, SystemOperLogEntity> implements ISystemOperLogService {
 
     @Override
     public Page<SystemOperLogVO> page(@NotNull @NonNull OperLogParams params) {

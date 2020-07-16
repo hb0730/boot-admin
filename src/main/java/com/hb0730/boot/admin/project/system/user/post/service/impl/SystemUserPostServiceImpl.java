@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.project.system.user.post.service.impl;
 
-import com.hb0730.boot.admin.commons.domain.service.BaseServiceImpl;
+import com.hb0730.boot.admin.commons.domain.service.impl.BaseServiceImpl;
 import com.hb0730.boot.admin.project.system.user.post.mapper.ISystemUserPostMapper;
 import com.hb0730.boot.admin.project.system.user.post.model.entity.SystemUserPostEntity;
 import com.hb0730.boot.admin.project.system.user.post.service.ISystemUserPostService;

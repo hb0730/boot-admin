@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.commons.domain.model.domain.BusinessDomain;
 import com.hb0730.boot.admin.commons.domain.model.web.BaseParams;
 import com.hb0730.boot.admin.commons.domain.model.web.BusinessVO;
+import com.hb0730.boot.admin.commons.domain.service.impl.BaseServiceImpl;
 import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
@@ -27,7 +28,7 @@ import java.util.List;
  * @date 2020/07/16 9:28
  * @since V1.0
  */
-public class SuperBaseServiceImpl<P extends BaseParams,
+public class SuperBaseService<P extends BaseParams,
         V extends BusinessVO,
         M extends BaseMapper<E>,
         E extends BusinessDomain>

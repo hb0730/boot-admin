@@ -12,7 +12,7 @@ import com.hb0730.boot.admin.commons.constant.ActionEnum;
 import com.hb0730.boot.admin.commons.constant.RedisConstants;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
 import com.hb0730.boot.admin.commons.constant.VueConstants;
-import com.hb0730.boot.admin.commons.domain.service.SuperBaseServiceImpl;
+import com.hb0730.boot.admin.commons.domain.service.SuperBaseService;
 import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
@@ -45,7 +45,7 @@ import java.util.Objects;
  * @since 2020-03-30
  */
 @Service
-public class SystemDictServiceImpl extends SuperBaseServiceImpl<DictParams, SystemDictVO, ISystemDictMapper, SystemDictEntity> implements ISystemDictService {
+public class SystemDictServiceImpl extends SuperBaseService<DictParams, SystemDictVO, ISystemDictMapper, SystemDictEntity> implements ISystemDictService {
     @CreateCache(cacheType = CacheType.REMOTE, area = RedisConstants.REDIS_JETCACHE_AREA, name = RedisConstants.REDIS_JETCACHE_NAME_DICT)
     private Cache<String, Map<String, List<Map<String, Object>>>> cache;
     private final ApplicationContext applicationContext;

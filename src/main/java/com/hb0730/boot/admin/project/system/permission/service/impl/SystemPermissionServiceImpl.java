@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.project.system.permission.service.impl;
 
-import com.hb0730.boot.admin.commons.domain.service.BaseServiceImpl;
+import com.hb0730.boot.admin.commons.domain.service.impl.BaseServiceImpl;
 import com.hb0730.boot.admin.project.system.permission.mapper.ISystemPermissionMapper;
 import com.hb0730.boot.admin.project.system.permission.model.entity.SystemPermissionEntity;
 import com.hb0730.boot.admin.project.system.permission.service.ISystemPermissionService;

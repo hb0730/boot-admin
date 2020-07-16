@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.commons.domain.service;
+package com.hb0730.boot.admin.commons.domain.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;

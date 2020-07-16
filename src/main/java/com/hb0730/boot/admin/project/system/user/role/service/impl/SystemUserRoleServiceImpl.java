@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.project.system.user.role.service.impl;
 
-import com.hb0730.boot.admin.commons.domain.service.BaseServiceImpl;
+import com.hb0730.boot.admin.commons.domain.service.impl.BaseServiceImpl;
 import com.hb0730.boot.admin.project.system.user.role.mapper.ISystemUserRoleMapper;
 import com.hb0730.boot.admin.project.system.user.role.model.entity.SystemUserRoleEntity;
 import com.hb0730.boot.admin.project.system.user.role.service.ISystemUserRoleService;

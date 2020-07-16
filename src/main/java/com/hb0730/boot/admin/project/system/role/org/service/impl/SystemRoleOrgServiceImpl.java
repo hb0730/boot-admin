@@ -3,7 +3,7 @@ package com.hb0730.boot.admin.project.system.role.org.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
-import com.hb0730.boot.admin.commons.domain.service.BaseServiceImpl;
+import com.hb0730.boot.admin.commons.domain.service.impl.BaseServiceImpl;
 import com.hb0730.boot.admin.project.system.role.org.mapper.ISystemRoleOrgMapper;
 import com.hb0730.boot.admin.project.system.role.org.model.entity.SystemRoleOrgEntity;
 import com.hb0730.boot.admin.project.system.role.org.service.ISystemRoleOrgService;

@@ -2,7 +2,7 @@ package com.hb0730.boot.admin.project.monitor.job.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hb0730.boot.admin.commons.domain.service.SuperBaseServiceImpl;
+import com.hb0730.boot.admin.commons.domain.service.SuperBaseService;
 import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
  * @since 2020-04-07
  */
 @Service
-public class SystemJobLogServiceImpl extends SuperBaseServiceImpl<JobLogParams, SystemJobLogVO, ISystemJobLogMapper, SystemJobLogEntity> implements ISystemJobLogService {
+public class SystemJobLogServiceImpl extends SuperBaseService<JobLogParams, SystemJobLogVO, ISystemJobLogMapper, SystemJobLogEntity> implements ISystemJobLogService {
     @Autowired
     private ISystemJobService systemJobService;
 

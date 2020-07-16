@@ -3,7 +3,7 @@ package com.hb0730.boot.admin.project.img.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
-import com.hb0730.boot.admin.commons.domain.service.SuperBaseServiceImpl;
+import com.hb0730.boot.admin.commons.domain.service.SuperBaseService;
 import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class BaseImgServiceImpl extends SuperBaseServiceImpl<BaseImgParams, BaseImgVO, IBaseImgMapper, BaseImgEntity> implements IBaseImgService {
+public class BaseImgServiceImpl extends SuperBaseService<BaseImgParams, BaseImgVO, IBaseImgMapper, BaseImgEntity> implements IBaseImgService {
     private final OssHandler handler;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseImgServiceImpl.class);
