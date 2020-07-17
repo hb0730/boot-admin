@@ -1,7 +1,6 @@
 package com.hb0730.boot.admin.project.system.user.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.commons.domain.service.IExportService;
 import com.hb0730.boot.admin.project.system.user.model.dto.LoginUserDTO;
@@ -10,7 +9,6 @@ import com.hb0730.boot.admin.project.system.user.model.entity.SystemUserEntity;
 import com.hb0730.boot.admin.project.system.user.model.vo.SystemUserVO;
 import com.hb0730.boot.admin.project.system.user.model.vo.UserParams;
 import com.hb0730.boot.admin.project.system.user.model.vo.UserVO;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
@@ -23,7 +21,7 @@ import java.util.List;
  * @author bing_huang
  * @since 2020-03-24
  */
-public interface ISystemUserService extends IBaseService<UserParams, SystemUserVO, SystemUserEntity>,IExportService<UserExcelDTO> {
+public interface ISystemUserService extends IBaseService<Long, UserParams, SystemUserVO, SystemUserEntity>, IExportService<UserExcelDTO> {
 
     /**
      * 分页查询
@@ -32,7 +30,7 @@ public interface ISystemUserService extends IBaseService<UserParams, SystemUserV
      * @return 分页后得数据
      */
     @Override
-    Page<SystemUserVO> page( @NonNull UserParams params);
+    Page<SystemUserVO> page(@NonNull UserParams params);
 
     /**
      * 用户保存

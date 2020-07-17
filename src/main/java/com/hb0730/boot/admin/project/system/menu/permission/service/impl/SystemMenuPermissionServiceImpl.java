@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
-import com.hb0730.boot.admin.commons.domain.service.SuperBaseService;
+import com.hb0730.boot.admin.commons.domain.service.impl.SuperBaseServiceImpl;
 import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
  * @since 2020-03-26
  */
 @Service
-public class SystemMenuPermissionServiceImpl extends SuperBaseService<PermissionParams, SystemPermissionVO, ISystemMenuPermissionMapper, SystemMenuPermissionEntity> implements ISystemMenuPermissionService {
+public class SystemMenuPermissionServiceImpl extends SuperBaseServiceImpl<Long, PermissionParams, SystemPermissionVO, ISystemMenuPermissionMapper, SystemMenuPermissionEntity> implements ISystemMenuPermissionService {
     @Autowired
     private PermissionHandle permissionHandle;
 

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
-import com.hb0730.boot.admin.commons.domain.service.SuperBaseService;
+import com.hb0730.boot.admin.commons.domain.service.impl.SuperBaseServiceImpl;
 import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
  * @since 2020-03-28
  */
 @Service
-public class SystemPostServiceImpl extends SuperBaseService<PostParams, SystemPostVO, ISystemPostMapper, SystemPostEntity> implements ISystemPostService {
+public class SystemPostServiceImpl extends SuperBaseServiceImpl<Long, PostParams, SystemPostVO, ISystemPostMapper, SystemPostEntity> implements ISystemPostService {
 
 
     @Override

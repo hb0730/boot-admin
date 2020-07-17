@@ -20,7 +20,7 @@ import java.util.Set;
  * @author bing_huang
  * @since 2020-03-26
  */
-public interface ISystemMenuPermissionService extends IBaseService<PermissionParams, SystemPermissionVO, SystemMenuPermissionEntity> {
+public interface ISystemMenuPermissionService extends IBaseService<Long, PermissionParams, SystemPermissionVO, SystemMenuPermissionEntity> {
 
     /**
      * <p>

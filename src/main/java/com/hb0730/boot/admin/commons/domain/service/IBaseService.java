@@ -1,15 +1,13 @@
 package com.hb0730.boot.admin.commons.domain.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.hb0730.boot.admin.commons.domain.model.domain.BusinessDomain;
 import com.hb0730.boot.admin.commons.domain.model.web.BaseParams;
 import com.hb0730.boot.admin.commons.domain.model.web.BusinessVO;
 import org.springframework.lang.NonNull;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.io.Serializable;
 
 /**
  * service 基类
@@ -21,39 +19,15 @@ import java.util.List;
  * @date 2020/06/26 12:10
  * @since V1.0
  */
-public interface IBaseService<P extends BaseParams, V extends BusinessVO, E extends BusinessDomain> extends IService<E> {
-    /**
-     * 分页
-     *
-     * @param params 请求参数
-     * @return 分页列表
-     */
-    Page<V> page(@NonNull P params);
-
-    /**
-     * 列表
-     *
-     * @param params 请求参数
-     * @return 列表
-     */
-    List<V> list(@NonNull P params);
-
-    /**
-     * 保存
-     *
-     * @param vo vo
-     * @return 是否成功
-     */
-    @Transactional
-    boolean save(@NonNull V vo);
-
+public interface IBaseService<ID extends Serializable, P extends BaseParams,
+        V extends BusinessVO,
+        E extends BusinessDomain> extends IService<E>, ISuperBaseService<ID, P, V> {
     /**
      * 修改
      *
      * @param vo vo
      * @return 是否成功
      */
-    @Transactional
     boolean updateById(@NonNull V vo);
 
     /**

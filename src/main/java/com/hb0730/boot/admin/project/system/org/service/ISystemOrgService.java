@@ -17,7 +17,7 @@ import java.util.List;
  * @author bing_huang
  * @since 2020-03-26
  */
-public interface ISystemOrgService extends IBaseService<OrgParams, SystemOrgVO, SystemOrgEntity> {
+public interface ISystemOrgService extends IBaseService<Long, OrgParams, SystemOrgVO, SystemOrgEntity> {
 
     /**
      * <p>

@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.commons.domain.service;
+package com.hb0730.boot.admin.commons.domain.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.commons.domain.model.domain.BusinessDomain;
 import com.hb0730.boot.admin.commons.domain.model.web.BaseParams;
 import com.hb0730.boot.admin.commons.domain.model.web.BusinessVO;
-import com.hb0730.boot.admin.commons.domain.service.impl.BaseServiceImpl;
+import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
@@ -14,6 +14,7 @@ import com.hb0730.boot.admin.commons.utils.validator.ValidatorUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
@@ -28,11 +29,11 @@ import java.util.List;
  * @date 2020/07/16 9:28
  * @since V1.0
  */
-public class SuperBaseService<P extends BaseParams,
+public class SuperBaseServiceImpl<ID extends Serializable, P extends BaseParams,
         V extends BusinessVO,
         M extends BaseMapper<E>,
         E extends BusinessDomain>
-        extends BaseServiceImpl<M, E> implements IBaseService<P, V, E> {
+        extends BaseServiceImpl<M, E> implements IBaseService<ID, P, V, E> {
     @Override
     public Page<V> page(@NonNull P params) {
         QueryWrapper<E> query = query(params);
@@ -78,5 +79,15 @@ public class SuperBaseService<P extends BaseParams,
     @SuppressWarnings({"unchecked"})
     protected Class<E> getEntityClass() {
         return (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[3];
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateById(@NonNull ID id, @NonNull V vo) {
+        ValidatorUtils.validate(vo);
+        ValidatorUtils.validate(id);
+        E entity = super.getById(id);
+        BeanUtils.updateProperties(vo, entity);
+        return super.updateById(entity);
     }
 }

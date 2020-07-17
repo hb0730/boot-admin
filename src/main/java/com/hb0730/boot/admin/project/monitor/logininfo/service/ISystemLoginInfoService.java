@@ -18,7 +18,7 @@ import java.util.List;
  * @author bing_huang
  * @since 2020-04-01
  */
-public interface ISystemLoginInfoService extends IBaseService<LoginfoParams, SystemLoginfoVO, SystemLoginInfoEntity> {
+public interface ISystemLoginInfoService extends IBaseService<Long, LoginfoParams, SystemLoginfoVO, SystemLoginInfoEntity> {
 
     /**
      * 分页查询

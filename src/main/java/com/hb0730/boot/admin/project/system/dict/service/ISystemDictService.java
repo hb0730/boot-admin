@@ -18,7 +18,7 @@ import java.util.Map;
  * @author bing_huang
  * @since 2020-03-30
  */
-public interface ISystemDictService extends IBaseService<DictParams, SystemDictVO, SystemDictEntity> {
+public interface ISystemDictService extends IBaseService<Long, DictParams, SystemDictVO, SystemDictEntity> {
 
     /**
      * 获取分页数据
@@ -39,6 +39,7 @@ public interface ISystemDictService extends IBaseService<DictParams, SystemDictV
      * @param vo 参数
      * @return 是否成功
      */
+    @Override
     boolean updateById(@NonNull Long id, @NonNull SystemDictVO vo);
 
 

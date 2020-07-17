@@ -19,7 +19,7 @@ import java.util.Map;
  * @author bing_huang
  * @since 2020-03-26
  */
-public interface ISystemMenuService extends IBaseService<SystemMenuParams, SystemMenuVO, SystemMenuEntity> {
+public interface ISystemMenuService extends IBaseService<Long, SystemMenuParams, SystemMenuVO, SystemMenuEntity> {
     /**
      * <p>
      * 获取全部树形菜单

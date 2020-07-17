@@ -7,7 +7,6 @@ import com.hb0730.boot.admin.project.monitor.job.model.dto.JobExportDto;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobEntity;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.JobParams;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.SystemJobVO;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.lang.NonNull;
 
 import java.util.Collection;
@@ -21,7 +20,7 @@ import java.util.List;
  * @author bing_huang
  * @since 2020-04-06
  */
-public interface ISystemJobService extends IExportService<JobExportDto>, IBaseService<JobParams, SystemJobVO, SystemJobEntity> {
+public interface ISystemJobService extends IExportService<JobExportDto>, IBaseService<Long, JobParams, SystemJobVO, SystemJobEntity> {
 
     /**
      * 分页查询

@@ -5,13 +5,14 @@ import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.domain.model.domain.BusinessDomain;
 import com.hb0730.boot.admin.commons.domain.model.web.BaseParams;
 import com.hb0730.boot.admin.commons.domain.model.web.BusinessVO;
-import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.commons.domain.result.ResponseResult;
 import com.hb0730.boot.admin.commons.domain.result.Result;
+import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -24,7 +25,7 @@ import java.util.List;
  * @date 2020/07/15 9:33
  * @since V1.0
  */
-public interface IQueryBaseController<V extends BusinessVO, P extends BaseParams, ENTITY extends BusinessDomain> extends IBaseController<ENTITY> {
+public interface IQueryBaseController<ID extends Serializable, V extends BusinessVO, P extends BaseParams, ENTITY extends BusinessDomain> extends IBaseController<ENTITY> {
 
     /**
      * 分页查询
@@ -35,7 +36,7 @@ public interface IQueryBaseController<V extends BusinessVO, P extends BaseParams
     @PostMapping("/list/page")
     @SuppressWarnings({"unchecked"})
     default Result<Page<V>> page(@Validated @RequestBody P params) {
-        IBaseService<P, V, ENTITY> service = getBaseService();
+        IBaseService<ID, P, V, ENTITY> service = getBaseService();
         if (null != service) {
 
             Page<V> page = service.page(params);
@@ -53,7 +54,7 @@ public interface IQueryBaseController<V extends BusinessVO, P extends BaseParams
     @PostMapping("/list")
     @SuppressWarnings({"unchecked"})
     default Result<List<V>> list(@Validated @RequestBody P params) {
-        IBaseService<P, V, ENTITY> service = getBaseService();
+        IBaseService<ID, P, V, ENTITY> service = getBaseService();
         if (null != service) {
             List<V> list = service.list(params);
             return ResponseResult.resultSuccess(list);

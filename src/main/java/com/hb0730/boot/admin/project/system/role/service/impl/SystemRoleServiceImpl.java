@@ -3,7 +3,7 @@ package com.hb0730.boot.admin.project.system.role.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.commons.constant.SystemConstants;
-import com.hb0730.boot.admin.commons.domain.service.SuperBaseService;
+import com.hb0730.boot.admin.commons.domain.service.impl.SuperBaseServiceImpl;
 import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
@@ -28,7 +28,7 @@ import java.util.Objects;
  * @since 2020-03-27
  */
 @Service
-public class SystemRoleServiceImpl extends SuperBaseService<RoleParams, SystemRoleVO, ISystemRoleMapper, SystemRoleEntity> implements ISystemRoleService {
+public class SystemRoleServiceImpl extends SuperBaseServiceImpl<Long, RoleParams, SystemRoleVO, ISystemRoleMapper, SystemRoleEntity> implements ISystemRoleService {
 
     @Override
     @NonNull

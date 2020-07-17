@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.commons.domain.model.domain.BusinessDomain;
 import com.hb0730.boot.admin.commons.domain.model.web.BaseParams;
 import com.hb0730.boot.admin.commons.domain.model.web.BusinessVO;
-import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.commons.domain.result.ResponseResult;
 import com.hb0730.boot.admin.commons.domain.result.Result;
+import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,18 +18,18 @@ import java.util.List;
  * <p>
  * </P>
  *
- * @param <V>    返回类型
- * @param <P>    请求参数
- * @param <TYPE> 类型
- * @param <E>    实体
+ * @param <V>  返回类型
+ * @param <P>  请求参数
+ * @param <ID> 类型
+ * @param <E>  实体
  * @author bing_huang
  * @since V1.0
  */
 
-public abstract class BaseController<P extends BaseParams, V extends BusinessVO, TYPE extends Serializable, E extends BusinessDomain> implements IBaseController<P, V, TYPE> {
-    private final IBaseService<P, V, E> service;
+public abstract class BaseController<P extends BaseParams, V extends BusinessVO, ID extends Serializable, E extends BusinessDomain> implements IBaseController<P, V, ID> {
+    private final IBaseService<ID, P, V, E> service;
 
-    public BaseController(IBaseService<P, V, E> service) {
+    public BaseController(IBaseService<ID, P, V, E> service) {
         this.service = service;
     }
 
@@ -68,7 +68,7 @@ public abstract class BaseController<P extends BaseParams, V extends BusinessVO,
 
     @Override
     @PostMapping("/update/{id}")
-    public Result<String> updateById(@PathVariable("id") TYPE id, @RequestBody V vo) {
+    public Result<String> updateById(@PathVariable("id") ID id, @RequestBody V vo) {
         if (null != service) {
 
 //            E e = vo.convertTo();
@@ -79,7 +79,7 @@ public abstract class BaseController<P extends BaseParams, V extends BusinessVO,
     }
 
     @Override
-    public Result<String> deleteById(@PathVariable TYPE id) {
+    public Result<String> deleteById(@PathVariable ID id) {
         if (null != service) {
 
             service.removeById(id);
@@ -89,7 +89,7 @@ public abstract class BaseController<P extends BaseParams, V extends BusinessVO,
     }
 
     @Override
-    public Result<String> deleteByIds(@RequestBody List<TYPE> ids) {
+    public Result<String> deleteByIds(@RequestBody List<ID> ids) {
         if (null != service) {
             service.removeByIds(ids);
             return ResponseResult.resultSuccess("删除成功");

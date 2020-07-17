@@ -2,7 +2,7 @@ package com.hb0730.boot.admin.project.monitor.logininfo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hb0730.boot.admin.commons.domain.service.SuperBaseService;
+import com.hb0730.boot.admin.commons.domain.service.impl.SuperBaseServiceImpl;
 import com.hb0730.boot.admin.commons.utils.PageUtils;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
@@ -30,7 +30,7 @@ import static com.hb0730.boot.admin.commons.utils.QueryWrapperUtils.getQuery;
  * @since 2020-04-01
  */
 @Service
-public class SystemLoginInfoServiceImpl extends SuperBaseService<LoginfoParams, SystemLoginfoVO, ISystemLoginInfoMapper, SystemLoginInfoEntity> implements ISystemLoginInfoService {
+public class SystemLoginInfoServiceImpl extends SuperBaseServiceImpl<Long, LoginfoParams, SystemLoginfoVO, ISystemLoginInfoMapper, SystemLoginInfoEntity> implements ISystemLoginInfoService {
 
 
     @Override

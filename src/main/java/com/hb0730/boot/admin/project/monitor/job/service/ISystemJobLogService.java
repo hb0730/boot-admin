@@ -19,7 +19,7 @@ import java.util.List;
  * @author bing_huang
  * @since 2020-04-07
  */
-public interface ISystemJobLogService extends IBaseService<JobLogParams, SystemJobLogVO, SystemJobLogEntity> {
+public interface ISystemJobLogService extends IBaseService<Long, JobLogParams, SystemJobLogVO, SystemJobLogEntity> {
 
     /**
      * <p>

@@ -26,11 +26,11 @@ public abstract class AbstractBaseController<ID extends Serializable,
         implements ISaveBaseController<V, ENTITY>,
         IUpdateBaseController<ID, V, ENTITY>,
         IDeleteBaseController<ID, ENTITY>,
-        IQueryBaseController<V, P, ENTITY> {
-    private IBaseService<P, V, ENTITY> service;
+        IQueryBaseController<ID, V, P, ENTITY> {
+    private IBaseService<ID, P, V, ENTITY> service;
     protected Class<ENTITY> entityClass = null;
 
-    public AbstractBaseController(IBaseService<P, V, ENTITY> service) {
+    public AbstractBaseController(IBaseService<ID, P, V, ENTITY> service) {
         this.service = service;
     }
 
@@ -38,7 +38,7 @@ public abstract class AbstractBaseController<ID extends Serializable,
     }
 
     @Override
-    public IBaseService<P, V, ENTITY> getBaseService() {
+    public IBaseService<ID, P, V, ENTITY> getBaseService() {
         return service;
     }
 

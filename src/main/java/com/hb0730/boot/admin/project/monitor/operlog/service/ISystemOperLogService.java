@@ -19,7 +19,7 @@ import java.util.List;
  * @author bing_huang
  * @since 2020-04-02
  */
-public interface ISystemOperLogService extends IBaseService<OperLogParams, SystemOperLogVO, SystemOperLogEntity> {
+public interface ISystemOperLogService extends IBaseService<Long, OperLogParams, SystemOperLogVO, SystemOperLogEntity> {
 
     /**
      * 分页查询

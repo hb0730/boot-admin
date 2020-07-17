@@ -7,7 +7,6 @@ import com.hb0730.boot.admin.project.system.post.model.dto.PostExcelDto;
 import com.hb0730.boot.admin.project.system.post.model.entity.SystemPostEntity;
 import com.hb0730.boot.admin.project.system.post.model.vo.PostParams;
 import com.hb0730.boot.admin.project.system.post.model.vo.SystemPostVO;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.List;
  * @author bing_huang
  * @since 2020-03-28
  */
-public interface ISystemPostService extends IBaseService<PostParams, SystemPostVO, SystemPostEntity>, IExportService<PostExcelDto> {
+public interface ISystemPostService extends IBaseService<Long, PostParams, SystemPostVO, SystemPostEntity>, IExportService<PostExcelDto> {
 
     /**
      * 分页查询

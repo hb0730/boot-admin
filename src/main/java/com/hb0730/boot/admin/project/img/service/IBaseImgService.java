@@ -1,7 +1,6 @@
 package com.hb0730.boot.admin.project.img.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.hb0730.boot.admin.commons.domain.service.IBaseService;
 import com.hb0730.boot.admin.oss.model.UploadResult;
 import com.hb0730.boot.admin.project.img.model.entity.BaseImgEntity;
@@ -21,7 +20,7 @@ import java.util.List;
  * @author bing_huang
  * @since 2020-06-30
  */
-public interface IBaseImgService extends IBaseService<BaseImgParams, BaseImgVO, BaseImgEntity> {
+public interface IBaseImgService extends IBaseService<Long, BaseImgParams, BaseImgVO, BaseImgEntity> {
     /**
      * 分页查询
      *
