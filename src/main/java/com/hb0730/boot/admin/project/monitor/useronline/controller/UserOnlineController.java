@@ -3,12 +3,11 @@ package com.hb0730.boot.admin.project.monitor.useronline.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.annotation.Log;
+import com.hb0730.boot.admin.domain.result.ResponseResult;
+import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.model.constants.ModuleName;
 import com.hb0730.boot.admin.model.constants.RequestMappingNameConstants;
 import com.hb0730.boot.admin.model.enums.BusinessTypeEnum;
-import com.hb0730.boot.admin.commons.web.controller.BaseController;
-import com.hb0730.boot.admin.domain.result.ResponseResult;
-import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.project.monitor.useronline.model.vo.ParamsVO;
 import com.hb0730.boot.admin.project.monitor.useronline.model.vo.UserOnlineVO;
 import com.hb0730.boot.admin.project.monitor.useronline.service.IUserOnlineService;
@@ -28,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(RequestMappingNameConstants.REQUEST_USER_ONLINE)
-public class UserOnlineController extends BaseController {
+public class UserOnlineController {
     @Autowired
     private IUserOnlineService userOnlineService;
 

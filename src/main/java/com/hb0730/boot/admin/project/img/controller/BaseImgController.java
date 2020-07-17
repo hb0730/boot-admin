@@ -4,21 +4,18 @@ package com.hb0730.boot.admin.project.img.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.annotation.Log;
-import com.hb0730.boot.admin.model.constants.ModuleName;
-import com.hb0730.boot.admin.model.enums.BusinessTypeEnum;
-import com.hb0730.boot.admin.commons.web.controller.BaseController;
+import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.domain.result.ResponseResult;
 import com.hb0730.boot.admin.domain.result.Result;
+import com.hb0730.boot.admin.model.constants.ModuleName;
+import com.hb0730.boot.admin.model.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.oss.model.UploadResult;
 import com.hb0730.boot.admin.project.img.model.entity.BaseImgEntity;
 import com.hb0730.boot.admin.project.img.model.vo.BaseImgParams;
 import com.hb0730.boot.admin.project.img.model.vo.BaseImgVO;
 import com.hb0730.boot.admin.project.img.service.IBaseImgService;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -35,7 +32,7 @@ import static com.hb0730.boot.admin.model.constants.RequestMappingNameConstants.
  */
 @RestController
 @RequestMapping(REQUEST_BASE_IMG)
-public class BaseImgController extends BaseController<BaseImgParams, BaseImgVO, Long, BaseImgEntity> {
+public class BaseImgController extends AbstractBaseController<Long, BaseImgVO, BaseImgParams, BaseImgEntity> {
     private final IBaseImgService service;
 
     public BaseImgController(IBaseImgService service) {
@@ -51,9 +48,8 @@ public class BaseImgController extends BaseController<BaseImgParams, BaseImgVO, 
      */
     @Override
     @PreAuthorize("hasAnyRole('base:image:query','ROLE_ADMINISTRATOR','ROLE_BASE_ADMIN')")
-    public Result<Page<BaseImgVO>> page(BaseImgParams params) {
-        Page<BaseImgVO> page = service.page(params);
-        return ResponseResult.resultSuccess(page);
+    public Result<Page<BaseImgVO>> page(@RequestBody BaseImgParams params) {
+        return super.page(params);
     }
 
     /**
@@ -63,9 +59,8 @@ public class BaseImgController extends BaseController<BaseImgParams, BaseImgVO, 
      * @return 列表
      */
     @Override
-    public Result<List<BaseImgVO>> list(BaseImgParams params) {
-        List<BaseImgVO> list = service.list(params);
-        return ResponseResult.resultSuccess(list);
+    public Result<List<BaseImgVO>> list(@RequestBody BaseImgParams params) {
+        return super.list(params);
     }
 
     /**
@@ -77,9 +72,8 @@ public class BaseImgController extends BaseController<BaseImgParams, BaseImgVO, 
     @Override
     @PreAuthorize("hasAnyRole('base:image:delete','ROLE_ADMINISTRATOR','ROLE_BASE_ADMIN')")
     @Log(module = ModuleName.IMAGE, title = "删除", businessType = BusinessTypeEnum.DELETE)
-    public Result<String> deleteById(Long id) {
-        service.removeById(id);
-        return ResponseResult.resultSuccess("删除成功");
+    public Result<String> deleteById(@PathVariable("id") Long id) {
+        return super.deleteById(id);
     }
 
     /**
@@ -91,9 +85,8 @@ public class BaseImgController extends BaseController<BaseImgParams, BaseImgVO, 
     @Override
     @PreAuthorize("hasAnyRole('base:image:delete','ROLE_ADMINISTRATOR','ROLE_BASE_ADMIN')")
     @Log(paramsName = "ids", module = ModuleName.IMAGE, title = "删除", businessType = BusinessTypeEnum.DELETE)
-    public Result<String> deleteByIds(List<Long> ids) {
-        service.removeByIds(ids);
-        return ResponseResult.resultSuccess("删除成功");
+    public Result<String> deleteByIds(@RequestBody List<Long> ids) {
+        return super.deleteByIds(ids);
     }
 
     /**

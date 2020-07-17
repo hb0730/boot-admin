@@ -6,19 +6,19 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.annotation.Log;
-import com.hb0730.boot.admin.model.constants.ModuleName;
-import com.hb0730.boot.admin.model.enums.BusinessTypeEnum;
-import com.hb0730.boot.admin.utils.excel.ExcelConstant;
-import com.hb0730.boot.admin.utils.excel.ExcelUtils;
-import com.hb0730.boot.admin.commons.web.controller.BaseController;
+import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.domain.result.ResponseResult;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.exception.export.ExportException;
+import com.hb0730.boot.admin.model.constants.ModuleName;
+import com.hb0730.boot.admin.model.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.project.monitor.job.model.dto.JobLogExportDTO;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobLogEntity;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.JobLogParams;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.SystemJobLogVO;
 import com.hb0730.boot.admin.project.monitor.job.service.ISystemJobLogService;
+import com.hb0730.boot.admin.utils.excel.ExcelConstant;
+import com.hb0730.boot.admin.utils.excel.ExcelUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +39,7 @@ import static com.hb0730.boot.admin.model.constants.RequestMappingNameConstants.
  */
 @RestController
 @RequestMapping(REQUEST_JOB_LOG)
-public class SystemJobLogController extends BaseController<JobLogParams, SystemJobLogVO, Long, SystemJobLogEntity> {
+public class SystemJobLogController extends AbstractBaseController<Long, SystemJobLogVO, JobLogParams, SystemJobLogEntity> {
     private final ISystemJobLogService systemJobLogService;
 
     public SystemJobLogController(ISystemJobLogService systemJobLogService) {
@@ -95,15 +95,13 @@ public class SystemJobLogController extends BaseController<JobLogParams, SystemJ
      * @return 是否成功
      */
     @Override
-//    @PostMapping("/delete")
     @Log(paramsName = "ids", module = ModuleName.JOBLOG, title = "删除", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("hasAnyAuthority('jog:log:delete','ROLE_ADMINISTRATOR','ROLE_JOB_ADMIN')")
-    public Result<String> deleteByIds(List<Long> ids) {
+    public Result<String> deleteByIds(@RequestBody List<Long> ids) {
         if (CollectionUtils.isEmpty(ids)) {
             return ResponseResult.resultFall("请选择");
         }
-        systemJobLogService.removeByIds(ids);
-        return ResponseResult.resultSuccess("删除成功");
+        return super.deleteByIds(ids);
     }
 
     /**
