@@ -7,7 +7,7 @@ import com.aliyuncs.IAcsClient;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
-import com.hb0730.boot.admin.commons.constant.enums.SmsTypeEnum;
+import com.hb0730.boot.admin.model.enums.SmsTypeEnum;
 import com.hb0730.boot.admin.exception.sms.SmsException;
 import com.hb0730.boot.admin.sms.params.AliyunSmsParams;
 import com.hb0730.boot.admin.sms.params.BaseSmsParams;

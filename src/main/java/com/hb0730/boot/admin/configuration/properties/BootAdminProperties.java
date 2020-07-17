@@ -1,9 +1,9 @@
 package com.hb0730.boot.admin.configuration.properties;
 
-import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
-import com.hb0730.boot.admin.commons.constant.enums.JobTypeEnum;
-import com.hb0730.boot.admin.commons.constant.enums.SmsTypeEnum;
-import com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum;
+import com.hb0730.boot.admin.model.enums.AttachmentTypeEnum;
+import com.hb0730.boot.admin.model.enums.JobTypeEnum;
+import com.hb0730.boot.admin.model.enums.SmsTypeEnum;
+import com.hb0730.boot.admin.model.enums.TokenTypeEnum;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -53,7 +53,7 @@ public class BootAdminProperties {
 
     /***
      * token存储类型
-     * @see  com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum
+     * @see  com.hb0730.boot.admin.model.enums.TokenTypeEnum
      */
     private TokenTypeEnum tokenType = TokenTypeEnum.LOCAL;
 

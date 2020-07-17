@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.monitor.job.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hb0730.boot.admin.commons.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.IBaseService;
 import com.hb0730.boot.admin.project.monitor.job.model.dto.JobLogExportDTO;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobLogEntity;
 import com.hb0730.boot.admin.project.monitor.job.model.vo.JobLogParams;

@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.oss.handler;
 
-import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
+import com.hb0730.boot.admin.model.enums.AttachmentTypeEnum;
 import com.hb0730.boot.admin.oss.model.UploadResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
@@ -9,7 +9,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.hb0730.boot.admin.commons.constant.SystemConstants.FILE_SEPARATOR;
+import static com.hb0730.boot.admin.model.constants.SystemConstants.FILE_SEPARATOR;
 
 /**
  * <p>

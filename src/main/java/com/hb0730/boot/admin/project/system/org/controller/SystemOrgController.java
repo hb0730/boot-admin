@@ -2,12 +2,12 @@ package com.hb0730.boot.admin.project.system.org.controller;
 
 
 import com.hb0730.boot.admin.annotation.Log;
-import com.hb0730.boot.admin.commons.constant.ModuleName;
-import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
-import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
-import com.hb0730.boot.admin.commons.domain.controller.AbstractBaseController;
-import com.hb0730.boot.admin.commons.domain.result.ResponseResult;
-import com.hb0730.boot.admin.commons.domain.result.Result;
+import com.hb0730.boot.admin.model.constants.ModuleName;
+import com.hb0730.boot.admin.model.constants.RequestMappingNameConstants;
+import com.hb0730.boot.admin.model.enums.BusinessTypeEnum;
+import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
+import com.hb0730.boot.admin.domain.result.ResponseResult;
+import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.project.system.org.model.entity.SystemOrgEntity;
 import com.hb0730.boot.admin.project.system.org.model.vo.OrgParams;
 import com.hb0730.boot.admin.project.system.org.model.vo.SystemOrgVO;

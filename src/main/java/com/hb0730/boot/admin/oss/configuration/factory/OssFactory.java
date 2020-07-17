@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.oss.configuration.factory;
 
-import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
+import com.hb0730.boot.admin.model.enums.AttachmentTypeEnum;
 import com.hb0730.boot.admin.oss.configuration.OssConfiguration;
 import com.hb0730.boot.admin.oss.configuration.registry.DefaultOssRegistry;
 import com.hb0730.boot.admin.oss.handler.OssHandler;

@@ -2,9 +2,9 @@ package com.hb0730.boot.admin.utils;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hb0730.boot.admin.commons.constant.enums.SortTypeEnum;
-import com.hb0730.boot.admin.commons.domain.model.domain.BusinessDomain;
-import com.hb0730.boot.admin.commons.domain.model.web.BaseParams;
+import com.hb0730.boot.admin.model.enums.SortTypeEnum;
+import com.hb0730.boot.admin.domain.model.domain.BusinessDomain;
+import com.hb0730.boot.admin.domain.model.web.BaseParams;
 import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
 

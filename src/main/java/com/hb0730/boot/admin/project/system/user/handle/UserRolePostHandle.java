@@ -2,7 +2,7 @@ package com.hb0730.boot.admin.project.system.user.handle;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
-import com.hb0730.boot.admin.commons.constant.SystemConstants;
+import com.hb0730.boot.admin.model.constants.SystemConstants;
 import com.hb0730.boot.admin.project.system.user.model.vo.UserVO;
 import com.hb0730.boot.admin.project.system.user.post.model.entity.SystemUserPostEntity;
 import com.hb0730.boot.admin.project.system.user.post.service.ISystemUserPostService;

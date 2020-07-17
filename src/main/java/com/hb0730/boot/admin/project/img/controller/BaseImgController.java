@@ -4,11 +4,11 @@ package com.hb0730.boot.admin.project.img.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.annotation.Log;
-import com.hb0730.boot.admin.commons.constant.ModuleName;
-import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
+import com.hb0730.boot.admin.model.constants.ModuleName;
+import com.hb0730.boot.admin.model.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;
-import com.hb0730.boot.admin.commons.domain.result.ResponseResult;
-import com.hb0730.boot.admin.commons.domain.result.Result;
+import com.hb0730.boot.admin.domain.result.ResponseResult;
+import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.oss.model.UploadResult;
 import com.hb0730.boot.admin.project.img.model.entity.BaseImgEntity;
 import com.hb0730.boot.admin.project.img.model.vo.BaseImgParams;
@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-import static com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants.REQUEST_BASE_IMG;
+import static com.hb0730.boot.admin.model.constants.RequestMappingNameConstants.REQUEST_BASE_IMG;
 
 /**
  * <p>

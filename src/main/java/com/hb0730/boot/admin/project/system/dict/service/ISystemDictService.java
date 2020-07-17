@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.system.dict.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hb0730.boot.admin.commons.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.IBaseService;
 import com.hb0730.boot.admin.project.system.dict.model.entity.SystemDictEntity;
 import com.hb0730.boot.admin.project.system.dict.model.vo.DictParams;
 import com.hb0730.boot.admin.project.system.dict.model.vo.SystemDictVO;

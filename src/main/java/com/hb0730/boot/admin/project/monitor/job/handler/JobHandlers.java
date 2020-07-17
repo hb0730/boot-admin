@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.monitor.job.handler;
 
 import com.google.common.collect.Lists;
-import com.hb0730.boot.admin.commons.constant.ActionEnum;
+import com.hb0730.boot.admin.model.enums.ActionEnum;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.project.monitor.job.mapper.ISystemJobMapper;
 import org.springframework.context.ApplicationContext;

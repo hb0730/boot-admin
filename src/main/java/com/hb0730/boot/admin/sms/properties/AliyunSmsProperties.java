@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.sms.properties;
 
-import com.hb0730.boot.admin.commons.constant.enums.SmsTypeEnum;
+import com.hb0730.boot.admin.model.enums.SmsTypeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

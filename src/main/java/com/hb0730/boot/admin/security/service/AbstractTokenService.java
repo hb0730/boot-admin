@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.security.service;
 
 import com.google.common.collect.Maps;
-import com.hb0730.boot.admin.commons.constant.SystemConstants;
+import com.hb0730.boot.admin.model.constants.SystemConstants;
 import com.hb0730.boot.admin.utils.ServletUtils;
 import com.hb0730.boot.admin.utils.ip.IpUtils;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;

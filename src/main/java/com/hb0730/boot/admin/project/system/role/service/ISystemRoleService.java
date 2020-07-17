@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.system.role.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hb0730.boot.admin.commons.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.IBaseService;
 import com.hb0730.boot.admin.project.system.role.model.entity.SystemRoleEntity;
 import com.hb0730.boot.admin.project.system.role.model.vo.RoleParams;
 import com.hb0730.boot.admin.project.system.role.model.vo.SystemRoleVO;

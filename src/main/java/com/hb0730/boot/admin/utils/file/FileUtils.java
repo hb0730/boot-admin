@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.utils.file;
 
-import com.hb0730.boot.admin.commons.constant.SystemConstants;
+import com.hb0730.boot.admin.model.constants.SystemConstants;
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 

@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.monitor.logininfo.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hb0730.boot.admin.commons.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.IBaseService;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.dto.LoginInfoDTO;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.entity.SystemLoginInfoEntity;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.vo.LoginfoParams;

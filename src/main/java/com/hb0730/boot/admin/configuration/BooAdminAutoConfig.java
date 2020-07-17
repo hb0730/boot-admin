@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.configuration;
 
-import com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum;
+import com.hb0730.boot.admin.model.enums.TokenTypeEnum;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.security.service.ITokenService;
 import com.hb0730.boot.admin.security.service.impl.InMemoryTokenServiceImpl;

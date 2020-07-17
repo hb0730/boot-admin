@@ -3,7 +3,7 @@ package com.hb0730.boot.admin.project.monitor.logininfo.model.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.hb0730.boot.admin.commons.domain.model.domain.BusinessDomain;
+import com.hb0730.boot.admin.domain.model.domain.BusinessDomain;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

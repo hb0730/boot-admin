@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.img.model.vo;
 
 import com.hb0730.boot.admin.utils.convert.InputConverter;
-import com.hb0730.boot.admin.commons.domain.model.web.BusinessVO;
+import com.hb0730.boot.admin.domain.model.web.BusinessVO;
 import com.hb0730.boot.admin.project.img.model.entity.BaseImgEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

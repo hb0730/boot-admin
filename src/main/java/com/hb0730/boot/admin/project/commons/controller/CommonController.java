@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.commons.controller;
 
-import com.hb0730.boot.admin.commons.domain.result.ResponseResult;
-import com.hb0730.boot.admin.commons.domain.result.Result;
+import com.hb0730.boot.admin.domain.result.ResponseResult;
+import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.oss.model.UploadResult;
 import com.hb0730.boot.admin.project.commons.service.ICommonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.hb0730.boot.admin.commons.constant.SystemConstants.FILE_SEPARATOR;
+import static com.hb0730.boot.admin.model.constants.SystemConstants.FILE_SEPARATOR;
 
 /**
  * <p>

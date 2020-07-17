@@ -1,9 +1,9 @@
 package com.hb0730.boot.admin.project.monitor.job.handler;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.hb0730.boot.admin.commons.constant.ActionEnum;
-import com.hb0730.boot.admin.commons.constant.SystemConstants;
-import com.hb0730.boot.admin.commons.constant.enums.JobTypeEnum;
+import com.hb0730.boot.admin.model.enums.ActionEnum;
+import com.hb0730.boot.admin.model.constants.SystemConstants;
+import com.hb0730.boot.admin.model.enums.JobTypeEnum;
 import com.hb0730.boot.admin.project.monitor.job.mapper.ISystemJobMapper;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobEntity;
 import lombok.AllArgsConstructor;

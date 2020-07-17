@@ -1,11 +1,11 @@
 package com.hb0730.boot.admin.security.handle;
 
-import com.hb0730.boot.admin.commons.constant.enums.SystemStatusEnum;
+import com.hb0730.boot.admin.model.enums.SystemStatusEnum;
 import com.hb0730.boot.admin.utils.MessageUtils;
 import com.hb0730.boot.admin.utils.ServletUtils;
 import com.hb0730.boot.admin.utils.json.GsonUtils;
-import com.hb0730.boot.admin.commons.domain.result.ResponseResult;
-import com.hb0730.boot.admin.commons.domain.result.Result;
+import com.hb0730.boot.admin.domain.result.ResponseResult;
+import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.manager.AsyncManager;
 import com.hb0730.boot.admin.manager.factory.AsyncFactory;

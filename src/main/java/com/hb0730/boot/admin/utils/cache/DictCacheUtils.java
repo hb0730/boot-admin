@@ -1,8 +1,8 @@
 package com.hb0730.boot.admin.utils.cache;
 
 import com.alicp.jetcache.Cache;
-import com.hb0730.boot.admin.commons.constant.RedisConstants;
-import com.hb0730.boot.admin.commons.constant.SystemConstants;
+import com.hb0730.boot.admin.model.constants.RedisConstants;
+import com.hb0730.boot.admin.model.constants.SystemConstants;
 import com.hb0730.boot.admin.utils.spring.SpringUtils;
 import com.hb0730.boot.admin.project.system.dict.service.ISystemDictService;
 import org.springframework.lang.NonNull;
@@ -98,7 +98,7 @@ public class DictCacheUtils {
      *
      * @param key key
      * @return 前缀+key
-     * @see com.hb0730.boot.admin.commons.constant.SystemConstants.DictConstants#DICT_KEY_PREFIX
+     * @see SystemConstants.DictConstants#DICT_KEY_PREFIX
      */
     public static String getDictKey(String key) {
         return SystemConstants.DictConstants.DICT_KEY_PREFIX + key;

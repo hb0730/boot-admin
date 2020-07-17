@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.oss.configuration.properties.impl;
 
-import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
+import com.hb0730.boot.admin.model.enums.AttachmentTypeEnum;
 import com.hb0730.boot.admin.oss.configuration.properties.OssProperties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static com.hb0730.boot.admin.commons.constant.SystemConstants.FILE_SEPARATOR;
-import static com.hb0730.boot.admin.commons.constant.SystemConstants.USER_HOME;
+import static com.hb0730.boot.admin.model.constants.SystemConstants.FILE_SEPARATOR;
+import static com.hb0730.boot.admin.model.constants.SystemConstants.USER_HOME;
 import static com.hb0730.boot.admin.utils.commons.StringUtils.ensureSuffix;
 
 /**

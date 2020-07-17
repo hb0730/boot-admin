@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.security.conroller;
 
-import com.hb0730.boot.admin.commons.domain.result.ResponseResult;
-import com.hb0730.boot.admin.commons.domain.result.Result;
+import com.hb0730.boot.admin.domain.result.ResponseResult;
+import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.security.model.LoginSuccess;
 import com.hb0730.boot.admin.security.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;

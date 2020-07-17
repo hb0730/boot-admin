@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.project.system.permission.model.dto;
 
-import com.hb0730.boot.admin.commons.domain.model.web.BusinessVO;
+import com.hb0730.boot.admin.domain.model.web.BusinessVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

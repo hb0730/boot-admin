@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.monitor.job.handler;
 
-import com.hb0730.boot.admin.commons.constant.ActionEnum;
-import com.hb0730.boot.admin.commons.constant.enums.JobTypeEnum;
+import com.hb0730.boot.admin.model.enums.ActionEnum;
+import com.hb0730.boot.admin.model.enums.JobTypeEnum;
 import org.springframework.lang.NonNull;
 
 import java.util.Collection;

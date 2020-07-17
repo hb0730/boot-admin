@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.oss.handler.impl;
 
-import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
+import com.hb0730.boot.admin.model.enums.AttachmentTypeEnum;
 import com.hb0730.boot.admin.utils.ImageUtils;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.exception.file.FileOperationException;
@@ -29,7 +29,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static com.hb0730.boot.admin.commons.constant.SystemConstants.FILE_SEPARATOR;
+import static com.hb0730.boot.admin.model.constants.SystemConstants.FILE_SEPARATOR;
 
 /**
  * <p>

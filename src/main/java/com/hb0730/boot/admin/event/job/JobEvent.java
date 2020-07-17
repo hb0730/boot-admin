@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.event.job;
 
-import com.hb0730.boot.admin.commons.constant.ActionEnum;
+import com.hb0730.boot.admin.model.enums.ActionEnum;
 import org.springframework.context.ApplicationEvent;
 
 import java.util.Collection;

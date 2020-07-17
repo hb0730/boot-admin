@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.project.system.org.service;
 
-import com.hb0730.boot.admin.commons.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.IBaseService;
 import com.hb0730.boot.admin.project.system.org.model.entity.SystemOrgEntity;
 import com.hb0730.boot.admin.project.system.org.model.vo.OrgParams;
 import com.hb0730.boot.admin.project.system.org.model.vo.SystemOrgVO;

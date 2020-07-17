@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.img.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hb0730.boot.admin.commons.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.IBaseService;
 import com.hb0730.boot.admin.oss.model.UploadResult;
 import com.hb0730.boot.admin.project.img.model.entity.BaseImgEntity;
 import com.hb0730.boot.admin.project.img.model.vo.BaseImgParams;

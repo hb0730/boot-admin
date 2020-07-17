@@ -3,7 +3,7 @@ package com.hb0730.boot.admin.utils.cache;
 import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.anno.method.SpringCacheContext;
 import com.alicp.jetcache.anno.support.CacheManager;
-import com.hb0730.boot.admin.commons.constant.RedisConstants;
+import com.hb0730.boot.admin.model.constants.RedisConstants;
 import org.springframework.lang.NonNull;
 
 /**

@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.project.system.menu.service;
 
-import com.hb0730.boot.admin.commons.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.IBaseService;
 import com.hb0730.boot.admin.project.system.menu.model.entity.SystemMenuEntity;
 import com.hb0730.boot.admin.project.system.menu.model.vo.SystemMenuParams;
 import com.hb0730.boot.admin.project.system.menu.model.vo.SystemMenuVO;

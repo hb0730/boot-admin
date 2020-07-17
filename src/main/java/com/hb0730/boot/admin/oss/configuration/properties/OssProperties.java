@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.oss.configuration.properties;
 
-import com.hb0730.boot.admin.commons.constant.enums.AttachmentTypeEnum;
+import com.hb0730.boot.admin.model.enums.AttachmentTypeEnum;
 import org.springframework.lang.Nullable;
 
 /**

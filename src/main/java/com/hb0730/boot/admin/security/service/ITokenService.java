@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.security.service;
 
-import com.hb0730.boot.admin.commons.constant.enums.TokenTypeEnum;
+import com.hb0730.boot.admin.model.enums.TokenTypeEnum;
 import com.hb0730.boot.admin.security.model.LoginUser;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetails;

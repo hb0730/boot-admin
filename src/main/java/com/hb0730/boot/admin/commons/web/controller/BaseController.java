@@ -1,12 +1,12 @@
 package com.hb0730.boot.admin.commons.web.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hb0730.boot.admin.commons.domain.model.domain.BusinessDomain;
-import com.hb0730.boot.admin.commons.domain.model.web.BaseParams;
-import com.hb0730.boot.admin.commons.domain.model.web.BusinessVO;
-import com.hb0730.boot.admin.commons.domain.result.ResponseResult;
-import com.hb0730.boot.admin.commons.domain.result.Result;
-import com.hb0730.boot.admin.commons.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.model.domain.BusinessDomain;
+import com.hb0730.boot.admin.domain.model.web.BaseParams;
+import com.hb0730.boot.admin.domain.model.web.BusinessVO;
+import com.hb0730.boot.admin.domain.result.ResponseResult;
+import com.hb0730.boot.admin.domain.result.Result;
+import com.hb0730.boot.admin.domain.service.IBaseService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,9 +23,10 @@ import java.util.List;
  * @param <ID> 类型
  * @param <E>  实体
  * @author bing_huang
+ * @see com.hb0730.boot.admin.domain.controller.AbstractBaseController
  * @since V1.0
  */
-
+@Deprecated
 public abstract class BaseController<P extends BaseParams, V extends BusinessVO, ID extends Serializable, E extends BusinessDomain> implements IBaseController<P, V, ID> {
     private final IBaseService<ID, P, V, E> service;
 

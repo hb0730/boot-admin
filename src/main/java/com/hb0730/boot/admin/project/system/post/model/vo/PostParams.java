@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.project.system.post.model.vo;
 
-import com.hb0730.boot.admin.commons.domain.model.web.BaseParams;
+import com.hb0730.boot.admin.domain.model.web.BaseParams;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

@@ -3,7 +3,7 @@ package com.hb0730.boot.admin.project.system.menu.utils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.hb0730.boot.admin.commons.constant.SystemConstants;
+import com.hb0730.boot.admin.model.constants.SystemConstants;
 import com.hb0730.boot.admin.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.utils.spring.SecurityUtils;
 import com.hb0730.boot.admin.utils.spring.SpringUtils;

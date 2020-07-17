@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.sms.service;
 
-import com.hb0730.boot.admin.commons.constant.enums.SmsTypeEnum;
+import com.hb0730.boot.admin.model.enums.SmsTypeEnum;
 import com.hb0730.boot.admin.sms.properties.SmsProperties;
 import org.springframework.lang.NonNull;
 

@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.project.system.user.model.dto;
 
-import com.hb0730.boot.admin.commons.domain.model.domain.BusinessDomain;
+import com.hb0730.boot.admin.domain.model.domain.BusinessDomain;
 import com.hb0730.boot.admin.project.system.permission.model.dto.SystemPermissionDTO;
 import com.hb0730.boot.admin.project.system.post.model.dto.SystemPostDTO;
 import com.hb0730.boot.admin.project.system.role.model.dto.SystemRoleDTO;

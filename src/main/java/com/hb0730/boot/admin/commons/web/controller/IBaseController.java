@@ -1,9 +1,9 @@
 package com.hb0730.boot.admin.commons.web.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hb0730.boot.admin.commons.domain.model.web.BaseParams;
-import com.hb0730.boot.admin.commons.domain.model.web.BusinessVO;
-import com.hb0730.boot.admin.commons.domain.result.Result;
+import com.hb0730.boot.admin.domain.model.web.BaseParams;
+import com.hb0730.boot.admin.domain.model.web.BusinessVO;
+import com.hb0730.boot.admin.domain.result.Result;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,10 +20,12 @@ import java.util.List;
  * @param <TYPE> 类型
  * @author bing_huang
  * @date 2020/07/14 7:16
+ * @see com.hb0730.boot.admin.domain.controller.AbstractBaseController
  * @since V1.0
  */
 @SuppressWarnings({"rawtypes"})
 @Validated
+@Deprecated
 public interface IBaseController<P extends BaseParams, V extends BusinessVO, TYPE> {
 
     /**

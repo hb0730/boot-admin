@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.event.dict;
 
-import com.hb0730.boot.admin.commons.constant.ActionEnum;
+import com.hb0730.boot.admin.model.enums.ActionEnum;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;

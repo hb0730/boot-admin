@@ -2,7 +2,7 @@ package com.hb0730.boot.admin.aspectj;
 
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.annotation.Log;
-import com.hb0730.boot.admin.commons.constant.enums.SystemStatusEnum;
+import com.hb0730.boot.admin.model.enums.SystemStatusEnum;
 import com.hb0730.boot.admin.utils.MessageUtils;
 import com.hb0730.boot.admin.utils.ServletUtils;
 import com.hb0730.boot.admin.utils.ip.IpUtils;
