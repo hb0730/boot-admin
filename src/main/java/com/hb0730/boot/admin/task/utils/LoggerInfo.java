@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.task.utils;
 
 import com.hb0730.boot.admin.commons.constant.enums.SystemStatusEnum;
-import com.hb0730.boot.admin.commons.utils.ExceptionUtil;
+import com.hb0730.boot.admin.utils.ExceptionUtil;
 import com.hb0730.boot.admin.manager.AsyncManager;
 import com.hb0730.boot.admin.manager.factory.AsyncFactory;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobLogEntity;

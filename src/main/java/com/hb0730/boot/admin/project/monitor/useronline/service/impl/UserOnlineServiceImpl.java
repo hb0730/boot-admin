@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.monitor.useronline.service.impl;
 
 import com.google.common.collect.Lists;
-import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
+import com.hb0730.boot.admin.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.project.monitor.useronline.model.vo.ParamsVO;
 import com.hb0730.boot.admin.project.monitor.useronline.model.vo.UserOnlineVO;

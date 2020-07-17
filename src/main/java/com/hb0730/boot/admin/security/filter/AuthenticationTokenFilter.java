@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.security.filter;
 
-import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
+import com.hb0730.boot.admin.utils.spring.SecurityUtils;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.security.model.LoginUser;
 import com.hb0730.boot.admin.security.service.ITokenService;

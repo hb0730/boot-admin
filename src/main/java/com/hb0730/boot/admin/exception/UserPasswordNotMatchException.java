@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.exception;
 
-import com.hb0730.boot.admin.commons.utils.MessageUtils;
+import com.hb0730.boot.admin.utils.MessageUtils;
 
 /**
  * <p>

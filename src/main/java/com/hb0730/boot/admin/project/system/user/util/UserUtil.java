@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.system.user.util;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
+import com.hb0730.boot.admin.utils.spring.SpringUtils;
 import com.hb0730.boot.admin.project.system.user.mapper.SystemUserMapper;
 import com.hb0730.boot.admin.project.system.user.model.entity.SystemUserEntity;
 import org.springframework.lang.NonNull;

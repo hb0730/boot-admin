@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.task.spring;
 
-import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
+import com.hb0730.boot.admin.utils.spring.SpringUtils;
 import com.hb0730.boot.admin.task.utils.JobInvokeUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.configuration;
 
-import com.hb0730.boot.admin.commons.utils.Threads;
+import com.hb0730.boot.admin.utils.Threads;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

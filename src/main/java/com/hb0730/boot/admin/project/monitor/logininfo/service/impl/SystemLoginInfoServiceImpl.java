@@ -3,9 +3,9 @@ package com.hb0730.boot.admin.project.monitor.logininfo.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.commons.domain.service.impl.SuperBaseServiceImpl;
-import com.hb0730.boot.admin.commons.utils.PageUtils;
-import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
-import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
+import com.hb0730.boot.admin.utils.PageUtils;
+import com.hb0730.boot.admin.utils.QueryWrapperUtils;
+import com.hb0730.boot.admin.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.project.monitor.logininfo.mapper.ISystemLoginInfoMapper;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.dto.LoginInfoDTO;
 import com.hb0730.boot.admin.project.monitor.logininfo.model.entity.SystemLoginInfoEntity;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
-import static com.hb0730.boot.admin.commons.utils.QueryWrapperUtils.getQuery;
+import static com.hb0730.boot.admin.utils.QueryWrapperUtils.getQuery;
 
 /**
  * <p>

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hb0730.boot.admin.commons.domain.model.domain.BusinessDomain;
-import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
+import com.hb0730.boot.admin.utils.spring.SecurityUtils;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;

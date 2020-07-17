@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.security.service;
 
-import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
+import com.hb0730.boot.admin.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.project.system.user.model.dto.LoginUserDTO;
 import com.hb0730.boot.admin.security.model.LoginUser;
 import com.hb0730.boot.admin.project.system.user.service.ISystemUserService;

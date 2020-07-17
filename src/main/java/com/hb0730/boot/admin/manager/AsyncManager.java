@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.manager;
 
-import com.hb0730.boot.admin.commons.utils.Threads;
-import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
+import com.hb0730.boot.admin.utils.Threads;
+import com.hb0730.boot.admin.utils.spring.SpringUtils;
 import com.hb0730.boot.admin.task.spring.SchedulingRunnable;
 import com.hb0730.boot.admin.task.spring.TaskConstant;
 

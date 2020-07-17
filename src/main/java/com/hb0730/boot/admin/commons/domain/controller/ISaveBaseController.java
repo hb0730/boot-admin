@@ -3,7 +3,7 @@ package com.hb0730.boot.admin.commons.domain.controller;
 import com.hb0730.boot.admin.commons.domain.model.domain.BusinessDomain;
 import com.hb0730.boot.admin.commons.domain.model.web.BusinessVO;
 import com.hb0730.boot.admin.commons.domain.service.IBaseService;
-import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
+import com.hb0730.boot.admin.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.commons.domain.result.ResponseResult;
 import com.hb0730.boot.admin.commons.domain.result.Result;
 import org.springframework.validation.annotation.Validated;

@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 
 import static com.hb0730.boot.admin.commons.constant.SystemConstants.FILE_SEPARATOR;
 import static com.hb0730.boot.admin.commons.constant.SystemConstants.USER_HOME;
-import static com.hb0730.boot.admin.commons.utils.commons.StringUtils.ensureSuffix;
+import static com.hb0730.boot.admin.utils.commons.StringUtils.ensureSuffix;
 
 /**
  * <p>

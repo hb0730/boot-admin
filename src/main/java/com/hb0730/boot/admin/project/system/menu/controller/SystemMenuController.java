@@ -3,14 +3,14 @@ package com.hb0730.boot.admin.project.system.menu.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
-import com.hb0730.boot.admin.commons.annotation.Log;
+import com.hb0730.boot.admin.annotation.Log;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
 import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.commons.domain.result.ResponseResult;
 import com.hb0730.boot.admin.commons.domain.result.Result;
-import com.hb0730.boot.admin.commons.utils.spring.SecurityUtils;
+import com.hb0730.boot.admin.utils.spring.SecurityUtils;
 import com.hb0730.boot.admin.project.system.menu.model.entity.SystemMenuEntity;
 import com.hb0730.boot.admin.project.system.menu.model.vo.SystemMenuParams;
 import com.hb0730.boot.admin.project.system.menu.model.vo.SystemMenuVO;

@@ -3,7 +3,7 @@ package com.hb0730.boot.admin.project.img.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
-import com.hb0730.boot.admin.commons.annotation.Log;
+import com.hb0730.boot.admin.annotation.Log;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.web.controller.BaseController;

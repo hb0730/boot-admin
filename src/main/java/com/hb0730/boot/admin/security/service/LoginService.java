@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.security.service;
 
 import com.hb0730.boot.admin.commons.constant.enums.SystemStatusEnum;
-import com.hb0730.boot.admin.commons.utils.MessageUtils;
+import com.hb0730.boot.admin.utils.MessageUtils;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.exception.BaseException;
 import com.hb0730.boot.admin.exception.UserPasswordNotMatchException;

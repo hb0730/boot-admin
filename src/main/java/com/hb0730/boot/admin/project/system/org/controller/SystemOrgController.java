@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.system.org.controller;
 
 
-import com.hb0730.boot.admin.commons.annotation.Log;
+import com.hb0730.boot.admin.annotation.Log;
 import com.hb0730.boot.admin.commons.constant.ModuleName;
 import com.hb0730.boot.admin.commons.constant.RequestMappingNameConstants;
 import com.hb0730.boot.admin.commons.constant.enums.BusinessTypeEnum;

@@ -1,8 +1,8 @@
 package com.hb0730.boot.admin.task.utils;
 
-import com.hb0730.boot.admin.commons.utils.bean.BeanUtils;
-import com.hb0730.boot.admin.commons.utils.json.GsonUtils;
-import com.hb0730.boot.admin.commons.utils.spring.SpringUtils;
+import com.hb0730.boot.admin.utils.bean.BeanUtils;
+import com.hb0730.boot.admin.utils.json.GsonUtils;
+import com.hb0730.boot.admin.utils.spring.SpringUtils;
 import com.hb0730.boot.admin.task.spring.TaskConstant;
 import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
