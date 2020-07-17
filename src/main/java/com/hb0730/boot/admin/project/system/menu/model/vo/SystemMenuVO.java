@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.project.system.menu.model.vo;
 
-import com.hb0730.boot.admin.utils.convert.InputConverter;
+import com.hb0730.boot.admin.model.converter.InputConverter;
 import com.hb0730.boot.admin.domain.model.web.BusinessVO;
 import com.hb0730.boot.admin.project.system.menu.model.entity.SystemMenuEntity;
 import lombok.Data;

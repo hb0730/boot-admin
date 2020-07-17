@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.system.role.model.vo;
 
 import com.hb0730.boot.admin.domain.model.web.BusinessVO;
-import com.hb0730.boot.admin.utils.convert.InputConverter;
+import com.hb0730.boot.admin.model.converter.InputConverter;
 import com.hb0730.boot.admin.project.system.role.model.entity.SystemRoleEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

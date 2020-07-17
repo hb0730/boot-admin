@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.project.monitor.job.model.vo;
 
-import com.hb0730.boot.admin.utils.convert.InputConverter;
+import com.hb0730.boot.admin.model.converter.InputConverter;
 import com.hb0730.boot.admin.domain.model.web.BusinessVO;
 import com.hb0730.boot.admin.project.monitor.job.model.entity.SystemJobEntity;
 import lombok.Data;

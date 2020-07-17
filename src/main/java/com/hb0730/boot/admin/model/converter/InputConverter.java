@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.utils.convert;
+package com.hb0730.boot.admin.model.converter;
 
 import com.hb0730.boot.admin.utils.ReflectionUtils;
 import com.hb0730.boot.admin.utils.bean.BeanUtils;
