@@ -2,18 +2,19 @@ package com.hb0730.boot.admin.project.system.org.controller;
 
 
 import com.hb0730.boot.admin.annotation.Log;
-import com.hb0730.boot.admin.model.constants.ModuleName;
-import com.hb0730.boot.admin.model.constants.RequestMappingNameConstants;
-import com.hb0730.boot.admin.model.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.domain.result.ResponseResult;
 import com.hb0730.boot.admin.domain.result.Result;
+import com.hb0730.boot.admin.model.constants.ModuleName;
+import com.hb0730.boot.admin.model.constants.RequestMappingNameConstants;
+import com.hb0730.boot.admin.model.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.project.system.org.model.entity.SystemOrgEntity;
 import com.hb0730.boot.admin.project.system.org.model.vo.OrgParams;
 import com.hb0730.boot.admin.project.system.org.model.vo.SystemOrgVO;
 import com.hb0730.boot.admin.project.system.org.model.vo.TreeOrgVO;
 import com.hb0730.boot.admin.project.system.org.service.ISystemOrgService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(RequestMappingNameConstants.REQUEST_ORG)
+@Validated
 public class SystemOrgController extends AbstractBaseController<Long, SystemOrgVO, OrgParams, SystemOrgEntity> {
     private final ISystemOrgService systemOrgService;
 

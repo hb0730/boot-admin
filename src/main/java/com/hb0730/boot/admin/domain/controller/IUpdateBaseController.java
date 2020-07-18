@@ -5,6 +5,7 @@ import com.hb0730.boot.admin.domain.model.web.BusinessVO;
 import com.hb0730.boot.admin.domain.result.ResponseResult;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.service.IBaseService;
+import com.hb0730.boot.admin.utils.validator.ValidatorUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +35,7 @@ public interface IUpdateBaseController<ID extends Serializable, V extends Busine
     @PostMapping("/update/{id}")
     @SuppressWarnings({"rawtypes", "unchecked"})
     default Result<String> updateById(@PathVariable("id") ID id, @Validated @RequestBody V vo) {
+        ValidatorUtils.validate(vo);
         IBaseService service = getBaseService();
         if (null != service) {
             service.updateById(id, vo);

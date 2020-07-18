@@ -83,6 +83,7 @@ public class SystemOrgServiceImpl extends SuperBaseServiceImpl<Long, OrgParams, 
         if (SystemConstants.IS_ALL != isAll) {
             queryWrapper.eq(SystemMenuEntity.IS_ENABLED, isAll);
         }
+        queryWrapper.orderByAsc(SystemOrgEntity.SORT);
         List<SystemOrgEntity> entities = super.list(queryWrapper);
         return BeanUtils.transformFromInBatch(entities, SystemOrgVO.class);
     }
