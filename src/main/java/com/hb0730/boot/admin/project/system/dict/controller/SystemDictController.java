@@ -4,14 +4,14 @@ package com.hb0730.boot.admin.project.system.dict.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.annotation.Log;
-import com.hb0730.boot.admin.model.constants.ModuleName;
-import com.hb0730.boot.admin.model.constants.RequestMappingNameConstants;
-import com.hb0730.boot.admin.model.constants.SystemConstants;
-import com.hb0730.boot.admin.model.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.domain.result.ResponseResult;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.exception.BaseException;
+import com.hb0730.boot.admin.model.constants.ModuleName;
+import com.hb0730.boot.admin.model.constants.RequestMappingNameConstants;
+import com.hb0730.boot.admin.model.constants.SystemConstants;
+import com.hb0730.boot.admin.model.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.project.system.dict.model.entity.SystemDictEntity;
 import com.hb0730.boot.admin.project.system.dict.model.vo.DictParams;
 import com.hb0730.boot.admin.project.system.dict.model.vo.SystemDictVO;
@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,6 +37,7 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping(RequestMappingNameConstants.REQUEST_DICT)
+@Validated
 public class SystemDictController extends AbstractBaseController<Long, SystemDictVO, DictParams, SystemDictEntity> {
     private final ISystemDictService systemDictService;
 

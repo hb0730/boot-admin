@@ -4,12 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.hb0730.boot.admin.model.constants.SystemConstants;
 import com.hb0730.boot.admin.domain.service.impl.SuperBaseServiceImpl;
-import com.hb0730.boot.admin.utils.QueryWrapperUtils;
-import com.hb0730.boot.admin.utils.bean.BeanUtils;
-import com.hb0730.boot.admin.utils.spring.SecurityUtils;
 import com.hb0730.boot.admin.exception.BaseException;
+import com.hb0730.boot.admin.model.constants.SystemConstants;
 import com.hb0730.boot.admin.project.system.menu.mapper.ISystemMenuMapper;
 import com.hb0730.boot.admin.project.system.menu.model.entity.SystemMenuEntity;
 import com.hb0730.boot.admin.project.system.menu.model.vo.SystemMenuParams;
@@ -17,6 +14,9 @@ import com.hb0730.boot.admin.project.system.menu.model.vo.SystemMenuVO;
 import com.hb0730.boot.admin.project.system.menu.model.vo.TreeMenuVO;
 import com.hb0730.boot.admin.project.system.menu.service.ISystemMenuService;
 import com.hb0730.boot.admin.project.system.menu.utils.MenuUtils;
+import com.hb0730.boot.admin.utils.QueryWrapperUtils;
+import com.hb0730.boot.admin.utils.bean.BeanUtils;
+import com.hb0730.boot.admin.utils.spring.SecurityUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,7 +76,8 @@ public class SystemMenuServiceImpl extends SuperBaseServiceImpl<Long, SystemMenu
         if (SystemConstants.IS_ALL != isAll) {
             queryWrapper.eq(SystemMenuEntity.IS_ENABLED, isAll);
         }
-        List<SystemMenuEntity> entities = list(queryWrapper);
+        queryWrapper.orderByAsc(SystemMenuEntity.SORT);
+        List<SystemMenuEntity> entities = super.list(queryWrapper);
         return BeanUtils.transformFromInBatch(entities, SystemMenuVO.class);
     }
 

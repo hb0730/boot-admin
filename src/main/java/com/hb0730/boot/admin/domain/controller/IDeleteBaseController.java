@@ -19,7 +19,7 @@ import java.util.List;
  * @param <ID> id类型
  * @author bing_huang
  * @date 2020/07/15 9:29
- * @since V1.0
+ * @since V2.0
  */
 public interface IDeleteBaseController<ID extends Serializable, ENTITY extends BusinessDomain> extends IBaseController<ENTITY> {
 

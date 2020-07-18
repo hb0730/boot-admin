@@ -17,7 +17,7 @@ import java.lang.reflect.ParameterizedType;
  * @param <ENTITY> 实体类型
  * @author bing_huang
  * @date 2020/07/15 9:40
- * @since V1.0
+ * @since V2.0
  */
 public abstract class AbstractBaseController<ID extends Serializable,
         V extends BusinessVO,

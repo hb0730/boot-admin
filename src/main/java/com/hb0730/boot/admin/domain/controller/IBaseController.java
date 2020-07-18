@@ -4,9 +4,11 @@ import com.hb0730.boot.admin.domain.model.domain.BusinessDomain;
 import com.hb0730.boot.admin.domain.service.IBaseService;
 
 /**
+ * 基础
+ *
  * @author bing_huang
  * @date 2020/07/15 9:16
- * @since V1.0
+ * @since V2.0
  */
 @SuppressWarnings({"rawtypes"})
 interface IBaseController<ENTITY extends BusinessDomain> {

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @param <ENTITY> 实体类型
  * @author bing_huang
  * @date 2020/07/15 9:20
- * @since V1.0
+ * @since V2.0
  */
 public interface ISaveBaseController<V extends BusinessVO, ENTITY extends BusinessDomain> extends IBaseController<ENTITY> {
     /**

@@ -20,7 +20,7 @@ import java.io.Serializable;
  * @param <ENTITY> 实体类型
  * @author bing_huang
  * @date 2020/07/15 9:24
- * @since V1.0
+ * @since V2.0
  */
 public interface IUpdateBaseController<ID extends Serializable, V extends BusinessVO, ENTITY extends BusinessDomain> extends IBaseController<ENTITY> {
 
