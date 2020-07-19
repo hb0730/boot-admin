@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.TimerTask;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -58,9 +59,40 @@ public class InMemoryCacheStore<K, V> extends AbstractCacheStore<K, V> {
 
     @Nonnull
     @Override
+    public Optional<V> get(@Nonnull K key) {
+        lock.lock();
+        try {
+            return super.get(key);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Nonnull
+    @Override
     public Optional<CacheWrapper<V>> getInternal(@Nonnull K key) {
         Assert.notNull(key, "Cache key must not be blank");
         return Optional.ofNullable(cache_container.get(key));
+    }
+
+    @Override
+    public void put(@Nonnull K key, @Nonnull V value) {
+        lock.lock();
+        try {
+            super.put(key, value);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public void put(@Nonnull K key, @Nonnull V value, long timeout, @Nonnull TimeUnit timeUnit) {
+        lock.lock();
+        try {
+            super.put(key, value, timeout, timeUnit);
+        } finally {
+            lock.unlock();
+        }
     }
 
     @Override
