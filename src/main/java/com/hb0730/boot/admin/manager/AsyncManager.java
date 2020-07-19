@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.manager;
 
-import com.hb0730.boot.admin.utils.Threads;
+import com.hb0730.boot.admin.utils.ThreadUtils;
 import com.hb0730.boot.admin.utils.spring.SpringUtils;
 import com.hb0730.boot.admin.task.spring.SchedulingRunnable;
 import com.hb0730.boot.admin.task.spring.TaskConstant;
@@ -63,6 +63,6 @@ public class AsyncManager {
      * 停止任务线程池
      */
     public void shutdown() {
-        Threads.shutdownAndAwaitTermination(executor);
+        ThreadUtils.shutdownAndAwaitTermination(executor);
     }
 }

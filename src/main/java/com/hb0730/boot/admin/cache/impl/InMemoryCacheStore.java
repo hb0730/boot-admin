@@ -1,15 +1,18 @@
-package com.hb0730.boot.admin.cache;
+package com.hb0730.boot.admin.cache.impl;
 
+import com.hb0730.boot.admin.cache.CacheWrapper;
+import com.hb0730.boot.admin.cache.GlobalPruneTimer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import javax.annotation.Nonnull;
 import javax.annotation.PreDestroy;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
-import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -30,34 +33,42 @@ public class InMemoryCacheStore<K, V> extends AbstractCacheStore<K, V> {
     /**
      * Cache container.
      */
-    private final ConcurrentHashMap<K, CacheWrapper<V>> CACHE_CONTAINER = new ConcurrentHashMap<>();
+    private final Map<K, CacheWrapper<V>> cache_container;
     /**
      * Lock.
      */
     private final Lock lock = new ReentrantLock();
 
-    private final Timer timer;
+    /**
+     * 正在执行的定时任务
+     */
+    private final ScheduledFuture<?> pruneJobFuture;
+
 
     public InMemoryCacheStore() {
-        // Run a cache store cleaner
-        this.timer = new Timer();
-        timer.scheduleAtFixedRate(new CacheExpiryCleaner(), 0, PERIOD);
+        this(new HashMap<>());
     }
+
+    public InMemoryCacheStore(Map<K, CacheWrapper<V>> concurrentHashMap) {
+        this.cache_container = concurrentHashMap;
+        this.pruneJobFuture = GlobalPruneTimer.INSTANCE.schedule(new CacheExpiryCleaner(), PERIOD);
+
+    }
+
 
     @Nonnull
     @Override
     public Optional<CacheWrapper<V>> getInternal(@Nonnull K key) {
         Assert.notNull(key, "Cache key must not be blank");
-        return Optional.ofNullable(CACHE_CONTAINER.get(key));
+        return Optional.ofNullable(cache_container.get(key));
     }
 
     @Override
     public void putInternal(@Nonnull K key, @Nonnull CacheWrapper<V> cacheWrapper) {
         Assert.notNull(key, "Cache key must not be blank");
         Assert.notNull(cacheWrapper, "Cache wrapper must not be null");
-
         // Put the cache wrapper
-        CACHE_CONTAINER.put(key, cacheWrapper);
+        cache_container.put(key, cacheWrapper);
 
     }
 
@@ -86,18 +97,20 @@ public class InMemoryCacheStore<K, V> extends AbstractCacheStore<K, V> {
     @Override
     public void delete(@Nonnull K key) {
         Assert.notNull(key, "Cache key must not be blank");
-        CACHE_CONTAINER.remove(key);
+        cache_container.remove(key);
     }
 
 
     @PreDestroy
     public void preDestroy() {
-        timer.cancel();
+        if (null != pruneJobFuture) {
+            pruneJobFuture.cancel(true);
+        }
         clear();
     }
 
     private void clear() {
-        CACHE_CONTAINER.clear();
+        cache_container.clear();
     }
 
     /**
@@ -110,7 +123,7 @@ public class InMemoryCacheStore<K, V> extends AbstractCacheStore<K, V> {
 
         @Override
         public void run() {
-            CACHE_CONTAINER.keySet().forEach(key -> {
+            cache_container.keySet().forEach(key -> {
                 if (InMemoryCacheStore.this.get(key).isEmpty()) {
                     LOGGER.debug("Deleted the cache: [{}] for expiration", key);
                 }

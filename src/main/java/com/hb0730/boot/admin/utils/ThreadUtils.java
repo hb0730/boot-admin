@@ -13,8 +13,39 @@ import java.util.concurrent.*;
  * @author bing_huang
  * @since V1.0
  */
-public class Threads {
-    private static final Logger logger = LoggerFactory.getLogger(Threads.class);
+public class ThreadUtils {
+    private static final Logger logger = LoggerFactory.getLogger(ThreadUtils.class);
+
+    /**
+     * 创建新线程，非守护线程，正常优先级，线程组与当前线程的线程组一致
+     *
+     * @param runnable {@link Runnable}
+     * @param name     线程名
+     * @return {@link Thread}
+     * @since 3.1.2
+     */
+    public static Thread newThread(Runnable runnable, String name) {
+        final Thread t = newThread(runnable, name, false);
+        if (t.getPriority() != Thread.NORM_PRIORITY) {
+            t.setPriority(Thread.NORM_PRIORITY);
+        }
+        return t;
+    }
+
+    /**
+     * 创建新线程
+     *
+     * @param runnable {@link Runnable}
+     * @param name     线程名
+     * @param isDaemon 是否守护线程
+     * @return {@link Thread}
+     * @since 4.1.2
+     */
+    public static Thread newThread(Runnable runnable, String name, boolean isDaemon) {
+        final Thread t = new Thread(null, runnable, name);
+        t.setDaemon(isDaemon);
+        return t;
+    }
 
     /**
      * sleep等待,单位为毫秒

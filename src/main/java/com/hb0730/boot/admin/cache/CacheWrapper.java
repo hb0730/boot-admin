@@ -17,7 +17,7 @@ import java.util.Date;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-class CacheWrapper<V> implements Serializable {
+public class CacheWrapper<V> implements Serializable {
     /**
      * Cache data
      */

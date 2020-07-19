@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.configuration;
 
-import com.hb0730.boot.admin.utils.Threads;
+import com.hb0730.boot.admin.utils.ThreadUtils;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -69,7 +69,7 @@ public class ThreadPoolConfig {
             @Override
             protected void afterExecute(Runnable r, Throwable t) {
                 super.afterExecute(r, t);
-                Threads.printException(r, t);
+                ThreadUtils.printException(r, t);
             }
         };
     }

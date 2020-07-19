@@ -1,5 +1,7 @@
-package com.hb0730.boot.admin.cache;
+package com.hb0730.boot.admin.cache.impl;
 
+import com.hb0730.boot.admin.cache.CacheStore;
+import com.hb0730.boot.admin.cache.CacheWrapper;
 import com.hb0730.boot.admin.utils.lang.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,7 +95,7 @@ public abstract class AbstractCacheStore<K, V> implements CacheStore<K, V> {
      */
     private CacheWrapper<V> buildCacheWrapper(@Nonnull V value, Long timeout, @Nullable TimeUnit timeUnit) {
         Assert.notNull(value, "cache value must not be null");
-        Assert.isTrue(timeout >= 0, "cache expiration timout must not be less than 1");
+        Assert.isTrue(timeout >= -1, "cache expiration timout must not be less than 1");
         Date now = DateUtils.now();
         Date expireAt = null;
         if (timeout > 0 && timeUnit != null) {
