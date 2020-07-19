@@ -28,7 +28,7 @@ public class InMemoryCacheStore<K, V> extends AbstractCacheStore<K, V> {
     /**
      * Cleaner schedule period. (ms)
      */
-    private final static long PERIOD = 60 * 1000;
+    private final static long PERIOD = 5;
 
     /**
      * Cache container.
