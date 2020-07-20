@@ -54,7 +54,19 @@ public class RedisSpringDataCache<K, V> extends AbstractCache<K, V> {
 
     @Override
     void putInternal(@Nonnull K key, @Nonnull CacheWrapper<V> cacheWrapper) {
-
+        Assert.notNull(key, "Cache key must not be blank");
+        Assert.notNull(cacheWrapper, "Cache wrapper must not be null");
+        RedisConnection connection = null;
+        try {
+            byte[] keyByte = buildKey(key);
+            connection = connectionFactory.getConnection();
+            // 序列化
+            connection.pSetEx(keyByte, cacheWrapper.getExpireAt().getTime(), null);
+        } catch (Exception e) {
+            LOGGER.error("put error", e);
+        } finally {
+            closeConnection(connection);
+        }
     }
 
     @Override
@@ -64,7 +76,17 @@ public class RedisSpringDataCache<K, V> extends AbstractCache<K, V> {
 
     @Override
     public void delete(@Nonnull K key) {
-
+        Assert.notNull(key, "Cache key must not be null");
+        RedisConnection connection = null;
+        try {
+            byte[] keyByte = buildKey(key);
+            connection = connectionFactory.getConnection();
+            connection.del(keyByte);
+        } catch (Exception e) {
+            LOGGER.error("delete error", e);
+        } finally {
+            closeConnection(connection);
+        }
     }
 
     private void closeConnection(RedisConnection connection) {
