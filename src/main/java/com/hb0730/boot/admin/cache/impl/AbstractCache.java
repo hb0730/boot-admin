@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.cache.impl;
 
-import com.hb0730.boot.admin.cache.CacheStore;
+import com.hb0730.boot.admin.cache.Cache;
 import com.hb0730.boot.admin.cache.CacheWrapper;
 import com.hb0730.boot.admin.utils.lang.DateUtils;
 import org.slf4j.Logger;
@@ -20,14 +20,14 @@ import java.util.concurrent.TimeUnit;
  * @date 2020/07/18 13:23
  * @since V1.0
  */
-public abstract class AbstractCacheStore<K, V> implements CacheStore<K, V> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCacheStore.class);
+public abstract class AbstractCache<K, V> implements Cache<K, V> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCache.class);
 
     /**
      * 根据key获取缓存包装
      *
      * @param key 缓存key 不为null
-     * @return cache wrepper
+     * @return cache wrapper
      */
     @Nonnull
     abstract Optional<CacheWrapper<V>> getInternal(@Nonnull K key);
@@ -41,11 +41,11 @@ public abstract class AbstractCacheStore<K, V> implements CacheStore<K, V> {
     abstract void putInternal(@Nonnull K key, @Nonnull CacheWrapper<V> cacheWrapper);
 
     /**
-     * 设置缓存 , key 存在则设置时效缓存，否则不操作
+     * 设置缓存 ,key 如果不存在设置缓存,
      *
      * @param key          缓存key,不为null
      * @param cacheWrapper cache wrapper,不为null
-     * @return true:缓存key存在并已重新设置;false:缓存key不存在;null:其他原因
+     * @return true:缓存key不存在并已重新设置;false:缓存前key存在;null:其他原因
      */
     abstract Boolean putInternalIfAbsent(@Nonnull K key, @Nonnull CacheWrapper<V> cacheWrapper);
 

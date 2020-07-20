@@ -8,12 +8,11 @@ import org.springframework.util.Assert;
 
 import javax.annotation.Nonnull;
 import javax.annotation.PreDestroy;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TimerTask;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -24,7 +23,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @date 2020/07/18 21:20
  * @since V1.0
  */
-public class InMemoryCacheStore<K, V> extends AbstractCacheStore<K, V> {
+public class InMemoryCacheStore<K, V> extends AbstractCache<K, V> {
     public static final Logger LOGGER = LoggerFactory.getLogger(InMemoryCacheStore.class);
     /**
      * Cleaner schedule period. (ms)
@@ -34,7 +33,7 @@ public class InMemoryCacheStore<K, V> extends AbstractCacheStore<K, V> {
     /**
      * Cache container.
      */
-    private final Map<K, CacheWrapper<V>> cache_container;
+    private final Map<K, CacheWrapper<V>> cache_container = new ConcurrentHashMap<>();
     /**
      * Lock.
      */
@@ -47,25 +46,7 @@ public class InMemoryCacheStore<K, V> extends AbstractCacheStore<K, V> {
 
 
     public InMemoryCacheStore() {
-        this(new HashMap<>());
-    }
-
-    public InMemoryCacheStore(Map<K, CacheWrapper<V>> concurrentHashMap) {
-        this.cache_container = concurrentHashMap;
         this.pruneJobFuture = GlobalPruneTimer.INSTANCE.schedule(new CacheExpiryCleaner(), PERIOD);
-
-    }
-
-
-    @Nonnull
-    @Override
-    public Optional<V> get(@Nonnull K key) {
-        lock.lock();
-        try {
-            return super.get(key);
-        } finally {
-            lock.unlock();
-        }
     }
 
     @Nonnull
@@ -76,32 +57,12 @@ public class InMemoryCacheStore<K, V> extends AbstractCacheStore<K, V> {
     }
 
     @Override
-    public void put(@Nonnull K key, @Nonnull V value) {
-        lock.lock();
-        try {
-            super.put(key, value);
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    @Override
-    public void put(@Nonnull K key, @Nonnull V value, long timeout, @Nonnull TimeUnit timeUnit) {
-        lock.lock();
-        try {
-            super.put(key, value, timeout, timeUnit);
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    @Override
     public void putInternal(@Nonnull K key, @Nonnull CacheWrapper<V> cacheWrapper) {
         Assert.notNull(key, "Cache key must not be blank");
         Assert.notNull(cacheWrapper, "Cache wrapper must not be null");
         // Put the cache wrapper
-        cache_container.put(key, cacheWrapper);
-
+        CacheWrapper<V> wrapper = cache_container.put(key, cacheWrapper);
+        LOGGER.debug("put[{}] cache result:[{}],original  cache wrapper: [{}]", key, wrapper, cacheWrapper);
     }
 
     @Override
@@ -115,6 +76,7 @@ public class InMemoryCacheStore<K, V> extends AbstractCacheStore<K, V> {
             Optional<V> valueOptional = get(key);
 
             if (valueOptional.isPresent()) {
+                LOGGER.warn("Failed to put the cache, because the key: [{}] has been present already", key);
                 return false;
             }
 
@@ -130,6 +92,7 @@ public class InMemoryCacheStore<K, V> extends AbstractCacheStore<K, V> {
     public void delete(@Nonnull K key) {
         Assert.notNull(key, "Cache key must not be blank");
         cache_container.remove(key);
+        LOGGER.debug("removed key [{}]", key);
     }
 
 
@@ -156,7 +119,7 @@ public class InMemoryCacheStore<K, V> extends AbstractCacheStore<K, V> {
         @Override
         public void run() {
             cache_container.keySet().forEach(key -> {
-                if (InMemoryCacheStore.this.get(key).isEmpty()) {
+                if (InMemoryCacheStore.this.get(key).isPresent()) {
                     LOGGER.debug("Deleted the cache: [{}] for expiration", key);
                 }
             });

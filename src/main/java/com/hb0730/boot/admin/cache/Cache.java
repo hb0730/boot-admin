@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2020/07/18 13:03
  * @since V2.0
  */
-public interface CacheStore<K, V> {
+public interface Cache<K, V> {
     /**
      * 根据key获取
      *
@@ -35,13 +35,13 @@ public interface CacheStore<K, V> {
     void put(@Nonnull K key, @Nonnull V value, long timeout, @Nonnull TimeUnit timeUnit);
 
     /**
-     * 设置缓存 , key 存在则设置时效缓存，否则不操作
+     * 设置缓存 , key不存在则设置时效缓存，否则不操作
      *
      * @param key      缓存key,不为null
      * @param value    缓存value,不为null
      * @param timeout  过期时长,不能小于1
      * @param timeUnit 时间类型,不为null
-     * @return true:缓存key存在并已重新设置;false:缓存key不存在;null:其他原因
+     * @return true:缓存key不存在并已重新设置;false:缓存前key存在;null:其他原因
      */
     Boolean putIfAbsent(@Nonnull K key, @Nonnull V value, long timeout, @Nonnull TimeUnit timeUnit);
 
