@@ -42,6 +42,7 @@
         <aliyun.sdk.oss.version>3.8.0</aliyun.sdk.oss.version>
         <aliyun.sdk.sms.version>4.5.1</aliyun.sdk.sms.version>
         <easyexcel.version>2.1.6</easyexcel.version>
+        <hutool.version>5.3.9</hutool.version>
     </properties>
 
     <dependencies>
@@ -213,7 +214,12 @@
             <groupId>com.sun.mail</groupId>
             <artifactId>jakarta.mail</artifactId>
         </dependency>
-
+        <!--hutool-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
