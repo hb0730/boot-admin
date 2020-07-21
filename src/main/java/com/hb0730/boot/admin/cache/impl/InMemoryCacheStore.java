@@ -75,6 +75,7 @@ public class InMemoryCacheStore<K, V> extends AbstractCache<K, V> {
             // Get the value before
             Optional<V> valueOptional = get(key);
 
+            // key存在
             if (valueOptional.isPresent()) {
                 LOGGER.warn("Failed to put the cache, because the key: [{}] has been present already", key);
                 return false;

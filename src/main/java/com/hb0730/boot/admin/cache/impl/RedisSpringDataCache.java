@@ -1,5 +1,7 @@
 package com.hb0730.boot.admin.cache.impl;
 
+import cn.hutool.core.date.DateUnit;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.hb0730.boot.admin.cache.CacheWrapper;
 import com.hb0730.boot.admin.cache.support.redis.springdata.RedisSpringDataCacheConfig;
@@ -40,6 +42,7 @@ public class RedisSpringDataCache<K, V> extends AbstractCache<K, V> {
 
     public RedisSpringDataCache(RedisConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
+        Assert.notNull(connectionFactory, "connectionFactory is required");
     }
 
     @Nonnull
@@ -75,7 +78,8 @@ public class RedisSpringDataCache<K, V> extends AbstractCache<K, V> {
             connection = connectionFactory.getConnection();
             byte[] keyByte = buildKey(key);
             byte[] valueBytes = ObjectUtil.serialize(cacheWrapper);
-            connection.pSetEx(keyByte, cacheWrapper.getExpireAt().getTime(), valueBytes);
+            long expireAt = DateUtil.between(cacheWrapper.getCreateAt(), cacheWrapper.getExpireAt(), DateUnit.MS);
+            connection.pSetEx(keyByte, expireAt, valueBytes);
             LOGGER.debug("put success then key [{}]", key);
         } catch (Exception e) {
             LOGGER.error("put error", e);
@@ -93,9 +97,12 @@ public class RedisSpringDataCache<K, V> extends AbstractCache<K, V> {
             connection = connectionFactory.getConnection();
             byte[] newkey = buildKey(key);
             byte[] valueByte = ObjectUtil.serialize(cacheWrapper);
-            connection.set(newkey, valueByte, Expiration.from(cacheWrapper.getExpireAt().getTime(), TimeUnit.MILLISECONDS), RedisStringCommands.SetOption.ifAbsent());
-            LOGGER.debug("put_is_absent success,then key [{}] ", key);
-            return true;
+            long expireAt = DateUtil.between(cacheWrapper.getCreateAt(), cacheWrapper.getExpireAt(), DateUnit.MS);
+            Boolean result = connection.set(newkey, valueByte,
+                    Expiration.from(expireAt, TimeUnit.MILLISECONDS),
+                    RedisStringCommands.SetOption.ifAbsent());
+            LOGGER.debug("put_is_absent success,then key [{}] result:[{}]", key, result);
+            return result;
         } catch (Exception e) {
             LOGGER.error("put_if_absent error", e);
         } finally {

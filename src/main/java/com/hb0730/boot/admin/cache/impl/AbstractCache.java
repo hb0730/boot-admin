@@ -100,6 +100,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
         Date expireAt = null;
         if (timeout > 0 && timeUnit != null) {
             expireAt = DateUtils.add(now, timeout, timeUnit);
+        } else if (timeout <= 0) {
+            expireAt = org.apache.commons.lang3.time.DateUtils.addYears(now, 999);
         }
 
         // Build cache wrapper
