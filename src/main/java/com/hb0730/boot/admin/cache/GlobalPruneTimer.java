@@ -2,6 +2,7 @@ package com.hb0730.boot.admin.cache;
 
 import com.hb0730.boot.admin.utils.ThreadUtils;
 
+import javax.annotation.PreDestroy;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -63,6 +64,7 @@ public enum GlobalPruneTimer {
     /**
      * 销毁全局定时器
      */
+    @PreDestroy
     public void shutdown() {
         if (null != pruneTimer) {
             pruneTimer.shutdown();

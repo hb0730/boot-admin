@@ -14,13 +14,6 @@ import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.util.Assert;
 
 import javax.annotation.Nonnull;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -49,6 +42,7 @@ public class RedisSpringDataCache<K, V> extends AbstractCache<K, V> {
     @Override
     @SuppressWarnings({"unchecked"})
     Optional<CacheWrapper<V>> getInternal(@Nonnull K key) {
+        Assert.notNull(key, "Cache key must not be null");
         RedisConnection connection = null;
         try {
             connection = connectionFactory.getConnection();
@@ -125,34 +119,6 @@ public class RedisSpringDataCache<K, V> extends AbstractCache<K, V> {
         } finally {
             closeConnection(connection);
         }
-    }
-
-
-    protected byte[] buildKey(K key) throws IOException {
-        Assert.notNull(key, "key must not null");
-        byte[] keyBytesWithOutPrefix = null;
-        if (key instanceof String) {
-            keyBytesWithOutPrefix = key.toString().getBytes(StandardCharsets.UTF_8);
-        } else if (key instanceof byte[]) {
-            keyBytesWithOutPrefix = (byte[]) key;
-        } else if (key instanceof Number) {
-            keyBytesWithOutPrefix = (((Object) key).getClass().getSimpleName() + key).getBytes(StandardCharsets.UTF_8);
-        } else if (key instanceof Date) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss,SSS");
-            keyBytesWithOutPrefix = (((Object) key).getClass().getSimpleName() + sdf.format(key)).getBytes();
-        } else if (key instanceof Boolean) {
-            keyBytesWithOutPrefix = key.toString().getBytes(StandardCharsets.UTF_8);
-        } else if (key instanceof Serializable) {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ObjectOutputStream os = new ObjectOutputStream(bos);
-            os.writeObject(key);
-            os.close();
-            bos.close();
-            keyBytesWithOutPrefix = bos.toByteArray();
-        } else {
-            Assert.isTrue(true, "can't convert key of class:" + ((Object) key).getClass());
-        }
-        return keyBytesWithOutPrefix;
     }
 
 
