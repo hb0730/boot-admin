@@ -30,4 +30,12 @@ public interface Serializer<T> {
      */
     @Nullable
     T deserialize(@Nullable byte[] bytes) throws Exception;
+
+
+    default void writeHeader(byte[] buf, int header) {
+        buf[0] = (byte) (header >> 24 & 0xFF);
+        buf[1] = (byte) (header >> 16 & 0xFF);
+        buf[2] = (byte) (header >> 8 & 0xFF);
+        buf[3] = (byte) (header & 0xFF);
+    }
 }
