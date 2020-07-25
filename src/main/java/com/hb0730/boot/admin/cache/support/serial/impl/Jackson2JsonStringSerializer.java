@@ -67,7 +67,7 @@ public class Jackson2JsonStringSerializer extends AbstractSerializer<String> {
             bos.flush();
             return bos.toByteArray();
         } catch (Exception e) {
-            throw new BootCacheException("jackson erialize error", e);
+            throw new BootCacheException("jackson serializer error", e);
         }
     }
 }
