@@ -38,12 +38,14 @@ public abstract class AbstractSerializer<T> implements Serializer<T> {
         return x;
     }
 
+
     protected abstract T doDeserialize(@Nullable byte[] buffer) throws Exception;
+
 
     @Nullable
     @Override
     public T deserialize(@Nullable byte[] buffer) throws Exception {
-        if (buffer == null) {
+        if (buffer == null || 0 == buffer.length) {
             return null;
         }
         try {
@@ -52,10 +54,8 @@ public abstract class AbstractSerializer<T> implements Serializer<T> {
                 int identityNumber = parseHeader(buffer);
                 Serializer<?> serializer = GlobalSerializeMap.get(identityNumber);
                 Objects.requireNonNull(serializer, "no deserialize for identity number:" + identityNumber);
-                return doDeserialize(buffer);
-            } else {
-                return doDeserialize(buffer);
             }
+            return doDeserialize(buffer);
         } catch (Exception e) {
             throw new BootCacheException("decode error", e);
         }

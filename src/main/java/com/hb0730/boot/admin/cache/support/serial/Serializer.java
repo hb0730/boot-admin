@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
  * @since V1.0
  */
 public interface Serializer<T> {
-
+    static final byte[] EMPTY_ARRAY = new byte[0];
     /**
      * 序列化
      *

@@ -31,6 +31,9 @@ public class JdkCacheSerializer extends AbstractSerializer<Object> {
     @Nullable
     @Override
     public byte[] serialize(@Nullable Object value) throws Exception {
+        if (null == value) {
+            return EMPTY_ARRAY;
+        }
         try {
             WeakReference<ByteArrayOutputStream> ref = threadLocal.get();
             ByteArrayOutputStream bos = ref.get();
@@ -62,7 +65,7 @@ public class JdkCacheSerializer extends AbstractSerializer<Object> {
 
     @Override
     protected Object doDeserialize(@Nullable byte[] buffer) throws Exception {
-        if (null == buffer) {
+        if (null == buffer || 0 == buffer.length) {
             return null;
         }
         ByteArrayInputStream in;

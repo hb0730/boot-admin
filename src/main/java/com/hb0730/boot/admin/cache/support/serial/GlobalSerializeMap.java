@@ -33,7 +33,7 @@ public class GlobalSerializeMap {
         if (null == serializerMap) {
             serializerMap = new ConcurrentHashMap<>();
         } else {
-            Assert.notNull(serializerMap.get(identityNumber), "identityNumber Already exists");
+            Assert.isNull(serializerMap.get(identityNumber), "identityNumber Already exists");
         }
         serializerMap.put(identityNumber, serializer);
     }
@@ -54,7 +54,7 @@ public class GlobalSerializeMap {
     private static boolean isInit = false;
 
     static void register() {
-        if (isInit) {
+        if (!isInit) {
             put(JdkCacheSerializer.IDENTITY_NUMBER, JdkCacheSerializer.INSTANCE);
             isInit = true;
         }
