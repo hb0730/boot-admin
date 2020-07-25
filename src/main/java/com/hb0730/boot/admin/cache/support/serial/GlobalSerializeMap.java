@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.cache.support.serial;
 
+import com.hb0730.boot.admin.cache.support.serial.impl.JdkCacheSerializer;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.util.Assert;
 
@@ -48,5 +49,14 @@ public class GlobalSerializeMap {
             return null;
         }
         return serializerMap.get(identityNumber);
+    }
+
+    private static boolean isInit = false;
+
+    static void register() {
+        if (isInit) {
+            put(JdkCacheSerializer.IDENTITY_NUMBER, JdkCacheSerializer.INSTANCE);
+            isInit = true;
+        }
     }
 }
