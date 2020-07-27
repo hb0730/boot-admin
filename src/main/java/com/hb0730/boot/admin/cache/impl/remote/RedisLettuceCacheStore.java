@@ -1,9 +1,9 @@
-package com.hb0730.boot.admin.cache.impl;
+package com.hb0730.boot.admin.cache.impl.remote;
 
-import cn.hutool.core.util.ObjectUtil;
 import com.hb0730.boot.admin.cache.CacheWrapper;
 import com.hb0730.boot.admin.cache.support.redis.lettuce.LettuceConnectionManager;
 import com.hb0730.boot.admin.cache.support.redis.lettuce.RedisLettuceCacheConfig;
+import com.hb0730.boot.admin.cache.support.serial.Serializer;
 import io.lettuce.core.AbstractRedisClient;
 import io.lettuce.core.RedisFuture;
 import io.lettuce.core.SetArgs;
@@ -23,16 +23,19 @@ import java.util.concurrent.TimeUnit;
  * @date 2020/07/22 7:45
  * @since V1.0
  */
-public class RedisLettuceCacheStore<K, V> extends AbstractCache<K, V> {
+public class RedisLettuceCacheStore<K, V> extends AbstractRemoteCache<K, V> {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisLettuceCacheStore.class);
     private final Long asyncTimeout;
+    private final Serializer serializer;
 
     private final RedisStringCommands<byte[], byte[]> stringCommands;
     private final RedisStringAsyncCommands<byte[], byte[]> stringAsyncCommands;
     private final RedisKeyAsyncCommands<byte[], byte[]> keyAsyncCommands;
 
     @SuppressWarnings({"unchecked"})
-    public RedisLettuceCacheStore(RedisLettuceCacheConfig config) {
+    public RedisLettuceCacheStore(RedisLettuceCacheConfig<K, V> config) {
+        super(config);
+        this.serializer = config.getSerializer();
         Assert.notNull(config.getRedisClient(), "RedisClient is required");
         AbstractRedisClient client = config.getRedisClient();
         this.asyncTimeout = config.getAsyncTimeout();
@@ -45,16 +48,19 @@ public class RedisLettuceCacheStore<K, V> extends AbstractCache<K, V> {
 
     @Nonnull
     @Override
-    Optional<CacheWrapper<V>> getInternal(@Nonnull K key) {
+    @SuppressWarnings({"unchecked"})
+    protected Optional<CacheWrapper<V>> getInternal(@Nonnull K key) {
         Assert.notNull(key, "Cache key must not be null");
         try {
             byte[] bytes = buildKey(key);
             CacheWrapper<V> cache;
             if (asyncTimeout == null) {
-                cache = ObjectUtil.deserialize(stringCommands.get(bytes));
+                byte[] valueBytes = stringCommands.get(bytes);
+                cache = (CacheWrapper<V>) serializer.deserialize(valueBytes);
             } else {
                 RedisFuture<byte[]> future = stringAsyncCommands.get(bytes);
-                cache = ObjectUtil.deserialize(future.get(asyncTimeout, TimeUnit.MILLISECONDS));
+                byte[] valueBytes = future.get(asyncTimeout, TimeUnit.MILLISECONDS);
+                cache = (CacheWrapper<V>) serializer.deserialize(valueBytes);
             }
             LOGGER.debug("get success,[{}],[{}]", key, cache);
             return Optional.ofNullable(cache);
@@ -65,14 +71,14 @@ public class RedisLettuceCacheStore<K, V> extends AbstractCache<K, V> {
     }
 
     @Override
-    void putInternal(@Nonnull K key, @Nonnull CacheWrapper<V> cacheWrapper) {
+    protected void putInternal(@Nonnull K key, @Nonnull CacheWrapper<V> cacheWrapper) {
         Assert.notNull(key, "Cache key must not be blank");
         Assert.notNull(cacheWrapper, "Cache wrapper must not be null");
         try {
             byte[] newkey = buildKey(key);
             RedisFuture<String> rest = stringAsyncCommands.psetex(newkey,
                     expireTime(cacheWrapper.getCreateAt(), cacheWrapper.getExpireAt()),
-                    serializeValue(cacheWrapper));
+                    serializer.serialize(cacheWrapper));
             rest.handle((rt, ex) -> {
                 if (ex != null) {
                     LOGGER.warn("put error ,", ex);
@@ -87,13 +93,13 @@ public class RedisLettuceCacheStore<K, V> extends AbstractCache<K, V> {
     }
 
     @Override
-    Boolean putInternalIfAbsent(@Nonnull K key, @Nonnull CacheWrapper<V> cacheWrapper) {
+    protected Boolean putInternalIfAbsent(@Nonnull K key, @Nonnull CacheWrapper<V> cacheWrapper) {
         Assert.notNull(key, "Cache key must not be blank");
         Assert.notNull(cacheWrapper, "Cache wrapper must not be null");
         try {
             byte[] bytes = buildKey(key);
             long timeout = expireTime(cacheWrapper.getCreateAt(), cacheWrapper.getExpireAt());
-            byte[] valueBytes = serializeValue(cacheWrapper);
+            byte[] valueBytes = serializer.serialize(cacheWrapper);
             RedisFuture<String> rest = stringAsyncCommands.set(bytes, valueBytes, SetArgs.Builder.nx().px(timeout));
             rest.handle((rt, ex) -> {
                 if (ex != null) {

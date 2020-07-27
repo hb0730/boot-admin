@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.cache.impl;
 
+import com.hb0730.boot.admin.cache.impl.remote.RedisLettuceCacheStore;
 import com.hb0730.boot.admin.cache.support.redis.lettuce.LettuceCodec;
 import com.hb0730.boot.admin.cache.support.redis.lettuce.RedisLettuceCacheConfig;
 import io.lettuce.core.RedisClient;

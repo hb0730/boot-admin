@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.cache.impl;
 
+import com.hb0730.boot.admin.cache.impl.remote.RedisSpringDataCache;
 import com.hb0730.boot.admin.cache.support.redis.springdata.RedisSpringDataCacheConfig;
 import com.hb0730.boot.admin.cache.support.serial.GlobalSerializeMap;
 import com.hb0730.boot.admin.cache.support.serial.impl.Jackson2JsonStringSerializer;

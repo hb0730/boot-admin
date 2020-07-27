@@ -1,7 +1,5 @@
-package com.hb0730.boot.admin.cache.impl;
+package com.hb0730.boot.admin.cache.impl.remote;
 
-import cn.hutool.core.date.DateUnit;
-import cn.hutool.core.date.DateUtil;
 import com.hb0730.boot.admin.cache.CacheWrapper;
 import com.hb0730.boot.admin.cache.support.redis.springdata.RedisSpringDataCacheConfig;
 import com.hb0730.boot.admin.cache.support.serial.Serializer;
@@ -24,12 +22,13 @@ import java.util.concurrent.TimeUnit;
  * @date 2020/07/20 7:41
  * @since V1.0
  */
-public class RedisSpringDataCache<K, V> extends AbstractCache<K, V> {
+public class RedisSpringDataCache<K, V> extends AbstractRemoteCache<K, V> {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisSpringDataCache.class);
     private final RedisConnectionFactory connectionFactory;
     private final Serializer serializer;
 
     public RedisSpringDataCache(RedisSpringDataCacheConfig<K, V> config) {
+        super(config);
         this.connectionFactory = config.getConnectionFactory();
         this.serializer = config.getSerializer();
         Assert.notNull(connectionFactory, "connectionFactory is required");
@@ -38,7 +37,7 @@ public class RedisSpringDataCache<K, V> extends AbstractCache<K, V> {
     @Nonnull
     @Override
     @SuppressWarnings({"unchecked"})
-    Optional<CacheWrapper<V>> getInternal(@Nonnull K key) {
+    protected Optional<CacheWrapper<V>> getInternal(@Nonnull K key) {
         Assert.notNull(key, "Cache key must not be null");
         RedisConnection connection = null;
         try {
@@ -61,7 +60,7 @@ public class RedisSpringDataCache<K, V> extends AbstractCache<K, V> {
     }
 
     @Override
-    void putInternal(@Nonnull K key, @Nonnull CacheWrapper<V> cacheWrapper) {
+    protected void putInternal(@Nonnull K key, @Nonnull CacheWrapper<V> cacheWrapper) {
         Assert.notNull(key, "Cache key must not be blank");
         Assert.notNull(cacheWrapper, "Cache wrapper must not be null");
         RedisConnection connection = null;
@@ -70,7 +69,7 @@ public class RedisSpringDataCache<K, V> extends AbstractCache<K, V> {
             byte[] keyByte = buildKey(key);
             byte[] valueBytes = serializer.serialize(cacheWrapper);
             assert valueBytes != null;
-            long expireAt = DateUtil.between(cacheWrapper.getCreateAt(), cacheWrapper.getExpireAt(), DateUnit.MS);
+            long expireAt = expireTime(cacheWrapper.getCreateAt(), cacheWrapper.getExpireAt());
             connection.pSetEx(keyByte, expireAt, valueBytes);
             LOGGER.debug("put success then key [{}]", key);
         } catch (Exception e) {
@@ -81,7 +80,7 @@ public class RedisSpringDataCache<K, V> extends AbstractCache<K, V> {
     }
 
     @Override
-    Boolean putInternalIfAbsent(@Nonnull K key, @Nonnull CacheWrapper<V> cacheWrapper) {
+    protected Boolean putInternalIfAbsent(@Nonnull K key, @Nonnull CacheWrapper<V> cacheWrapper) {
         Assert.notNull(key, "Cache key must not be blank");
         Assert.notNull(cacheWrapper, "Cache wrapper must not be null");
         RedisConnection connection = null;
@@ -90,7 +89,7 @@ public class RedisSpringDataCache<K, V> extends AbstractCache<K, V> {
             byte[] newkey = buildKey(key);
             byte[] valueBytes = serializer.serialize(cacheWrapper);
             assert valueBytes != null;
-            long expireAt = DateUtil.between(cacheWrapper.getCreateAt(), cacheWrapper.getExpireAt(), DateUnit.MS);
+            long expireAt = expireTime(cacheWrapper.getCreateAt(), cacheWrapper.getExpireAt());
             Boolean result = connection.set(newkey, valueBytes,
                     Expiration.from(expireAt, TimeUnit.MILLISECONDS),
                     RedisStringCommands.SetOption.ifAbsent());

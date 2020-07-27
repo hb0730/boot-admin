@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.cache.impl;
 
 import com.hb0730.boot.admin.cache.CacheWrapper;
+import com.hb0730.boot.admin.cache.impl.local.InMemoryCacheStore;
 import org.junit.Test;
 
 import java.util.Optional;

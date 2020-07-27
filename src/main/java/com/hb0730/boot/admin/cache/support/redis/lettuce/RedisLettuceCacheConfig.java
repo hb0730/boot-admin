@@ -1,9 +1,11 @@
 package com.hb0730.boot.admin.cache.support.redis.lettuce;
 
+import com.hb0730.boot.admin.cache.config.CacheConfig;
 import io.lettuce.core.AbstractRedisClient;
 import io.lettuce.core.api.StatefulConnection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -14,7 +16,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RedisLettuceCacheConfig {
+@EqualsAndHashCode(callSuper = true)
+public class RedisLettuceCacheConfig<K, V> extends CacheConfig<K, V> {
     private AbstractRedisClient redisClient;
 
     private StatefulConnection<byte[], byte[]> connection;

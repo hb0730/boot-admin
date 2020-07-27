@@ -1,7 +1,8 @@
-package com.hb0730.boot.admin.cache.impl;
+package com.hb0730.boot.admin.cache.impl.local;
 
 import com.hb0730.boot.admin.cache.CacheWrapper;
 import com.hb0730.boot.admin.cache.GlobalPruneTimer;
+import com.hb0730.boot.admin.cache.impl.AbstractCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
