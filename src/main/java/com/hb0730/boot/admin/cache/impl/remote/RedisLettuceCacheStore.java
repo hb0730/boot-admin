@@ -54,7 +54,7 @@ public class RedisLettuceCacheStore<K, V> extends AbstractRemoteCache<K, V> {
         try {
             byte[] bytes = buildKey(key);
             CacheWrapper<V> cache;
-            if (asyncTimeout == null) {
+            if (asyncTimeout == null || 0 == asyncTimeout) {
                 byte[] valueBytes = stringCommands.get(bytes);
                 cache = (CacheWrapper<V>) serializer.deserialize(valueBytes);
             } else {

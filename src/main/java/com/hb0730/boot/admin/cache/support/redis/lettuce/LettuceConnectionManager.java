@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.cache.support.redis.lettuce;
 
-import com.alicp.jetcache.CacheConfigException;
+import com.hb0730.boot.admin.cache.exception.BootCacheException;
 import io.lettuce.core.AbstractRedisClient;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulConnection;
@@ -63,7 +63,7 @@ public class LettuceConnectionManager {
             } else if (redisClient instanceof RedisClusterClient) {
                 lo.connection = ((RedisClusterClient) redisClient).connect(new LettuceCodec());
             } else {
-                throw new CacheConfigException("type " + redisClient.getClass() + " is not supported");
+                throw new BootCacheException("type " + redisClient.getClass() + " is not supported");
             }
         }
         return lo.connection;
@@ -81,7 +81,7 @@ public class LettuceConnectionManager {
             } else if (lo.connection instanceof StatefulRedisSentinelConnection) {
                 lo.commands = ((StatefulRedisSentinelConnection) lo.connection).sync();
             } else {
-                throw new CacheConfigException("type " + lo.connection.getClass() + " is not supported");
+                throw new BootCacheException("type " + lo.connection.getClass() + " is not supported");
             }
         }
         return lo.commands;
@@ -99,7 +99,7 @@ public class LettuceConnectionManager {
             } else if (lo.connection instanceof StatefulRedisSentinelConnection) {
                 lo.asyncCommands = ((StatefulRedisSentinelConnection) lo.connection).async();
             } else {
-                throw new CacheConfigException("type " + lo.connection.getClass() + " is not supported");
+                throw new BootCacheException("type " + lo.connection.getClass() + " is not supported");
             }
         }
         return lo.asyncCommands;
@@ -117,7 +117,7 @@ public class LettuceConnectionManager {
             } else if (lo.connection instanceof StatefulRedisSentinelConnection) {
                 lo.reactiveCommands = ((StatefulRedisSentinelConnection) lo.connection).reactive();
             } else {
-                throw new CacheConfigException("type " + lo.connection.getClass() + " is not supported");
+                throw new BootCacheException("type " + lo.connection.getClass() + " is not supported");
             }
         }
         return lo.reactiveCommands;

@@ -16,7 +16,7 @@ import java.io.*;
 public class JdkCacheSerializer extends AbstractSerializer {
     public static final JdkCacheSerializer INSTANCE = new JdkCacheSerializer(true);
 
-    public static int IDENTITY_NUMBER = 0x4A953A80;
+    public static final int IDENTITY_NUMBER = 0x4A953A80;
 
     public JdkCacheSerializer(boolean useIdentityNumber) {
         super(useIdentityNumber, IDENTITY_NUMBER);

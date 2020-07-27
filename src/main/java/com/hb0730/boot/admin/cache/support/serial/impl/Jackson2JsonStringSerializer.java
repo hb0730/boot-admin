@@ -21,7 +21,7 @@ public class Jackson2JsonStringSerializer extends AbstractSerializer {
     @Getter
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public static int IDENTITY_NUMBER = 0x4A953A81;
+    public static final int IDENTITY_NUMBER = 0x4A953A81;
 
 
     public Jackson2JsonStringSerializer(boolean useIdentityNumber) {
