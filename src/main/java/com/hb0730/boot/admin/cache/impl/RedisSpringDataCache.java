@@ -2,9 +2,9 @@ package com.hb0730.boot.admin.cache.impl;
 
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.ObjectUtil;
 import com.hb0730.boot.admin.cache.CacheWrapper;
 import com.hb0730.boot.admin.cache.support.redis.springdata.RedisSpringDataCacheConfig;
+import com.hb0730.boot.admin.cache.support.serial.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.RedisConnection;
@@ -27,14 +27,11 @@ import java.util.concurrent.TimeUnit;
 public class RedisSpringDataCache<K, V> extends AbstractCache<K, V> {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisSpringDataCache.class);
     private final RedisConnectionFactory connectionFactory;
+    private final Serializer serializer;
 
-    public RedisSpringDataCache(RedisSpringDataCacheConfig config) {
+    public RedisSpringDataCache(RedisSpringDataCacheConfig<K, V> config) {
         this.connectionFactory = config.getConnectionFactory();
-        Assert.notNull(connectionFactory, "connectionFactory is required");
-    }
-
-    public RedisSpringDataCache(RedisConnectionFactory connectionFactory) {
-        this.connectionFactory = connectionFactory;
+        this.serializer = config.getSerializer();
         Assert.notNull(connectionFactory, "connectionFactory is required");
     }
 
@@ -49,7 +46,7 @@ public class RedisSpringDataCache<K, V> extends AbstractCache<K, V> {
             byte[] newKey = buildKey(key);
             byte[] resultBytes = connection.get(newKey);
             if (resultBytes != null) {
-                CacheWrapper<V> result = (CacheWrapper<V>) ObjectUtil.deserialize(resultBytes);
+                CacheWrapper<V> result = (CacheWrapper<V>) serializer.deserialize(resultBytes);
                 LOGGER.debug("get success key:[{}],result:[{}]", key, result);
                 return Optional.ofNullable(result);
             }
@@ -71,7 +68,8 @@ public class RedisSpringDataCache<K, V> extends AbstractCache<K, V> {
         try {
             connection = connectionFactory.getConnection();
             byte[] keyByte = buildKey(key);
-            byte[] valueBytes = ObjectUtil.serialize(cacheWrapper);
+            byte[] valueBytes = serializer.serialize(cacheWrapper);
+            assert valueBytes != null;
             long expireAt = DateUtil.between(cacheWrapper.getCreateAt(), cacheWrapper.getExpireAt(), DateUnit.MS);
             connection.pSetEx(keyByte, expireAt, valueBytes);
             LOGGER.debug("put success then key [{}]", key);
@@ -90,9 +88,10 @@ public class RedisSpringDataCache<K, V> extends AbstractCache<K, V> {
         try {
             connection = connectionFactory.getConnection();
             byte[] newkey = buildKey(key);
-            byte[] valueByte = ObjectUtil.serialize(cacheWrapper);
+            byte[] valueBytes = serializer.serialize(cacheWrapper);
+            assert valueBytes != null;
             long expireAt = DateUtil.between(cacheWrapper.getCreateAt(), cacheWrapper.getExpireAt(), DateUnit.MS);
-            Boolean result = connection.set(newkey, valueByte,
+            Boolean result = connection.set(newkey, valueBytes,
                     Expiration.from(expireAt, TimeUnit.MILLISECONDS),
                     RedisStringCommands.SetOption.ifAbsent());
             LOGGER.debug("put_is_absent success,then key [{}] result:[{}]", key, result);

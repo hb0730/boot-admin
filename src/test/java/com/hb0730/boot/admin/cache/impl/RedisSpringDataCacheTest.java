@@ -1,5 +1,8 @@
 package com.hb0730.boot.admin.cache.impl;
 
+import com.hb0730.boot.admin.cache.support.redis.springdata.RedisSpringDataCacheConfig;
+import com.hb0730.boot.admin.cache.support.serial.GlobalSerializeMap;
+import com.hb0730.boot.admin.cache.support.serial.impl.Jackson2JsonStringSerializer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,29 +20,44 @@ import java.util.concurrent.TimeUnit;
 public class RedisSpringDataCacheTest {
     @Autowired
     private RedisConnectionFactory connectionFactory;
+    private static RedisSpringDataCacheConfig<String, String> config = new RedisSpringDataCacheConfig<>();
+    private static final boolean useJson = true;
+
+    static {
+        if (useJson) {
+            GlobalSerializeMap.register();
+            config.setSerializer(GlobalSerializeMap.get(Jackson2JsonStringSerializer.IDENTITY_NUMBER));
+
+        }
+    }
 
     @Test
     public void put() {
-        AbstractCache<String, String> cache = new RedisSpringDataCache<>(connectionFactory);
+        config.setConnectionFactory(connectionFactory);
+        AbstractCache<String, String> cache = new RedisSpringDataCache<>(config);
         cache.put("test", "test");
     }
 
     @Test
     public void get() {
-        AbstractCache<String, String> cache = new RedisSpringDataCache<String, String>(connectionFactory);
+
+        config.setConnectionFactory(connectionFactory);
+        AbstractCache<String, String> cache = new RedisSpringDataCache<String, String>(config);
         Optional<String> test = cache.get("test");
         System.out.println(test.orElseGet(() -> "为空"));
     }
 
     @Test
     public void putTimout() {
-        AbstractCache<String, String> cache = new RedisSpringDataCache<String, String>(connectionFactory);
+        config.setConnectionFactory(connectionFactory);
+        AbstractCache<String, String> cache = new RedisSpringDataCache<String, String>(config);
         cache.putIfAbsent("test", "test2", 200L, TimeUnit.SECONDS);
     }
 
     @Test
     public void delete() {
-        AbstractCache<String, String> cache = new RedisSpringDataCache<String, String>(connectionFactory);
+        config.setConnectionFactory(connectionFactory);
+        AbstractCache<String, String> cache = new RedisSpringDataCache<String, String>(config);
         cache.delete("test");
     }
 }

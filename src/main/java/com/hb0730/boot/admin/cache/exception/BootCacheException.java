@@ -6,6 +6,10 @@ package com.hb0730.boot.admin.cache.exception;
  * @since V1.0
  */
 public class BootCacheException extends RuntimeException {
+    public BootCacheException(String message) {
+        super(message);
+    }
+
     public BootCacheException(String message, Throwable cause) {
         super(message, cause);
     }

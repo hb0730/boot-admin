@@ -10,8 +10,9 @@ import javax.annotation.Nullable;
  * @see org.springframework.data.redis.serializer
  * @since V1.0
  */
-public interface Serializer<T> {
-    static final byte[] EMPTY_ARRAY = new byte[0];
+public interface Serializer {
+    byte[] EMPTY_ARRAY = new byte[0];
+
     /**
      * 序列化
      *
@@ -19,7 +20,7 @@ public interface Serializer<T> {
      * @return 二进制
      */
     @Nullable
-    byte[] serialize(@Nullable T obj) throws Exception;
+    byte[] serialize(@Nullable Object obj) throws Exception;
 
 
     /**
@@ -29,6 +30,6 @@ public interface Serializer<T> {
      * @return 序列化对象
      */
     @Nullable
-    T deserialize(@Nullable byte[] bytes) throws Exception;
+    Object deserialize(@Nullable byte[] bytes) throws Exception;
 
 }
