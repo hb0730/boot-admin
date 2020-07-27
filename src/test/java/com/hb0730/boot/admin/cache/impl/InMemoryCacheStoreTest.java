@@ -1,40 +1,49 @@
 package com.hb0730.boot.admin.cache.impl;
 
-import com.hb0730.boot.admin.cache.CacheWrapper;
+import com.hb0730.boot.admin.cache.Cache;
 import com.hb0730.boot.admin.cache.impl.local.InMemoryCacheStore;
+import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 public class InMemoryCacheStoreTest {
-    InMemoryCacheStore<String, String> cache = new InMemoryCacheStore<>();
+    Cache<String, String> cache = null;
 
-    @Test
-    public void getInternal() {
-
+    @Before
+    public void init() {
+        cache = new InMemoryCacheStore<>();
     }
 
     @Test
-    public void putInternal() throws InterruptedException {
+    public void put() {
         cache.put("test", "test");
-        Thread.sleep(1000L);
-        Optional<CacheWrapper<String>> test = cache.getInternal("test");
-        cache.put("test2", "test2", 60, TimeUnit.MILLISECONDS);
-        Thread.sleep(1000L);
-        test = cache.getInternal("test2");
-
+        System.out.println(cache.get("test").orElseGet(() -> "为空"));
     }
 
     @Test
-    public void putInternalIfAbsent() {
+    public void putTimeout() throws InterruptedException {
+        cache.put("test", "test", 5000, TimeUnit.MILLISECONDS);
+        System.out.println(cache.get("test").orElseGet(() -> "为空"));
+        Thread.sleep(6000L);
+        System.out.println("sleep:" + cache.get("test").orElseGet(() -> "为空"));
+    }
+
+    @Test
+    public void putIfAbsentTimeOut() throws InterruptedException {
+        cache.put("test", "test", 5000, TimeUnit.MILLISECONDS);
+        cache.putIfAbsent("test", "test2", 5000, TimeUnit.MILLISECONDS);
+        System.out.println(cache.get("test").orElseGet(() -> "为空"));
+        Thread.sleep(6000L);
+        cache.putIfAbsent("test", "test2", 5000, TimeUnit.MILLISECONDS);
+        System.out.println(cache.get("test").orElseGet(() -> "为空"));
     }
 
     @Test
     public void delete() {
-    }
-
-    @Test
-    public void preDestroy() {
+        cache.put("test", "test");
+        System.out.println(cache.get("test").orElseGet(() -> "为空"));
+        cache.delete("test");
+        System.out.println(cache.get("test").orElseGet(() -> "为空"));
     }
 }
