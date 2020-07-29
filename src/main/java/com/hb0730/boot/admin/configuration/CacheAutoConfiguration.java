@@ -31,7 +31,7 @@ public class CacheAutoConfiguration {
     public <K, V> Cache<K, V> bootCache() {
         Cache<K, V> cache;
         switch (properties.getCacheConfig().getCache()) {
-            case "lettuce-redis":
+            case "jedis":
                 cache = null;
                 break;
             case "spring-redis":
