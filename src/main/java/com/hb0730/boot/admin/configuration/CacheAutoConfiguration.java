@@ -5,9 +5,10 @@ import com.hb0730.boot.admin.cache.exception.BootCacheException;
 import com.hb0730.boot.admin.cache.impl.local.InMemoryCacheStore;
 import com.hb0730.boot.admin.cache.impl.remote.RedisSpringDataCache;
 import com.hb0730.boot.admin.cache.support.redis.springdata.RedisSpringDataCacheConfig;
-import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
+import com.hb0730.boot.admin.configuration.properties.CacheProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,15 +23,16 @@ import java.util.Map;
  */
 @Configuration
 @AllArgsConstructor
+@EnableConfigurationProperties(CacheProperties.class)
 public class CacheAutoConfiguration {
-    private final BootAdminProperties properties;
+    private final CacheProperties properties;
     private final ApplicationContext applicationContext;
 
     @Bean
     @ConditionalOnMissingBean(name = "bootCache")
     public <K, V> Cache<K, V> bootCache() {
         Cache<K, V> cache;
-        switch (properties.getCacheConfig().getCache()) {
+        switch (properties.getCache()) {
             case "jedis":
                 cache = null;
                 break;

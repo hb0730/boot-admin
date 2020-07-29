@@ -75,8 +75,6 @@ public class BootAdminProperties {
 
     private TokenProperties tokenConfig = new TokenProperties();
 
-    private CacheProperties cacheConfig = new CacheProperties();
-
     /**
      * token 配置
      */
