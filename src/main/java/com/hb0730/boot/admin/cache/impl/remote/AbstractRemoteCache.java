@@ -40,7 +40,7 @@ public abstract class AbstractRemoteCache<K, V> extends AbstractCache<K, V> {
     }
 
     protected byte[] buildKeyForByte(Object key) throws IOException {
-        Assert.notNull(key, "key must not null");
+        Assert.notNull(key, "key must not be null");
         byte[] keyBytesWithOutPrefix = null;
         if (key instanceof String) {
             keyBytesWithOutPrefix = key.toString().getBytes(StandardCharsets.UTF_8);

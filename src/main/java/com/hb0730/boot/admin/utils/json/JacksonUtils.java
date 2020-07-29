@@ -65,7 +65,7 @@ public class JacksonUtils {
     public static <T> T jsonToObject(@Nonnull String json, @Nonnull Class<T> type, @Nonnull ObjectMapper objectMapper) throws IOException {
         Assert.hasText(json, "Json content must not be blank");
         Assert.notNull(type, "Target type must not be null");
-        Assert.notNull(objectMapper, "Object mapper must not null");
+        Assert.notNull(objectMapper, "Object mapper must not be null");
 
         return objectMapper.readValue(json, type);
     }
@@ -112,7 +112,7 @@ public class JacksonUtils {
     @Nonnull
     public static String objectToJson(@Nonnull Object source, @Nonnull ObjectMapper objectMapper) throws JsonProcessingException {
         Assert.notNull(source, "Source object must not be null");
-        Assert.notNull(objectMapper, "Object mapper must not null");
+        Assert.notNull(objectMapper, "Object mapper must not be null");
 
         return objectMapper.writeValueAsString(source);
     }

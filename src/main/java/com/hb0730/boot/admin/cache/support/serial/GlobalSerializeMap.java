@@ -31,7 +31,7 @@ public class GlobalSerializeMap {
 
 
     synchronized private static void putInternal(@NotNull Integer identityNumber, Serializer serializer) {
-        Assert.notNull(identityNumber, "identity number must be not null");
+        Assert.notNull(identityNumber, "identity number must not be null");
         if (null == serializerMap) {
             serializerMap = new ConcurrentHashMap<>();
         } else if (null != serializerMap.get(identityNumber)) {
