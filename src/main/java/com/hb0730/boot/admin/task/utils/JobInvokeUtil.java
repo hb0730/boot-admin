@@ -1,10 +1,10 @@
 package com.hb0730.boot.admin.task.utils;
 
+import cn.hutool.core.convert.ConverterRegistry;
+import com.hb0730.boot.admin.task.spring.TaskConstant;
 import com.hb0730.boot.admin.utils.bean.BeanUtils;
 import com.hb0730.boot.admin.utils.json.GsonUtils;
 import com.hb0730.boot.admin.utils.spring.SpringUtils;
-import com.hb0730.boot.admin.task.spring.TaskConstant;
-import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
@@ -124,41 +124,41 @@ public class JobInvokeUtil {
                 classs.add(new Object[]{String.valueOf(entry.getValue()), clazz});
                 // Boolean
             } else if (clazz.getTypeName().equals(Boolean.class.getTypeName())) {
-                classs.add(new Object[]{Boolean.valueOf(entry.getValue().toString()), clazz});
+                classs.add(new Object[]{ConverterRegistry.getInstance().convert(Boolean.TYPE, entry.getValue()), clazz});
                 // Character
             } else if (clazz.getTypeName().equals(Character.class.getTypeName())) {
-                classs.add(new Object[]{CharUtils.toChar(entry.getValue().toString()), clazz});
+                classs.add(new Object[]{ConverterRegistry.getInstance().convert(Character.TYPE, entry.getValue()), clazz});
                 // Integer
             } else if (clazz.getTypeName().equals(Integer.class.getTypeName())) {
-                classs.add(new Object[]{Integer.valueOf(entry.getValue().toString()), clazz});
+                classs.add(new Object[]{ConverterRegistry.getInstance().convert(Integer.TYPE, entry.getValue()), clazz});
                 // Byte
             } else if (clazz.getTypeName().equals(Byte.class.getTypeName())) {
-                classs.add(new Object[]{Byte.valueOf(entry.getValue().toString()), clazz});
+                classs.add(new Object[]{ConverterRegistry.getInstance().convert(Byte.TYPE, entry.getValue()), clazz});
                 // Short
             } else if (clazz.getTypeName().equals(Short.class.getTypeName())) {
-                classs.add(new Object[]{Short.valueOf(entry.getValue().toString()), clazz});
+                classs.add(new Object[]{ConverterRegistry.getInstance().convert(Short.TYPE, entry.getValue()), clazz});
                 // Long
             } else if (clazz.getTypeName().equals(Long.class.getTypeName())) {
                 if (StringUtils.containsIgnoreCase(entry.getValue().toString(), "L")) {
-                    classs.add(new Object[]{Long.valueOf(StringUtils.replaceIgnoreCase(entry.getValue().toString(), "L", "")), clazz});
+                    classs.add(new Object[]{ConverterRegistry.getInstance().convert(Long.TYPE, StringUtils.replace(entry.getValue().toString(), "L", "")), clazz});
                 } else {
-                    classs.add(new Object[]{Long.valueOf(entry.getValue().toString()), clazz});
+                    classs.add(new Object[]{ConverterRegistry.getInstance().convert(Long.TYPE, entry.getValue()), clazz});
                 }
                 // Float
             } else if (clazz.getTypeName().equals(Float.class.getTypeName())) {
                 if (StringUtils.containsIgnoreCase(entry.getValue().toString(), "F")) {
-                    classs.add(new Object[]{Float.valueOf(StringUtils.replaceIgnoreCase(entry.getValue().toString(), "F", "")), clazz});
+                    classs.add(new Object[]{ConverterRegistry.getInstance().convert(Float.TYPE, StringUtils.replaceIgnoreCase(entry.getValue().toString(), "F", "")), clazz});
 
                 } else {
-                    classs.add(new Object[]{Float.valueOf(entry.getValue().toString()), clazz});
+                    classs.add(new Object[]{ConverterRegistry.getInstance().convert(Float.TYPE, entry.getValue()), clazz});
                 }
                 //Double
             } else if (clazz.getTypeName().equals(Double.class.getTypeName())) {
                 if (StringUtils.containsIgnoreCase(entry.getValue().toString(), "D")) {
-                    classs.add(new Object[]{Double.valueOf(StringUtils.replaceIgnoreCase(entry.getValue().toString(), "D", "")), clazz});
+                    classs.add(new Object[]{ConverterRegistry.getInstance().convert(Double.TYPE, StringUtils.replaceIgnoreCase(entry.getValue().toString(), "D", "")), clazz});
 
                 } else {
-                    classs.add(new Object[]{Double.valueOf(entry.getValue().toString()), clazz});
+                    classs.add(new Object[]{ConverterRegistry.getInstance().convert(Double.TYPE, entry.getValue()), clazz});
 
                 }
             } else {
