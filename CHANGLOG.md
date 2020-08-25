@@ -7,7 +7,6 @@
  * add 新增mail邮件服务
  * fix 抽象controller与service
  * fix 菜单树形排序展示
- * add cache 抽象 移除jetCache(bate)
  * fix jobInvoke 参数所支持类型的问题
 # v2.0.0
  * update 更改page使用mybatisPlus自带分页，去除pagehelper
