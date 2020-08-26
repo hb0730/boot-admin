@@ -4,6 +4,12 @@ spring:
   application:
     name: boot-admin-3.0.0
   datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhostm:3306/boot-admin?characterEncoding=UTF-8&useSSL=false&useUnicode=true&serverTimezone=UTC
+    username: root
+    password: admin123
+    platform: mysql
     hikari:
       minimum-idle: 5
       maximum-pool-size: 10
@@ -13,16 +19,10 @@ spring:
       max-lifetime: 1800000
       connection-timeout: 30000
       connection-test-query: SELECT 1
-    type: com.zaxxer.hikari.HikariDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/boot-admin?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
-    username:
-    password:
-    platform: mysql
   redis:
-    host:
+    host: localhost
     password:
-    port:
+    port: 6379
     lettuce:
       pool:
         max-active: 8
@@ -50,6 +50,11 @@ spring:
     properties:
       org:
         quartz:
+          #          datasource:
+          #            driver-class-name: ${spring.datasource.driver-class-name}
+          #            url: ${spring.datasource.url}
+          #            username: ${spring.datasource.username}
+          #            password: ${spring.datasource.password}
           scheduler:
             #默认主机名和时间戳生成实例ID,可以是任何字符串，但对于所有调度程序来说，必须是唯一的 对应qrtz_scheduler_state INSTANCE_NAME字段
             instanceId: AUTO
@@ -57,7 +62,7 @@ spring:
           # JobStore配置
           jobStore:
             # 数据源名称
-            dataSource: quartzDataSource
+            #            dataSource: quartzDataSource
             # 持久化配置
             class: org.quartz.impl.jdbcjobstore.JobStoreTX
             #我们仅为数据库制作了特定于数据库的代理
