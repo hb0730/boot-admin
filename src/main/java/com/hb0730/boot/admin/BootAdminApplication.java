@@ -5,8 +5,8 @@ import org.springframework.boot.SpringApplication;
 /**
  * 入口
  *
- * @author bing_huang
- * @since v1.0.0
+ * @author <a href="huangbing0730@gmail.com">bing_huang</a>
+ * @since 3.0.0
  */
 public class BootAdminApplication {
 
