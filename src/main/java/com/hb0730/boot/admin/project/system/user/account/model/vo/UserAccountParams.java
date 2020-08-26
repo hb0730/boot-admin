@@ -15,4 +15,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString
 public class UserAccountParams extends BaseParams {
+
+    private String username;
+    private Long userId;
 }

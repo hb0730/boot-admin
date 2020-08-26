@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * <p>
  * 用户账号  前端控制器
- * </p>
  *
  * @author bing_huang
  * @since 3.0.0
@@ -28,5 +26,6 @@ public class UserAccountController extends AbstractBaseController<Long, UserAcco
         super(service);
         this.service = service;
     }
+    
 }
 
