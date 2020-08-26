@@ -1,13 +1,3 @@
-# v2.0.1
- * fix 修复阿里云Oss上传删除方法
- * fix 修复菜单新增无权限以及排序失效
- * add 新增图片资源管理(beta)
- * fix 修复在线用户登录时间排序
- * add 新增sms短信服务
- * add 新增mail邮件服务
- * fix 抽象controller与service
- * fix 菜单树形排序展示
- * fix jobInvoke 参数所支持类型的问题
 # v2.0.0
  * update 更改page使用mybatisPlus自带分页，去除pagehelper
  * update 更新token存储
@@ -18,6 +8,15 @@
  * update  常量名称
  * add quartz定时任务实现
  * fix 修复菜单禁用失败
+ * fix 修复阿里云Oss上传删除方法
+ * fix 修复菜单新增无权限以及排序失效
+ * add 新增图片资源管理(beta)
+ * fix 修复在线用户登录时间排序
+ * add 新增sms短信服务
+ * add 新增mail邮件服务
+ * fix 抽象controller与service
+ * fix 菜单树形排序展示
+ * fix jobInvoke 参数所支持类型的问题
 # v1.0.0
  * 模拟实现spring security认证登录,角色,权限以及注销等
  * 实现了RBAC认证
