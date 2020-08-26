@@ -35,10 +35,12 @@ public abstract class AbstractBaseController<ID extends Serializable, VO extends
     public AbstractBaseController() {
     }
 
+    @Override
     public IBaseService<ID, PARAMS, VO, ENTITY> getBaseService() {
         return service;
     }
 
+    @Override
     @SuppressWarnings({"unchecked", "rawtypes"})
     public Class<ENTITY> getEntityClass() {
         if (entityClass == null) {

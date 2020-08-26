@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.domain.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -18,11 +18,11 @@ public class BusinessEntryDomain extends BaseDomain {
     /**
      * id
      */
-    @TableField(value = "id")
+    @TableId(value = "id")
     private Long id;
     /**
      * 父id
      */
-    @TableField(value = "parent_id")
+    @TableId(value = "parent_id")
     private Long parentId;
 }

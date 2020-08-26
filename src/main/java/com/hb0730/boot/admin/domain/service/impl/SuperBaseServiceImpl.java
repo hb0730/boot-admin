@@ -74,7 +74,7 @@ public class SuperBaseServiceImpl<ID extends Serializable,
 
     @SuppressWarnings({"unchecked"})
     protected Class<VO> getVoClass() {
-        return (Class<VO>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        return (Class<VO>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[2];
     }
 
     @SuppressWarnings({"unchecked"})
