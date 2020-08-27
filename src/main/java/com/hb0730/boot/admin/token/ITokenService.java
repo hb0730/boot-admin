@@ -27,11 +27,6 @@ public interface ITokenService {
     String LOGIN_USER_KEY_PREFIX = "login_user_key:";
 
     /**
-     * 令牌前缀
-     */
-    String TOKEN_PREFIX = "Bearer ";
-
-    /**
      * 获取当前登录用户
      *
      * @param request 请求

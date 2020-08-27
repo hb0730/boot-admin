@@ -36,6 +36,7 @@ public abstract class AbstractTokenService implements ITokenService {
 
     /**
      * 将 token 转换成 redis key
+     *
      * @param key token
      * @return {@link #LOGIN_USER_KEY_PREFIX}+key
      */
@@ -50,7 +51,7 @@ public abstract class AbstractTokenService implements ITokenService {
      * @return AccessToken
      */
     protected String getAccessToken(HttpServletRequest request) {
-        String token = request.getHeader("");
+        String token = request.getHeader(this.properties.getHeader());
         // 校验是否满足前缀
         if (StringUtils.isNotBlank(token) && token.startsWith(this.properties.getTokenPrefix())) {
             token = token.replace(this.properties.getTokenPrefix(), "");

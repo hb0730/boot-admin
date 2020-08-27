@@ -16,7 +16,10 @@ import java.util.concurrent.TimeUnit;
 @EqualsAndHashCode
 @ToString
 public class TokenProperties {
-
+    /**
+     * 令牌自定义标识
+     */
+    private String header = "Authorization";
     /**
      * 令牌前缀
      */
@@ -25,20 +28,20 @@ public class TokenProperties {
     /**
      * 过期时长
      */
-    private Long expireTime=30L;
+    private Long expireTime = 30L;
 
     /**
      * 过期时长类型
      */
-    private TimeUnit timeUnit=TimeUnit.DAYS;
+    private TimeUnit timeUnit = TimeUnit.DAYS;
 
     /**
      * 刷新时间
      */
-    private Long refreshTime=30L;
+    private Long refreshTime = 30L;
 
     /**
      * 加密
      */
-    private String secret="abcdefghijklmnopqrstuvwxyz";
+    private String secret = "abcdefghijklmnopqrstuvwxyz";
 }
