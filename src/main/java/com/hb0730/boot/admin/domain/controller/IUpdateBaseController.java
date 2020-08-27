@@ -2,7 +2,7 @@ package com.hb0730.boot.admin.domain.controller;
 
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import com.hb0730.boot.admin.domain.model.vo.BaseVO;
-import com.hb0730.boot.admin.domain.result.CodeStatusEnum;
+import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
 import com.hb0730.boot.admin.domain.service.IBaseService;
@@ -40,6 +40,6 @@ public interface IUpdateBaseController<ID extends Serializable, VO extends BaseV
             service.updateById(id, vo);
             return Results.resultSuccess("修改成功");
         }
-        return Results.result(CodeStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
+        return Results.result(ResponseStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
     }
 }

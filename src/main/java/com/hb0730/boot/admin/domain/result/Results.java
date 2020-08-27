@@ -1,5 +1,7 @@
 package com.hb0730.boot.admin.domain.result;
 
+import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
+
 /**
  * result工具类
  *
@@ -15,7 +17,7 @@ public class Results {
      * @return {@link Result<T>} 返回成功数据
      */
     public static <T> Result<T> resultSuccess(T data) {
-        return result(CodeStatusEnum.SUCCESS, data);
+        return result(ResponseStatusEnum.SUCCESS, data);
     }
 
     /**
@@ -26,7 +28,7 @@ public class Results {
      * @return {@link Result<T>}
      */
     public static <T> Result<T> resultFail(T data) {
-        return result(CodeStatusEnum.FAIL, data);
+        return result(ResponseStatusEnum.FAIL, data);
     }
 
     /**
@@ -37,7 +39,7 @@ public class Results {
      * @param <T>    数据类型
      * @return {@link Result<T>}
      */
-    public static <T> Result<T> result(CodeStatusEnum status, T data) {
+    public static <T> Result<T> result(ResponseStatusEnum status, T data) {
         return result(status.getCode(), status.getMessage(), data);
     }
 

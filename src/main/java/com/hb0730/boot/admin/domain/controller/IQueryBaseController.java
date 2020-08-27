@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import com.hb0730.boot.admin.domain.model.query.BaseParams;
 import com.hb0730.boot.admin.domain.model.vo.BaseVO;
-import com.hb0730.boot.admin.domain.result.CodeStatusEnum;
+import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
 import com.hb0730.boot.admin.domain.service.IBaseService;
@@ -43,7 +43,7 @@ public interface IQueryBaseController<ID extends Serializable,
             Page<VO> page = service.page(params);
             return Results.resultSuccess(page);
         }
-        return Results.result(CodeStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
+        return Results.result(ResponseStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
     }
 
     /**
@@ -60,6 +60,6 @@ public interface IQueryBaseController<ID extends Serializable,
             List<VO> list = service.list(params);
             return Results.resultSuccess(list);
         }
-        return Results.result(CodeStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
+        return Results.result(ResponseStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
     }
 }

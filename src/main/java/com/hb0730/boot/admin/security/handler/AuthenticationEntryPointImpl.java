@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.security.handler;
 
-import com.hb0730.boot.admin.domain.result.CodeStatusEnum;
+import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
 import com.hb0730.commons.json.gson.GsonUtils;
@@ -25,7 +25,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
         e.printStackTrace();
         String resultParams = String.format("请求访问:%s ,认证失败,无法访问系统资源", request.getRequestURI());
-        Result<String> result = Results.result(CodeStatusEnum.UNAUTHORIZED, resultParams);
+        Result<String> result = Results.result(ResponseStatusEnum.UNAUTHORIZED, resultParams);
         response.setStatus(200);
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");

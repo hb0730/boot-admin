@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.domain.controller;
 
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
-import com.hb0730.boot.admin.domain.result.CodeStatusEnum;
+import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
 import com.hb0730.boot.admin.domain.service.IBaseService;
@@ -37,7 +37,7 @@ public interface IDeleteBaseController<ID extends Serializable, ENTITY extends B
             service.removeById(id);
             return Results.resultSuccess("删除成功");
         }
-        return Results.result(CodeStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
+        return Results.result(ResponseStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
     }
 
     /**
@@ -54,6 +54,6 @@ public interface IDeleteBaseController<ID extends Serializable, ENTITY extends B
             service.removeByIds(ids);
             return Results.resultSuccess("删除成功");
         }
-        return Results.result(CodeStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
+        return Results.result(ResponseStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
     }
 }

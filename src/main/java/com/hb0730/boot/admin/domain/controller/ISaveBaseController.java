@@ -2,7 +2,7 @@ package com.hb0730.boot.admin.domain.controller;
 
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import com.hb0730.boot.admin.domain.model.vo.BaseVO;
-import com.hb0730.boot.admin.domain.result.CodeStatusEnum;
+import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
 import com.hb0730.boot.admin.domain.service.IBaseService;
@@ -34,6 +34,6 @@ public interface ISaveBaseController<VO extends BaseVO, ENTITY extends BaseDomai
             baseService.save(vo);
             return Results.resultSuccess("保存成功");
         }
-        return Results.result(CodeStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
+        return Results.result(ResponseStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
     }
 }
