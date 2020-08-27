@@ -30,4 +30,4 @@ jobs:
           java-version: 1.8
 
       - name: build maven
-        run: mvn clean -b package --file pom.xml
+        run: mvn  -B clean compile
