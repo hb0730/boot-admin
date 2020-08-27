@@ -1,8 +1,10 @@
 package com.hb0730.boot.admin.security.controller;
 
 import com.hb0730.boot.admin.domain.result.Result;
+import com.hb0730.boot.admin.domain.result.Results;
+import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.security.service.LoginServiceImpl;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,9 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/auth")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LoginController {
     private LoginServiceImpl loginService;
+
     /**
      * 用户登录
      *
@@ -27,7 +30,7 @@ public class LoginController {
      */
     @PostMapping("/login")
     public Result<Object> login(String username, String password) {
-
-        return null;
+        User login = loginService.login(username, password);
+        return Results.resultSuccess(login);
     }
 }
