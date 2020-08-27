@@ -26,6 +26,6 @@ public class UserAccountController extends AbstractBaseController<Long, UserAcco
         super(service);
         this.service = service;
     }
-    
+
 }
 
