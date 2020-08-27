@@ -4,13 +4,14 @@ import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.token.AbstractTokenService;
 import com.hb0730.boot.admin.token.configuration.TokenProperties;
 import com.hb0730.commons.cache.Cache;
-import com.hb0730.commons.json.gson.GsonUtils;
+import com.hb0730.commons.json.jackson.JacksonUtils;
 import com.hb0730.commons.lang.StringUtils;
 import com.hb0730.commons.lang.date.DateUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -35,7 +36,14 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
             String accessTokenKey = getAccessTokenKey(accessToken);
             String userTokenKey = String.valueOf(cache.get(accessTokenKey).orElseGet(() -> ""));
             Optional<Object> optional = cache.get(getUserTokenKey(userTokenKey));
-            return optional.map(o -> GsonUtils.jsonToObject(GsonUtils.objectToJson(o), User.class)).orElse(null);
+            if (optional.isPresent()) {
+                try {
+                    return JacksonUtils.jsonToObject(JacksonUtils.objectToJson(optional.get()), User.class);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+//                return GsonUtils.jsonToObject(GsonUtils.objectToJson(optional.get()), User.class);
+            }
         }
         return null;
     }
@@ -47,7 +55,7 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
         refreshAccessToken(user);
         String accessToken = extractKey(token);
         String accessTokenKey = getAccessTokenKey(accessToken);
-        cache.put(accessTokenKey, accessToken, super.getProperties().getExpireTime(), super.getProperties().getTimeUnit());
+        cache.put(accessTokenKey, token, super.getProperties().getExpireTime(), super.getProperties().getTimeUnit());
         return accessToken;
     }
 

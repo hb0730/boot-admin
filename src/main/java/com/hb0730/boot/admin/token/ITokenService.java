@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.token;
 
+import com.hb0730.boot.admin.security.model.LoginUser;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.commons.encrypt.digest.MD5Utils;
 import com.hb0730.commons.lang.constants.Charsets;

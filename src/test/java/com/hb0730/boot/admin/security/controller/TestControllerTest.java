@@ -1,6 +1,8 @@
 package com.hb0730.boot.admin.security.controller;
 
+import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.security.model.LoginUser;
+import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.commons.json.gson.GsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -44,13 +46,16 @@ public class TestControllerTest {
         ).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
         Assert.assertNotNull(result);
         String contentAsString = result.getResponse().getContentAsString();
-        LoginUser loginUser = GsonUtils.jsonToObject(contentAsString, LoginUser.class);
-        String accessToken = loginUser.getAccessToken();
+        Result loginUser = GsonUtils.jsonToObject(contentAsString, Result.class);
+        Object data = loginUser.getData();
+        LoginUser user = GsonUtils.jsonToObject(GsonUtils.objectToJson(data), LoginUser.class);
+        String accessToken = user.getAccessToken();
 
         result = mvc.perform(
-                MockMvcRequestBuilders.get("/test")
+                MockMvcRequestBuilders.get("/auth/test")
                         .header("Authorization","Bearer "+accessToken)
-                        .accept(MediaType.APPLICATION_JSON_UTF8))
+                        .accept(MediaType.APPLICATION_JSON_UTF8)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print()).andReturn();
         Assert.assertNotNull(result);

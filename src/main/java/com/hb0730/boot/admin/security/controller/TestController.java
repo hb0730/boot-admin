@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 3.0.0
  */
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/auth/test")
 @RequiredArgsConstructor
 @Validated
 public class TestController {
