@@ -11,7 +11,7 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <compile.version>8</compile.version>
+        <compile.version>1.8</compile.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
