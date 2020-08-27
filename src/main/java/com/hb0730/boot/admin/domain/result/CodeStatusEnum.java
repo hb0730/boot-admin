@@ -12,9 +12,14 @@ public enum CodeStatusEnum {
      */
     SUCCESS("00000", "请求成功"),
     /**
-     * 请求必填参数为空
+     * 请求必填参数为空 A类 用户端错误
      */
     PARAMS_REQUIRED_IS_NULL("A0410", "请求必填参数为空"),
+
+    /**
+     * 访问未授权
+     */
+    UNAUTHORIZED("A0301", "访问未授权"),
     /**
      * 系统错误
      */
