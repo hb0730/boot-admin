@@ -1,9 +1,12 @@
 package com.hb0730.boot.admin.security.service;
 
+import com.hb0730.boot.admin.project.system.user.info.model.dto.UserDTO;
+import com.hb0730.boot.admin.project.system.user.info.service.IUserInfoService;
+import com.hb0730.boot.admin.security.model.User;
+import com.hb0730.commons.spring.BeanUtils;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,13 +22,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+    private final IUserInfoService userInfoService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("password")
-                .roles("USER")
-                .build();
+        UserDTO user = userInfoService.loadUserByUsername(username);
+        return BeanUtils.transformFrom(user, User.class);
     }
 }

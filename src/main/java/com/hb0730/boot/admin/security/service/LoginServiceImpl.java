@@ -32,9 +32,9 @@ public class LoginServiceImpl {
             // 认证错误 可能密码错误账号信息错误等
             throw new LoginException(ResponseStatusEnum.USE_LOGIN_ERROR, "用户名或者密码错误");
         }
-        Object principal = authenticate.getPrincipal();
+        User user = (User) authenticate.getPrincipal();
         // 缓存 并返回
-        return null;
+        return user;
     }
 
 }

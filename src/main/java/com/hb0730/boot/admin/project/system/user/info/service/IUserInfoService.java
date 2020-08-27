@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.project.system.user.info.service;
 
 import com.hb0730.boot.admin.domain.service.IBaseService;
+import com.hb0730.boot.admin.project.system.user.info.model.dto.UserDTO;
 import com.hb0730.boot.admin.project.system.user.info.model.entity.UserInfoEntity;
 import com.hb0730.boot.admin.project.system.user.info.model.query.UserInfoParams;
 import com.hb0730.boot.admin.project.system.user.info.model.vo.UserInfoVO;
@@ -13,4 +14,12 @@ import com.hb0730.boot.admin.project.system.user.info.model.vo.UserInfoVO;
  */
 public interface IUserInfoService extends IBaseService<Long, UserInfoParams, UserInfoVO, UserInfoEntity> {
 
+
+    /**
+     * 根据账号获取用户关联信息
+     *
+     * @param username 用户账号
+     * @return 用户关联信息
+     */
+    UserDTO loadUserByUsername(String username);
 }
