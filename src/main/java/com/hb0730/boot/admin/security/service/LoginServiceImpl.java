@@ -2,7 +2,10 @@ package com.hb0730.boot.admin.security.service;
 
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.exceptions.LoginException;
+import com.hb0730.boot.admin.security.model.LoginUser;
 import com.hb0730.boot.admin.security.model.User;
+import com.hb0730.boot.admin.token.ITokenService;
+import com.hb0730.commons.spring.BeanUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -21,9 +24,9 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class LoginServiceImpl {
     private final AuthenticationManager authenticationManager;
-
+    private final ITokenService tokenService;
     @Nullable
-    public User login(@NonNull String username, @NonNull String password) {
+    public LoginUser login(@NonNull String username, @NonNull String password) {
         Authentication authenticate = null;
         try {
             // see com.hb0730.boot.admin.security.service.UserDetailsServiceImpl#loadUserByUsername
@@ -33,8 +36,11 @@ public class LoginServiceImpl {
             throw new LoginException(ResponseStatusEnum.USE_LOGIN_ERROR, "用户名或者密码错误");
         }
         User user = (User) authenticate.getPrincipal();
-        // 缓存 并返回
-        return user;
+        String accessToken = tokenService.createAccessToken(user);
+        LoginUser loginUser = BeanUtils.transformFrom(user, LoginUser.class);
+        assert loginUser != null;
+        loginUser.setAccessToken(accessToken);
+        return loginUser;
     }
 
 }

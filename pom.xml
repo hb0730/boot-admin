@@ -106,6 +106,10 @@
             <groupId>com.hb0730</groupId>
             <artifactId>commons-json</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.hb0730</groupId>
+            <artifactId>commons-encrypt</artifactId>
+        </dependency>
 
 
         <dependency>

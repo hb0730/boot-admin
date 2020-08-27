@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * 登录用户信息
@@ -14,6 +15,44 @@ import java.util.Collection;
  */
 public class User extends UserDTO implements UserDetails {
     private static final String ROLE = "ROLE_";
+
+    /**
+     * 用户 token
+     */
+    private String token;
+
+    /**
+     * 用户登录时间
+     */
+    private Date loginTime;
+    /**
+     * 用户过期时间
+     */
+    private Date expireTime;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Date getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(Date loginTime) {
+        this.loginTime = loginTime;
+    }
+
+    public Date getExpireTime() {
+        return expireTime;
+    }
+
+    public void setExpireTime(Date expireTime) {
+        this.expireTime = expireTime;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
