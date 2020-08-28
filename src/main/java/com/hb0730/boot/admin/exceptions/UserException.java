@@ -6,39 +6,36 @@ import lombok.Getter;
 import lombok.NonNull;
 
 /**
- * 登录异常
+ * 用户相关异常
  *
  * @author bing_huang
  * @since 3.0.0
  */
-public class LoginException extends AbstractException {
+public class UserException extends AbstractException {
     @Getter
-    private ResponseStatusEnum status;
+    private final ResponseStatusEnum status;
     @Getter
-    private String data;
+    private final String data;
 
-    public LoginException() {
-    }
-
-    public LoginException(@NonNull ResponseStatusEnum status, String message) {
-        super(message);
+    public UserException(@NonNull ResponseStatusEnum status, String message) {
+        super(status, message);
         this.status = status;
         this.data = message;
     }
 
-    public LoginException(@NonNull String code, String message) {
+    public UserException(@NonNull String code, String message) {
         super(message);
         this.status = ValueEnum.valueToEnum(ResponseStatusEnum.class, code);
         this.data = message;
     }
 
-    public LoginException(@NonNull ResponseStatusEnum status, String message, Throwable cause) {
+    public UserException(@NonNull ResponseStatusEnum status, String message, Throwable cause) {
         super(message, cause);
         this.status = status;
         this.data = message;
     }
 
-    public LoginException(@NonNull String code, String message, Throwable cause) {
+    public UserException(@NonNull String code, String message, Throwable cause) {
         super(message, cause);
         this.status = ValueEnum.valueToEnum(ResponseStatusEnum.class, code);
         this.data = message;

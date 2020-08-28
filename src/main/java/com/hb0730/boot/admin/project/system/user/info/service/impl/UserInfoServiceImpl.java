@@ -10,6 +10,7 @@ import com.hb0730.boot.admin.project.system.user.info.model.query.UserInfoParams
 import com.hb0730.boot.admin.project.system.user.info.model.vo.UserInfoVO;
 import com.hb0730.boot.admin.project.system.user.info.service.IUserInfoService;
 import com.hb0730.commons.spring.BeanUtils;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoParams, UserInfoVO, UserInfoEntity, IUserInfoMapper> implements IUserInfoService {
+    @Getter
     private final IUserAccountService accountService;
 
     @Override
@@ -37,5 +39,11 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         user.setUsername(accountEntity.getUsername());
         user.setPassword(accountEntity.getPassword());
         return user;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T getThis() {
+        return (T) this;
     }
 }

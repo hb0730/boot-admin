@@ -13,6 +13,10 @@ public enum ResponseStatusEnum implements ValueEnum<String> {
     SUCCESS("00000", "请求成功"),
     // A类 用户端错误
     /**
+     * 密码校验错误
+     */
+    USER_PASSWORD_V_FAIL("A0120","密码校验失败"),
+    /**
      * 用户登录异常
      */
     USE_LOGIN_ERROR("A0200", "用户登录异常"),

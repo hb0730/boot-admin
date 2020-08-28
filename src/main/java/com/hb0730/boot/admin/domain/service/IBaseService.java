@@ -39,4 +39,12 @@ public interface IBaseService<ID extends Serializable,
      * @return QueryWrapper
      */
     QueryWrapper<ENTITY> query(@NonNull PARAMS params);
+
+    /**
+     * 获取实现类,用户获取实现内，内部依赖
+     *
+     * @param <T> 实现类类型
+     * @return 实现类
+     */
+    <T> T getThis();
 }

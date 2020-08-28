@@ -22,4 +22,5 @@ public interface IUserInfoService extends IBaseService<Long, UserInfoParams, Use
      * @return 用户关联信息
      */
     UserDTO loadUserByUsername(String username);
+
 }

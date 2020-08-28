@@ -33,7 +33,7 @@ public class UserInfoVO extends BaseVO implements InputConverter<UserInfoEntity>
     /**
      * 昵称
      */
-    private String nikeName;
+    private String nickName;
 
     /**
      * 用户手机号

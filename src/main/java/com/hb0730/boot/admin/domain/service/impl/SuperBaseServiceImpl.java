@@ -41,6 +41,11 @@ public class SuperBaseServiceImpl<ID extends Serializable,
     }
 
     @Override
+    public <T> T getThis() {
+        return null;
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean save(@NonNull VO vo) {
         ValidatorUtils.validate(vo);

@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 /**
  * 用户详情dto
  *
@@ -13,7 +15,8 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode
 @ToString
-public class UserInfoDTO {
+public class UserInfoDTO implements Serializable {
+    private static final long serialVersionUID = -3217012866164380235L;
     /**
      * id
      */
@@ -22,7 +25,7 @@ public class UserInfoDTO {
     /**
      * 昵称
      */
-    private String nikeName;
+    private String nickName;
 
     /**
      * 用户手机号

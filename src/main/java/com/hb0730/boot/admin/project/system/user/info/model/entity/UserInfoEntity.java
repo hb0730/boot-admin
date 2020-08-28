@@ -37,8 +37,8 @@ public class UserInfoEntity extends BaseDomain {
     /**
      * 昵称
      */
-    @TableField("nike_name")
-    private String nikeName;
+    @TableField("nick_name")
+    private String nickName;
 
     /**
      * 用户手机号
@@ -69,7 +69,7 @@ public class UserInfoEntity extends BaseDomain {
 
     public static final String ID = "id";
 
-    public static final String NIKE_NAME = "nike_name";
+    public static final String NICK_NAME = "nick_name";
 
     public static final String PHONE_NUMBER = "phone_number";
 
