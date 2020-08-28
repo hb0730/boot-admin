@@ -3,6 +3,8 @@ package com.hb0730.boot.admin.security.utils;
 import com.hb0730.boot.admin.security.configuration.WebSecurityConfig;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.commons.spring.SpringContextUtils;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +22,7 @@ public class SecurityUtils {
      *
      * @return {@link User}
      */
+    @Nullable
     public static User getCurrentUser() {
         return getAuthentication() == null ? null : (User) getAuthentication().getPrincipal();
     }
@@ -29,6 +32,7 @@ public class SecurityUtils {
      *
      * @return {@link Authentication}
      */
+    @Nullable
     public static Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
@@ -39,6 +43,7 @@ public class SecurityUtils {
      * @return {@link PasswordEncoder}
      * @see WebSecurityConfig#passwordEncoder()
      */
+    @NonNull
     public static PasswordEncoder getPasswordEncoder() {
         return SpringContextUtils.getBean(PasswordEncoder.class);
     }

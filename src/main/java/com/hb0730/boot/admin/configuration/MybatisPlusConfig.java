@@ -22,11 +22,18 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan("com.hb0730.boot.admin.**.*mapper")
 public class MybatisPlusConfig {
 
+    /**
+     * 注册MybatisPlusInterceptor
+     *
+     * @return MybatisPlusInterceptor
+     */
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         interceptor.addInnerInterceptor(paginationInnerInterceptor());
+        // 乐观锁
         interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
+        // 击 SQL 阻断解析器,防止全表更新与删除
         interceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
         return interceptor;
     }

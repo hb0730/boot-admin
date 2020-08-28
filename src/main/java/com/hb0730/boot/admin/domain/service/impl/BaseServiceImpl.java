@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hb0730.boot.admin.domain.model.entity.BusinessDomain;
+import com.hb0730.boot.admin.security.model.User;
+import com.hb0730.boot.admin.security.utils.SecurityUtils;
 
 import java.util.Date;
 
@@ -23,6 +25,10 @@ public class BaseServiceImpl<MAPPER extends BaseMapper<ENTITY>, ENTITY> extends 
             UpdateWrapper<ENTITY> update = (UpdateWrapper<ENTITY>) updateWrapper;
             update.set(BusinessDomain.UPDATE_TIME, new Date());
             // 设置用户
+            User currentUser = SecurityUtils.getCurrentUser();
+            if (null != currentUser) {
+                update.set(BusinessDomain.UPDATE_USER_ID, currentUser.getId());
+            }
         }
         return super.update(updateWrapper);
     }

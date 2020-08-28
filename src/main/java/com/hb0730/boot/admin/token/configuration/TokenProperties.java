@@ -3,6 +3,8 @@ package com.hb0730.boot.admin.token.configuration;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +17,8 @@ import java.util.concurrent.TimeUnit;
 @Data
 @EqualsAndHashCode
 @ToString
+@Configuration
+@ConfigurationProperties(prefix = "boot.admin.token-config")
 public class TokenProperties {
     /**
      * 令牌自定义标识

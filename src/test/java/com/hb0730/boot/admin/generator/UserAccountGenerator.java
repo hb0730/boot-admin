@@ -1,4 +1,4 @@
-package com.hb07300.boot.admin;
+package com.hb0730.boot.admin.generator;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;

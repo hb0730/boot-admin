@@ -1,4 +1,4 @@
-package com.hb07300.boot.admin;
+package com.hb0730.boot.admin.generator;
 
 /**
  * @author bing_huang
