@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 3.0.0
  */
 @RestController
-@RequestMapping("/auth/test")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 @Validated
 public class TestController {
-    @GetMapping
+    @GetMapping("/test/ada")
     public Result<String> test() {
         return Results.resultSuccess("测试");
     }

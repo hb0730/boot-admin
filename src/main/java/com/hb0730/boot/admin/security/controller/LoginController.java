@@ -3,6 +3,7 @@ package com.hb0730.boot.admin.security.controller;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
 import com.hb0730.boot.admin.security.model.LoginBody;
+import com.hb0730.boot.admin.security.model.LoginUser;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.security.service.LoginServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class LoginController {
      */
     @PostMapping("/login")
     public Result<Object> login(@Validated @RequestBody LoginBody body) {
-        User login = loginService.login(body.getUsername(), body.getPassword());
+        LoginUser login = loginService.login(body.getUsername(), body.getPassword());
         return Results.resultSuccess(login);
     }
 }

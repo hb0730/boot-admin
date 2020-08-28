@@ -31,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationEntryPoint authenticationEntryPointImpl;
 
     @Autowired
-    private LogoutSuccessHandler logoutSuccessHandlerImp;
+    private LogoutSuccessHandler logoutSuccessHandlerImpl;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -55,12 +55,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 过滤请求
                 .authorizeRequests()
                 // 对于登录login  允许匿名访问
-                .antMatchers("/auth/**").anonymous()
+                .antMatchers("/auth/**","/favicon.ico").permitAll()
                 // 其余认证访问
                 .antMatchers("/**").authenticated().and()
                 .headers().frameOptions().disable();
         // 登出
-        http.logout().logoutUrl("/auth/logout").logoutSuccessHandler(logoutSuccessHandlerImp);
+        http.logout().logoutUrl("/auth/logout").logoutSuccessHandler(logoutSuccessHandlerImpl);
         // cors
         http.addFilterBefore(corsFilter, CorsFilter.class);
 

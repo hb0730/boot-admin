@@ -52,7 +52,7 @@ public class TestControllerTest {
         String accessToken = user.getAccessToken();
 
         result = mvc.perform(
-                MockMvcRequestBuilders.get("/auth/test")
+                MockMvcRequestBuilders.get("/auth/test/ada")
                         .header("Authorization","Bearer "+accessToken)
                         .accept(MediaType.APPLICATION_JSON_UTF8)
                         .contentType(MediaType.APPLICATION_JSON_UTF8))
