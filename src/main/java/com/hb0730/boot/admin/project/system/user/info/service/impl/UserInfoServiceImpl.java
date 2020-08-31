@@ -38,6 +38,8 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         assert user != null;
         user.setUsername(accountEntity.getUsername());
         user.setPassword(accountEntity.getPassword());
+        // 组织
+        //权限
         return user;
     }
 

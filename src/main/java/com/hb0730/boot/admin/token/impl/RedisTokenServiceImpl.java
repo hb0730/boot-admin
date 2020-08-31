@@ -42,7 +42,6 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-//                return GsonUtils.jsonToObject(GsonUtils.objectToJson(optional.get()), User.class);
             }
         }
         return null;
