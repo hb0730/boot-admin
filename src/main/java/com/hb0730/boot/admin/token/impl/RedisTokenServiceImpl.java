@@ -1,17 +1,18 @@
 package com.hb0730.boot.admin.token.impl;
 
+import com.google.gson.*;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.token.AbstractTokenService;
 import com.hb0730.boot.admin.token.configuration.TokenProperties;
 import com.hb0730.commons.cache.Cache;
-import com.hb0730.commons.json.jackson.JacksonUtils;
+import com.hb0730.commons.json.gson.GsonUtils;
 import com.hb0730.commons.lang.StringUtils;
 import com.hb0730.commons.lang.date.DateUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -38,8 +39,13 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
             Optional<Object> optional = cache.get(getUserTokenKey(userTokenKey));
             if (optional.isPresent()) {
                 try {
-                    return JacksonUtils.jsonToObject(JacksonUtils.objectToJson(optional.get()), User.class);
-                } catch (IOException e) {
+                    String json = GsonUtils.objectToJson(optional.get());
+                    // 解决序列化date 转long的问题，可能需要设置cache 序列化方案
+                    GsonBuilder gb = new GsonBuilder();
+                    gb.registerTypeAdapter(Date.class, new DateDeserializer());
+                    Gson gson = gb.create();
+                    return GsonUtils.jsonToObject(json, User.class, gson);
+                } catch (JsonParseException e) {
                     e.printStackTrace();
                 }
             }
@@ -109,5 +115,21 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
     @Override
     public Map<String, UserDetails> getOnline() {
         return null;
+    }
+
+
+    private static class DateDeserializer implements JsonDeserializer<java.util.Date> {
+
+        @Override
+        public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            return new java.util.Date(json.getAsJsonPrimitive().getAsLong());
+        }
+    }
+
+    public static class DateSerializer implements JsonSerializer<Date> {
+        @Override
+        public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(src.getTime());
+        }
     }
 }

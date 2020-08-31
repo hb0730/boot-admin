@@ -89,9 +89,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    GrantedAuthorityDefaults grantedAuthorityDefaults() {
-        // 去除 ROLE_ 前缀
-        return new GrantedAuthorityDefaults("");
-    }
+//    @Bean
+//    GrantedAuthorityDefaults grantedAuthorityDefaults() {
+//        // 去除 ROLE_ 前缀
+//        return new GrantedAuthorityDefaults("");
+//    }
 }

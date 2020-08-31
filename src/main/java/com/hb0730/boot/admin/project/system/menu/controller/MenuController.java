@@ -1,12 +1,25 @@
 package com.hb0730.boot.admin.project.system.menu.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.hb0730.boot.admin.commons.enums.SortTypeEnum;
+import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
+import com.hb0730.boot.admin.domain.result.Result;
+import com.hb0730.boot.admin.domain.result.Results;
+import com.hb0730.boot.admin.project.system.menu.model.dto.MenuDTO;
+import com.hb0730.boot.admin.project.system.menu.model.dto.TreeMenuDTO;
 import com.hb0730.boot.admin.project.system.menu.model.entity.MenuEntity;
 import com.hb0730.boot.admin.project.system.menu.model.query.MenuParams;
-import com.hb0730.boot.admin.project.system.menu.model.dto.MenuDTO;
+import com.hb0730.boot.admin.project.system.menu.model.vo.VueMenuVO;
+import com.hb0730.boot.admin.project.system.menu.service.IMenuService;
+import com.hb0730.commons.spring.BeanUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 菜单  前端控制器
@@ -17,6 +30,48 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v3/system/menu")
 public class MenuController extends AbstractBaseController<Long, MenuDTO, MenuParams, MenuEntity> {
+    private final IMenuService service;
 
+    public MenuController(IMenuService service) {
+        super(service);
+        this.service = service;
+    }
+
+    /**
+     * 获取当前用户所属菜单
+     *
+     * @return 菜单树
+     */
+    @GetMapping("/get/current/tree")
+    public Result<List<TreeMenuDTO>> getCurrentMenu() {
+        // 模拟数据
+        MenuParams params = new MenuParams();
+        params.setSortType(SortTypeEnum.ASC.getValue());
+        params.setSortColumn(Collections.singletonList(MenuEntity.SORT));
+        QueryWrapper<MenuEntity> query = QueryWrapperUtils.getQuery(params);
+        List<MenuEntity> entities = service.list(query);
+        List<TreeMenuDTO> menus = BeanUtils.transformFromInBatch(entities, TreeMenuDTO.class);
+        List<TreeMenuDTO> treeMenu = service.buildTree(menus);
+        return Results.resultSuccess(treeMenu);
+    }
+
+    /**
+     * 获取当前用户router
+     *
+     * @return vue router
+     */
+    @GetMapping("/get/current/router")
+    public Result<List<VueMenuVO>> getCurrentRouter() {
+        // 模拟数据
+        MenuParams params = new MenuParams();
+        params.setSortType(SortTypeEnum.ASC.getValue());
+        params.setSortColumn(Collections.singletonList(MenuEntity.SORT));
+        QueryWrapper<MenuEntity> query = QueryWrapperUtils.getQuery(params);
+        List<MenuEntity> entities = service.list(query);
+        List<TreeMenuDTO> menus = BeanUtils.transformFromInBatch(entities, TreeMenuDTO.class);
+        List<TreeMenuDTO> treeMenu = service.buildTree(menus);
+        List<VueMenuVO> routerMenu = service.buildVueMenus(treeMenu);
+        return Results.resultSuccess(routerMenu);
+    }
 }
 

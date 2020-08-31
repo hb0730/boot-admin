@@ -57,7 +57,7 @@ public class User extends UserDTO implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return AuthorityUtils.commaSeparatedStringToAuthorityList("ADMINISTRATOR");
+        return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMINISTRATOR");
     }
 
     @Override

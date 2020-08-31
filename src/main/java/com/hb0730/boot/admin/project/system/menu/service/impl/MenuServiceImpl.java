@@ -66,7 +66,7 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
                             menuVo.setPath(ROOT_PATH + menu.getPath());
                         }
                         // 组件名称 name
-                        menuVo.setName(menu.getEnname());
+                        menuVo.setTitle(menu.getEnname());
                         //是否隐藏
                         menuVo.setHidden(false);
                         // component
@@ -77,7 +77,7 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
                             menuVo.setComponent(menu.getComponent());
                         }
                         // vue router meta
-                        menuVo.setMeta(new MenuMetaVO(menu.getName(), menu.getIcon(), false, true));
+                        menuVo.setMeta(new MenuMetaVO(menu.getTitle(), menu.getIcon(), false, true));
 
                         if (menuDtoList != null && menuDtoList.size() != 0) {
                             menuVo.setAlwaysShow(true);
@@ -87,11 +87,11 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
                         } else if (menu.getParentId() == null || menu.getParentId() == -1) {
                             VueMenuVO menuVo1 = new VueMenuVO();
                             menuVo1.setMeta(menuVo.getMeta());
-                            menuVo1.setName(menuVo.getName());
+                            menuVo1.setTitle(menuVo.getTitle());
                             menuVo1.setComponent(menuVo.getComponent());
                             menuVo1.setPath(menu.getPath());
 
-                            menuVo.setName(null);
+                            menuVo.setTitle(null);
                             menuVo.setMeta(null);
                             menuVo.setComponent("Layout");
                             List<VueMenuVO> list1 = new ArrayList<>();
