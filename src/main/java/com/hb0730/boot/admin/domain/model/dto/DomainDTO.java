@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.domain.model.vo;
+package com.hb0730.boot.admin.domain.model.dto;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode
 @ToString
-class DomainVO implements Serializable {
+class DomainDTO implements Serializable {
     private static final long serialVersionUID = -3936221129643979906L;
     /**
      * 创建者

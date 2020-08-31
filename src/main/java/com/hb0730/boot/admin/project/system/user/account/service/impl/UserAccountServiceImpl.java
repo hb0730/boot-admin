@@ -10,8 +10,8 @@ import com.hb0730.boot.admin.exceptions.AccountException;
 import com.hb0730.boot.admin.exceptions.BusinessException;
 import com.hb0730.boot.admin.project.system.user.account.mapper.IUserAccountMapper;
 import com.hb0730.boot.admin.project.system.user.account.model.entity.UserAccountEntity;
-import com.hb0730.boot.admin.project.system.user.account.model.vo.UserAccountParams;
-import com.hb0730.boot.admin.project.system.user.account.model.vo.UserAccountVO;
+import com.hb0730.boot.admin.project.system.user.account.model.query.UserAccountParams;
+import com.hb0730.boot.admin.project.system.user.account.model.dto.UserAccountDTO;
 import com.hb0730.boot.admin.project.system.user.account.service.IUserAccountService;
 import com.hb0730.boot.admin.security.utils.SecurityUtils;
 import com.hb0730.commons.lang.StringUtils;
@@ -33,13 +33,13 @@ import java.util.Objects;
  */
 @Service
 public class UserAccountServiceImpl
-        extends SuperBaseServiceImpl<Long, UserAccountParams, UserAccountVO, UserAccountEntity, IUserAccountMapper> implements IUserAccountService {
+        extends SuperBaseServiceImpl<Long, UserAccountParams, UserAccountDTO, UserAccountEntity, IUserAccountMapper> implements IUserAccountService {
 
     @Override
-    public boolean save(@NonNull UserAccountVO vo) {
-        ValidatorUtils.validate(vo);
-        String username = vo.getUsername();
-        Long userId = vo.getUserId();
+    public boolean save(@NonNull UserAccountDTO dto) {
+        ValidatorUtils.validate(dto);
+        String username = dto.getUsername();
+        Long userId = dto.getUserId();
         UserAccountEntity entity = userAccountByUserId(userId);
         if (null != entity) {
             throw new BusinessException("用户id已绑定账号,请勿重新绑定");
@@ -48,7 +48,7 @@ public class UserAccountServiceImpl
         if (null != entity) {
             throw new BusinessException("用户账号已存在，请重新设置");
         }
-        entity = vo.convertTo();
+        entity = dto.convertTo();
 
         return super.save(entity);
     }

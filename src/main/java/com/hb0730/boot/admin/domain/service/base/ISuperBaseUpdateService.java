@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.domain.service.base;
 
-import com.hb0730.boot.admin.domain.model.vo.BaseVO;
+import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
 import org.springframework.lang.NonNull;
 
 import java.io.Serializable;
@@ -8,12 +8,12 @@ import java.io.Serializable;
 /**
  * 基础service之修改
  *
- * @param <VO> 显示层对象类型
+ * @param <DTO> 显示层对象类型
  * @param <ID> id类型
  * @author bing_huang
  * @since 3.0.0
  */
-public interface ISuperBaseUpdateService<ID extends Serializable, VO extends BaseVO> {
+public interface ISuperBaseUpdateService<ID extends Serializable, DTO extends BaseDTO> {
     /**
      * 根据修改删除
      *
@@ -21,5 +21,5 @@ public interface ISuperBaseUpdateService<ID extends Serializable, VO extends Bas
      * @param vo 修改参数
      * @return 是否成功
      */
-    boolean updateById(@NonNull ID id, @NonNull VO vo);
+    boolean updateById(@NonNull ID id, @NonNull DTO vo);
 }

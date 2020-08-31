@@ -7,7 +7,7 @@ import com.hb0730.boot.admin.project.system.user.info.mapper.IUserInfoMapper;
 import com.hb0730.boot.admin.project.system.user.info.model.dto.UserDTO;
 import com.hb0730.boot.admin.project.system.user.info.model.entity.UserInfoEntity;
 import com.hb0730.boot.admin.project.system.user.info.model.query.UserInfoParams;
-import com.hb0730.boot.admin.project.system.user.info.model.vo.UserInfoVO;
+import com.hb0730.boot.admin.project.system.user.info.model.vo.UserInfoDTO;
 import com.hb0730.boot.admin.project.system.user.info.service.IUserInfoService;
 import com.hb0730.commons.spring.BeanUtils;
 import lombok.Getter;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoParams, UserInfoVO, UserInfoEntity, IUserInfoMapper> implements IUserInfoService {
+public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoParams, UserInfoDTO, UserInfoEntity, IUserInfoMapper> implements IUserInfoService {
     @Getter
     private final IUserAccountService accountService;
 

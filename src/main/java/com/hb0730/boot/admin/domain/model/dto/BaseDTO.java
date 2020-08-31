@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.domain.model.vo;
+package com.hb0730.boot.admin.domain.model.dto;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,5 +11,5 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString
-public class BaseVO extends DomainVO {
+public class BaseDTO extends DomainDTO {
 }

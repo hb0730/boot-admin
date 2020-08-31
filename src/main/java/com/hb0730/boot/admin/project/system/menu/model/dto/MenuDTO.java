@@ -1,6 +1,6 @@
-package com.hb0730.boot.admin.project.system.menu.model.vo;
+package com.hb0730.boot.admin.project.system.menu.model.dto;
 
-import com.hb0730.boot.admin.domain.model.vo.BusinessVO;
+import com.hb0730.boot.admin.domain.model.dto.BusinessDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class MenuVO extends BusinessVO {
+public class MenuDTO extends BusinessDTO {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,6 +34,12 @@ public class MenuVO extends BusinessVO {
      */
     @NotBlank(message = "名称不为空")
     private String name;
+
+    /**
+     * 英语名称
+     */
+    @NotBlank(message = "英文名称不为空")
+    private String enname;
 
     /**
      * 父菜单id

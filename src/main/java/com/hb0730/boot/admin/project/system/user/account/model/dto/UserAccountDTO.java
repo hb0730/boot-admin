@@ -1,7 +1,7 @@
-package com.hb0730.boot.admin.project.system.user.account.model.vo;
+package com.hb0730.boot.admin.project.system.user.account.model.dto;
 
 import com.hb0730.boot.admin.domain.model.InputConverter;
-import com.hb0730.boot.admin.domain.model.vo.BaseVO;
+import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
 import com.hb0730.boot.admin.project.system.user.account.model.entity.UserAccountEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class UserAccountVO extends BaseVO implements InputConverter<UserAccountEntity> {
+public class UserAccountDTO extends BaseDTO implements InputConverter<UserAccountEntity> {
 
     private static final long serialVersionUID = 1L;
 

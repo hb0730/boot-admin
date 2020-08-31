@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.project.system.user.account.model.vo;
+package com.hb0730.boot.admin.project.system.user.account.model.query;
 
 import com.hb0730.boot.admin.domain.model.query.BaseParams;
 import lombok.Data;

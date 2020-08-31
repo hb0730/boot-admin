@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.system.user.account.controller;
 
 import com.hb0730.boot.admin.project.ProjectTest;
-import com.hb0730.boot.admin.project.system.user.account.model.vo.UserAccountParams;
+import com.hb0730.boot.admin.project.system.user.account.model.query.UserAccountParams;
 import com.hb0730.commons.json.gson.GsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;

@@ -4,7 +4,7 @@ package com.hb0730.boot.admin.project.system.menu.controller;
 import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.project.system.menu.model.entity.MenuEntity;
 import com.hb0730.boot.admin.project.system.menu.model.query.MenuParams;
-import com.hb0730.boot.admin.project.system.menu.model.vo.MenuVO;
+import com.hb0730.boot.admin.project.system.menu.model.dto.MenuDTO;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/v3/system/menu")
-public class MenuController extends AbstractBaseController<Long, MenuVO, MenuParams, MenuEntity> {
+public class MenuController extends AbstractBaseController<Long, MenuDTO, MenuParams, MenuEntity> {
 
 }
 

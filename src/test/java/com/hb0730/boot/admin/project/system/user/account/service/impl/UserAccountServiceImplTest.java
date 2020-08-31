@@ -3,8 +3,8 @@ package com.hb0730.boot.admin.project.system.user.account.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.commons.utils.PasswordSecurityUtils;
 import com.hb0730.boot.admin.project.ProjectTest;
-import com.hb0730.boot.admin.project.system.user.account.model.vo.UserAccountParams;
-import com.hb0730.boot.admin.project.system.user.account.model.vo.UserAccountVO;
+import com.hb0730.boot.admin.project.system.user.account.model.query.UserAccountParams;
+import com.hb0730.boot.admin.project.system.user.account.model.dto.UserAccountDTO;
 import com.hb0730.boot.admin.project.system.user.account.service.IUserAccountService;
 import com.hb0730.commons.spring.SpringContextUtils;
 import org.junit.Assert;
@@ -36,7 +36,7 @@ public class UserAccountServiceImplTest extends ProjectTest {
     @Test
     public void pageTest() {
         UserAccountParams params = new UserAccountParams();
-        Page<UserAccountVO> page = service.page(params);
+        Page<UserAccountDTO> page = service.page(params);
         Assert.assertNotNull(page);
     }
 
@@ -48,7 +48,7 @@ public class UserAccountServiceImplTest extends ProjectTest {
     @Override
     @Test
     public void save() {
-        UserAccountVO vo = new UserAccountVO();
+        UserAccountDTO vo = new UserAccountDTO();
         vo.setUserId(-1L);
         vo.setUsername("Administrator");
         vo.setPassword("123456");
@@ -59,12 +59,12 @@ public class UserAccountServiceImplTest extends ProjectTest {
 
     @Test
     public void save1() {
-        service.save((UserAccountVO) null);
+        service.save((UserAccountDTO) null);
     }
 
     @Test
     public void save2() {
-        UserAccountVO vo = new UserAccountVO();
+        UserAccountDTO vo = new UserAccountDTO();
         service.save(vo);
     }
 

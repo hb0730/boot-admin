@@ -9,7 +9,7 @@ import com.hb0730.boot.admin.project.system.user.account.service.IUserAccountSer
 import com.hb0730.boot.admin.project.system.user.info.model.entity.UserInfoEntity;
 import com.hb0730.boot.admin.project.system.user.info.model.query.UserAccount;
 import com.hb0730.boot.admin.project.system.user.info.model.query.UserInfoParams;
-import com.hb0730.boot.admin.project.system.user.info.model.vo.UserInfoVO;
+import com.hb0730.boot.admin.project.system.user.info.model.vo.UserInfoDTO;
 import com.hb0730.boot.admin.project.system.user.info.service.IUserInfoService;
 import com.hb0730.boot.admin.project.system.user.info.service.impl.UserInfoServiceImpl;
 import com.hb0730.boot.admin.security.model.User;
@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestController
 @RequestMapping("/api/v3/system/user/info")
-public class UserInfoController extends AbstractBaseController<Long, UserInfoVO, UserInfoParams, UserInfoEntity> {
+public class UserInfoController extends AbstractBaseController<Long, UserInfoDTO, UserInfoParams, UserInfoEntity> {
     private final IUserInfoService service;
 
     public UserInfoController(IUserInfoService service) {
@@ -44,9 +44,9 @@ public class UserInfoController extends AbstractBaseController<Long, UserInfoVO,
      * @return 用户详情(不包含相关信息)
      */
     @GetMapping("/{id}")
-    public Result<UserInfoVO> getUserInfoById(@PathVariable("id") Long id) {
+    public Result<UserInfoDTO> getUserInfoById(@PathVariable("id") Long id) {
         UserInfoEntity entity = service.getById(id);
-        UserInfoVO info = BeanUtils.transformFrom(entity, UserInfoVO.class);
+        UserInfoDTO info = BeanUtils.transformFrom(entity, UserInfoDTO.class);
         return Results.resultSuccess(info);
     }
 
@@ -57,9 +57,9 @@ public class UserInfoController extends AbstractBaseController<Long, UserInfoVO,
      * @return 用户详情(不包含相关信息)
      */
     @GetMapping
-    public Result<UserInfoVO> getCurrentInfo(HttpServletRequest request) {
+    public Result<UserInfoDTO> getCurrentInfo(HttpServletRequest request) {
         User user = SecurityUtils.getCurrentUser();
-        UserInfoVO info = BeanUtils.transformFrom(user, UserInfoVO.class);
+        UserInfoDTO info = BeanUtils.transformFrom(user, UserInfoDTO.class);
         return Results.resultSuccess(info);
     }
 
