@@ -15,7 +15,7 @@ public enum ResponseStatusEnum implements ValueEnum<String> {
     /**
      * 密码校验错误
      */
-    USER_PASSWORD_V_FAIL("A0120","密码校验失败"),
+    USER_PASSWORD_V_FAIL("A0120", "密码校验失败"),
     /**
      * 用户登录异常
      */
@@ -32,6 +32,11 @@ public enum ResponseStatusEnum implements ValueEnum<String> {
      * 请求必填参数为空
      */
     PARAMS_REQUIRED_IS_NULL("A0410", "请求必填参数为空"),
+
+    /**
+     * 地址不在服务范围
+     */
+    URL_NOT_FOUND("A0422", "地址不在服务范围"),
 
     /**
      * 访问未授权
