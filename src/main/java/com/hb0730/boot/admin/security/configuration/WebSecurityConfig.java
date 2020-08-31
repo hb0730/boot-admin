@@ -3,12 +3,14 @@ package com.hb0730.boot.admin.security.configuration;
 import com.hb0730.boot.admin.security.filter.AuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -55,7 +57,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 过滤请求
                 .authorizeRequests()
                 // 对于登录login  允许匿名访问
-                .antMatchers("/auth/**","/favicon.ico").permitAll()
+                .antMatchers("/auth/**", "/favicon.ico").permitAll()
+                // 放行OPTIONS请求
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // 其余认证访问
                 .antMatchers("/**").authenticated().and()
                 .headers().frameOptions().disable();
@@ -81,6 +85,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+        // 加密
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        // 去除 ROLE_ 前缀
+        return new GrantedAuthorityDefaults("");
     }
 }
