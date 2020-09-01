@@ -14,11 +14,20 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 public class MenuMetaVO implements Serializable {
+    /**
+     * 页签标题
+     */
     private String title;
-
+    /**
+     * 图标
+     */
     private String icon;
-
-    private Boolean noCache;
-
+    /**
+     * 是否缓存
+     */
+    private Boolean cache;
+    /**
+     * 是否认证
+     */
     private Boolean auth;
 }

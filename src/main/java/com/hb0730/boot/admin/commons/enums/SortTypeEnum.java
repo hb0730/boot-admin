@@ -16,7 +16,7 @@ public enum SortTypeEnum implements ValueEnum<String> {
      */
     ASC("ASC");
 
-    private String value;
+    private final String value;
 
     SortTypeEnum(String value) {
         this.value = value;

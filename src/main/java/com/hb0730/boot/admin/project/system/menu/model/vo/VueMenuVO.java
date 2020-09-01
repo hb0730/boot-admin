@@ -13,19 +13,36 @@ import java.util.List;
  */
 @Data
 public class VueMenuVO implements Serializable {
+    /**
+     * router 名称
+     */
     private String name;
-
+    /**
+     * router 地址
+     */
     private String path;
-
+    /**
+     * 是否隐藏
+     */
     private Boolean hidden;
-
+    /**
+     * 重定向
+     */
     private String redirect;
-
+    /**
+     * 组件地址
+     */
     private String component;
-
+    /**
+     * 总是显示
+     */
     private Boolean alwaysShow;
-
+    /**
+     * 路由元数据
+     */
     private MenuMetaVO meta;
-
+    /**
+     * 子集
+     */
     private List<VueMenuVO> children;
 }
