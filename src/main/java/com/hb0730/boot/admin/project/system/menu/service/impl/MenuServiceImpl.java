@@ -1,5 +1,12 @@
 package com.hb0730.boot.admin.project.system.menu.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import com.hb0730.boot.admin.commons.enums.EnabledEnum;
+import com.hb0730.boot.admin.commons.enums.SortTypeEnum;
 import com.hb0730.boot.admin.domain.service.impl.SuperBaseServiceImpl;
 import com.hb0730.boot.admin.project.system.menu.mapper.IMenuMapper;
 import com.hb0730.boot.admin.project.system.menu.model.dto.MenuDTO;
@@ -10,8 +17,15 @@ import com.hb0730.boot.admin.project.system.menu.model.vo.MenuMetaVO;
 import com.hb0730.boot.admin.project.system.menu.model.vo.VueMenuVO;
 import com.hb0730.boot.admin.project.system.menu.service.IMenuService;
 import com.hb0730.commons.lang.StringUtils;
+import com.hb0730.commons.lang.collection.CollectionUtils;
+import com.hb0730.commons.spring.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,6 +39,70 @@ import static com.hb0730.commons.lang.constants.PathConst.ROOT_PATH;
  */
 @Service
 public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, MenuDTO, MenuEntity, IMenuMapper> implements IMenuService {
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateById(MenuEntity entity) {
+        Assert.notNull(entity, "修改信息不为空");
+        Assert.notNull(entity.getId(), "id为空");
+        Integer isEnabled = entity.getIsEnabled();
+        boolean updateResult = super.updateById(entity);
+        // 禁用子集
+        if (EnabledEnum.UN_ENABLED.getValue().equals(isEnabled)) {
+            List<MenuDTO> children = getChildrenByParenId(entity.getId());
+            if (!CollectionUtils.isEmpty(children)) {
+                Set<Long> childrenIds = children.stream().map(MenuDTO::getId).collect(Collectors.toSet());
+                UpdateWrapper<MenuEntity> update = Wrappers.update();
+                update.set(MenuEntity.IS_ENABLED, EnabledEnum.UN_ENABLED.getValue());
+                update.in(MenuEntity.ID, childrenIds);
+                super.update(update);
+            }
+        }
+        return updateResult;
+    }
+
+    @Override
+    public boolean removeById(Serializable id) {
+        //获取子集
+        Set<Long> ids = Sets.newHashSet((Long)id);
+        List<MenuDTO> children = this.getChildrenByParenId((Long)id);
+        if (!CollectionUtils.isEmpty(children)) {
+            Set<Long> childrenIds = children.stream().map(MenuDTO::getId).collect(Collectors.toSet());
+            ids.addAll(childrenIds);
+        }
+        return super.removeByIds(ids);
+    }
+
+    @Override
+    @Nullable
+    public List<MenuDTO> getChildrenByParenId(@Nonnull Long id) {
+        Assert.notNull(id, "id不为空");
+        List<MenuEntity> entities = super.list();
+        List<MenuDTO> menu = BeanUtils.transformFromInBatch(entities, MenuDTO.class);
+        List<MenuDTO> result = Lists.newArrayList();
+        for (MenuDTO dto : menu) {
+            // 第一级
+            if (dto.getParentId().equals(id)) {
+                result.add(dto);
+                for (MenuDTO item : menu) {
+                    if (dto.getId().equals(item.getParentId())) {
+                        result.add(item);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<TreeMenuDTO> queryTree() {
+        MenuParams params = new MenuParams();
+        params.setSortColumn(Collections.singletonList(MenuEntity.SORT));
+        params.setSortType(SortTypeEnum.ASC.getValue());
+        QueryWrapper<MenuEntity> query = super.query(params);
+        List<MenuEntity> entities = super.list(query);
+        List<TreeMenuDTO> treeMenu = BeanUtils.transformFromInBatch(entities, TreeMenuDTO.class);
+        return buildTree(treeMenu);
+    }
 
     @Override
     public List<TreeMenuDTO> buildTree(List<TreeMenuDTO> menu) {

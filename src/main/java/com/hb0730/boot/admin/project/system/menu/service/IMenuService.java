@@ -7,6 +7,8 @@ import com.hb0730.boot.admin.project.system.menu.model.entity.MenuEntity;
 import com.hb0730.boot.admin.project.system.menu.model.query.MenuParams;
 import com.hb0730.boot.admin.project.system.menu.model.vo.VueMenuVO;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -16,6 +18,23 @@ import java.util.List;
  * @since 3.0.0
  */
 public interface IMenuService extends IBaseService<Long, MenuParams, MenuDTO, MenuEntity> {
+
+
+    /**
+     * 根据父id获取子集(无限集，禁用与启用)
+     *
+     * @param id 父id
+     * @return 子集(无限集)
+     */
+    @Nullable
+    List<MenuDTO> getChildrenByParenId(@Nonnull Long id);
+
+    /**
+     * 树形菜单
+     *
+     * @return 菜单树
+     */
+    List<TreeMenuDTO> queryTree();
 
     /**
      * 构建菜单树

@@ -38,6 +38,17 @@ public class MenuController extends AbstractBaseController<Long, MenuDTO, MenuPa
     }
 
     /**
+     * 菜单树形展示
+     *
+     * @return 菜单树形
+     */
+    @GetMapping("/query/tree")
+    public Result<List<TreeMenuDTO>> queryTree() {
+        List<TreeMenuDTO> treeMenu = service.queryTree();
+        return Results.resultSuccess(treeMenu);
+    }
+
+    /**
      * 获取当前用户所属菜单
      *
      * @return 菜单树

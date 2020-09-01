@@ -28,7 +28,7 @@ public class MyBatisPlusMetaObjectHandler implements MetaObjectHandler {
             this.fillStrategy(metaObject, "createUserId", currentUser.getId());
         }
         this.fillStrategy(metaObject, "createTime", new Date());
-        this.fillStrategy(metaObject, "version", "1");
+        this.fillStrategy(metaObject, "version", 1);
 
     }
 

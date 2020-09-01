@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
+import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import com.hb0730.boot.admin.domain.model.query.BaseParams;
-import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
 import com.hb0730.boot.admin.domain.service.IBaseService;
 import com.hb0730.commons.spring.BeanUtils;
 import com.hb0730.commons.spring.ValidatorUtils;
@@ -59,7 +59,7 @@ public class SuperBaseServiceImpl<ID extends Serializable,
         ValidatorUtils.validate(id);
         ENTITY entity = super.getById(id);
         BeanUtils.updateProperties(dto, entity);
-        return super.updateById(entity);
+        return this.updateById(entity);
     }
 
     @Override

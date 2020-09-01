@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.system.menu.service.impl;
 
+import com.hb0730.boot.admin.project.system.menu.model.dto.MenuDTO;
 import com.hb0730.boot.admin.project.system.menu.model.dto.TreeMenuDTO;
 import com.hb0730.boot.admin.project.system.menu.model.entity.MenuEntity;
 import com.hb0730.boot.admin.project.system.menu.model.vo.VueMenuVO;
@@ -41,5 +42,11 @@ public class MenuServiceImplTest {
         treeMenu = menuService.buildTree(treeMenu);
         List<VueMenuVO> vueMenu = menuService.buildVueMenus(treeMenu);
         Assert.assertNotNull(vueMenu);
+    }
+
+    @Test
+    public void getChildrenByParenIdTest() {
+        List<MenuDTO> childrenByParenId = menuService.getChildrenByParenId(-1L);
+        Assert.assertNotNull(childrenByParenId);
     }
 }
