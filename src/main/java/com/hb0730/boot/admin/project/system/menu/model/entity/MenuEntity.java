@@ -39,6 +39,11 @@ public class MenuEntity extends BaseDomain {
      */
     @TableField("name")
     private String title;
+    /**
+     * 组件名称
+     */
+    @TableField("enname")
+    private String enname;
 
     /**
      * 父菜单id
@@ -76,6 +81,8 @@ public class MenuEntity extends BaseDomain {
     public static final String ID = "id";
 
     public static final String NAME = "title";
+
+    public static final String ENNAME="enname";
 
     public static final String PARENT_ID = "parent_id";
 

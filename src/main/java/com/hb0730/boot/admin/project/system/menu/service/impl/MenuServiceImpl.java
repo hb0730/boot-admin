@@ -64,9 +64,11 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
                                 &&
                                 (menu.getParentId() == null || menu.getParentId() == -1)) {
                             menuVo.setPath(ROOT_PATH + menu.getPath());
+                        } else {
+                            menuVo.setPath(menu.getPath());
                         }
                         // 组件名称 name
-                        menuVo.setTitle(menu.getEnname());
+                        menuVo.setName(menu.getEnname());
                         //是否隐藏
                         menuVo.setHidden(false);
                         // component
@@ -87,11 +89,11 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
                         } else if (menu.getParentId() == null || menu.getParentId() == -1) {
                             VueMenuVO menuVo1 = new VueMenuVO();
                             menuVo1.setMeta(menuVo.getMeta());
-                            menuVo1.setTitle(menuVo.getTitle());
+                            menuVo1.setName(menuVo.getName());
                             menuVo1.setComponent(menuVo.getComponent());
                             menuVo1.setPath(menu.getPath());
 
-                            menuVo.setTitle(null);
+                            menuVo.setName(null);
                             menuVo.setMeta(null);
                             menuVo.setComponent("Layout");
                             List<VueMenuVO> list1 = new ArrayList<>();

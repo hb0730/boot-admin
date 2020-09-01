@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Data
 public class VueMenuVO implements Serializable {
-    private String title;
+    private String name;
 
     private String path;
 
