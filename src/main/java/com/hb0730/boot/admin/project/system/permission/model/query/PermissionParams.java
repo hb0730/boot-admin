@@ -19,4 +19,12 @@ public class PermissionParams extends BaseParams {
      * 菜单id
      */
     private Long menuId;
+    /**
+     * 权限名称
+     */
+    private String name;
+    /**
+     * 标识符
+     */
+    private String permission;
 }

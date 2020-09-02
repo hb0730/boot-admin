@@ -48,10 +48,10 @@ public class QueryWrapperUtils {
         Page<ENTITY> p1 = new Page<>();
         List<ENTITY> entities = BeanUtils.transformFromInBatch(records, clazz);
         p1.setRecords(entities);
-        p1.setTotal(p1.getTotal());
-        p1.setSize(p1.getSize());
-        p1.setCurrent(p1.getCurrent());
-        p1.setOrders(p1.getOrders());
+        p1.setTotal(page.getTotal());
+        p1.setSize(page.getSize());
+        p1.setCurrent(page.getCurrent());
+        p1.setOrders(page.getOrders());
         return p1;
     }
 
