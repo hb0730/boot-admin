@@ -16,6 +16,7 @@ import org.springframework.util.Assert;
 import javax.annotation.Nonnull;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,17 @@ import java.util.stream.Collectors;
  */
 @Service
 public class DeptServiceImpl extends SuperBaseServiceImpl<Long, DeptParams, DeptDTO, DeptEntity, IDeptMapper> implements IDeptService {
+    @Override
+    public boolean save(@Nonnull DeptDTO dto) {
+        Long parentId = dto.getParentId();
+        if (Objects.isNull(parentId) || parentId == -1L) {
+            dto.setAncestors("-1" );
+        } else {
+            DeptEntity entity = super.getById(dto.getParentId());
+            dto.setAncestors(entity.getAncestors() + "_" + dto.getParentId());
+        }
+        return super.save(dto);
+    }
 
     @Override
     public DeptDTO findById(@Nonnull Long id) {
