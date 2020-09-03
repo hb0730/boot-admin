@@ -7,6 +7,7 @@ import com.hb0730.boot.admin.project.system.dept.model.entity.DeptEntity;
 import com.hb0730.boot.admin.project.system.dept.model.query.DeptParams;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
 
@@ -25,6 +26,15 @@ public interface IDeptService extends IBaseService<Long, DeptParams, DeptDTO, De
      * @return 部门
      */
     DeptDTO findById(@Nonnull Long id);
+
+    /**
+     * 根据父id获取子集(无限集，禁用与启用)
+     *
+     * @param id 父id
+     * @return 子集(无限集)
+     */
+    @Nullable
+    List<DeptDTO> getChildrenByParenId(@Nonnull Long id);
 
     /**
      * 构建成树形
