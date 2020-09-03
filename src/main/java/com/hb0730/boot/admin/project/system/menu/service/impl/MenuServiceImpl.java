@@ -14,11 +14,15 @@ import com.hb0730.boot.admin.project.system.menu.model.dto.TreeMenuDTO;
 import com.hb0730.boot.admin.project.system.menu.model.entity.MenuEntity;
 import com.hb0730.boot.admin.project.system.menu.model.query.MenuParams;
 import com.hb0730.boot.admin.project.system.menu.model.vo.MenuMetaVO;
+import com.hb0730.boot.admin.project.system.menu.model.vo.MenuPermissionVO;
 import com.hb0730.boot.admin.project.system.menu.model.vo.VueMenuVO;
 import com.hb0730.boot.admin.project.system.menu.service.IMenuService;
+import com.hb0730.boot.admin.project.system.permission.mapper.IPermissionMapper;
+import com.hb0730.boot.admin.project.system.permission.model.entity.PermissionEntity;
 import com.hb0730.commons.lang.StringUtils;
 import com.hb0730.commons.lang.collection.CollectionUtils;
 import com.hb0730.commons.spring.BeanUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -38,7 +42,10 @@ import static com.hb0730.commons.lang.constants.PathConst.ROOT_PATH;
  * @since 3.0.0
  */
 @Service
+@RequiredArgsConstructor
 public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, MenuDTO, MenuEntity, IMenuMapper> implements IMenuService {
+    private final IPermissionMapper permissionMapper;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean updateById(MenuEntity entity) {
@@ -63,8 +70,8 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
     @Override
     public boolean removeById(Serializable id) {
         //获取子集
-        Set<Long> ids = Sets.newHashSet((Long)id);
-        List<MenuDTO> children = this.getChildrenByParenId((Long)id);
+        Set<Long> ids = Sets.newHashSet((Long) id);
+        List<MenuDTO> children = this.getChildrenByParenId((Long) id);
         if (!CollectionUtils.isEmpty(children)) {
             Set<Long> childrenIds = children.stream().map(MenuDTO::getId).collect(Collectors.toSet());
             ids.addAll(childrenIds);
@@ -183,5 +190,47 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
                 }
         );
         return list;
+    }
+
+    @Override
+    public List<MenuPermissionVO> queryMenuPermissionTree() {
+        List<PermissionEntity> permissionEntities = permissionMapper.selectList(null);
+        List<MenuEntity> entities = super.list();
+        List<MenuPermissionVO> trees = new ArrayList<>();
+        for (MenuEntity menuEntity : entities) {
+
+            MenuPermissionVO menuPermission = new MenuPermissionVO();
+            if (menuEntity.getParentId() == null || menuEntity.getParentId() == -1) {
+                menuPermission.setId(menuEntity.getId());
+                menuPermission.setName(menuEntity.getTitle());
+                menuPermission.setIsPermission(false);
+                trees.add(menuPermission);
+            }
+            for (MenuEntity entity : entities) {
+                if (menuEntity.getId().equals(entity.getParentId())) {
+                    if (menuPermission.getChildren() == null) {
+                        menuPermission.setChildren(new ArrayList<>());
+                    }
+                    MenuPermissionVO menuPermissionInfo = new MenuPermissionVO();
+                    menuPermissionInfo.setName(entity.getTitle());
+                    menuPermissionInfo.setId(entity.getId());
+                    menuPermissionInfo.setIsPermission(false);
+                    menuPermission.getChildren().add(menuPermissionInfo);
+                    // 权限
+                    List<PermissionEntity> permissionList = permissionEntities.stream().filter(e -> e.getMenuId().equals(entity.getId())).collect(Collectors.toList());
+                    for (PermissionEntity permissionEntity : permissionList) {
+                        MenuPermissionVO permission = new MenuPermissionVO();
+                        permission.setIsPermission(true);
+                        permission.setId(permissionEntity.getId());
+                        permission.setName(permissionEntity.getName());
+                        if (menuPermissionInfo.getChildren() == null) {
+                            menuPermissionInfo.setChildren(new ArrayList<>());
+                        }
+                        menuPermissionInfo.getChildren().add(permission);
+                    }
+                }
+            }
+        }
+        return trees;
     }
 }

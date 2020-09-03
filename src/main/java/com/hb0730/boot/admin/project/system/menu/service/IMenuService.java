@@ -5,6 +5,7 @@ import com.hb0730.boot.admin.project.system.menu.model.dto.MenuDTO;
 import com.hb0730.boot.admin.project.system.menu.model.dto.TreeMenuDTO;
 import com.hb0730.boot.admin.project.system.menu.model.entity.MenuEntity;
 import com.hb0730.boot.admin.project.system.menu.model.query.MenuParams;
+import com.hb0730.boot.admin.project.system.menu.model.vo.MenuPermissionVO;
 import com.hb0730.boot.admin.project.system.menu.model.vo.VueMenuVO;
 
 import javax.annotation.Nonnull;
@@ -51,4 +52,12 @@ public interface IMenuService extends IBaseService<Long, MenuParams, MenuDTO, Me
      * @return 前端所需的菜单
      */
     List<VueMenuVO> buildVueMenus(List<TreeMenuDTO> treeMenu);
+
+    /**
+     * 属性菜单权限树
+     *
+     * @return 菜单权限树
+     */
+    List<MenuPermissionVO> queryMenuPermissionTree();
+
 }

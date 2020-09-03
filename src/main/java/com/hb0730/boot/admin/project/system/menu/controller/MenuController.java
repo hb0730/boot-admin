@@ -11,6 +11,7 @@ import com.hb0730.boot.admin.project.system.menu.model.dto.MenuDTO;
 import com.hb0730.boot.admin.project.system.menu.model.dto.TreeMenuDTO;
 import com.hb0730.boot.admin.project.system.menu.model.entity.MenuEntity;
 import com.hb0730.boot.admin.project.system.menu.model.query.MenuParams;
+import com.hb0730.boot.admin.project.system.menu.model.vo.MenuPermissionVO;
 import com.hb0730.boot.admin.project.system.menu.model.vo.VueMenuVO;
 import com.hb0730.boot.admin.project.system.menu.service.IMenuService;
 import com.hb0730.commons.spring.BeanUtils;
@@ -46,6 +47,17 @@ public class MenuController extends AbstractBaseController<Long, MenuDTO, MenuPa
     public Result<List<TreeMenuDTO>> queryTree() {
         List<TreeMenuDTO> treeMenu = service.queryTree();
         return Results.resultSuccess(treeMenu);
+    }
+
+    /**
+     * 菜单权限树
+     *
+     * @return 菜单权限树
+     */
+    @GetMapping("/query/tree/permission")
+    public Result<List<MenuPermissionVO>> queryMenuPermissionTree() {
+        List<MenuPermissionVO> menuPermission = service.queryMenuPermissionTree();
+        return Results.resultSuccess(menuPermission);
     }
 
     /**
