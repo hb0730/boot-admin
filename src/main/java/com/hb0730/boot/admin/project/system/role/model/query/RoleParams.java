@@ -14,4 +14,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString
 public class RoleParams extends BaseParams {
+    private String name;
+    private String code;
+    private Integer isEnabled;
 }

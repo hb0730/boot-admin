@@ -2,12 +2,15 @@ package com.hb0730.boot.admin.project.system.role.controller;
 
 
 import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
-import com.hb0730.boot.admin.project.system.role.model.dto.RoleDTO;
+import com.hb0730.boot.admin.domain.result.Result;
+import com.hb0730.boot.admin.domain.result.Results;
+import com.hb0730.boot.admin.project.system.role.model.dto.RoleExtDTO;
 import com.hb0730.boot.admin.project.system.role.model.entity.RoleEntity;
 import com.hb0730.boot.admin.project.system.role.model.query.RoleParams;
 import com.hb0730.boot.admin.project.system.role.service.IRoleService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 角色  前端控制器
@@ -17,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/v3/system/role")
-public class RoleController extends AbstractBaseController<Long, RoleDTO, RoleParams, RoleEntity> {
+public class RoleController extends AbstractBaseController<Long, RoleExtDTO, RoleParams, RoleEntity> {
     private final IRoleService service;
 
     public RoleController(IRoleService service) {
@@ -25,7 +28,17 @@ public class RoleController extends AbstractBaseController<Long, RoleDTO, RolePa
         this.service = service;
     }
 
-
-
+    /**
+     * 修改角色分配的菜单
+     *
+     * @param id            角色id
+     * @param permissionIds 权限id
+     * @return 是否成功
+     */
+    @PostMapping("/update/permission/{id}")
+    public Result<String> updateRolePermission(@PathVariable("id") Long id, @RequestBody List<Long> permissionIds) {
+        service.updateRolePermission(id, permissionIds);
+        return Results.resultSuccess("保存成功");
+    }
 }
 
