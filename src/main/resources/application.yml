@@ -6,7 +6,7 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhostm:3306/boot-admin?characterEncoding=UTF-8&useSSL=false&useUnicode=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/boot-admin?characterEncoding=UTF-8&useSSL=false&useUnicode=true&serverTimezone=UTC
     username: root
     password: admin123
     platform: mysql
@@ -91,8 +91,19 @@ mybatis-plus:
     db-config:
       logic-delete-value: 1
       logic-not-delete-value: 0
-      update-strategy: ignored
-      insert-strategy: ignored
-      select-strategy: ignored
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+boot:
+  admin:
+    name: boot-admin
+    version: 3.0.0
+    copyright-year: 2020
+    demo-enabled: false
+    address-enabled: false
+    token-config:
+      header: Authorization
+      token-prefix: "Bearer "
+      expire-time: 30
+      time-unit: hours
+      refresh-time: 10
+      secret: "abcdefghijklmnopqrstuvwxyz"
