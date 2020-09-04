@@ -55,7 +55,7 @@ class Domain implements Serializable {
      * 版本
      */
     @Version
-    @TableField(value = "version")
+    @TableField(value = "version", fill = FieldFill.INSERT)
     private Integer version;
 
     public static final String VERSION = "version";

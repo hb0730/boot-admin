@@ -19,6 +19,7 @@ import com.hb0730.boot.admin.project.system.role.service.IRolePermissionService;
 import com.hb0730.boot.admin.project.system.role.service.IRoleService;
 import com.hb0730.commons.lang.StringUtils;
 import com.hb0730.commons.lang.collection.CollectionUtils;
+import com.hb0730.commons.spring.BeanUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,10 +84,17 @@ public class RoleServiceImpl extends SuperBaseServiceImpl<Long, RoleParams, Role
     public boolean updateById(@Nonnull Long id, @Nonnull RoleExtDTO dto) {
         RoleEntity entity = dto.convertTo();
         entity.setId(id);
-        boolean result = super.updateById(entity);
+        boolean result = this.updateById(entity);
         updateRoleDepts(id, dto.getDeptIds());
 
         return result;
+    }
+
+    @Override
+    public boolean updateById(RoleEntity entity) {
+        RoleEntity e1 = super.getById(entity);
+        BeanUtils.updateProperties(entity, e1);
+        return super.updateById(e1);
     }
 
     @Override

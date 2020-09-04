@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.project.system.permission.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import lombok.Data;
@@ -30,7 +31,7 @@ public class PermissionEntity extends BaseDomain {
     /**
      * id
      */
-    @TableField("id" )
+    @TableId("id" )
     private Long id;
 
     /**

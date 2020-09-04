@@ -1,17 +1,19 @@
 package com.hb0730.boot.admin.token.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.*;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.token.AbstractTokenService;
 import com.hb0730.boot.admin.token.configuration.TokenProperties;
 import com.hb0730.commons.cache.Cache;
-import com.hb0730.commons.json.gson.GsonUtils;
+import com.hb0730.commons.json.jackson.JacksonUtils;
 import com.hb0730.commons.lang.StringUtils;
 import com.hb0730.commons.lang.date.DateUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -25,6 +27,8 @@ import java.util.concurrent.TimeUnit;
 public class RedisTokenServiceImpl extends AbstractTokenService {
     @Resource(name = "redisCache")
     private Cache<String, Object> cache;
+    @Resource
+    private ObjectMapper jacksonObjectMapper;
 
     public RedisTokenServiceImpl(TokenProperties properties) {
         super(properties);
@@ -39,13 +43,11 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
             Optional<Object> optional = cache.get(getUserTokenKey(userTokenKey));
             if (optional.isPresent()) {
                 try {
-                    String json = GsonUtils.objectToJson(optional.get());
-                    // 解决序列化date 转long的问题，可能需要设置cache 序列化方案
-                    GsonBuilder gb = new GsonBuilder();
-                    gb.registerTypeAdapter(Date.class, new DateDeserializer());
-                    Gson gson = gb.create();
-                    return GsonUtils.jsonToObject(json, User.class, gson);
-                } catch (JsonParseException e) {
+//                    ObjectMapper mapper=new ObjectMapper();
+//                    mapper.set
+                    String json = JacksonUtils.objectToJson(optional.get());
+                    return JacksonUtils.jsonToObject(json, User.class, jacksonObjectMapper);
+                } catch (JsonParseException | IOException e) {
                     e.printStackTrace();
                 }
             }

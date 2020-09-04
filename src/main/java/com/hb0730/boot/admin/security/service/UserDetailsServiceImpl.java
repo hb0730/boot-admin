@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.security.service;
 
-import com.hb0730.boot.admin.project.system.user.info.model.dto.UserDTO;
-import com.hb0730.boot.admin.project.system.user.info.service.IUserInfoService;
+import com.hb0730.boot.admin.project.system.user.model.dto.UserDTO;
+import com.hb0730.boot.admin.project.system.user.service.IUserInfoService;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.commons.spring.BeanUtils;
 import lombok.RequiredArgsConstructor;

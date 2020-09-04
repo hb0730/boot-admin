@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.security.model;
 
-import com.hb0730.boot.admin.project.system.user.info.model.dto.UserDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hb0730.boot.admin.project.system.user.model.dto.UserDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -56,6 +57,7 @@ public class User extends UserDTO implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMINISTRATOR");
     }
