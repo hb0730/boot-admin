@@ -15,4 +15,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString
 public class PostParams extends BaseParams {
+    private String name;
+    private String number;
+    private Integer isEnabled;
 }

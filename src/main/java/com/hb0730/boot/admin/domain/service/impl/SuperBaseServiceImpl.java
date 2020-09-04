@@ -32,7 +32,7 @@ public class SuperBaseServiceImpl<ID extends Serializable,
     public boolean updateById(@NonNull DTO dto) {
         ValidatorUtils.validate(dto);
         ENTITY e = BeanUtils.transformFrom(dto, getEntityClass());
-        return super.updateById(e);
+        return this.updateById(e);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class SuperBaseServiceImpl<ID extends Serializable,
     public boolean save(@NonNull DTO dto) {
         ValidatorUtils.validate(dto);
         ENTITY entity = BeanUtils.transformFrom(dto, getEntityClass());
-        return super.save(entity);
+        return this.save(entity);
     }
 
     @Override
