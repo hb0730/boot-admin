@@ -4,6 +4,8 @@ import com.hb0730.boot.admin.domain.model.dto.BusinessDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * 数据字典
  *
@@ -24,10 +26,12 @@ public class DictDTO extends BusinessDTO {
     /**
      * 字典名称
      */
+    @NotBlank(message = "字典名称不为空")
     private String name;
 
     /**
      * 字典类型
      */
+    @NotBlank(message = "字典类型不为空")
     private String type;
 }

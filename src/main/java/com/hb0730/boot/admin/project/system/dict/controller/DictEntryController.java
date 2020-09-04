@@ -5,6 +5,7 @@ import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.project.system.dict.model.dto.DictEntryDTO;
 import com.hb0730.boot.admin.project.system.dict.model.entity.DictEntryEntity;
 import com.hb0730.boot.admin.project.system.dict.model.query.DictEntryParams;
+import com.hb0730.boot.admin.project.system.dict.service.IDictEntryService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v3/system/dict/entry")
 public class DictEntryController extends AbstractBaseController<Long, DictEntryDTO, DictEntryParams, DictEntryEntity> {
+    private final IDictEntryService service;
 
+    public DictEntryController(IDictEntryService service) {
+        super(service);
+        this.service = service;
+    }
 }
 
