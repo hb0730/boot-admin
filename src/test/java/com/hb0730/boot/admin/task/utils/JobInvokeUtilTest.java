@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.task.utils;
 
 import com.hb0730.boot.admin.task.domain.JobInfo;
+import com.hb0730.commons.json.exceptions.JsonException;
 import com.hb0730.commons.spring.SpringContextUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +28,7 @@ public class JobInvokeUtilTest {
     }
 
     @Test
-    public void invokeMethodTest() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException {
+    public void invokeMethodTest() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, JsonException {
         JobInfo taskConstant = new JobInfo();
         taskConstant.setBean("taskTest");
 

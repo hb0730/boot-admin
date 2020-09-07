@@ -57,11 +57,6 @@ public class JobDTO extends BaseDTO {
     private String cron;
 
     /**
-     * 状态
-     */
-    private Integer status;
-
-    /**
      * 负责人
      */
     private String personInCharge;

@@ -1,7 +1,8 @@
 package com.hb0730.boot.admin.task.utils;
 
 import com.hb0730.boot.admin.task.domain.JobInfo;
-import com.hb0730.commons.json.jackson.JacksonUtils;
+import com.hb0730.commons.json.exceptions.JsonException;
+import com.hb0730.commons.json.utils.Jsons;
 import com.hb0730.commons.lang.collection.CollectionUtils;
 import com.hb0730.commons.lang.convert.ConverterRegistry;
 import com.hb0730.commons.lang.reflect.ReflectUtils;
@@ -11,7 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nonnull;
 import javax.validation.constraints.NotBlank;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -28,7 +28,7 @@ public class JobInvokeUtil {
      *
      * @param job 定时任务信息
      */
-    public static void invokeMethod(JobInfo job) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
+    public static void invokeMethod(JobInfo job) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, JsonException {
         String bean = job.getBean();
         String method = job.getMethod();
         String params = job.getParams();
@@ -42,7 +42,7 @@ public class JobInvokeUtil {
      * @param methodName 方法名
      * @param params     方法参数
      */
-    public static void invokeMethod(@NotBlank String beanName, @NotBlank String methodName, String params) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException, IOException {
+    public static void invokeMethod(@NotBlank String beanName, @NotBlank String methodName, String params) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException, JsonException {
         List<Object[]> methodParams = getMethodParams(params);
         if (SpringContextUtils.containsBean(beanName)) {
             Object o = SpringContextUtils.getBean(beanName);
@@ -105,9 +105,9 @@ public class JobInvokeUtil {
         return classs;
     }
 
-    private static List<Object[]> getMethodParams(String targetParams) throws ClassNotFoundException, IOException {
+    private static List<Object[]> getMethodParams(String targetParams) throws ClassNotFoundException, JsonException {
         List<Object[]> classs = new LinkedList<>();
-        Map<String, Object> map = JacksonUtils.jsonToObject(targetParams, Map.class);
+        Map<String, Object> map = Jsons.Utils.instance().jsonToObject(targetParams, Map.class);
         if (CollectionUtils.isEmpty(map)) {
             return classs;
         }

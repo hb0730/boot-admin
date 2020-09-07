@@ -2,12 +2,18 @@ package com.hb0730.boot.admin.project.system.dict.controller;
 
 
 import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
+import com.hb0730.boot.admin.domain.result.Result;
+import com.hb0730.boot.admin.domain.result.Results;
 import com.hb0730.boot.admin.project.system.dict.model.dto.DictDTO;
 import com.hb0730.boot.admin.project.system.dict.model.entity.DictEntity;
 import com.hb0730.boot.admin.project.system.dict.model.query.DictParams;
+import com.hb0730.boot.admin.project.system.dict.model.vo.DictVO;
 import com.hb0730.boot.admin.project.system.dict.service.IDictService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 数据字典  前端控制器
@@ -23,6 +29,29 @@ public class DictController extends AbstractBaseController<Long, DictDTO, DictPa
     public DictController(IDictService service) {
         super(service);
         this.service = service;
+    }
+
+
+    /**
+     * 获取字典缓存
+     *
+     * @return 字典值
+     */
+    @GetMapping("/cache/get")
+    public Result<List<DictVO>> getCache() {
+        List<DictVO> cache = service.getCache();
+        return Results.resultSuccess(cache);
+    }
+
+    /**
+     * 更新缓存
+     *
+     * @return 是否成功
+     */
+    @GetMapping("/cache/update")
+    public Result<String> updateCache() {
+        service.updateCache();
+        return Results.resultSuccess("更新成功");
     }
 }
 

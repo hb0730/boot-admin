@@ -6,14 +6,14 @@ import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.token.AbstractTokenService;
 import com.hb0730.boot.admin.token.configuration.TokenProperties;
 import com.hb0730.commons.cache.Cache;
-import com.hb0730.commons.json.jackson.JacksonUtils;
+import com.hb0730.commons.json.exceptions.JsonException;
+import com.hb0730.commons.json.utils.Jsons;
 import com.hb0730.commons.lang.StringUtils;
 import com.hb0730.commons.lang.date.DateUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -43,11 +43,8 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
             Optional<Object> optional = cache.get(getUserTokenKey(userTokenKey));
             if (optional.isPresent()) {
                 try {
-//                    ObjectMapper mapper=new ObjectMapper();
-//                    mapper.set
-                    String json = JacksonUtils.objectToJson(optional.get());
-                    return JacksonUtils.jsonToObject(json, User.class, jacksonObjectMapper);
-                } catch (JsonParseException | IOException e) {
+                    return Jsons.Utils.instance().jsonToObject(Jsons.Utils.instance().objectToJson(optional.get()), User.class, jacksonObjectMapper);
+                } catch (JsonException e) {
                     e.printStackTrace();
                 }
             }

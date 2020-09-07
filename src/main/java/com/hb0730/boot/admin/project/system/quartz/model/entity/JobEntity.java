@@ -71,12 +71,6 @@ public class JobEntity extends BaseDomain {
     private String cron;
 
     /**
-     * 状态
-     */
-    @TableField("`status`")
-    private Integer status;
-
-    /**
      * 负责人
      */
     @TableField("person_in_charge")

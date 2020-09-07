@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 3.0.0
  */
 @RestController
-@RequestMapping("/quartz/job-entity")
+@RequestMapping("/api/v3/system/job")
 public class JobController extends AbstractBaseController<Long, JobDTO, JobParams, JobEntity> {
     private final IJobService service;
 

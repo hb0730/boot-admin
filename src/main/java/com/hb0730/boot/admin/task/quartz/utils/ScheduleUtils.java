@@ -63,7 +63,7 @@ public class ScheduleUtils {
         scheduler.scheduleJob(jobDetail, trigger);
 
         // 暂停任务
-        if (ScheduleConstants.Status.PAUSE.getValue().equals(job.getStatus())) {
+        if (ScheduleConstants.Status.PAUSE.getValue().equals(job.getIsEnabled())) {
             scheduler.pauseJob(ScheduleUtils.getJobKey(jobId, jobGroup));
         }
     }

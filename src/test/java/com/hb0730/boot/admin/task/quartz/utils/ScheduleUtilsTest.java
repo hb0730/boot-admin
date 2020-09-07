@@ -40,7 +40,7 @@ public class ScheduleUtilsTest {
         entity.setCron("0/10 * * * * ?");
         entity.setId(1L);
         entity.setGroup("default");
-        entity.setStatus(1);
+        entity.setIsEnabled(1);
         ScheduleUtils.createScheduleJob(scheduler, entity);
         Thread.sleep(3 * 1000L);
         scheduler.deleteJob(ScheduleUtils.getJobKey(entity.getId(), entity.getGroup()));
