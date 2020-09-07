@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.event;
+package com.hb0730.boot.admin.event.dict;
 
 import org.springframework.context.ApplicationEvent;
 

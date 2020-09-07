@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.system.quartz.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -31,7 +32,7 @@ public class JobEntity extends BaseDomain {
     /**
      * id
      */
-    @TableId("id")
+    @TableId(value = "id",type = IdType.AUTO)
     private Long id;
 
     /**

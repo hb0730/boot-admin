@@ -13,4 +13,19 @@ import com.hb0730.boot.admin.project.system.quartz.model.query.JobParams;
  */
 public interface IJobService extends IBaseService<Long, JobParams, JobDTO, JobEntity> {
 
+    /**
+     * 立即执行定时任务
+     *
+     * @param id 任务id
+     */
+    void execution(Long id);
+
+    /**
+     * 更改状态
+     *
+     * @param id        id
+     * @param isEnabled 状态
+     * @return 是否成功
+     */
+    boolean updateIsPause(Long id, Integer isEnabled);
 }

@@ -1,6 +1,8 @@
 package com.hb0730.boot.admin.project.system.quartz.model.dto;
 
+import com.hb0730.boot.admin.domain.model.InputConverter;
 import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
+import com.hb0730.boot.admin.project.system.quartz.model.entity.JobEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,7 +14,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class JobDTO extends BaseDTO {
+public class JobDTO extends BaseDTO implements InputConverter<JobEntity> {
 
     private static final long serialVersionUID = 1L;
 

@@ -3,7 +3,7 @@ package com.hb0730.boot.admin.project.system.dict.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.domain.service.impl.SuperBaseServiceImpl;
-import com.hb0730.boot.admin.event.DictEvent;
+import com.hb0730.boot.admin.event.dict.DictEvent;
 import com.hb0730.boot.admin.project.system.dict.mapper.IDictEntryMapper;
 import com.hb0730.boot.admin.project.system.dict.model.dto.DictEntryDTO;
 import com.hb0730.boot.admin.project.system.dict.model.entity.DictEntryEntity;

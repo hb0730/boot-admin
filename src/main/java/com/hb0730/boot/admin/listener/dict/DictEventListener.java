@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.listener.dict;
 
-import com.hb0730.boot.admin.event.DictEvent;
+import com.hb0730.boot.admin.event.dict.DictEvent;
 import com.hb0730.boot.admin.project.system.dict.service.IDictService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
