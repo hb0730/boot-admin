@@ -30,7 +30,7 @@ public class CronUtils {
      * @return Date 下次Cron表达式执行时间
      * @throws QuartzException 获取异常
      */
-    public static Date getNextCExecution(final String cronExpression) {
+    public static Date getNextExecution(final String cronExpression) {
         try {
             CronExpression cron = new CronExpression(cronExpression);
             return cron.getNextValidTimeAfter(new Date(System.currentTimeMillis()));

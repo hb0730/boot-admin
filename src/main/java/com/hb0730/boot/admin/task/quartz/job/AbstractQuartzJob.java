@@ -1,5 +1,7 @@
 package com.hb0730.boot.admin.task.quartz.job;
 
+import com.hb0730.boot.admin.manager.AsyncManager;
+import com.hb0730.boot.admin.manager.factory.AsyncFactory;
 import com.hb0730.boot.admin.project.system.quartz.model.entity.JobEntity;
 import com.hb0730.boot.admin.project.system.quartz.model.entity.JobLogEntity;
 import com.hb0730.boot.admin.task.quartz.constant.ScheduleConstants;
@@ -94,5 +96,6 @@ public abstract class AbstractQuartzJob extends QuartzJobBean {
             entity.setStatus(1);
         }
         // 保存
+        AsyncManager.me().execute(AsyncFactory.recordJobLog(entity));
     }
 }

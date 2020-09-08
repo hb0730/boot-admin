@@ -14,7 +14,6 @@ import lombok.SneakyThrows;
 import org.quartz.SchedulerException;
 import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
@@ -33,7 +32,6 @@ import java.util.List;
 public class JobEventListener implements ApplicationListener<JobEvent> {
     private final IJobMapper mapper;
     private final JobHelper jobHelper;
-    private final SchedulerFactoryBean factoryBean;
 
     @SneakyThrows
     @Override
