@@ -23,6 +23,8 @@
         <mysql.version>8.0.16</mysql.version>
         <guava.version>29.0-jre</guava.version>
         <velocity-engine.version>2.2</velocity-engine.version>
+
+        <bitwalker.version>1.19</bitwalker.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -184,6 +186,13 @@
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
+        </dependency>
+
+        <!-- 解析客户端操作系统、浏览器等 -->
+        <dependency>
+            <groupId>eu.bitwalker</groupId>
+            <artifactId>UserAgentUtils</artifactId>
+            <version>${bitwalker.version}</version>
         </dependency>
 
     </dependencies>

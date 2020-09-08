@@ -1,8 +1,13 @@
 package com.hb0730.boot.admin.token;
 
 import com.google.common.collect.Maps;
+import com.hb0730.boot.admin.security.model.LoginUser;
+import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.token.configuration.TokenProperties;
 import com.hb0730.commons.lang.StringUtils;
+import com.hb0730.commons.spring.IpUtils;
+import com.hb0730.commons.spring.ServletUtils;
+import eu.bitwalker.useragentutils.UserAgent;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -71,5 +76,18 @@ public abstract class AbstractTokenService implements ITokenService {
         maps.put("secret", properties.getSecret());
         maps.put(LOGIN_USER_KEY_PREFIX, key);
         return createToken(maps);
+    }
+
+    /**
+     * 设置用户代理信息
+     *
+     * @param user 登录信息
+     */
+    protected void setUserAgent(User user) {
+        UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
+        String ip = IpUtils.getIp(ServletUtils.getRequest());
+        user.setIpaddr(ip);
+        user.setBrowser(userAgent.getBrowser().getName());
+        user.setOs(userAgent.getOperatingSystem().getName());
     }
 }

@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.token.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.*;
+import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.token.AbstractTokenService;
 import com.hb0730.boot.admin.token.configuration.TokenProperties;
@@ -9,12 +9,13 @@ import com.hb0730.commons.cache.Cache;
 import com.hb0730.commons.json.exceptions.JsonException;
 import com.hb0730.commons.json.utils.Jsons;
 import com.hb0730.commons.lang.StringUtils;
+import com.hb0730.commons.lang.collection.CollectionUtils;
 import com.hb0730.commons.lang.date.DateUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -27,6 +28,8 @@ import java.util.concurrent.TimeUnit;
 public class RedisTokenServiceImpl extends AbstractTokenService {
     @Resource(name = "redisCache")
     private Cache<String, Object> cache;
+    @Resource(name = "redisTemplate")
+    private RedisTemplate<String, String> redisTemplate;
     @Resource
     private ObjectMapper jacksonObjectMapper;
 
@@ -56,6 +59,8 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
     public String createAccessToken(User user) {
         String token = UUID.randomUUID().toString();
         user.setToken(token);
+
+        setUserAgent(user);
         refreshAccessToken(user);
         String accessToken = extractKey(token);
         String accessTokenKey = getAccessTokenKey(accessToken);
@@ -113,22 +118,28 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
 
     @Override
     public Map<String, UserDetails> getOnline() {
-        return null;
-    }
+        Map<String, UserDetails> maps = Maps.newHashMap();
+        try {
 
-
-    private static class DateDeserializer implements JsonDeserializer<java.util.Date> {
-
-        @Override
-        public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            return new java.util.Date(json.getAsJsonPrimitive().getAsLong());
+            Set<String> keys = redisTemplate.keys(getAccessTokenKey("*"));
+            if (CollectionUtils.isEmpty(keys)) {
+                return maps;
+            }
+            for (String key : keys) {
+                String accessToken = org.apache.commons.lang3.StringUtils.remove(key, LOGIN_TOKEN_KEY_PREFIX);
+                Optional<Object> optionalKey = cache.get(getAccessTokenKey(accessToken));
+                if (optionalKey.isPresent()) {
+                    String tokenKey = (String) optionalKey.get();
+                    Optional<Object> optional = cache.get(getUserTokenKey(tokenKey));
+                    if (optional.isPresent()) {
+                        User cacheUser = Jsons.Utils.instance().jsonToObject(Jsons.Utils.instance().objectToJson(optional.get()), User.class, jacksonObjectMapper);
+                        maps.put(accessToken, cacheUser);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
-
-    public static class DateSerializer implements JsonSerializer<Date> {
-        @Override
-        public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
-            return new JsonPrimitive(src.getTime());
-        }
+        return maps;
     }
 }

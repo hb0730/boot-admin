@@ -2,6 +2,8 @@ package com.hb0730.boot.admin.security.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserDTO;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,6 +33,26 @@ public class User extends UserDTO implements UserDetails {
      * 用户过期时间
      */
     private Date expireTime;
+    /**
+     * 登录IP地址
+     */
+    @Getter
+    @Setter
+    private String ipaddr;
+    /**
+     * 浏览器类型
+     */
+    @Getter
+    @Setter
+    private String browser;
+
+    /**
+     * 操作系统
+     */
+    @Getter
+    @Setter
+    private String os;
+
 
     public String getToken() {
         return token;
