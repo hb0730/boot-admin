@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.task.quartz.utils;
 
-import com.hb0730.boot.admin.project.system.quartz.model.entity.JobEntity;
+import com.hb0730.boot.admin.task.domain.JobInfo;
 import com.hb0730.commons.spring.SpringContextUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +33,7 @@ public class ScheduleUtilsTest {
     @Test
     public void createScheduleJobTest() throws SchedulerException, InterruptedException {
         Scheduler scheduler = factoryBean.getScheduler();
-        JobEntity entity = new JobEntity();
+        JobInfo entity = new JobInfo();
         entity.setBeanName("taskTest");
         entity.setBeanMethod("params");
         entity.setMethodParams("{\"java.lang.String\":\"test\"}");

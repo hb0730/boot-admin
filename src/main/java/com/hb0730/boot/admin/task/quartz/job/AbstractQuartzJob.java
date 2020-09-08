@@ -1,10 +1,12 @@
 package com.hb0730.boot.admin.task.quartz.job;
 
 import com.hb0730.boot.admin.project.system.quartz.model.entity.JobEntity;
+import com.hb0730.boot.admin.project.system.quartz.model.entity.JobLogEntity;
 import com.hb0730.boot.admin.task.quartz.constant.ScheduleConstants;
+import com.hb0730.commons.lang.ExceptionUtils;
 import com.hb0730.commons.spring.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.quartz.QuartzJobBean;
@@ -26,7 +28,7 @@ public abstract class AbstractQuartzJob extends QuartzJobBean {
     private static final ThreadLocal<Date> THREAD_LOCAL = new ThreadLocal<>();
 
     @Override
-    protected void executeInternal(@Nonnull JobExecutionContext context) throws JobExecutionException {
+    protected void executeInternal(@Nonnull JobExecutionContext context) {
         LOGGER.debug("job start >>>>>>>>>>>");
         Object obj = context.getMergedJobDataMap().get(ScheduleConstants.TASK_PROPERTIES);
         if (null != obj) {
@@ -73,5 +75,24 @@ public abstract class AbstractQuartzJob extends QuartzJobBean {
     protected void after(JobExecutionContext context, JobEntity job, Exception e) {
         Date startTime = THREAD_LOCAL.get();
         THREAD_LOCAL.remove();
+        JobLogEntity entity = new JobLogEntity();
+        entity.setJobId(job.getId());
+        entity.setJobName(job.getName());
+        entity.setJobGroup(job.getGroup());
+        entity.setInvokeTarget(job.getBeanName() + "." + job.getBeanMethod());
+        entity.setMethodParams(job.getMethodParams());
+        entity.setStartTime(startTime);
+        entity.setEndTime(new Date());
+        long runMs = entity.getEndTime().getTime() - entity.getStartTime().getTime();
+        entity.setJobMessage(entity.getJobName() + " 总共耗时：" + runMs + "毫秒");
+        if (null != e) {
+            entity.setStatus(0);
+            String message = ExceptionUtils.getExceptionMessage(e);
+            String errMessage = StringUtils.substring(message, 0, 2000);
+            entity.setExceptionInfo(errMessage);
+        } else {
+            entity.setStatus(1);
+        }
+        // 保存
     }
 }

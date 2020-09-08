@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.task.quartz.utils;
 
-import com.hb0730.boot.admin.project.system.quartz.model.entity.JobEntity;
+import com.hb0730.boot.admin.task.domain.JobInfo;
 import com.hb0730.boot.admin.task.quartz.constant.ScheduleConstants;
 import com.hb0730.boot.admin.task.quartz.job.QuartzDisallowConcurrentExecution;
 import org.quartz.*;
@@ -39,7 +39,7 @@ public class ScheduleUtils {
      * @param scheduler 任务调度{@link Scheduler}
      * @throws SchedulerException 任务判断异常
      */
-    public static void createScheduleJob(Scheduler scheduler, JobEntity job) throws SchedulerException {
+    public static void createScheduleJob(Scheduler scheduler, JobInfo job) throws SchedulerException {
         Class<? extends Job> quartzJobClass = getQuartzJobClass(job);
         // 构建job信息
         Long jobId = job.getId();
@@ -74,7 +74,7 @@ public class ScheduleUtils {
      * @param job 执行计划
      * @return 具体执行任务类
      */
-    private static Class<? extends Job> getQuartzJobClass(JobEntity job) {
+    private static Class<? extends Job> getQuartzJobClass(JobInfo job) {
         // 非并发
         return QuartzDisallowConcurrentExecution.class;
     }

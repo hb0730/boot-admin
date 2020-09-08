@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.task.utils;
 
-import com.hb0730.boot.admin.task.domain.JobInfo;
+import com.hb0730.boot.admin.task.domain.JobInvokeInfo;
 import com.hb0730.commons.json.exceptions.JsonException;
 import com.hb0730.commons.json.utils.Jsons;
 import com.hb0730.commons.lang.collection.CollectionUtils;
@@ -28,7 +28,7 @@ public class JobInvokeUtil {
      *
      * @param job 定时任务信息
      */
-    public static void invokeMethod(JobInfo job) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, JsonException {
+    public static void invokeMethod(JobInvokeInfo job) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, JsonException {
         String bean = job.getBean();
         String method = job.getMethod();
         String params = job.getParams();

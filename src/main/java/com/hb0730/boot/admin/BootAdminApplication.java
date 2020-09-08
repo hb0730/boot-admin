@@ -4,7 +4,7 @@ import com.hb0730.commons.spring.SpringContextUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * 入口
@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @since 3.0.0
  */
 @SpringBootApplication
-@EnableScheduling
+@EnableAsync
 public class BootAdminApplication {
 
     public static void main(String[] args) {

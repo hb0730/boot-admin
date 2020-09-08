@@ -106,6 +106,7 @@ public class DictServiceImpl extends SuperBaseServiceImpl<Long, DictParams, Dict
     public void updateCache() {
         QueryWrapper<DictEntryEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(DictEntryEntity.IS_ENABLED, 1);
+        queryWrapper.orderByAsc(DictEntryEntity.SORT);
         List<DictEntryEntity> entities = entryService.list(queryWrapper);
         Map<Long, List<DictEntryEntity>> map = entities.parallelStream().collect(Collectors.groupingBy(DictEntryEntity::getParentId, Collectors.toList()));
 

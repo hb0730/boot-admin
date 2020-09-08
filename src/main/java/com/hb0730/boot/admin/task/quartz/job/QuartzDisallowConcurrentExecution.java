@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.task.quartz.job;
 
 import com.hb0730.boot.admin.project.system.quartz.model.entity.JobEntity;
-import com.hb0730.boot.admin.task.domain.JobInfo;
+import com.hb0730.boot.admin.task.domain.JobInvokeInfo;
 import com.hb0730.boot.admin.task.utils.JobInvokeUtil;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
@@ -19,6 +19,6 @@ public class QuartzDisallowConcurrentExecution extends AbstractQuartzJob {
         String bean = job.getBeanName();
         String method = job.getBeanMethod();
         String params = job.getMethodParams();
-        JobInvokeUtil.invokeMethod(new JobInfo(bean, method, params));
+        JobInvokeUtil.invokeMethod(new JobInvokeInfo(bean, method, params));
     }
 }
