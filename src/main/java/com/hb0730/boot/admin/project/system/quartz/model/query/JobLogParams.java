@@ -15,4 +15,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString
 public class JobLogParams extends BaseParams {
+
+    private Long jobId;
+
 }

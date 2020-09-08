@@ -2,10 +2,14 @@ package com.hb0730.boot.admin.project.system.quartz.controller;
 
 
 import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
+import com.hb0730.boot.admin.domain.result.Result;
+import com.hb0730.boot.admin.domain.result.Results;
 import com.hb0730.boot.admin.project.system.quartz.model.dto.JobDTO;
 import com.hb0730.boot.admin.project.system.quartz.model.entity.JobEntity;
 import com.hb0730.boot.admin.project.system.quartz.model.query.JobParams;
 import com.hb0730.boot.admin.project.system.quartz.service.IJobService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +27,18 @@ public class JobController extends AbstractBaseController<Long, JobDTO, JobParam
     public JobController(IJobService service) {
         super(service);
         this.service = service;
+    }
+
+    /**
+     * 执行
+     *
+     * @param id id
+     * @return 是否成功
+     */
+    @GetMapping("/exec/{id}")
+    public Result<String> execution(@PathVariable("id") Long id) {
+        service.execution(id);
+        return Results.resultSuccess("执行成功");
     }
 }
 

@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.listener.job;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.enums.JobActionEnum;
 import com.hb0730.boot.admin.event.job.JobEvent;
@@ -17,6 +18,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
+import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -63,6 +65,18 @@ public class JobEventListener implements ApplicationListener<JobEvent> {
         }
     }
 
+    @PostConstruct
+    public void init() throws SchedulerException {
+        List<JobEntity> jobEntities = mapper.selectList(Wrappers.lambdaQuery());
+        if (CollectionUtils.isEmpty(jobEntities)) {
+            return;
+        }
+        List<JobInfo> jobInfos = BeanUtils.transformFromInBatch(jobEntities, JobInfo.class);
+        for (JobInfo jobInfo : jobInfos) {
+            jobHelper.addJob(jobInfo);
+        }
+    }
+
     private void add(Collection<? extends Serializable> ids) throws SchedulerException {
         List<JobInfo> jobInfos = getJobInfo(ids);
         for (JobInfo jobInfo : jobInfos) {
@@ -77,9 +91,7 @@ public class JobEventListener implements ApplicationListener<JobEvent> {
             if (jobHelper.checkExists(jobInfo.getId(), jobInfo.getGroup())) {
                 jobHelper.deleteJob(jobInfo.getId(), jobInfo.getGroup());
             }
-            if (jobInfo.getIsEnabled().equals(1)) {
-                jobHelper.addJob(jobInfo);
-            }
+            jobHelper.addJob(jobInfo);
 
         }
     }

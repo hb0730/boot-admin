@@ -76,7 +76,7 @@ public class JobLogEntity extends BaseDomain {
     /**
      * 状态 0失败1成功
      */
-    @TableField("status")
+    @TableField("`status`")
     private Integer status;
 
     /**
