@@ -8,6 +8,7 @@ import com.hb0730.boot.admin.project.system.quartz.model.dto.JobLogDTO;
 import com.hb0730.boot.admin.project.system.quartz.model.entity.JobLogEntity;
 import com.hb0730.boot.admin.project.system.quartz.model.query.JobLogParams;
 import com.hb0730.boot.admin.project.system.quartz.service.IJobLogService;
+import com.hb0730.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Nonnull;
@@ -27,6 +28,21 @@ public class JobLogServiceImpl extends SuperBaseServiceImpl<Long, JobLogParams, 
         QueryWrapper<JobLogEntity> query = QueryWrapperUtils.getQuery(params);
         if (Objects.nonNull(params.getJobId())) {
             query.eq(JobLogEntity.JOB_ID, params.getJobId());
+        }
+        if (StringUtils.isNotBlank(params.getJobName())) {
+            query.eq(JobLogEntity.JOB_NAME, params.getJobName());
+        }
+        if (StringUtils.isNotBlank(params.getJobGroup())) {
+            query.eq(JobLogEntity.JOB_GROUP, params.getJobGroup());
+        }
+        if (Objects.nonNull(params.getStatus())) {
+            query.eq(JobLogEntity.STATUS, params.getStatus());
+        }
+        if (Objects.nonNull(params.getStartTime())) {
+            query.gt(JobLogEntity.START_TIME, params.getStartTime());
+        }
+        if (Objects.nonNull(params.getEndTime())) {
+            query.le(JobLogEntity.END_TIME, params.getEndTime());
         }
         return query;
     }

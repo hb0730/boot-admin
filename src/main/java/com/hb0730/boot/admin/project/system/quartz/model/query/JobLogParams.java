@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.util.Date;
+
 /**
  * 任务日志过滤
  *
@@ -18,4 +20,9 @@ public class JobLogParams extends BaseParams {
 
     private Long jobId;
 
+    private String jobName;
+    private String jobGroup;
+    private Integer status;
+    private Date startTime;
+    private Date endTime;
 }
