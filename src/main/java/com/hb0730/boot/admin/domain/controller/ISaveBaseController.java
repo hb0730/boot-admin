@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.domain.controller;
 
 import com.hb0730.boot.admin.annotation.Log;
+import com.hb0730.boot.admin.commons.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
@@ -30,7 +31,7 @@ public interface ISaveBaseController<DTO extends BaseDTO, ENTITY extends BaseDom
      */
     @PostMapping("/save")
     @SuppressWarnings({"rawtypes", "unchecked"})
-    @Log(paramsName = {"dto"}, value = "保存")
+    @Log(value = "保存", paramsName = {"dto"}, businessType = BusinessTypeEnum.INSERT)
     @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','save')")
     default Result<String> save(@RequestBody @Validated DTO dto) {
         IBaseService baseService = getBaseService();

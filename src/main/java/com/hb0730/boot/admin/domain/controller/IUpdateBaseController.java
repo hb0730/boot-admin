@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.domain.controller;
 
 import com.hb0730.boot.admin.annotation.Log;
+import com.hb0730.boot.admin.commons.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
@@ -35,7 +36,7 @@ public interface IUpdateBaseController<ID extends Serializable, DTO extends Base
      */
     @PostMapping("/update/{id}")
     @SuppressWarnings({"rawtypes", "unchecked"})
-    @Log(value = "修改", paramsName = {"dto"})
+    @Log(value = "修改", paramsName = {"dto"}, businessType = BusinessTypeEnum.UPDATE)
     @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','update')")
     default Result<String> updateById(@PathVariable("id") ID id, @Validated @RequestBody DTO dto) {
         ValidatorUtils.validate(dto);

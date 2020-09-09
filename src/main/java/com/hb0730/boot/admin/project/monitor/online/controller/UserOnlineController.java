@@ -2,12 +2,16 @@ package com.hb0730.boot.admin.project.monitor.online.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
+import com.hb0730.boot.admin.annotation.ClassDescribe;
+import com.hb0730.boot.admin.annotation.Log;
+import com.hb0730.boot.admin.commons.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
 import com.hb0730.boot.admin.project.monitor.online.model.dto.UserOnlineDTO;
 import com.hb0730.boot.admin.project.monitor.online.model.query.UserOnlineParams;
 import com.hb0730.boot.admin.project.monitor.online.service.IUserOnlineService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v3/monitor/online/user")
 @RequiredArgsConstructor
+@ClassDescribe("在线用户")
 public class UserOnlineController {
     private final IUserOnlineService service;
 
@@ -61,6 +66,8 @@ public class UserOnlineController {
      * @return 是否成功
      */
     @PostMapping("/logout")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR')")
+    @Log(value = "登出", paramsName = {"tokens"}, businessType = BusinessTypeEnum.FORCE)
     public Result<String> logout(@RequestBody List<String> tokens) {
         service.logout(tokens);
         return Results.resultSuccess("退出成功");

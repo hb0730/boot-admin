@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.hb0730.boot.admin.project.system.user.model.entity.UserRoleEntity;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -40,4 +41,13 @@ public interface IUserRoleService extends IService<UserRoleEntity> {
      * @return 是否成功
      */
     boolean removeByUserIds(@Nonnull Collection<? extends Serializable> userIds);
+
+    /**
+     * 根据id查询角色id
+     *
+     * @param userId 用户id
+     * @return 角色id
+     */
+    @Nullable
+    Collection<Long> findRoleByUserId(@Nonnull Long userId);
 }

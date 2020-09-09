@@ -3,7 +3,15 @@ package com.hb0730.boot.admin.aspectj;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.annotation.ClassDescribe;
 import com.hb0730.boot.admin.annotation.Log;
+import com.hb0730.boot.admin.commons.enums.StatusEnum;
+import com.hb0730.boot.admin.exceptions.BusinessException;
+import com.hb0730.boot.admin.manager.AsyncManager;
+import com.hb0730.boot.admin.manager.factory.AsyncFactory;
+import com.hb0730.boot.admin.project.monitor.operation.model.entity.OperLogEntity;
+import com.hb0730.boot.admin.security.model.User;
+import com.hb0730.boot.admin.security.utils.SecurityUtils;
 import com.hb0730.commons.json.utils.Jsons;
+import com.hb0730.commons.lang.ExceptionUtils;
 import com.hb0730.commons.spring.IpUtils;
 import com.hb0730.commons.spring.ServletUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +32,7 @@ import org.springframework.web.servlet.HandlerMapping;
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -84,11 +93,28 @@ public class LogAspectj {
      * 日志处理
      */
     void handleLog(final JoinPoint joinPoint, Object jsonResult, final Exception e) {
-        tryCatch((val) -> {
+        try {
             Log log = getAnnotationLog(joinPoint);
             if (check(joinPoint, log)) {
                 return;
             }
+            // 当前用户
+            OperLogEntity entity = new OperLogEntity();
+            // 状态
+            entity.setStatus(StatusEnum.success.getValue());
+            //操作类型
+            entity.setOperType(log.businessType().getValue());
+            // 请求用户
+            User currentUser = SecurityUtils.getCurrentUser();
+            if (null != currentUser) {
+                entity.setUsername(currentUser.getUsername());
+                entity.setCreateUserId(currentUser.getId());
+                entity.setCreateTime(new Date());
+            }
+            //请求ip
+            String ip = IpUtils.getIp(ServletUtils.getRequest());
+            entity.setOperIp(ip);
+            //描述
             // 类描述
             String controllerDescription = "";
             ClassDescribe classDescribe = joinPoint.getTarget().getClass().getAnnotation(ClassDescribe.class);
@@ -97,27 +123,39 @@ public class LogAspectj {
             }
             //方法描述
             String controllerMethodDescription = getDescribe(log);
-
-            // class
-            String className = joinPoint.getTarget().getClass().getName();
-            // method
-            String methodName = joinPoint.getSignature().getName();
-            // args
-            HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-            assert log != null;
-            String requestParamsValue = getRequestValue(joinPoint, request, log.paramsName());
-
+            entity.setDescription(StringUtils.join(controllerDescription, controllerMethodDescription));
             // 请求地址
             String requestUrl = ServletUtils.getRequest().getRequestURI();
+            entity.setRequestUrl(requestUrl);
             //请求方式
             String requestMethod = ServletUtils.getRequest().getMethod();
-            // 返回参数
+            entity.setRequestMethod(requestMethod);
+            //操作方法
+            String className = joinPoint.getTarget().getClass().getName();
+            String methodName = joinPoint.getSignature().getName();
+            entity.setOperMethod(className + "." + methodName);
+            // 请求参数
+            HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+            String requestParamsValue = getRequestValue(joinPoint, request, log.paramsName());
+            entity.setRequestParams(requestParamsValue);
+            //返回参数
+            String result = Jsons.Utils.instance().objectToJson(jsonResult);
+            entity.setRequestResult(result);
+            if (null != e) {
+                String message = ExceptionUtils.getExceptionMessage(e);
+                entity.setErrorMessage(message);
+                entity.setStatus(StatusEnum.FAIL.getValue());
+            }
+            AsyncManager.me().execute(AsyncFactory.recordOperLog(entity));
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            // 记录本地异常日志
+            LOGGER.error("==前置通知异常==");
+            LOGGER.error("异常信息:{}", e1.getMessage());
+            throw new BusinessException(e1.getMessage());
+        }
 
-            //请求ip
-            String ip = IpUtils.getIp(ServletUtils.getRequest());
-            //操作类型
 
-        });
     }
 
     /**
@@ -183,7 +221,7 @@ public class LogAspectj {
      */
     private boolean check(JoinPoint joinPoint, Log logAnno) {
         if (null == logAnno || Boolean.FALSE.equals(logAnno.enabled())) {
-            return false;
+            return true;
         }
         Log annotation = joinPoint.getTarget().getClass().getAnnotation(Log.class);
         // 不需要记录日志 true

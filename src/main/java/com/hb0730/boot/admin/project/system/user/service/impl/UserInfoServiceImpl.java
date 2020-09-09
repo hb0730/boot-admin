@@ -88,8 +88,11 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         user.setPassword(accountEntity.getPassword());
         // 组织
         //权限
+        //用户角色
+
         return user;
     }
+
 
     @Override
     public Page<UserInfoDTO> page(@Nonnull UserInfoParams params) {
@@ -173,7 +176,12 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         return super.updateById(e1);
     }
 
-    public void fillRoleAndPost(List<UserInfoDTO> list) {
+    /**
+     * 填充角色和岗位id
+     *
+     * @param list 用户信息
+     */
+    private void fillRoleAndPost(List<UserInfoDTO> list) {
         if (CollectionUtils.isEmpty(list)) {
             return;
         }
@@ -215,6 +223,11 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         });
     }
 
+    /**
+     * 填充账号信息
+     *
+     * @param list 用户id
+     */
     private void fillAccount(List<UserInfoDTO> list) {
         if (CollectionUtils.isEmpty(list)) {
             return;

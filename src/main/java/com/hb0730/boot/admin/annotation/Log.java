@@ -1,5 +1,7 @@
 package com.hb0730.boot.admin.annotation;
 
+import com.hb0730.boot.admin.commons.enums.BusinessTypeEnum;
+
 import java.lang.annotation.*;
 
 /**
@@ -20,18 +22,26 @@ public @interface Log {
     boolean enabled() default true;
 
     /**
+     * 描述
+     *
+     * @return {String}
+     */
+    String value() default "";
+
+    /**
      * 需要拦截的参数名称
      *
      * @return 参数名称
      */
     String[] paramsName() default {};
 
+
     /**
-     * 描述
+     * 业务参数类型
      *
-     * @return {String}
+     * @return {@link BusinessTypeEnum}
      */
-    String value() default "";
+    BusinessTypeEnum businessType() default BusinessTypeEnum.OTHER;
 
     /**
      * 是否拼接Controller类上的描述值
@@ -60,5 +70,4 @@ public @interface Log {
      * @return 是否记录
      */
     boolean response() default true;
-
 }

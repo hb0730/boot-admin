@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.domain.controller;
 
 import com.hb0730.boot.admin.annotation.Log;
+import com.hb0730.boot.admin.commons.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import com.hb0730.boot.admin.domain.result.Result;
@@ -33,7 +34,7 @@ public interface IDeleteBaseController<ID extends Serializable, ENTITY extends B
      */
     @GetMapping("/delete/{id}")
     @SuppressWarnings({"rawtypes"})
-    @Log(value = "删除")
+    @Log(value = "删除", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','delete')")
     default Result<String> deleteById(@PathVariable("id") ID id) {
         IBaseService service = getBaseService();
@@ -52,7 +53,7 @@ public interface IDeleteBaseController<ID extends Serializable, ENTITY extends B
      */
     @PostMapping("/delete")
     @SuppressWarnings({"rawtypes"})
-    @Log(value = "删除", paramsName = {"ids"})
+    @Log(value = "删除", paramsName = {"ids"}, businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','delete')")
     default Result<String> deleteByIds(@RequestBody List<ID> ids) {
         IBaseService service = getBaseService();

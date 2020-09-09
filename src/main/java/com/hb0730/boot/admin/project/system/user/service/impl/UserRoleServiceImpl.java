@@ -2,6 +2,7 @@ package com.hb0730.boot.admin.project.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.hb0730.boot.admin.domain.service.impl.BaseServiceImpl;
 import com.hb0730.boot.admin.project.system.user.mapper.IUserRoleMapper;
@@ -13,6 +14,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -84,6 +86,19 @@ public class UserRoleServiceImpl extends BaseServiceImpl<IUserRoleMapper, UserRo
         LambdaQueryWrapper<UserRoleEntity> queryWrapper = Wrappers.lambdaQuery(UserRoleEntity.class)
                 .in(UserRoleEntity::getUserId, userIds);
         return super.remove(queryWrapper);
+    }
+
+    @Override
+    @Nullable
+    public Collection<Long> findRoleByUserId(@Nonnull Long userId) {
+        Assert.notNull(userId, "用户id不为空");
+        LambdaQueryWrapper<UserRoleEntity> query = Wrappers.lambdaQuery(UserRoleEntity.class)
+                .eq(UserRoleEntity::getUserId, userId).select(UserRoleEntity::getRoleId);
+        List<UserRoleEntity> list = super.list(query);
+        if (CollectionUtils.isEmpty(list)) {
+            return Lists.newArrayList();
+        }
+        return list.parallelStream().map(UserRoleEntity::getRoleId).collect(Collectors.toSet());
     }
 
     private void saveBatch(@Nonnull Long userId, @Nonnull Collection<Long> roleIds) {
