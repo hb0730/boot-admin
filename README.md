@@ -39,5 +39,8 @@ spring boot Admin management template
 |<img src="https://github.com/hb0730/boot-admin-ui/blob/v3/docs/view/boot-admin_v3_1.png">|<img src="https://github.com/hb0730/boot-admin-ui/blob/v3/docs/view/boot-admin_v3_2.png">|
 |----|----|
 |<img src="https://github.com/hb0730/boot-admin-ui/blob/v3/docs/view/boot-admin_v3_3.png">|<img src="https://github.com/hb0730/boot-admin-ui/blob/v3/docs/view/boot-admin_v3_4.png">|
+|<img src="https://github.com/hb0730/boot-admin-ui/blob/v3/docs/view/boot-admin_v3_5.png">|<img src="https://github.com/hb0730/boot-admin-ui/blob/v3/docs/view/boot-admin_v3_6.png">|
+|<img src="https://github.com/hb0730/boot-admin-ui/blob/v3/docs/view/boot-admin_v3_7.png">|<img src="https://github.com/hb0730/boot-admin-ui/blob/v3/docs/view/boot-admin_v3_8.png">|
+|<img src="https://github.com/hb0730/boot-admin-ui/blob/v3/docs/view/boot-admin_v3_9.png">||
 # thanks
 + [d2-admin](https://github.com/d2-projects/d2-admin)
