@@ -101,7 +101,7 @@ public class LogAspectj {
             // 当前用户
             OperLogEntity entity = new OperLogEntity();
             // 状态
-            entity.setStatus(StatusEnum.success.getValue());
+            entity.setStatus(StatusEnum.SUCCESS.getValue());
             //操作类型
             entity.setOperType(log.businessType().getValue());
             // 请求用户

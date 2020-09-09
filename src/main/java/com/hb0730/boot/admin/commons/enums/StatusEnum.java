@@ -12,7 +12,7 @@ public enum StatusEnum implements ValueEnum<Integer> {
     /**
      * 成功
      */
-    success("成功", 1),
+    SUCCESS("成功", 1),
     /**
      * 失败
      */
