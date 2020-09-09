@@ -13,4 +13,10 @@ import com.hb0730.boot.admin.project.monitor.operation.model.query.OperLogParams
  */
 public interface IOperLogService extends IBaseService<Long, OperLogParams, OperLogDTO, OperLogEntity> {
 
+    /**
+     * 清空
+     *
+     * @return 是否成功
+     */
+    boolean clean();
 }

@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.project.monitor.operation.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.domain.service.impl.SuperBaseServiceImpl;
 import com.hb0730.boot.admin.project.monitor.operation.mapper.IOperLogMapper;
@@ -10,6 +11,7 @@ import com.hb0730.boot.admin.project.monitor.operation.model.query.OperLogParams
 import com.hb0730.boot.admin.project.monitor.operation.service.IOperLogService;
 import com.hb0730.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -45,5 +47,11 @@ public class OperLogServiceImpl extends SuperBaseServiceImpl<Long, OperLogParams
             queryWrapper.le(OperLogEntity.CREATE_TIME, params.getEndTime());
         }
         return queryWrapper;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean clean() {
+        return super.remove(Wrappers.lambdaQuery());
     }
 }
