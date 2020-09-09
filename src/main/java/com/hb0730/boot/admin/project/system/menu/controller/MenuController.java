@@ -2,6 +2,8 @@ package com.hb0730.boot.admin.project.system.menu.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.hb0730.boot.admin.annotation.ClassDescribe;
+import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.commons.enums.SortTypeEnum;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
@@ -30,6 +32,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/v3/system/menu")
+@PreAuth("menu")
+@ClassDescribe("菜单管理")
 public class MenuController extends AbstractBaseController<Long, MenuDTO, MenuParams, MenuEntity> {
     private final IMenuService service;
 

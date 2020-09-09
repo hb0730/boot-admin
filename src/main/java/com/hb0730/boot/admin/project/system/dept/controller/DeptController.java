@@ -1,6 +1,8 @@
 package com.hb0730.boot.admin.project.system.dept.controller;
 
 
+import com.hb0730.boot.admin.annotation.ClassDescribe;
+import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
@@ -23,7 +25,9 @@ import java.util.Set;
  * @since 3.0.0
  */
 @RestController
-@RequestMapping("/api/v3/system/dept" )
+@RequestMapping("/api/v3/system/dept")
+@ClassDescribe("部门管理")
+@PreAuth("dept")
 public class DeptController extends AbstractBaseController<Long, DeptDTO, DeptParams, DeptEntity> {
     private final IDeptService service;
 
@@ -37,7 +41,7 @@ public class DeptController extends AbstractBaseController<Long, DeptDTO, DeptPa
      *
      * @return 树形组织
      */
-    @GetMapping("/tree/all" )
+    @GetMapping("/tree/all")
     public Result<Set<TreeDeptDTO>> getDeptTreeAll() {
         DeptParams params = new DeptParams();
         List<DeptDTO> list = service.list(params);

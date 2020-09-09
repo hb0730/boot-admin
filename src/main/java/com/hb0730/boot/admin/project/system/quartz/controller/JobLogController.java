@@ -1,6 +1,8 @@
 package com.hb0730.boot.admin.project.system.quartz.controller;
 
 
+import com.hb0730.boot.admin.annotation.ClassDescribe;
+import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.project.system.quartz.model.dto.JobLogDTO;
 import com.hb0730.boot.admin.project.system.quartz.model.entity.JobLogEntity;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/v3/system/job/log")
+@ClassDescribe("任务日志")
+@PreAuth("job:log")
 public class JobLogController extends AbstractBaseController<Long, JobLogDTO, JobLogParams, JobLogEntity> {
     private final IJobLogService service;
 

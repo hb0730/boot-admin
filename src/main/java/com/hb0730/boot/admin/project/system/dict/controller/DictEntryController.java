@@ -1,6 +1,8 @@
 package com.hb0730.boot.admin.project.system.dict.controller;
 
 
+import com.hb0730.boot.admin.annotation.ClassDescribe;
+import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.project.system.dict.model.dto.DictEntryDTO;
 import com.hb0730.boot.admin.project.system.dict.model.entity.DictEntryEntity;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/v3/system/dict/entry")
+@ClassDescribe("数据字典项")
+@PreAuth("dict:entry")
 public class DictEntryController extends AbstractBaseController<Long, DictEntryDTO, DictEntryParams, DictEntryEntity> {
     private final IDictEntryService service;
 

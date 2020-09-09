@@ -1,7 +1,6 @@
 package com.hb0730.boot.admin.domain.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hb0730.boot.admin.annotation.Log;
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
@@ -39,8 +38,6 @@ public interface IQueryBaseController<ID extends Serializable,
 
     @PostMapping("/list/page")
     @SuppressWarnings({"unchecked"})
-    @Log(value = "分页查询", paramsName = {"params"})
-    @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','query')")
     default Result<Object> page(@Validated @RequestBody PARAMS params) {
         IBaseService<ID, PARAMS, DTO, ENTITY> service = getBaseService();
         if (null != service) {

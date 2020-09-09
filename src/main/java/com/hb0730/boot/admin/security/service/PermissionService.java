@@ -14,16 +14,16 @@ import java.util.Set;
  * 参考自<a href="https://github.com/yangzongzhuan/RuoYi-Vue">若依</a>
  *
  * @author bing_huang
- * @since  3.0.0
+ * @since 3.0.0
  */
 @Service("bootAdmin")
 public class PermissionService {
     private static final String DEFAULTROLEPREFIX = "ROLE_";
 
     /**
-     * 验证用户是否具备某权限
+     * 验证用户是否具备某权限,(不推荐使用此方法,尽可能的使用security自带的)
      *
-     * @param target     当前模板
+     * @param target     当前目标
      * @param permission 权限字符串
      * @return 用户是否具备某权限
      */

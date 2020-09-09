@@ -1,6 +1,8 @@
 package com.hb0730.boot.admin.project.system.role.controller;
 
 
+import com.hb0730.boot.admin.annotation.ClassDescribe;
+import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
@@ -20,6 +22,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/v3/system/role")
+@PreAuth("role")
+@ClassDescribe("角色管理")
 public class RoleController extends AbstractBaseController<Long, RoleExtDTO, RoleParams, RoleEntity> {
     private final IRoleService service;
 

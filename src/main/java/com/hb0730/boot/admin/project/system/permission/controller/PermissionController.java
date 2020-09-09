@@ -2,6 +2,8 @@ package com.hb0730.boot.admin.project.system.permission.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hb0730.boot.admin.annotation.ClassDescribe;
+import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
@@ -21,8 +23,10 @@ import java.util.List;
  * @since 3.0.0
  */
 @RestController
-@RequestMapping("/api/v3/system/permission" )
+@RequestMapping("/api/v3/system/permission")
 @Validated
+@ClassDescribe("权限管理")
+@PreAuth("permission")
 public class PermissionController extends AbstractBaseController<Long, PermissionDTO, PermissionParams, PermissionEntity> {
     private final IPermissionService service;
 
@@ -31,15 +35,15 @@ public class PermissionController extends AbstractBaseController<Long, Permissio
         this.service = service;
     }
 
-    @PostMapping("/menu/page/{menuId}" )
-    public Result<Page<PermissionDTO>> getPermissionPageByMenuId(@PathVariable("menuId" ) Long menuId, @RequestBody PermissionParams params) {
+    @PostMapping("/menu/page/{menuId}")
+    public Result<Page<PermissionDTO>> getPermissionPageByMenuId(@PathVariable("menuId") Long menuId, @RequestBody PermissionParams params) {
         params.setMenuId(menuId);
         Page<PermissionDTO> result = service.page(params);
         return Results.resultSuccess(result);
     }
 
-    @PostMapping("/menu/list/{menuId}" )
-    public Result<List<PermissionDTO>> getPermissionListByMenuId(@PathVariable("menuId" ) Long menuId, @RequestBody PermissionParams params) {
+    @PostMapping("/menu/list/{menuId}")
+    public Result<List<PermissionDTO>> getPermissionListByMenuId(@PathVariable("menuId") Long menuId, @RequestBody PermissionParams params) {
         params.setMenuId(menuId);
         List<PermissionDTO> result = service.list(params);
         return Results.resultSuccess(result);
