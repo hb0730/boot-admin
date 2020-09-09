@@ -38,6 +38,7 @@ public interface IQueryBaseController<ID extends Serializable,
 
     @PostMapping("/list/page")
     @SuppressWarnings({"unchecked"})
+    @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','query')")
     default Result<Object> page(@Validated @RequestBody PARAMS params) {
         IBaseService<ID, PARAMS, DTO, ENTITY> service = getBaseService();
         if (null != service) {
@@ -54,7 +55,6 @@ public interface IQueryBaseController<ID extends Serializable,
      * @return 列表
      */
     @PostMapping("/list")
-    @PreAuthorize("hasAnyAuthority()")
     @SuppressWarnings({"unchecked"})
     default Result<Object> list(@Validated @RequestBody PARAMS params) {
         IBaseService<ID, PARAMS, DTO, ENTITY> service = getBaseService();

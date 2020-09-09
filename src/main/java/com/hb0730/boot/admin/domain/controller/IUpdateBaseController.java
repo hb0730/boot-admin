@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.domain.controller;
 
+import com.hb0730.boot.admin.annotation.Log;
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
@@ -7,6 +8,7 @@ import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
 import com.hb0730.boot.admin.domain.service.IBaseService;
 import com.hb0730.commons.spring.ValidatorUtils;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +35,8 @@ public interface IUpdateBaseController<ID extends Serializable, DTO extends Base
      */
     @PostMapping("/update/{id}")
     @SuppressWarnings({"rawtypes", "unchecked"})
+    @Log(value = "修改", paramsName = {"dto"})
+    @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','update')")
     default Result<String> updateById(@PathVariable("id") ID id, @Validated @RequestBody DTO dto) {
         ValidatorUtils.validate(dto);
         IBaseService service = getBaseService();

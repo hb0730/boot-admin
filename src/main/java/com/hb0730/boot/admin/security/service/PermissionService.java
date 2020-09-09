@@ -26,6 +26,7 @@ public class PermissionService {
      * @param target     当前目标
      * @param permission 权限字符串
      * @return 用户是否具备某权限
+     * @see org.springframework.security.access.expression.SecurityExpressionRoot#hasAnyAuthority(String...)
      */
     public boolean hasAnyAuthority(Object target, String... permission) {
         PreAuth annotation = target.getClass().getAnnotation(PreAuth.class);

@@ -1,11 +1,13 @@
 package com.hb0730.boot.admin.domain.controller;
 
-import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
+import com.hb0730.boot.admin.annotation.Log;
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
+import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
 import com.hb0730.boot.admin.domain.service.IBaseService;
 import com.hb0730.commons.lang.collection.CollectionUtils;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +33,8 @@ public interface IDeleteBaseController<ID extends Serializable, ENTITY extends B
      */
     @GetMapping("/delete/{id}")
     @SuppressWarnings({"rawtypes"})
+    @Log(value = "删除")
+    @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','delete')")
     default Result<String> deleteById(@PathVariable("id") ID id) {
         IBaseService service = getBaseService();
         if (service != null) {
@@ -48,6 +52,8 @@ public interface IDeleteBaseController<ID extends Serializable, ENTITY extends B
      */
     @PostMapping("/delete")
     @SuppressWarnings({"rawtypes"})
+    @Log(value = "删除", paramsName = {"ids"})
+    @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','delete')")
     default Result<String> deleteByIds(@RequestBody List<ID> ids) {
         IBaseService service = getBaseService();
         if (service != null && !CollectionUtils.isEmpty(ids)) {
