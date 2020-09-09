@@ -90,7 +90,7 @@ public class JobEntity extends BaseDomain {
 
     public static final String NAME = "name";
 
-    public static final String GROUP = "group";
+    public static final String GROUP = "`group`";
 
     public static final String BEAN_NAME = "bean_name";
 
@@ -99,8 +99,6 @@ public class JobEntity extends BaseDomain {
     public static final String METHOD_PARAMS = "method_params";
 
     public static final String CRON = "cron";
-
-    public static final String STATUS = "status";
 
     public static final String PERSON_IN_CHARGE = "person_in_charge";
 

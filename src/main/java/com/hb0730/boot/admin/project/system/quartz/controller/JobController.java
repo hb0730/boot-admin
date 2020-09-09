@@ -1,6 +1,8 @@
 package com.hb0730.boot.admin.project.system.quartz.controller;
 
 
+import com.hb0730.boot.admin.annotation.ClassDescribe;
+import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/v3/system/job")
+@ClassDescribe("定时任务")
+@PreAuth("job")
 public class JobController extends AbstractBaseController<Long, JobDTO, JobParams, JobEntity> {
     private final IJobService service;
 

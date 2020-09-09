@@ -1,6 +1,8 @@
 package com.hb0730.boot.admin.project.system.quartz.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hb0730.boot.admin.commons.enums.JobActionEnum;
+import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.domain.service.impl.SuperBaseServiceImpl;
 import com.hb0730.boot.admin.event.job.JobEvent;
 import com.hb0730.boot.admin.project.system.quartz.mapper.IJobMapper;
@@ -8,6 +10,7 @@ import com.hb0730.boot.admin.project.system.quartz.model.dto.JobDTO;
 import com.hb0730.boot.admin.project.system.quartz.model.entity.JobEntity;
 import com.hb0730.boot.admin.project.system.quartz.model.query.JobParams;
 import com.hb0730.boot.admin.project.system.quartz.service.IJobService;
+import com.hb0730.commons.lang.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,7 @@ import javax.annotation.Nonnull;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 
 /**
  * 定时任务(quartz)  服务实现类
@@ -71,5 +75,20 @@ public class JobServiceImpl extends SuperBaseServiceImpl<Long, JobParams, JobDTO
             eventPublisher.publishEvent(new JobEvent(this, JobActionEnum.RESUME, Collections.singletonList(id)));
         }
         return false;
+    }
+
+    @Override
+    public QueryWrapper<JobEntity> query(@Nonnull JobParams params) {
+        QueryWrapper<JobEntity> query = QueryWrapperUtils.getQuery(params);
+        if (StringUtils.isNotBlank(params.getName())) {
+            query.eq(JobEntity.NAME, params.getName());
+        }
+        if (StringUtils.isNotBlank(params.getGroup())) {
+            query.eq(JobEntity.GROUP, params.getGroup());
+        }
+        if (Objects.nonNull(params.getIsEnabled())) {
+            query.eq(JobEntity.IS_ENABLED, params.getIsEnabled());
+        }
+        return query;
     }
 }
