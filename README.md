@@ -1,5 +1,18 @@
 # v3.0.0
-
+# 简介
+基于SpringBoot 2.3.3,spring Security 5.3,mybatis plus3.4的前后端分离的后台管理系统
+# 源码地址
+||后端资源|前端资源|
+|----|----|----|
+|github|https://github.com/hb0730/boot-admin|https://github.com/hb0730/boot-admin-ui|
+|码云|https://gitee.com/hb0730/boot-admin/|https://gitee.com/hb0730/boot-admin-ui| 
+# 特征
++ 前端采用Vue ,[d2-admin](https://github.com/d2-projects/d2-admin)
++ 支持动态菜单与路由
++ 支持动态化的数据字典
++ 自定义权限认证与Security的结合使用
++ 对一般的操作的:page,save,update等进行抽象封装,进一步减少重复代码的使用
++ 前后端统一异常拦截处理，统一输出异常，避免繁琐的判断
 # boot-admin
 spring boot Admin management template
 # boot-admin 安全
@@ -35,6 +48,7 @@ spring boot Admin management template
 + 系统日志：记录用户操作日志与异常日志，方便开发人员定位拍错
 + 定时任务：整合Quartz做定时任务，可视化操作,以及运行日志信息
 + token存储: 提供redis存储，可自行扩展存储方式
+# 
 # 系统预览
 |<img src="https://github.com/hb0730/boot-admin-ui/blob/v3/docs/view/boot-admin_v3_1.png">|<img src="https://github.com/hb0730/boot-admin-ui/blob/v3/docs/view/boot-admin_v3_2.png">|
 |----|----|
