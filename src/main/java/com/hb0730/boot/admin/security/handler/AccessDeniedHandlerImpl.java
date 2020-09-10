@@ -5,35 +5,30 @@ import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
 import com.hb0730.commons.json.utils.Jsons;
 import lombok.SneakyThrows;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.Serializable;
 
 /**
- * 认证失败后处理
+ * 认证失败处理类 返回未授权,
+ * 用来解决认证过的用户访问无权限资源时的异常
  *
  * @author bing_huang
- * @since 3.0.0
  */
 @Component
-public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, Serializable {
-
-    private static final long serialVersionUID = 9223225789105991714L;
-
+public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
     @SneakyThrows
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) {
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) {
         e.printStackTrace();
-        String resultParams = String.format("请求访问:%s ,认证失败,无法访问系统资源", request.getRequestURI());
-        Result<String> result = Results.result(ResponseStatusEnum.UNAUTHORIZED, resultParams);
+        String resultParams = String.format("请求访问:%s ,没有访问权限!", request.getRequestURI());
+        Result<String> result = Results.result(ResponseStatusEnum.NO_PERMISSION, resultParams);
         response.setStatus(200);
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
         response.getWriter().print(Jsons.Utils.instance().objectToJson(result));
     }
-
 }

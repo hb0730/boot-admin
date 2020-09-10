@@ -2,7 +2,9 @@ package com.hb0730.boot.admin.project.system.role.controller;
 
 
 import com.hb0730.boot.admin.annotation.ClassDescribe;
+import com.hb0730.boot.admin.annotation.Log;
 import com.hb0730.boot.admin.annotation.PreAuth;
+import com.hb0730.boot.admin.commons.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
@@ -10,6 +12,7 @@ import com.hb0730.boot.admin.project.system.role.model.dto.RoleExtDTO;
 import com.hb0730.boot.admin.project.system.role.model.entity.RoleEntity;
 import com.hb0730.boot.admin.project.system.role.model.query.RoleParams;
 import com.hb0730.boot.admin.project.system.role.service.IRoleService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,6 +43,8 @@ public class RoleController extends AbstractBaseController<Long, RoleExtDTO, Rol
      * @return 是否成功
      */
     @PostMapping("/update/permission/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR','role:permission:save')")
+    @Log(value = "分配权限", paramsName = {"permissionIds"}, businessType = BusinessTypeEnum.UPDATE)
     public Result<String> updateRolePermission(@PathVariable("id") Long id, @RequestBody List<Long> permissionIds) {
         service.updateRolePermission(id, permissionIds);
         return Results.resultSuccess("保存成功");

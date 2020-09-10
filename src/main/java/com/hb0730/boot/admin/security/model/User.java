@@ -2,8 +2,10 @@ package com.hb0730.boot.admin.security.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserDTO;
+import com.hb0730.commons.lang.collection.CollectionUtils;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -81,7 +83,24 @@ public class User extends UserDTO implements UserDetails {
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMINISTRATOR");
+        String permission = "";
+        if (isAdmin()) {
+            permission = "ROLE_ADMINISTRATOR";
+            return AuthorityUtils.commaSeparatedStringToAuthorityList(permission);
+        }
+        Collection<String> permissionList = super.getPermission();
+        if (!CollectionUtils.isEmpty(permissionList)) {
+            permission = StringUtils.join(permissionList, ",");
+        }
+        Collection<String> roleList = super.getRole();
+        if (!CollectionUtils.isEmpty(roleList)) {
+            permission += "," + StringUtils.join(roleList, ",");
+        }
+        return AuthorityUtils.commaSeparatedStringToAuthorityList(permission);
+    }
+
+    public boolean isAdmin() {
+        return getIsAdmin() == 1;
     }
 
     @Override

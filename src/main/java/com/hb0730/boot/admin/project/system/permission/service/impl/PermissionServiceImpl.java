@@ -1,6 +1,8 @@
 package com.hb0730.boot.admin.project.system.permission.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.domain.service.impl.SuperBaseServiceImpl;
 import com.hb0730.boot.admin.project.system.permission.mapper.IPermissionMapper;
@@ -10,8 +12,11 @@ import com.hb0730.boot.admin.project.system.permission.model.query.PermissionPar
 import com.hb0730.boot.admin.project.system.permission.service.IPermissionService;
 import com.hb0730.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.annotation.Nonnull;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -37,5 +42,14 @@ public class PermissionServiceImpl extends SuperBaseServiceImpl<Long, Permission
             query.eq(PermissionEntity.PERMISSION, params.getPermission());
         }
         return query;
+    }
+
+    @Override
+    public List<PermissionEntity> findEnabledPermissionByIds(@Nonnull Collection<Long> ids) {
+        Assert.notNull(ids, "权限id为空");
+        LambdaQueryWrapper<PermissionEntity> queryWrapper = Wrappers.lambdaQuery(PermissionEntity.class)
+                .in(PermissionEntity::getId, ids)
+                .select(PermissionEntity::getId, PermissionEntity::getPermission);
+        return super.list(queryWrapper);
     }
 }

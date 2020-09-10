@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * 用户信息
@@ -74,10 +74,15 @@ public class UserInfoDTO extends BaseDTO implements InputConverter<UserInfoEntit
     /**
      * 角色id
      */
-    private List<Long> roleIds;
+    private Collection<Long> roleIds;
     /**
      * 岗位id
      */
-    private List<Long> postIds;
+    private Collection<Long> postIds;
+
+    /**
+     * 权限id
+     */
+    private Collection<Long> permissionIds;
 
 }

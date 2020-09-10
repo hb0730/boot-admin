@@ -1,6 +1,8 @@
 package com.hb0730.boot.admin.project.system.user.controller;
 
 
+import com.hb0730.boot.admin.annotation.ClassDescribe;
+import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
@@ -29,6 +31,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestController
 @RequestMapping("/api/v3/system/user/info")
+@PreAuth("user")
+@ClassDescribe("用户管理")
 public class UserInfoController extends AbstractBaseController<Long, UserInfoDTO, UserInfoParams, UserInfoEntity> {
     private final IUserInfoService service;
 

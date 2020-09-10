@@ -12,6 +12,7 @@ import com.hb0730.boot.admin.project.monitor.login.log.model.dto.LoginLogDTO;
 import com.hb0730.boot.admin.project.monitor.login.log.model.entity.LoginLogEntity;
 import com.hb0730.boot.admin.project.monitor.login.log.model.query.LoginLogParams;
 import com.hb0730.boot.admin.project.monitor.login.log.service.ILoginLogService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,6 +43,7 @@ public class LoginLogController extends AbstractBaseController<Long, LoginLogDTO
      */
     @GetMapping("/clean")
     @Log(value = "清除", businessType = BusinessTypeEnum.CLEAN)
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR','login:log:clean')")
     public Result<String> clean() {
         service.clean();
         return Results.resultSuccess("清除成功");

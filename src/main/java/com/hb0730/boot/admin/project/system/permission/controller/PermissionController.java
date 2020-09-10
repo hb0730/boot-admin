@@ -11,6 +11,7 @@ import com.hb0730.boot.admin.project.system.permission.model.dto.PermissionDTO;
 import com.hb0730.boot.admin.project.system.permission.model.entity.PermissionEntity;
 import com.hb0730.boot.admin.project.system.permission.model.query.PermissionParams;
 import com.hb0730.boot.admin.project.system.permission.service.IPermissionService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +37,7 @@ public class PermissionController extends AbstractBaseController<Long, Permissio
     }
 
     @PostMapping("/menu/page/{menuId}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR','permission:query')")
     public Result<Page<PermissionDTO>> getPermissionPageByMenuId(@PathVariable("menuId") Long menuId, @RequestBody PermissionParams params) {
         params.setMenuId(menuId);
         Page<PermissionDTO> result = service.page(params);

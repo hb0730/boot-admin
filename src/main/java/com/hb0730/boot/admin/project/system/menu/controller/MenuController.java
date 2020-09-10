@@ -1,11 +1,8 @@
 package com.hb0730.boot.admin.project.system.menu.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hb0730.boot.admin.annotation.ClassDescribe;
 import com.hb0730.boot.admin.annotation.PreAuth;
-import com.hb0730.boot.admin.commons.enums.SortTypeEnum;
-import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
@@ -16,12 +13,10 @@ import com.hb0730.boot.admin.project.system.menu.model.query.MenuParams;
 import com.hb0730.boot.admin.project.system.menu.model.vo.MenuPermissionVO;
 import com.hb0730.boot.admin.project.system.menu.model.vo.VueMenuVO;
 import com.hb0730.boot.admin.project.system.menu.service.IMenuService;
-import com.hb0730.commons.spring.BeanUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -71,14 +66,8 @@ public class MenuController extends AbstractBaseController<Long, MenuDTO, MenuPa
      */
     @GetMapping("/get/current/tree")
     public Result<List<TreeMenuDTO>> getCurrentMenu() {
-        // 模拟数据
-        MenuParams params = new MenuParams();
-        params.setSortType(SortTypeEnum.ASC.getValue());
-        params.setSortColumn(Collections.singletonList(MenuEntity.SORT));
-        QueryWrapper<MenuEntity> query = QueryWrapperUtils.getQuery(params);
-        List<MenuEntity> entities = service.list(query);
-        List<TreeMenuDTO> menus = BeanUtils.transformFromInBatch(entities, TreeMenuDTO.class);
-        List<TreeMenuDTO> treeMenu = service.buildTree(menus);
+        List<TreeMenuDTO> currentMenu = service.getCurrentMenu();
+        List<TreeMenuDTO> treeMenu = service.buildTree(currentMenu);
         return Results.resultSuccess(treeMenu);
     }
 
@@ -89,14 +78,8 @@ public class MenuController extends AbstractBaseController<Long, MenuDTO, MenuPa
      */
     @GetMapping("/get/current/router")
     public Result<List<VueMenuVO>> getCurrentRouter() {
-        // 模拟数据
-        MenuParams params = new MenuParams();
-        params.setSortType(SortTypeEnum.ASC.getValue());
-        params.setSortColumn(Collections.singletonList(MenuEntity.SORT));
-        QueryWrapper<MenuEntity> query = QueryWrapperUtils.getQuery(params);
-        List<MenuEntity> entities = service.list(query);
-        List<TreeMenuDTO> menus = BeanUtils.transformFromInBatch(entities, TreeMenuDTO.class);
-        List<TreeMenuDTO> treeMenu = service.buildTree(menus);
+        List<TreeMenuDTO> currentMenu = service.getCurrentMenu();
+        List<TreeMenuDTO> treeMenu = service.buildTree(currentMenu);
         List<VueMenuVO> routerMenu = service.buildVueMenus(treeMenu);
         return Results.resultSuccess(routerMenu);
     }

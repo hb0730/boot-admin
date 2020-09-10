@@ -31,6 +31,13 @@ public interface IMenuService extends IBaseService<Long, MenuParams, MenuDTO, Me
     List<MenuDTO> getChildrenByParenId(@Nonnull Long id);
 
     /**
+     * 获取当前用户菜单
+     *
+     * @return 当前用户
+     */
+    List<TreeMenuDTO> getCurrentMenu();
+
+    /**
      * 树形菜单
      *
      * @return 菜单树
@@ -53,6 +60,13 @@ public interface IMenuService extends IBaseService<Long, MenuParams, MenuDTO, Me
      */
     List<VueMenuVO> buildVueMenus(List<TreeMenuDTO> treeMenu);
 
+    /**
+     * 获取自己级上级菜单
+     * @param id 当前菜单id
+     * @param entities 容器
+     * @return 自己及子集菜单
+     */
+    List<MenuEntity> getSuperior(@Nonnull Long id, List<MenuEntity> entities);
     /**
      * 属性菜单权限树
      *

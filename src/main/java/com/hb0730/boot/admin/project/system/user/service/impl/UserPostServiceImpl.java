@@ -86,9 +86,22 @@ public class UserPostServiceImpl extends BaseServiceImpl<IUserPostMapper, UserPo
         return super.remove(queryWrapper);
     }
 
+    @Override
+    public List<Long> findPostIdByUserIds(@Nonnull Collection<Long> userIds) {
+        Assert.notNull(userIds, "用户id不为空");
+        LambdaQueryWrapper<UserPostEntity> queryWrapper = Wrappers.lambdaQuery(UserPostEntity.class)
+                .in(UserPostEntity::getUserId, userIds)
+                .select(UserPostEntity::getPostId);
+        List<UserPostEntity> entities = super.list(queryWrapper);
+        if (CollectionUtils.isEmpty(entities)) {
+            return null;
+        }
+        return entities.parallelStream().map(UserPostEntity::getPostId).collect(Collectors.toList());
+    }
+
     private void saveBatch(@Nonnull Long userId, @Nonnull Collection<Long> postIds) {
         Assert.notNull(userId, "用户id为空");
-        Assert.notEmpty(postIds, "角色id为空");
+        Assert.notEmpty(postIds, "岗位id为空");
         List<UserPostEntity> entities = new ArrayList<>(postIds.size());
         for (Long postId : postIds) {
             UserPostEntity entity = new UserPostEntity();

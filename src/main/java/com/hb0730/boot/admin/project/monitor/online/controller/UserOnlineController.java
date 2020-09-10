@@ -37,6 +37,7 @@ public class UserOnlineController {
      * @return 在线用户
      */
     @PostMapping("/list/page")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR','online:user:query')")
     public Result<Page<UserOnlineDTO>> getAllPage(@RequestBody UserOnlineParams params) {
         List<UserOnlineDTO> onlineUser = service.getOnlineUser(params);
         Page<UserOnlineDTO> page = new Page<>();

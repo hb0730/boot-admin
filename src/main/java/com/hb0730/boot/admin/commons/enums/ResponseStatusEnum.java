@@ -43,6 +43,10 @@ public enum ResponseStatusEnum implements ValueEnum<String> {
      */
     UNAUTHORIZED("A0301", "访问未授权"),
     /**
+     * 无权限使用 API
+     */
+    NO_PERMISSION("A0312","无权限使用 API"),
+    /**
      * 系统错误
      */
     FAIL("C0001", "系统执行错误"),

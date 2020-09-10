@@ -6,6 +6,7 @@ import com.hb0730.boot.admin.project.system.user.model.entity.UserPostEntity;
 import javax.annotation.Nonnull;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * 用户岗位  服务类
@@ -31,6 +32,7 @@ public interface IUserPostService extends IService<UserPostEntity> {
      * @return 是否成功
      */
     boolean removeByUserId(@Nonnull Serializable userId);
+
     /**
      * 根据用户id删除
      *
@@ -38,4 +40,12 @@ public interface IUserPostService extends IService<UserPostEntity> {
      * @return 是否成功
      */
     boolean removeByUserIds(@Nonnull Collection<? extends Serializable> userIds);
+
+    /**
+     * 根据用户id查询岗位id
+     *
+     * @param userIds 用户id
+     * @return 岗位id
+     */
+    List<Long> findPostIdByUserIds(@Nonnull Collection<Long> userIds);
 }

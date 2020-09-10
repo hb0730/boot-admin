@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.system.menu.service.impl;
 
+import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.project.system.menu.model.dto.MenuDTO;
 import com.hb0730.boot.admin.project.system.menu.model.dto.TreeMenuDTO;
 import com.hb0730.boot.admin.project.system.menu.model.entity.MenuEntity;
@@ -55,5 +56,11 @@ public class MenuServiceImplTest {
     public void queryMenuPermissionTreeTest() {
         List<MenuPermissionVO> menuPermissionVOS = menuService.queryMenuPermissionTree();
         Assert.assertNotNull(menuPermissionVOS);
+    }
+
+    @Test
+    public void getSuperiorTest() {
+        List<MenuEntity> superior = menuService.getSuperior(1303611980636012546L, Lists.newArrayList());
+        Assert.assertNotNull(superior);
     }
 }

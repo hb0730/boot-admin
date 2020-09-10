@@ -1,13 +1,18 @@
 package com.hb0730.boot.admin.project.system.menu.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.hb0730.boot.admin.commons.enums.EnabledEnum;
+import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.commons.enums.SortTypeEnum;
+import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.domain.service.impl.SuperBaseServiceImpl;
+import com.hb0730.boot.admin.exceptions.LoginException;
+import com.hb0730.boot.admin.exceptions.PermissionException;
 import com.hb0730.boot.admin.project.system.menu.mapper.IMenuMapper;
 import com.hb0730.boot.admin.project.system.menu.model.dto.MenuDTO;
 import com.hb0730.boot.admin.project.system.menu.model.dto.TreeMenuDTO;
@@ -19,6 +24,8 @@ import com.hb0730.boot.admin.project.system.menu.model.vo.VueMenuVO;
 import com.hb0730.boot.admin.project.system.menu.service.IMenuService;
 import com.hb0730.boot.admin.project.system.permission.mapper.IPermissionMapper;
 import com.hb0730.boot.admin.project.system.permission.model.entity.PermissionEntity;
+import com.hb0730.boot.admin.security.model.User;
+import com.hb0730.boot.admin.security.utils.SecurityUtils;
 import com.hb0730.commons.lang.StringUtils;
 import com.hb0730.commons.lang.collection.CollectionUtils;
 import com.hb0730.commons.spring.BeanUtils;
@@ -98,6 +105,45 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
             }
         }
         return result;
+    }
+
+    @Override
+    public List<TreeMenuDTO> getCurrentMenu() {
+        User currentUser = SecurityUtils.getCurrentUser();
+        if (null == currentUser) {
+            throw new LoginException(ResponseStatusEnum.USE_LOGIN_ERROR, "当前用户未登录,请登录后重试");
+        }
+        // 管理员
+        if (currentUser.isAdmin()) {
+            MenuParams params = new MenuParams();
+            params.setSortType(SortTypeEnum.ASC.getValue());
+            params.setSortColumn(Collections.singletonList(MenuEntity.SORT));
+            QueryWrapper<MenuEntity> query = QueryWrapperUtils.getQuery(params);
+            List<MenuEntity> entities = list(query);
+            return BeanUtils.transformFromInBatch(entities, TreeMenuDTO.class);
+        }
+
+        Collection<Long> permissionIds = currentUser.getPermissionIds();
+        if (CollectionUtils.isEmpty(permissionIds)) {
+            return Lists.newArrayList();
+//            throw new PermissionException(ResponseStatusEnum.NO_PERMISSION, "当前用户无权限访问");
+        }
+        LambdaQueryWrapper<PermissionEntity> queryWrapper = Wrappers.lambdaQuery(PermissionEntity.class)
+                .in(PermissionEntity::getId, permissionIds)
+                .select(PermissionEntity::getMenuId);
+        List<PermissionEntity> permissionEntities = permissionMapper.selectList(queryWrapper);
+        if (CollectionUtils.isEmpty(permissionEntities)) {
+            return Lists.newArrayList();
+//            throw new PermissionException(ResponseStatusEnum.NO_PERMISSION, "当前用户无权限访问");
+        }
+        // 菜单
+        List<Long> menuIds = permissionEntities.parallelStream().map(PermissionEntity::getMenuId).collect(Collectors.toList());
+        Set<MenuEntity> entities = Sets.newHashSet();
+        for (Long menuId : menuIds) {
+            entities.addAll(getSuperior(menuId, Lists.newArrayList()));
+        }
+        List<MenuEntity> menuEntities = entities.stream().sorted(Comparator.comparing(MenuEntity::getSort)).collect(Collectors.toList());
+        return BeanUtils.transformFromInBatch(menuEntities, TreeMenuDTO.class);
     }
 
     @Override
@@ -232,5 +278,15 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
             }
         }
         return trees;
+    }
+
+    @Override
+    public List<MenuEntity> getSuperior(@Nonnull Long id, List<MenuEntity> entities) {
+        if (null == id || -1 == id) {
+            return entities;
+        }
+        MenuEntity menuEntity = super.getById(id);
+        entities.add(menuEntity);
+        return getSuperior(menuEntity.getParentId(), entities);
     }
 }

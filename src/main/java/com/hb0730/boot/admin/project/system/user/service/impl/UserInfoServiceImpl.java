@@ -9,7 +9,12 @@ import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.domain.service.impl.SuperBaseServiceImpl;
 import com.hb0730.boot.admin.exceptions.BusinessException;
 import com.hb0730.boot.admin.project.system.dept.service.IDeptService;
+import com.hb0730.boot.admin.project.system.permission.model.entity.PermissionEntity;
+import com.hb0730.boot.admin.project.system.permission.service.IPermissionService;
 import com.hb0730.boot.admin.project.system.post.service.IPostService;
+import com.hb0730.boot.admin.project.system.role.model.entity.RoleEntity;
+import com.hb0730.boot.admin.project.system.role.service.IRolePermissionService;
+import com.hb0730.boot.admin.project.system.role.service.IRoleService;
 import com.hb0730.boot.admin.project.system.user.mapper.IUserInfoMapper;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserDTO;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserInfoDTO;
@@ -53,6 +58,9 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
     private final IPostService postService;
     private final IUserPostService userPostService;
     private final IUserRoleService userRoleService;
+    private final IRoleService roleService;
+    private final IRolePermissionService rolePermissionService;
+    private final IPermissionService permissionService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -86,10 +94,34 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         assert user != null;
         user.setUsername(accountEntity.getUsername());
         user.setPassword(accountEntity.getPassword());
-        // 组织
-        //权限
         //用户角色
-
+        Collection<Long> roleIds = userRoleService.findRoleByUserId(userId);
+        if (CollectionUtils.isEmpty(roleIds)) {
+            return user;
+        }
+        List<RoleEntity> roles = roleService.findEnabledRoleByIds(roleIds);
+        if (CollectionUtils.isEmpty(roles)) {
+            return user;
+        }
+        Map<Long, String> roleMap = roles.parallelStream().collect(Collectors.toMap(RoleEntity::getId, RoleEntity::getCode));
+        user.setRoleIds(roleMap.keySet());
+        user.setRole(roleMap.values());
+        // 权限
+        Map<Long, List<Long>> permission = rolePermissionService.findPermissionIdByRoleId(roleIds);
+        if (CollectionUtils.isEmpty(permission)) {
+            return user;
+        }
+        Set<Long> permissionIds = permission.values().stream().flatMap(List::stream).collect(Collectors.toSet());
+        List<PermissionEntity> permissionEntities = permissionService.findEnabledPermissionByIds(permissionIds);
+        if (CollectionUtils.isEmpty(permissionEntities)) {
+            return user;
+        }
+        Map<Long, String> permissionMap = permissionEntities.parallelStream().collect(Collectors.toMap(PermissionEntity::getId, PermissionEntity::getPermission));
+        user.setPermission(permissionMap.values());
+        user.setPermissionIds(permissionMap.keySet());
+        // 岗位
+        List<Long> postIds = userPostService.findPostIdByUserIds(Collections.singletonList(userId));
+        user.setPostIds(postIds);
         return user;
     }
 
@@ -142,12 +174,12 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         account.setUserId(entity.getId());
         accountService.save(account);
         // 保存 用户角色
-        List<Long> roleIds = dto.getRoleIds();
+        Collection<Long> roleIds = dto.getRoleIds();
         if (!CollectionUtils.isEmpty(roleIds)) {
             userRoleService.updateUserRole(entity.getId(), roleIds);
         }
         //保存 用户岗位
-        List<Long> postIds = dto.getPostIds();
+        Collection<Long> postIds = dto.getPostIds();
         if (!CollectionUtils.isEmpty(postIds)) {
             userPostService.updateUserPost(entity.getId(), postIds);
         }

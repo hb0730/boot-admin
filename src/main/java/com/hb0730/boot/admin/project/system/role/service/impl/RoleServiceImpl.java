@@ -26,10 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -212,5 +209,15 @@ public class RoleServiceImpl extends SuperBaseServiceImpl<Long, RoleParams, Role
             rolePermissionService.savePermissionIdByRoleId(id, newPermissionIds);
         }
         return true;
+    }
+
+    @Override
+    public List<RoleEntity> findEnabledRoleByIds(@Nonnull Collection<Long> ids) {
+        Assert.notNull(ids, "角色id不为空");
+        LambdaQueryWrapper<RoleEntity> queryWrapper = Wrappers
+                .lambdaQuery(RoleEntity.class)
+                .in(RoleEntity::getId, ids)
+                .select(RoleEntity::getId, RoleEntity::getCode);
+        return super.list(queryWrapper);
     }
 }

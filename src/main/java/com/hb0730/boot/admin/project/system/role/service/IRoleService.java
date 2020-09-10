@@ -6,6 +6,7 @@ import com.hb0730.boot.admin.project.system.role.model.entity.RoleEntity;
 import com.hb0730.boot.admin.project.system.role.model.query.RoleParams;
 
 import javax.annotation.Nonnull;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -23,4 +24,12 @@ public interface IRoleService extends IBaseService<Long, RoleParams, RoleExtDTO,
      * @return 是否成功
      */
     boolean updateRolePermission(@Nonnull Long id, List<Long> permissionIds);
+
+    /**
+     * 根据id查询已启用的角色
+     *
+     * @param ids 角色id
+     * @return 角色(角色id和角色标识符)
+     */
+    List<RoleEntity> findEnabledRoleByIds(@Nonnull Collection<Long> ids);
 }

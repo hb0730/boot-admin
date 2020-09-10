@@ -346,6 +346,15 @@ INSERT INTO `t_sys_permission` VALUES (1, -1, '2020-09-09 09:30:49', NULL, NULL,
 INSERT INTO `t_sys_permission` VALUES (1, -1, '2020-09-09 09:31:14', NULL, NULL, 1, 0, '', 1303627009196359681, '登录日志查询', 'login:log:query', 1303611980636012546, 1);
 INSERT INTO `t_sys_permission` VALUES (1, -1, '2020-09-09 09:31:39', NULL, NULL, 1, 0, '', 1303627115731681281, '登录日志删除', 'login:log:delete', 1303611980636012546, 2);
 INSERT INTO `t_sys_permission` VALUES (1, -1, '2020-09-09 09:31:56', NULL, NULL, 1, 0, '', 1303627184333717505, '登录日志清除', 'login:log:clean', 1303611980636012546, 3);
+INSERT INTO `t_sys_permission` VALUES (1, -1, '2020-09-10 00:57:41', NULL, NULL, 1, 0, '', 1303860158241234945, '权限查询', 'permission:query', 2, 5);
+INSERT INTO `t_sys_permission` VALUES (1, -1, '2020-09-10 00:58:17', NULL, NULL, 1, 0, '', 1303860308321820673, '权限新增', 'permission:save', 2, 6);
+INSERT INTO `t_sys_permission` VALUES (1, -1, '2020-09-10 00:58:37', NULL, NULL, 1, 0, '', 1303860394313441281, '权限修改', 'permission:update', 2, 7);
+INSERT INTO `t_sys_permission` VALUES (1, -1, '2020-09-10 00:58:52', NULL, NULL, 1, 0, '', 1303860457823592449, '权限删除', 'permission:delete', 2, 8);
+INSERT INTO `t_sys_permission` VALUES (1, -1, '2020-09-10 01:17:45', NULL, NULL, 1, 0, '', 1303865207134658561, '字典项查询', 'dict:entry:query', 1302748141795176449, 5);
+INSERT INTO `t_sys_permission` VALUES (1, -1, '2020-09-10 01:18:07', NULL, NULL, 1, 0, '', 1303865300629889026, '字典项新增', 'dict:entry:save', 1302748141795176449, 6);
+INSERT INTO `t_sys_permission` VALUES (1, -1, '2020-09-10 01:18:26', NULL, NULL, 1, 0, '', 1303865381466710018, '字典项修改', 'dict:entry:update', 1302748141795176449, 7);
+INSERT INTO `t_sys_permission` VALUES (1, -1, '2020-09-10 01:18:42', NULL, NULL, 1, 0, '', 1303865447745101825, '字典项删除', 'dict:entry:delete', 1302748141795176449, 8);
+INSERT INTO `t_sys_permission` VALUES (1, -1, '2020-09-10 01:23:12', NULL, NULL, 1, 0, '', 1303866580093935617, '立即执行', 'job:exec', 1302813425436504066, 5);
 
 -- ----------------------------
 -- Table structure for t_sys_post
