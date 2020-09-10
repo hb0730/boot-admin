@@ -129,6 +129,21 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         return user;
     }
 
+    @Override
+    public boolean restPassword(Long id) {
+
+        UserInfoEntity entity = super.getById(id);
+        if (entity.getIsAdmin() == 1) {
+            return false;
+        }
+        // 默认密码
+        String password = DictUtils.getEntryValue(TYPE, DEFAULT_PASSWORD);
+        if (StringUtils.isBlank(password)) {
+            password = "123456";
+        }
+        return accountService.updatePassword(id, password);
+    }
+
 
     @Override
     public Page<UserInfoDTO> page(@Nonnull UserInfoParams params) {

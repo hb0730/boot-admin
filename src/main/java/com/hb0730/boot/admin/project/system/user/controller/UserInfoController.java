@@ -2,22 +2,26 @@ package com.hb0730.boot.admin.project.system.user.controller;
 
 
 import com.hb0730.boot.admin.annotation.ClassDescribe;
+import com.hb0730.boot.admin.annotation.Log;
 import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
-import com.hb0730.boot.admin.project.system.user.service.IUserAccountService;
-import com.hb0730.boot.admin.project.system.user.model.entity.UserInfoEntity;
-import com.hb0730.boot.admin.project.system.user.model.vo.UserAccount;
-import com.hb0730.boot.admin.project.system.user.model.query.UserInfoParams;
+import com.hb0730.boot.admin.exceptions.BusinessException;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserInfoDTO;
+import com.hb0730.boot.admin.project.system.user.model.entity.UserInfoEntity;
+import com.hb0730.boot.admin.project.system.user.model.query.UserInfoParams;
+import com.hb0730.boot.admin.project.system.user.model.vo.UserAccount;
+import com.hb0730.boot.admin.project.system.user.service.IUserAccountService;
 import com.hb0730.boot.admin.project.system.user.service.IUserInfoService;
 import com.hb0730.boot.admin.project.system.user.service.impl.UserInfoServiceImpl;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.security.utils.SecurityUtils;
+import com.hb0730.commons.json.exceptions.JsonException;
 import com.hb0730.commons.lang.StringUtils;
 import com.hb0730.commons.spring.BeanUtils;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -84,6 +88,25 @@ public class UserInfoController extends AbstractBaseController<Long, UserInfoDTO
         IUserAccountService accountService = ((UserInfoServiceImpl) service.getThis()).getAccountService();
         accountService.updatePassword(id, account.getOldPassword(), newPassword);
         return Results.resultSuccess("修改成功");
+    }
+
+    /**
+     * 重置密码
+     *
+     * @param id 用户id
+     * @return 是否成功
+     */
+    @GetMapping("/rest/password/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR','user;rest:password')")
+    @Log(value = "重置密码")
+    public Result<String> restPassword(@PathVariable("id") Long id) throws JsonException {
+        UserInfoEntity entity = service.getById(id);
+        if (entity.getIsAdmin() == 1) {
+            throw new BusinessException("超级管理员无法重置");
+        }
+        service.restPassword(id);
+        return Results.resultSuccess("重置成功");
+
     }
 }
 

@@ -44,6 +44,15 @@ public interface IUserAccountService extends IBaseService<Long, UserAccountParam
     boolean updatePassword(@NonNull Long userId, @NonNull String oldPassword, @NonNull String newPassword);
 
     /**
+     * 重置密码
+     *
+     * @param userId   用户id
+     * @param password 密码
+     * @return 是否成功
+     */
+    boolean updatePassword(@Nonnull Long userId, @Nonnull String password);
+
+    /**
      * 根据用户id删除
      *
      * @param userId 用户id

@@ -99,6 +99,19 @@ public class UserAccountServiceImpl
     }
 
     @Override
+    public boolean updatePassword(@Nonnull Long userId, @Nonnull String password) {
+        LambdaQueryWrapper<UserAccountEntity> query = Wrappers.lambdaQuery();
+        query.eq(UserAccountEntity::getUserId, userId);
+        UserAccountEntity accountEntity = super.getOne(query, false);
+        if (null == accountEntity) {
+            throw new AccountException(ResponseStatusEnum.USER_NAME_NOT_FONT, "根据用户id查询不到账号信息");
+        }
+        password = PasswordSecurityUtils.encode(SecurityUtils.getPasswordEncoder(), password);
+        accountEntity.setPassword(password);
+        return super.updateById(accountEntity);
+    }
+
+    @Override
     public boolean removeByUserId(@Nonnull Serializable userId) {
         Assert.notNull(userId, "用户id不为空");
         LambdaQueryWrapper<UserAccountEntity> queryWrapper = Wrappers

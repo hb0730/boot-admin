@@ -139,7 +139,7 @@ public class LogAspectj {
             String requestParamsValue = getRequestValue(joinPoint, request, log.paramsName());
             entity.setRequestParams(requestParamsValue);
             //返回参数
-            String result = Jsons.Utils.instance().objectToJson(jsonResult);
+            String result = Jsons.Utils.instance().objectToJson(null == jsonResult ? "" : jsonResult);
             entity.setRequestResult(result);
             if (null != e) {
                 String message = ExceptionUtils.getExceptionMessage(e);
@@ -149,10 +149,17 @@ public class LogAspectj {
             AsyncManager.me().execute(AsyncFactory.recordOperLog(entity));
         } catch (Exception e1) {
             e1.printStackTrace();
+            if (null != e) {
+                e.printStackTrace();
+            }
             // 记录本地异常日志
             LOGGER.error("==前置通知异常==");
             LOGGER.error("异常信息:{}", e1.getMessage());
-            throw new BusinessException(e1.getMessage());
+            if (null != e) {
+                throw new BusinessException(e.getMessage());
+            } else {
+                throw new BusinessException(e1.getMessage());
+            }
         }
 
 

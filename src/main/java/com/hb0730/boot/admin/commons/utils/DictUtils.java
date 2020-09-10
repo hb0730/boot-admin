@@ -2,6 +2,8 @@ package com.hb0730.boot.admin.commons.utils;
 
 import com.hb0730.boot.admin.project.system.dict.model.vo.DictVO;
 import com.hb0730.boot.admin.project.system.dict.service.IDictService;
+import com.hb0730.commons.json.exceptions.JsonException;
+import com.hb0730.commons.json.utils.Jsons;
 import com.hb0730.commons.spring.SpringContextUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -35,16 +37,23 @@ public class DictUtils {
         if (CollectionUtils.isEmpty(cache)) {
             return "";
         }
-        Optional<DictVO.DictEntryVO> entryValue = cache
-                .stream()
-                .filter(dictType -> dictType.getType().equals(type))
-                .map(DictVO::getEntry)
-                .flatMap(List::stream)
-                .filter(entry -> entry.getLabel().equals(name)).findFirst();
-        if (entryValue.isPresent()) {
-            return entryValue.get().getValue();
-        } else {
+        try {
+            Optional<DictVO.DictEntryVO> entryValue = Jsons.Utils.instance().jsonToList(Jsons.Utils.instance().objectToJson(cache), DictVO.class)
+                    .stream()
+                    .filter(dictType -> dictType.getType().equals(type))
+                    .map(DictVO::getEntry)
+                    .flatMap(List::stream)
+                    .filter(entry -> entry.getLabel().equals(name))
+                    .findFirst();
+            if (entryValue.isPresent()) {
+                return entryValue.get().getValue();
+            } else {
+                return "";
+            }
+        } catch (JsonException e) {
+            e.printStackTrace();
             return "";
         }
+
     }
 }
