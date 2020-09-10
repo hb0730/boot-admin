@@ -74,7 +74,7 @@ public interface ITokenService {
     /**
      * 获取在线用户
      *
-     * @return 在线用户
+     * @return 在线用户 key为accessToken,value为{@link User}
      */
     Map<String, UserDetails> getOnline();
 

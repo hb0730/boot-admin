@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Sets;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.domain.service.impl.SuperBaseServiceImpl;
+import com.hb0730.boot.admin.event.role.RolePermissionEvent;
 import com.hb0730.boot.admin.project.system.role.mapper.IRoleMapper;
 import com.hb0730.boot.admin.project.system.role.model.dto.RoleDTO;
 import com.hb0730.boot.admin.project.system.role.model.dto.RoleExtDTO;
@@ -21,6 +22,7 @@ import com.hb0730.commons.lang.StringUtils;
 import com.hb0730.commons.lang.collection.CollectionUtils;
 import com.hb0730.commons.spring.BeanUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -41,6 +43,7 @@ public class RoleServiceImpl extends SuperBaseServiceImpl<Long, RoleParams, Role
 
     private final IRoleDeptService roleDeptService;
     private final IRolePermissionService rolePermissionService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public Page<RoleExtDTO> page(@Nonnull RoleParams params) {
@@ -208,6 +211,7 @@ public class RoleServiceImpl extends SuperBaseServiceImpl<Long, RoleParams, Role
         if (!CollectionUtils.isEmpty(newPermissionIds)) {
             rolePermissionService.savePermissionIdByRoleId(id, newPermissionIds);
         }
+        eventPublisher.publishEvent(new RolePermissionEvent(this,id));
         return true;
     }
 
