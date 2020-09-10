@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hb0730.boot.admin.commons.utils.DictUtils;
 import com.hb0730.boot.admin.commons.utils.PasswordSecurityUtils;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.domain.service.impl.SuperBaseServiceImpl;
@@ -40,6 +41,9 @@ import javax.annotation.Nonnull;
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.hb0730.boot.admin.commons.constant.DictConstant.SysConstants.SysEntryConstants.DEFAULT_PASSWORD;
+import static com.hb0730.boot.admin.project.system.dict.model.entity.DictEntity.TYPE;
 
 /**
  * 用户信息  服务实现类
@@ -170,7 +174,12 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         account = new UserAccountEntity();
         account.setUsername(username);
         // 默认密码
-        account.setPassword(PasswordSecurityUtils.encode(SecurityUtils.getPasswordEncoder(), "123456"));
+        String password = DictUtils.getEntryValue(TYPE, DEFAULT_PASSWORD);
+        if (StringUtils.isBlank(password)) {
+            password = "123456";
+        }
+        account.setPassword(PasswordSecurityUtils.encode(SecurityUtils.getPasswordEncoder(), password));
+
         account.setUserId(entity.getId());
         accountService.save(account);
         // 保存 用户角色
