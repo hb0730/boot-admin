@@ -25,6 +25,7 @@
         <velocity-engine.version>2.2</velocity-engine.version>
 
         <bitwalker.version>1.19</bitwalker.version>
+        <easyexcel.version>2.2.6</easyexcel.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -197,6 +198,13 @@
             <groupId>eu.bitwalker</groupId>
             <artifactId>UserAgentUtils</artifactId>
             <version>${bitwalker.version}</version>
+        </dependency>
+
+        <!--easyexcel-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>${easyexcel.version}</version>
         </dependency>
 
     </dependencies>
