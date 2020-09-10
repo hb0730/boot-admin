@@ -43,7 +43,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.hb0730.boot.admin.commons.constant.DictConstant.SysConstants.SysEntryConstants.DEFAULT_PASSWORD;
-import static com.hb0730.boot.admin.project.system.dict.model.entity.DictEntity.TYPE;
+import static com.hb0730.boot.admin.commons.constant.DictConstant.SysConstants.TYPE;
 
 /**
  * 用户信息  服务实现类

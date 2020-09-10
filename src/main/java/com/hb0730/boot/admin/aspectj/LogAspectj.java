@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.annotation.ClassDescribe;
 import com.hb0730.boot.admin.annotation.Log;
 import com.hb0730.boot.admin.commons.enums.StatusEnum;
+import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.exceptions.BusinessException;
 import com.hb0730.boot.admin.manager.AsyncManager;
 import com.hb0730.boot.admin.manager.factory.AsyncFactory;
@@ -14,6 +15,7 @@ import com.hb0730.commons.json.utils.Jsons;
 import com.hb0730.commons.lang.ExceptionUtils;
 import com.hb0730.commons.spring.IpUtils;
 import com.hb0730.commons.spring.ServletUtils;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -46,8 +48,10 @@ import java.util.function.Consumer;
  */
 @Aspect
 @Component
+@RequiredArgsConstructor
 public class LogAspectj {
     private static final Logger LOGGER = LoggerFactory.getLogger(LogAspectj.class);
+    private final BootAdminProperties properties;
 
     /**
      * 配置织入点
@@ -55,17 +59,6 @@ public class LogAspectj {
     @Pointcut("@annotation(com.hb0730.boot.admin.annotation.Log)")
     public void logPointCut() {
     }
-
-//    /**
-//     * 返回通知
-//     *
-//     * @param joinPoint 切点
-//     * @param result    返回值
-//     */
-//    @AfterReturning(returning = "result", pointcut = "logPointCut()")
-//    public void doAfterReturning(JoinPoint joinPoint, Object result) throws Exception {
-//        handleLog(joinPoint, result, null);
-//    }
 
     /**
      * 返回通知
@@ -94,6 +87,9 @@ public class LogAspectj {
      */
     void handleLog(final JoinPoint joinPoint, Object jsonResult, final Exception e) {
         try {
+            if (properties.isDemoEnabled()) {
+                throw new BusinessException("演示环境禁止操作");
+            }
             Log log = getAnnotationLog(joinPoint);
             if (check(joinPoint, log)) {
                 return;
@@ -123,7 +119,11 @@ public class LogAspectj {
             }
             //方法描述
             String controllerMethodDescription = getDescribe(log);
-            entity.setDescription(StringUtils.join(controllerDescription, controllerMethodDescription));
+            if (log.controllerApiValue()) {
+                entity.setDescription(StringUtils.join(controllerDescription, controllerMethodDescription));
+            } else {
+                entity.setDescription(controllerMethodDescription);
+            }
             // 请求地址
             String requestUrl = ServletUtils.getRequest().getRequestURI();
             entity.setRequestUrl(requestUrl);
@@ -135,16 +135,24 @@ public class LogAspectj {
             String methodName = joinPoint.getSignature().getName();
             entity.setOperMethod(className + "." + methodName);
             // 请求参数
-            HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-            String requestParamsValue = getRequestValue(joinPoint, request, log.paramsName());
-            entity.setRequestParams(requestParamsValue);
+            if (log.request()) {
+                HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+                String requestParamsValue = getRequestValue(joinPoint, request, log.paramsName());
+                entity.setRequestParams(requestParamsValue);
+            }
             //返回参数
-            String result = Jsons.Utils.instance().objectToJson(null == jsonResult ? "" : jsonResult);
-            entity.setRequestResult(result);
+            if (log.response()) {
+                String result = Jsons.Utils.instance().objectToJson(null == jsonResult ? "" : jsonResult);
+                entity.setRequestResult(result);
+            }
             if (null != e) {
-                String message = ExceptionUtils.getExceptionMessage(e);
-                entity.setErrorMessage(message);
-                entity.setStatus(StatusEnum.FAIL.getValue());
+                if (log.requestByError()) {
+                    String result = Jsons.Utils.instance().objectToJson(null == jsonResult ? "" : jsonResult);
+                    entity.setRequestResult(result);
+                    String message = ExceptionUtils.getExceptionMessage(e);
+                    entity.setErrorMessage(StringUtils.substring(message, 0, 2000));
+                    entity.setStatus(StatusEnum.FAIL.getValue());
+                }
             }
             AsyncManager.me().execute(AsyncFactory.recordOperLog(entity));
         } catch (Exception e1) {
