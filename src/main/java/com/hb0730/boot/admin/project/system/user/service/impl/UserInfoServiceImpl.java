@@ -60,10 +60,15 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
     private final IDeptService deptService;
     @Getter
     private final IPostService postService;
+    @Getter
     private final IUserPostService userPostService;
+    @Getter
     private final IUserRoleService userRoleService;
+    @Getter
     private final IRoleService roleService;
+    @Getter
     private final IRolePermissionService rolePermissionService;
+    @Getter
     private final IPermissionService permissionService;
 
     @Override

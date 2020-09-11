@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.listener.role;
 
+import com.hb0730.boot.admin.event.menu.MenuEvent;
 import com.hb0730.boot.admin.event.role.RolePermissionEvent;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserDTO;
 import com.hb0730.boot.admin.project.system.user.service.IUserInfoService;
@@ -8,6 +9,7 @@ import com.hb0730.boot.admin.token.ITokenService;
 import com.hb0730.commons.lang.collection.CollectionUtils;
 import com.hb0730.commons.spring.BeanUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,6 +34,7 @@ import java.util.stream.Collectors;
 public class RolePermissionListener implements ApplicationListener<RolePermissionEvent> {
     private final ITokenService tokenService;
     private final IUserInfoService userInfoService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     @Async("threadPoolTaskExecutor")
@@ -43,14 +46,16 @@ public class RolePermissionListener implements ApplicationListener<RolePermissio
         }
         Set<String> usernameList = onlineUser.stream().map(UserDetails::getUsername).collect(Collectors.toSet());
         Map<String, UserDetails> onlineUserMap = onlineUser.stream().collect(Collectors.toMap(UserDetails::getUsername, Function.identity()));
+        //用户
         for (String username : usernameList) {
             UserDTO userDTO = userInfoService.loadUserByUsername(username);
             UserDetails details = onlineUserMap.get(username);
             BeanUtils.updateProperties(userDTO, details);
+            //刷新token
             tokenService.refreshAccessToken((User) details);
+            eventPublisher.publishEvent(new MenuEvent(this, userDTO.getId()));
         }
     }
-
 
     /**
      * 获取已分配当前角色的用户
