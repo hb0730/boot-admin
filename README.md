@@ -14,7 +14,7 @@
 + 对一般的操作的:page,save,update等进行抽象封装,进一步减少重复代码的使用
 + 前后端统一异常拦截处理，统一输出异常，避免繁琐的判断
 # 在线预览
-http://admin.hb0730.com/ 
+http://admin.hb0730.com/  (可能比较慢)
 
 `Administrator/123456`
 # 技术
