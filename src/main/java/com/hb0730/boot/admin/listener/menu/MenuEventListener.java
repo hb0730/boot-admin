@@ -23,7 +23,6 @@ import com.hb0730.commons.lang.collection.CollectionUtils;
 import com.hb0730.commons.spring.BeanUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
@@ -32,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
- * menu listener
+ * menu listener,用来支持在线刷新菜单路由
  *
  * @author bing_huang
  * @since 3.0.0

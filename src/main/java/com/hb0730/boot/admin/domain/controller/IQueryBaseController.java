@@ -7,7 +7,7 @@ import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import com.hb0730.boot.admin.domain.model.query.BaseParams;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
-import com.hb0730.boot.admin.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.ISuperBaseService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,7 +40,7 @@ public interface IQueryBaseController<ID extends Serializable,
     @SuppressWarnings({"unchecked"})
     @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','query')")
     default Result<Object> page(@Validated @RequestBody PARAMS params) {
-        IBaseService<ID, PARAMS, DTO, ENTITY> service = getBaseService();
+        ISuperBaseService<ID, PARAMS, DTO, ENTITY> service = getBaseService();
         if (null != service) {
             Page<DTO> page = service.page(params);
             return Results.resultSuccess(page);
@@ -57,7 +57,7 @@ public interface IQueryBaseController<ID extends Serializable,
     @PostMapping("/list")
     @SuppressWarnings({"unchecked"})
     default Result<Object> list(@Validated @RequestBody PARAMS params) {
-        IBaseService<ID, PARAMS, DTO, ENTITY> service = getBaseService();
+        ISuperBaseService<ID, PARAMS, DTO, ENTITY> service = getBaseService();
         if (null != service) {
             List<DTO> list = service.list(params);
             return Results.resultSuccess(list);

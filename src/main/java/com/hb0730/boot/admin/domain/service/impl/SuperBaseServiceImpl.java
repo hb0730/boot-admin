@@ -7,7 +7,7 @@ import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import com.hb0730.boot.admin.domain.model.query.BaseParams;
-import com.hb0730.boot.admin.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.ISuperBaseService;
 import com.hb0730.commons.spring.BeanUtils;
 import com.hb0730.commons.spring.ValidatorUtils;
 import org.springframework.lang.NonNull;
@@ -23,11 +23,8 @@ import java.util.List;
  * @author bing_huang
  * @since 3.0.0
  */
-public class SuperBaseServiceImpl<ID extends Serializable,
-        PARAMS extends BaseParams,
-        DTO extends BaseDTO,
-        ENTITY extends BaseDomain,
-        MAPPER extends BaseMapper<ENTITY>> extends BaseServiceImpl<MAPPER, ENTITY> implements IBaseService<ID, PARAMS, DTO, ENTITY> {
+public class SuperBaseServiceImpl<ID extends Serializable, PARAMS extends BaseParams, DTO extends BaseDTO, ENTITY extends BaseDomain, MAPPER extends BaseMapper<ENTITY>>
+        extends BaseServiceImpl<MAPPER, ENTITY> implements ISuperBaseService<ID, PARAMS, DTO, ENTITY> {
     @Override
     public boolean updateById(@NonNull DTO dto) {
         ValidatorUtils.validate(dto);

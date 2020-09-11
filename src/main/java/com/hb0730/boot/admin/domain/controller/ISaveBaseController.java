@@ -7,7 +7,7 @@ import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
-import com.hb0730.boot.admin.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.ISuperBaseService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +34,7 @@ public interface ISaveBaseController<DTO extends BaseDTO, ENTITY extends BaseDom
     @Log(value = "保存", paramsName = {"dto"}, businessType = BusinessTypeEnum.INSERT)
     @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','save')")
     default Result<String> save(@RequestBody @Validated DTO dto) {
-        IBaseService baseService = getBaseService();
+        ISuperBaseService baseService = getBaseService();
         if (null != baseService) {
             baseService.save(dto);
             return Results.resultSuccess("保存成功");

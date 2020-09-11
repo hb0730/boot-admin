@@ -3,7 +3,7 @@ package com.hb0730.boot.admin.project.system.menu.controller;
 
 import com.hb0730.boot.admin.annotation.ClassDescribe;
 import com.hb0730.boot.admin.annotation.PreAuth;
-import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
+import com.hb0730.boot.admin.domain.controller.SuperSimpleBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
 import com.hb0730.boot.admin.project.system.menu.model.dto.MenuDTO;
@@ -29,7 +29,7 @@ import java.util.List;
 @RequestMapping("/api/v3/system/menu")
 @PreAuth("menu")
 @ClassDescribe("菜单管理")
-public class MenuController extends AbstractBaseController<Long, MenuDTO, MenuParams, MenuEntity> {
+public class MenuController extends SuperSimpleBaseController<Long, MenuDTO, MenuParams, MenuEntity> {
     private final IMenuService service;
 
     public MenuController(IMenuService service) {

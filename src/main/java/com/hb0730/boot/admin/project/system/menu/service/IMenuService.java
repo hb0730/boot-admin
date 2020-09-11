@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.project.system.menu.service;
 
-import com.hb0730.boot.admin.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.ISuperBaseService;
 import com.hb0730.boot.admin.project.system.menu.model.dto.MenuDTO;
 import com.hb0730.boot.admin.project.system.menu.model.dto.TreeMenuDTO;
 import com.hb0730.boot.admin.project.system.menu.model.entity.MenuEntity;
@@ -18,7 +18,7 @@ import java.util.List;
  * @author bing_huang
  * @since 3.0.0
  */
-public interface IMenuService extends IBaseService<Long, MenuParams, MenuDTO, MenuEntity> {
+public interface IMenuService extends ISuperBaseService<Long, MenuParams, MenuDTO, MenuEntity> {
 
 
     /**

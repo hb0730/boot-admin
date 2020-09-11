@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.project.system.permission.service;
 
-import com.hb0730.boot.admin.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.ISuperBaseService;
 import com.hb0730.boot.admin.project.system.permission.model.dto.PermissionDTO;
 import com.hb0730.boot.admin.project.system.permission.model.entity.PermissionEntity;
 import com.hb0730.boot.admin.project.system.permission.model.query.PermissionParams;
@@ -15,7 +15,7 @@ import java.util.List;
  * @author bing_huang
  * @since 3.0.0
  */
-public interface IPermissionService extends IBaseService<Long, PermissionParams, PermissionDTO, PermissionEntity> {
+public interface IPermissionService extends ISuperBaseService<Long, PermissionParams, PermissionDTO, PermissionEntity> {
 
     /**
      * 根据id查询启用的权限

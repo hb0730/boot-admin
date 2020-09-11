@@ -5,7 +5,7 @@ import com.hb0730.boot.admin.annotation.ClassDescribe;
 import com.hb0730.boot.admin.annotation.Log;
 import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.commons.enums.BusinessTypeEnum;
-import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
+import com.hb0730.boot.admin.domain.controller.SuperSimpleBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
 import com.hb0730.boot.admin.project.system.role.model.dto.RoleExtDTO;
@@ -27,7 +27,7 @@ import java.util.List;
 @RequestMapping("/api/v3/system/role")
 @PreAuth("role")
 @ClassDescribe("角色管理")
-public class RoleController extends AbstractBaseController<Long, RoleExtDTO, RoleParams, RoleEntity> {
+public class RoleController extends SuperSimpleBaseController<Long, RoleExtDTO, RoleParams, RoleEntity> {
     private final IRoleService service;
 
     public RoleController(IRoleService service) {

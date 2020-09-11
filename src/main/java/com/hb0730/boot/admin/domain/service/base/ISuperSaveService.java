@@ -10,7 +10,7 @@ import org.springframework.lang.NonNull;
  * @author bing_huang
  * @since 3.0.0
  */
-public interface ISuperBaseSaveService<DTO extends BaseDTO> {
+public interface ISuperSaveService<DTO extends BaseDTO> {
     /**
      * 保存
      *

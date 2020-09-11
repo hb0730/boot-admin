@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-import com.hb0730.boot.admin.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.ISuperBaseService;
 import com.hb0730.boot.admin.domain.service.impl.SuperBaseServiceImpl;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class LoginLogGenerator {
         strategyConfig.setColumnNaming(NamingStrategy.underline_to_camel);
         strategyConfig.setSuperEntityClass(MysqlProperties.SUPER_ENTITY_CLASS);
         strategyConfig.setSuperEntityColumns(MysqlProperties.SUPER_ENTITY_COLUMNS);
-        strategyConfig.setSuperServiceClass(IBaseService.class);
+        strategyConfig.setSuperServiceClass(ISuperBaseService.class);
         strategyConfig.setSuperServiceImplClass(SuperBaseServiceImpl.class);
         strategyConfig.setSuperControllerClass(MysqlProperties.SUPER_CONTROLLER_CLASS);
         strategyConfig.setEntityColumnConstant(true);

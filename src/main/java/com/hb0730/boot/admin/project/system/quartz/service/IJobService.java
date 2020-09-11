@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.project.system.quartz.service;
 
-import com.hb0730.boot.admin.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.ISuperBaseService;
 import com.hb0730.boot.admin.project.system.quartz.model.dto.JobDTO;
 import com.hb0730.boot.admin.project.system.quartz.model.entity.JobEntity;
 import com.hb0730.boot.admin.project.system.quartz.model.query.JobParams;
@@ -11,7 +11,7 @@ import com.hb0730.boot.admin.project.system.quartz.model.query.JobParams;
  * @author bing_huang
  * @since 3.0.0
  */
-public interface IJobService extends IBaseService<Long, JobParams, JobDTO, JobEntity> {
+public interface IJobService extends ISuperBaseService<Long, JobParams, JobDTO, JobEntity> {
 
     /**
      * 立即执行定时任务

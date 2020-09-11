@@ -4,7 +4,7 @@ package com.hb0730.boot.admin.project.system.permission.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.annotation.ClassDescribe;
 import com.hb0730.boot.admin.annotation.PreAuth;
-import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
+import com.hb0730.boot.admin.domain.controller.SuperSimpleBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
 import com.hb0730.boot.admin.project.system.permission.model.dto.PermissionDTO;
@@ -28,7 +28,7 @@ import java.util.List;
 @Validated
 @ClassDescribe("权限管理")
 @PreAuth("permission")
-public class PermissionController extends AbstractBaseController<Long, PermissionDTO, PermissionParams, PermissionEntity> {
+public class PermissionController extends SuperSimpleBaseController<Long, PermissionDTO, PermissionParams, PermissionEntity> {
     private final IPermissionService service;
 
     public PermissionController(IPermissionService service) {

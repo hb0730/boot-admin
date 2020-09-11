@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.system.user.controller;
 
 
-import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
+import com.hb0730.boot.admin.domain.controller.SuperSimpleBaseController;
 import com.hb0730.boot.admin.project.system.user.model.entity.UserAccountEntity;
 import com.hb0730.boot.admin.project.system.user.model.query.UserAccountParams;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserAccountDTO;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v3/system/user/account")
 @Validated
-public class UserAccountController extends AbstractBaseController<Long, UserAccountDTO, UserAccountParams, UserAccountEntity> {
+public class UserAccountController extends SuperSimpleBaseController<Long, UserAccountDTO, UserAccountParams, UserAccountEntity> {
     private final IUserAccountService service;
 
     public UserAccountController(IUserAccountService service) {

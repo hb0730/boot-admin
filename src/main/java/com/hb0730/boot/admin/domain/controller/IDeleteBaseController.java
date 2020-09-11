@@ -6,7 +6,7 @@ import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
-import com.hb0730.boot.admin.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.ISuperBaseService;
 import com.hb0730.commons.lang.collection.CollectionUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +37,7 @@ public interface IDeleteBaseController<ID extends Serializable, ENTITY extends B
     @Log(value = "删除", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','delete')")
     default Result<String> deleteById(@PathVariable("id") ID id) {
-        IBaseService service = getBaseService();
+        ISuperBaseService service = getBaseService();
         if (service != null) {
             service.removeById(id);
             return Results.resultSuccess("删除成功");
@@ -56,7 +56,7 @@ public interface IDeleteBaseController<ID extends Serializable, ENTITY extends B
     @Log(value = "删除", paramsName = {"ids"}, businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','delete')")
     default Result<String> deleteByIds(@RequestBody List<ID> ids) {
-        IBaseService service = getBaseService();
+        ISuperBaseService service = getBaseService();
         if (service != null && !CollectionUtils.isEmpty(ids)) {
             service.removeByIds(ids);
             return Results.resultSuccess("删除成功");

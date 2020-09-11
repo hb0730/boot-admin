@@ -3,7 +3,7 @@ package com.hb0730.boot.admin.project.system.dept.controller;
 
 import com.hb0730.boot.admin.annotation.ClassDescribe;
 import com.hb0730.boot.admin.annotation.PreAuth;
-import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
+import com.hb0730.boot.admin.domain.controller.SuperSimpleBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
 import com.hb0730.boot.admin.project.system.dept.model.dto.DeptDTO;
@@ -28,7 +28,7 @@ import java.util.Set;
 @RequestMapping("/api/v3/system/dept")
 @ClassDescribe("部门管理")
 @PreAuth("dept")
-public class DeptController extends AbstractBaseController<Long, DeptDTO, DeptParams, DeptEntity> {
+public class DeptController extends SuperSimpleBaseController<Long, DeptDTO, DeptParams, DeptEntity> {
     private final IDeptService service;
 
     public DeptController(IDeptService service) {

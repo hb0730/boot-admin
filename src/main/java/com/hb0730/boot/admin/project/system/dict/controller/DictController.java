@@ -3,7 +3,7 @@ package com.hb0730.boot.admin.project.system.dict.controller;
 
 import com.hb0730.boot.admin.annotation.ClassDescribe;
 import com.hb0730.boot.admin.annotation.PreAuth;
-import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
+import com.hb0730.boot.admin.domain.controller.SuperSimpleBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
 import com.hb0730.boot.admin.project.system.dict.model.dto.DictDTO;
@@ -27,7 +27,7 @@ import java.util.List;
 @RequestMapping("/api/v3/system/dict")
 @ClassDescribe("数据字典")
 @PreAuth("dict")
-public class DictController extends AbstractBaseController<Long, DictDTO, DictParams, DictEntity> {
+public class DictController extends SuperSimpleBaseController<Long, DictDTO, DictParams, DictEntity> {
     private final IDictService service;
 
     public DictController(IDictService service) {

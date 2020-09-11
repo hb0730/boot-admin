@@ -1,42 +1,42 @@
 package com.hb0730.boot.admin.domain.controller;
 
+import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import com.hb0730.boot.admin.domain.model.query.BaseParams;
-import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
-import com.hb0730.boot.admin.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.ISuperBaseService;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 
 /**
- * base controller
+ * 简单的实现了BaseController，为了获取注入 Service 和 实体类型
  *
  * @param <ID>     id 类型
- * @param <DTO>     vo类型
+ * @param <DTO>    vo类型
  * @param <PARAMS> 请求类型
  * @param <ENTITY> 实体类型
  * @author bing_huang
  * @since 3.0.0
  */
-public abstract class AbstractBaseController<ID extends Serializable, DTO extends BaseDTO, PARAMS extends BaseParams, ENTITY extends BaseDomain>
+public abstract class SuperSimpleBaseController<ID extends Serializable, DTO extends BaseDTO, PARAMS extends BaseParams, ENTITY extends BaseDomain>
         implements
         ISaveBaseController<DTO, ENTITY>,
         IQueryBaseController<ID, DTO, PARAMS, ENTITY>,
         IUpdateBaseController<ID, DTO, ENTITY>,
         IDeleteBaseController<ID, ENTITY> {
 
-    private IBaseService<ID, PARAMS, DTO, ENTITY> service;
+    private ISuperBaseService<ID, PARAMS, DTO, ENTITY> service;
     protected Class<ENTITY> entityClass = null;
 
-    public AbstractBaseController(IBaseService<ID, PARAMS, DTO, ENTITY> service) {
+    public SuperSimpleBaseController(ISuperBaseService<ID, PARAMS, DTO, ENTITY> service) {
         this.service = service;
     }
 
-    public AbstractBaseController() {
+    public SuperSimpleBaseController() {
     }
 
     @Override
-    public IBaseService<ID, PARAMS, DTO, ENTITY> getBaseService() {
+    public ISuperBaseService<ID, PARAMS, DTO, ENTITY> getBaseService() {
         return service;
     }
 

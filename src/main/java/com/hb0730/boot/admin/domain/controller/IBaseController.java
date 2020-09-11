@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.domain.controller;
 
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
-import com.hb0730.boot.admin.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.ISuperBaseService;
 
 /**
  * 基础 controller
@@ -24,5 +24,5 @@ interface IBaseController<ENTITY extends BaseDomain> {
      *
      * @return service
      */
-    IBaseService getBaseService();
+    ISuperBaseService getBaseService();
 }

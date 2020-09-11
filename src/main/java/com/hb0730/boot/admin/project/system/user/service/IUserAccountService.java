@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.project.system.user.service;
 
-import com.hb0730.boot.admin.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.ISuperBaseService;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserAccountDTO;
 import com.hb0730.boot.admin.project.system.user.model.entity.UserAccountEntity;
 import com.hb0730.boot.admin.project.system.user.model.query.UserAccountParams;
@@ -16,7 +16,7 @@ import java.util.Collection;
  * @author bing_huang
  * @since 3.0.0
  */
-public interface IUserAccountService extends IBaseService<Long, UserAccountParams, UserAccountDTO, UserAccountEntity> {
+public interface IUserAccountService extends ISuperBaseService<Long, UserAccountParams, UserAccountDTO, UserAccountEntity> {
     /**
      * 根据用户获取账号信息
      *

@@ -5,7 +5,7 @@ import com.hb0730.boot.admin.annotation.ClassDescribe;
 import com.hb0730.boot.admin.annotation.Log;
 import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.commons.enums.BusinessTypeEnum;
-import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
+import com.hb0730.boot.admin.domain.controller.SuperSimpleBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
 import com.hb0730.boot.admin.project.system.quartz.model.dto.JobDTO;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v3/system/job")
 @ClassDescribe("定时任务")
 @PreAuth("job")
-public class JobController extends AbstractBaseController<Long, JobDTO, JobParams, JobEntity> {
+public class JobController extends SuperSimpleBaseController<Long, JobDTO, JobParams, JobEntity> {
     private final IJobService service;
 
     public JobController(IJobService service) {

@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.project.system.user.service;
 
-import com.hb0730.boot.admin.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.ISuperBaseService;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserDTO;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserInfoDTO;
 import com.hb0730.boot.admin.project.system.user.model.entity.UserInfoEntity;
@@ -12,7 +12,7 @@ import com.hb0730.boot.admin.project.system.user.model.query.UserInfoParams;
  * @author bing_huang
  * @since 3.0.0
  */
-public interface IUserInfoService extends IBaseService<Long, UserInfoParams, UserInfoDTO, UserInfoEntity> {
+public interface IUserInfoService extends ISuperBaseService<Long, UserInfoParams, UserInfoDTO, UserInfoEntity> {
 
 
     /**

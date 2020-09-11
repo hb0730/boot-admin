@@ -7,7 +7,7 @@ import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
-import com.hb0730.boot.admin.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.ISuperBaseService;
 import com.hb0730.commons.spring.ValidatorUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -40,7 +40,7 @@ public interface IUpdateBaseController<ID extends Serializable, DTO extends Base
     @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','update')")
     default Result<String> updateById(@PathVariable("id") ID id, @Validated @RequestBody DTO dto) {
         ValidatorUtils.validate(dto);
-        IBaseService service = getBaseService();
+        ISuperBaseService service = getBaseService();
         if (null != service) {
             service.updateById(id, dto);
             return Results.resultSuccess("修改成功");

@@ -15,7 +15,7 @@ import java.util.List;
  * @author bing_huang
  * @since 3.0.0
  */
-public interface ISuperQueryBaseService<PARAMS extends BaseParams, DTO extends BaseDTO> {
+public interface ISuperQueryService<PARAMS extends BaseParams, DTO extends BaseDTO> {
     /**
      * 分页
      *

@@ -5,7 +5,7 @@ import com.hb0730.boot.admin.annotation.ClassDescribe;
 import com.hb0730.boot.admin.annotation.Log;
 import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.commons.enums.BusinessTypeEnum;
-import com.hb0730.boot.admin.domain.controller.AbstractBaseController;
+import com.hb0730.boot.admin.domain.controller.SuperSimpleBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.Results;
 import com.hb0730.boot.admin.project.monitor.login.log.model.dto.LoginLogDTO;
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v3/monitor/log/login")
 @PreAuth("login:log")
 @ClassDescribe("登录日志")
-public class LoginLogController extends AbstractBaseController<Long, LoginLogDTO, LoginLogParams, LoginLogEntity> {
+public class LoginLogController extends SuperSimpleBaseController<Long, LoginLogDTO, LoginLogParams, LoginLogEntity> {
 
     private final ILoginLogService service;
 

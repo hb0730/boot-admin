@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author bing_huang
  * @since 3.0.0
  */
-public interface ISuperBaseUpdateService<ID extends Serializable, DTO extends BaseDTO> {
+public interface ISuperUpdateService<ID extends Serializable, DTO extends BaseDTO> {
     /**
      * 根据修改删除
      *

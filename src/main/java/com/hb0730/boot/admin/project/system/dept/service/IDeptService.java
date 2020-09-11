@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.project.system.dept.service;
 
-import com.hb0730.boot.admin.domain.service.IBaseService;
+import com.hb0730.boot.admin.domain.service.ISuperBaseService;
 import com.hb0730.boot.admin.project.system.dept.model.dto.DeptDTO;
 import com.hb0730.boot.admin.project.system.dept.model.dto.TreeDeptDTO;
 import com.hb0730.boot.admin.project.system.dept.model.entity.DeptEntity;
@@ -17,7 +17,7 @@ import java.util.Set;
  * @author bing_huang
  * @since 3.0.0
  */
-public interface IDeptService extends IBaseService<Long, DeptParams, DeptDTO, DeptEntity> {
+public interface IDeptService extends ISuperBaseService<Long, DeptParams, DeptDTO, DeptEntity> {
 
     /**
      * 根据id查询
