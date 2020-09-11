@@ -56,5 +56,10 @@ http://admin.hb0730.com/  (可能比较慢)
 |<img src="https://github.com/hb0730/boot-admin-ui/blob/v3/docs/view/boot-admin_v3_5.png">|<img src="https://github.com/hb0730/boot-admin-ui/blob/v3/docs/view/boot-admin_v3_6.png">|
 |<img src="https://github.com/hb0730/boot-admin-ui/blob/v3/docs/view/boot-admin_v3_7.png">|<img src="https://github.com/hb0730/boot-admin-ui/blob/v3/docs/view/boot-admin_v3_8.png">|
 |<img src="https://github.com/hb0730/boot-admin-ui/blob/v3/docs/view/boot-admin_v3_9.png">||
+# 注意
+1. quartz: 本项目并未把quartz作为单独的数据源,项目只采用了单一数据源，如需将quartz作为单独的数据源，可以参考[v2](https://github.com/hb0730/boot-admin/blob/v2/src/main/java/com/hb0730/boot/admin/configuration/DataSourceConfiguration.java)
+2. 本项目SQL放置在 [doc](https://github.com/hb0730/boot-admin/tree/v3/doc/sql) 下,可以对应版本
+3. 本项目可能有过多的个人项目使用,是可以替换成比较认可的:只要符合用法
+4. 项目当中domain下规定了很多基础设施,比如(controller,service,entity)等
 # thanks
 + [d2-admin](https://github.com/d2-projects/d2-admin)
