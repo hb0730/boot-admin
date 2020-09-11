@@ -8,7 +8,11 @@ import org.springframework.lang.NonNull;
 import java.util.List;
 
 /**
- * 基础service之查询
+ * 扩展查询service,针对{@link com.hb0730.boot.admin.domain.controller.base.IBaseQueryController}
+ * <pre>
+ *     1. 分页查询
+ *     2. 列表查询
+ * </pre>
  *
  * @param <DTO>    显示层对象类型
  * @param <PARAMS> 请求参数类型

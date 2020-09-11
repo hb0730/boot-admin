@@ -6,10 +6,10 @@ import org.springframework.lang.NonNull;
 import java.io.Serializable;
 
 /**
- * 基础service之修改
+ * 基础service之修改,针对{@link com.hb0730.boot.admin.domain.controller.base.IBaseUpdateController}
  *
  * @param <DTO> 显示层对象类型
- * @param <ID> id类型
+ * @param <ID>  id类型
  * @author bing_huang
  * @since 3.0.0
  */

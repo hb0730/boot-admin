@@ -18,7 +18,8 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 /**
- * 基础service 实现基本的curd
+ * 基础service 实现基本的curd<br>
+ * 所有的service应当继承此类,以便Controller基类的调用{@link com.hb0730.boot.admin.domain.controller.SuperSimpleBaseController}
  *
  * @author bing_huang
  * @since 3.0.0

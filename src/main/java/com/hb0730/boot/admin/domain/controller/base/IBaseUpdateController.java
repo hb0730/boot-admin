@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.domain.controller;
+package com.hb0730.boot.admin.domain.controller.base;
 
 import com.hb0730.boot.admin.annotation.Log;
 import com.hb0730.boot.admin.commons.enums.BusinessTypeEnum;
@@ -19,6 +19,12 @@ import java.io.Serializable;
 
 /**
  * 修改
+ * <pre>
+ * 1. 实现根据id进行修改{@link #updateById(Serializable, BaseDTO)}
+ * 2. 修改参数的校验{@link ValidatorUtils#validate(Object, Class[])}
+ * 3. 实现共用的权限{@link PreAuthorize}{@link com.hb0730.boot.admin.annotation.PreAuth}{@link com.hb0730.boot.admin.security.service.PermissionService}
+ * 4. 实现日志的记录{@link com.hb0730.boot.admin.annotation.Log}{@link com.hb0730.boot.admin.annotation.ClassDescribe} {@link com.hb0730.boot.admin.aspectj.LogAspectj}
+ * </pre>
  *
  * @param <DTO>    vo类型
  * @param <ID>     id 类型
@@ -26,7 +32,7 @@ import java.io.Serializable;
  * @author bing_huang
  * @since 3.0.0
  */
-public interface IUpdateBaseController<ID extends Serializable, DTO extends BaseDTO, ENTITY extends BaseDomain> extends IBaseController<ENTITY> {
+public interface IBaseUpdateController<ID extends Serializable, DTO extends BaseDTO, ENTITY extends BaseDomain> extends IBaseController<ENTITY> {
     /**
      * 根据id修改
      *

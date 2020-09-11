@@ -1,10 +1,14 @@
-package com.hb0730.boot.admin.domain.controller;
+package com.hb0730.boot.admin.domain.controller.base;
 
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import com.hb0730.boot.admin.domain.service.ISuperBaseService;
 
 /**
- * 基础 controller
+ * 基础 controller<br>
+ * <pre>
+ * 1. 获取当前业务实体{@link BaseDomain},
+ * 2. 获取当前业务Service {@link ISuperBaseService}
+ * </pre>
  *
  * @param <ENTITY> 实体类型
  * @author bing_huang

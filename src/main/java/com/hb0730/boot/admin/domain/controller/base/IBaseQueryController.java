@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.domain.controller;
+package com.hb0730.boot.admin.domain.controller.base;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
@@ -18,6 +18,12 @@ import java.util.List;
 
 /**
  * 基础controller之查询
+ * <pre>
+ * 1. 实现分页查询{@link #page(BaseParams)}
+ * 2. 实现列表查询{@link #list(BaseParams)}
+ * 3. 实现共用的权限{@link PreAuthorize}{@link com.hb0730.boot.admin.annotation.PreAuth}{@link com.hb0730.boot.admin.security.service.PermissionService}
+ * 4. 实现日志的记录{@link com.hb0730.boot.admin.annotation.Log}{@link com.hb0730.boot.admin.annotation.ClassDescribe} {@link com.hb0730.boot.admin.aspectj.LogAspectj}
+ * </pre>
  *
  * @param <ENTITY> 实体类型
  * @param <ID>     id类型
@@ -26,7 +32,7 @@ import java.util.List;
  * @author bing_huang
  * @since 3.0.0
  */
-public interface IQueryBaseController<ID extends Serializable,
+public interface IBaseQueryController<ID extends Serializable,
         DTO extends BaseDTO,
         PARAMS extends BaseParams, ENTITY extends BaseDomain> extends IBaseController<ENTITY> {
     /**
