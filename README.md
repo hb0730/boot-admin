@@ -13,10 +13,10 @@
 + 自定义权限认证与Security的结合使用
 + 对一般的操作的:page,save,update等进行抽象封装,进一步减少重复代码的使用
 + 前后端统一异常拦截处理，统一输出异常，避免繁琐的判断
-# boot-admin
-spring boot Admin management template
-# boot-admin 安全
-采用spring security认证机制并非Spring security oauth2
+# 在线预览
+http://admin.hb0730.com/ 
+
+`Administrator/123456`
 # 技术
 * jdk8
 * spring boot 2.3.3.RELEASE
