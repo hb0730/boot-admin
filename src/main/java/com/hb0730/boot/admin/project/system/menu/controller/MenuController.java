@@ -5,7 +5,7 @@ import com.hb0730.boot.admin.annotation.ClassDescribe;
 import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.domain.controller.SuperSimpleBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
-import com.hb0730.boot.admin.domain.result.Results;
+import com.hb0730.boot.admin.domain.result.R;
 import com.hb0730.boot.admin.project.system.menu.model.dto.MenuDTO;
 import com.hb0730.boot.admin.project.system.menu.model.dto.TreeMenuDTO;
 import com.hb0730.boot.admin.project.system.menu.model.entity.MenuEntity;
@@ -45,7 +45,7 @@ public class MenuController extends SuperSimpleBaseController<Long, MenuDTO, Men
     @GetMapping("/query/tree")
     public Result<List<TreeMenuDTO>> queryTree() {
         List<TreeMenuDTO> treeMenu = service.queryTree();
-        return Results.resultSuccess(treeMenu);
+        return R.success(treeMenu);
     }
 
     /**
@@ -56,7 +56,7 @@ public class MenuController extends SuperSimpleBaseController<Long, MenuDTO, Men
     @GetMapping("/query/tree/permission")
     public Result<List<MenuPermissionVO>> queryMenuPermissionTree() {
         List<MenuPermissionVO> menuPermission = service.queryMenuPermissionTree();
-        return Results.resultSuccess(menuPermission);
+        return R.success(menuPermission);
     }
 
     /**
@@ -68,7 +68,7 @@ public class MenuController extends SuperSimpleBaseController<Long, MenuDTO, Men
     public Result<List<TreeMenuDTO>> getCurrentMenu() {
         List<TreeMenuDTO> currentMenu = service.getCurrentMenu();
         List<TreeMenuDTO> treeMenu = service.buildTree(currentMenu);
-        return Results.resultSuccess(treeMenu);
+        return R.success(treeMenu);
     }
 
     /**
@@ -81,7 +81,7 @@ public class MenuController extends SuperSimpleBaseController<Long, MenuDTO, Men
         List<TreeMenuDTO> currentMenu = service.getCurrentMenu();
         List<TreeMenuDTO> treeMenu = service.buildTree(currentMenu);
         List<VueMenuVO> routerMenu = service.buildVueMenus(treeMenu);
-        return Results.resultSuccess(routerMenu);
+        return R.success(routerMenu);
     }
 }
 

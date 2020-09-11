@@ -5,7 +5,7 @@ import com.hb0730.boot.admin.commons.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import com.hb0730.boot.admin.domain.result.Result;
-import com.hb0730.boot.admin.domain.result.Results;
+import com.hb0730.boot.admin.domain.result.R;
 import com.hb0730.boot.admin.domain.service.ISuperBaseService;
 import com.hb0730.commons.lang.collection.CollectionUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -47,9 +47,9 @@ public interface IBaseDeleteController<ID extends Serializable, ENTITY extends B
         ISuperBaseService service = getBaseService();
         if (service != null) {
             service.removeById(id);
-            return Results.resultSuccess("删除成功");
+            return R.success("删除成功");
         }
-        return Results.result(ResponseStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
+        return R.result(ResponseStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
     }
 
     /**
@@ -66,8 +66,8 @@ public interface IBaseDeleteController<ID extends Serializable, ENTITY extends B
         ISuperBaseService service = getBaseService();
         if (service != null && !CollectionUtils.isEmpty(ids)) {
             service.removeByIds(ids);
-            return Results.resultSuccess("删除成功");
+            return R.success("删除成功");
         }
-        return Results.result(ResponseStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
+        return R.result(ResponseStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
     }
 }

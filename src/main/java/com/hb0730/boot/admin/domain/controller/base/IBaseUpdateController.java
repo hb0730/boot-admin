@@ -6,7 +6,7 @@ import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import com.hb0730.boot.admin.domain.result.Result;
-import com.hb0730.boot.admin.domain.result.Results;
+import com.hb0730.boot.admin.domain.result.R;
 import com.hb0730.boot.admin.domain.service.ISuperBaseService;
 import com.hb0730.commons.spring.ValidatorUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -49,8 +49,8 @@ public interface IBaseUpdateController<ID extends Serializable, DTO extends Base
         ISuperBaseService service = getBaseService();
         if (null != service) {
             service.updateById(id, dto);
-            return Results.resultSuccess("修改成功");
+            return R.success("修改成功");
         }
-        return Results.result(ResponseStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
+        return R.result(ResponseStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
     }
 }

@@ -7,7 +7,7 @@ import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.commons.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.domain.controller.SuperSimpleBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
-import com.hb0730.boot.admin.domain.result.Results;
+import com.hb0730.boot.admin.domain.result.R;
 import com.hb0730.boot.admin.project.monitor.operation.model.dto.OperLogDTO;
 import com.hb0730.boot.admin.project.monitor.operation.model.entity.OperLogEntity;
 import com.hb0730.boot.admin.project.monitor.operation.model.query.OperLogParams;
@@ -45,7 +45,7 @@ public class OperLogController extends SuperSimpleBaseController<Long, OperLogDT
     @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR','ROLE_MONITOR','oper:log:clean')")
     public Result<String> clean() {
         service.clean();
-        return Results.resultSuccess("清除成功");
+        return R.success("清除成功");
     }
 }
 

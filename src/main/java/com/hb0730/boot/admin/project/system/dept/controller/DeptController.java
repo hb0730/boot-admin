@@ -5,7 +5,7 @@ import com.hb0730.boot.admin.annotation.ClassDescribe;
 import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.domain.controller.SuperSimpleBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
-import com.hb0730.boot.admin.domain.result.Results;
+import com.hb0730.boot.admin.domain.result.R;
 import com.hb0730.boot.admin.project.system.dept.model.dto.DeptDTO;
 import com.hb0730.boot.admin.project.system.dept.model.dto.TreeDeptDTO;
 import com.hb0730.boot.admin.project.system.dept.model.entity.DeptEntity;
@@ -46,7 +46,7 @@ public class DeptController extends SuperSimpleBaseController<Long, DeptDTO, Dep
         DeptParams params = new DeptParams();
         List<DeptDTO> list = service.list(params);
         Set<TreeDeptDTO> treeDept = service.buildTree(list);
-        return Results.resultSuccess(treeDept);
+        return R.success(treeDept);
     }
 
 }

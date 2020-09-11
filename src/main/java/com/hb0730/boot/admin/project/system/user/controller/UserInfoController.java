@@ -7,7 +7,7 @@ import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.domain.controller.SuperSimpleBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
-import com.hb0730.boot.admin.domain.result.Results;
+import com.hb0730.boot.admin.domain.result.R;
 import com.hb0730.boot.admin.exceptions.BusinessException;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserInfoDTO;
 import com.hb0730.boot.admin.project.system.user.model.entity.UserInfoEntity;
@@ -55,7 +55,7 @@ public class UserInfoController extends SuperSimpleBaseController<Long, UserInfo
     public Result<UserInfoDTO> getUserInfoById(@PathVariable("id") Long id) {
         UserInfoEntity entity = service.getById(id);
         UserInfoDTO info = BeanUtils.transformFrom(entity, UserInfoDTO.class);
-        return Results.resultSuccess(info);
+        return R.success(info);
     }
 
     /**
@@ -68,7 +68,7 @@ public class UserInfoController extends SuperSimpleBaseController<Long, UserInfo
     public Result<UserInfoDTO> getCurrentInfo(HttpServletRequest request) {
         User user = SecurityUtils.getCurrentUser();
         UserInfoDTO info = BeanUtils.transformFrom(user, UserInfoDTO.class);
-        return Results.resultSuccess(info);
+        return R.success(info);
     }
 
     /**
@@ -83,11 +83,11 @@ public class UserInfoController extends SuperSimpleBaseController<Long, UserInfo
         String newPassword = account.getNewPassword();
         String newPassword2 = account.getNewPassword2();
         if (!StringUtils.equals(newPassword, newPassword2)) {
-            Results.result(ResponseStatusEnum.USER_PASSWORD_V_FAIL, "确认密码错误");
+            R.result(ResponseStatusEnum.USER_PASSWORD_V_FAIL, "确认密码错误");
         }
         IUserAccountService accountService = ((UserInfoServiceImpl) service.getThis()).getAccountService();
         accountService.updatePassword(id, account.getOldPassword(), newPassword);
-        return Results.resultSuccess("修改成功");
+        return R.success("修改成功");
     }
 
     /**
@@ -105,7 +105,7 @@ public class UserInfoController extends SuperSimpleBaseController<Long, UserInfo
             throw new BusinessException("超级管理员无法重置");
         }
         service.restPassword(id);
-        return Results.resultSuccess("重置成功");
+        return R.success("重置成功");
 
     }
 }

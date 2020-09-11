@@ -2,7 +2,7 @@ package com.hb0730.boot.admin.security.handler;
 
 import com.hb0730.boot.admin.commons.enums.StatusEnum;
 import com.hb0730.boot.admin.domain.result.Result;
-import com.hb0730.boot.admin.domain.result.Results;
+import com.hb0730.boot.admin.domain.result.R;
 import com.hb0730.boot.admin.manager.AsyncManager;
 import com.hb0730.boot.admin.manager.factory.AsyncFactory;
 import com.hb0730.boot.admin.security.model.User;
@@ -40,7 +40,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
             tokenService.delLoginUser(request);
             AsyncManager.me().execute(AsyncFactory.recordLoginLog(loginUser.getUsername(), StatusEnum.SUCCESS, "登出成功"));
         }
-        Result<String> result = Results.resultSuccess("注销成功");
+        Result<String> result = R.success("注销成功");
         response.setStatus(200);
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");

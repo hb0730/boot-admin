@@ -7,7 +7,7 @@ import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.commons.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.domain.controller.SuperSimpleBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
-import com.hb0730.boot.admin.domain.result.Results;
+import com.hb0730.boot.admin.domain.result.R;
 import com.hb0730.boot.admin.project.monitor.login.log.model.dto.LoginLogDTO;
 import com.hb0730.boot.admin.project.monitor.login.log.model.entity.LoginLogEntity;
 import com.hb0730.boot.admin.project.monitor.login.log.model.query.LoginLogParams;
@@ -46,7 +46,7 @@ public class LoginLogController extends SuperSimpleBaseController<Long, LoginLog
     @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR','login:log:clean')")
     public Result<String> clean() {
         service.clean();
-        return Results.resultSuccess("清除成功");
+        return R.success("清除成功");
     }
 
 

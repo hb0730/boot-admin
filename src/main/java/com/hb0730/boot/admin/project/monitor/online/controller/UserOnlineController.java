@@ -6,7 +6,7 @@ import com.hb0730.boot.admin.annotation.ClassDescribe;
 import com.hb0730.boot.admin.annotation.Log;
 import com.hb0730.boot.admin.commons.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.domain.result.Result;
-import com.hb0730.boot.admin.domain.result.Results;
+import com.hb0730.boot.admin.domain.result.R;
 import com.hb0730.boot.admin.project.monitor.online.model.dto.UserOnlineDTO;
 import com.hb0730.boot.admin.project.monitor.online.model.query.UserOnlineParams;
 import com.hb0730.boot.admin.project.monitor.online.service.IUserOnlineService;
@@ -43,7 +43,7 @@ public class UserOnlineController {
         Page<UserOnlineDTO> page = new Page<>();
         page.setRecords(onlineUser);
         page.setTotal(onlineUser.size());
-        return Results.resultSuccess(page);
+        return R.success(page);
     }
 
     /**
@@ -57,7 +57,7 @@ public class UserOnlineController {
         List<String> accessToken = Lists.newArrayList();
         accessToken.add(token);
         service.logout(accessToken);
-        return Results.resultSuccess("退出成功");
+        return R.success("退出成功");
     }
 
     /**
@@ -71,6 +71,6 @@ public class UserOnlineController {
     @Log(value = "登出", paramsName = {"tokens"}, businessType = BusinessTypeEnum.FORCE)
     public Result<String> logout(@RequestBody List<String> tokens) {
         service.logout(tokens);
-        return Results.resultSuccess("退出成功");
+        return R.success("退出成功");
     }
 }

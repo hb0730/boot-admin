@@ -2,7 +2,7 @@ package com.hb0730.boot.admin.security.handler;
 
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.domain.result.Result;
-import com.hb0730.boot.admin.domain.result.Results;
+import com.hb0730.boot.admin.domain.result.R;
 import com.hb0730.commons.json.utils.Jsons;
 import lombok.SneakyThrows;
 import org.springframework.security.access.AccessDeniedException;
@@ -25,7 +25,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) {
         e.printStackTrace();
         String resultParams = String.format("请求访问:%s ,没有访问权限!", request.getRequestURI());
-        Result<String> result = Results.result(ResponseStatusEnum.NO_PERMISSION, resultParams);
+        Result<String> result = R.result(ResponseStatusEnum.NO_PERMISSION, resultParams);
         response.setStatus(200);
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");

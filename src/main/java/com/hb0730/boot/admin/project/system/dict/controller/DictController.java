@@ -5,7 +5,7 @@ import com.hb0730.boot.admin.annotation.ClassDescribe;
 import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.domain.controller.SuperSimpleBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
-import com.hb0730.boot.admin.domain.result.Results;
+import com.hb0730.boot.admin.domain.result.R;
 import com.hb0730.boot.admin.project.system.dict.model.dto.DictDTO;
 import com.hb0730.boot.admin.project.system.dict.model.entity.DictEntity;
 import com.hb0730.boot.admin.project.system.dict.model.query.DictParams;
@@ -44,7 +44,7 @@ public class DictController extends SuperSimpleBaseController<Long, DictDTO, Dic
     @GetMapping("/cache/get")
     public Result<List<DictVO>> getCache() {
         List<DictVO> cache = service.getCache();
-        return Results.resultSuccess(cache);
+        return R.success(cache);
     }
 
     /**
@@ -55,7 +55,7 @@ public class DictController extends SuperSimpleBaseController<Long, DictDTO, Dic
     @GetMapping("/cache/update")
     public Result<String> updateCache() {
         service.updateCache();
-        return Results.resultSuccess("更新成功");
+        return R.success("更新成功");
     }
 }
 

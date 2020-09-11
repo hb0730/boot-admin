@@ -7,7 +7,7 @@ import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.commons.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.domain.controller.SuperSimpleBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
-import com.hb0730.boot.admin.domain.result.Results;
+import com.hb0730.boot.admin.domain.result.R;
 import com.hb0730.boot.admin.project.system.role.model.dto.RoleExtDTO;
 import com.hb0730.boot.admin.project.system.role.model.entity.RoleEntity;
 import com.hb0730.boot.admin.project.system.role.model.query.RoleParams;
@@ -47,7 +47,7 @@ public class RoleController extends SuperSimpleBaseController<Long, RoleExtDTO, 
     @Log(value = "分配权限", paramsName = {"permissionIds"}, businessType = BusinessTypeEnum.UPDATE)
     public Result<String> updateRolePermission(@PathVariable("id") Long id, @RequestBody List<Long> permissionIds) {
         service.updateRolePermission(id, permissionIds);
-        return Results.resultSuccess("保存成功");
+        return R.success("保存成功");
     }
 }
 

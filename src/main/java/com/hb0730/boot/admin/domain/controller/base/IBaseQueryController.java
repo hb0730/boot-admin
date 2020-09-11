@@ -6,7 +6,7 @@ import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import com.hb0730.boot.admin.domain.model.query.BaseParams;
 import com.hb0730.boot.admin.domain.result.Result;
-import com.hb0730.boot.admin.domain.result.Results;
+import com.hb0730.boot.admin.domain.result.R;
 import com.hb0730.boot.admin.domain.service.ISuperBaseService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -49,9 +49,9 @@ public interface IBaseQueryController<ID extends Serializable,
         ISuperBaseService<ID, PARAMS, DTO, ENTITY> service = getBaseService();
         if (null != service) {
             Page<DTO> page = service.page(params);
-            return Results.resultSuccess(page);
+            return R.success(page);
         }
-        return Results.result(ResponseStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
+        return R.result(ResponseStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
     }
 
     /**
@@ -66,8 +66,8 @@ public interface IBaseQueryController<ID extends Serializable,
         ISuperBaseService<ID, PARAMS, DTO, ENTITY> service = getBaseService();
         if (null != service) {
             List<DTO> list = service.list(params);
-            return Results.resultSuccess(list);
+            return R.success(list);
         }
-        return Results.result(ResponseStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
+        return R.result(ResponseStatusEnum.PARAMS_REQUIRED_IS_NULL, "service is null");
     }
 }

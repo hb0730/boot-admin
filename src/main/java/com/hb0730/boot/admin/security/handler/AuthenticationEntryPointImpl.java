@@ -2,7 +2,7 @@ package com.hb0730.boot.admin.security.handler;
 
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.domain.result.Result;
-import com.hb0730.boot.admin.domain.result.Results;
+import com.hb0730.boot.admin.domain.result.R;
 import com.hb0730.commons.json.utils.Jsons;
 import lombok.SneakyThrows;
 import org.springframework.security.core.AuthenticationException;
@@ -29,7 +29,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, S
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) {
         e.printStackTrace();
         String resultParams = String.format("请求访问:%s ,认证失败,无法访问系统资源", request.getRequestURI());
-        Result<String> result = Results.result(ResponseStatusEnum.UNAUTHORIZED, resultParams);
+        Result<String> result = R.result(ResponseStatusEnum.UNAUTHORIZED, resultParams);
         response.setStatus(200);
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");

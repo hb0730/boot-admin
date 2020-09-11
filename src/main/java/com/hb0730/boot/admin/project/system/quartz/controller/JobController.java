@@ -7,7 +7,7 @@ import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.commons.enums.BusinessTypeEnum;
 import com.hb0730.boot.admin.domain.controller.SuperSimpleBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
-import com.hb0730.boot.admin.domain.result.Results;
+import com.hb0730.boot.admin.domain.result.R;
 import com.hb0730.boot.admin.project.system.quartz.model.dto.JobDTO;
 import com.hb0730.boot.admin.project.system.quartz.model.entity.JobEntity;
 import com.hb0730.boot.admin.project.system.quartz.model.query.JobParams;
@@ -47,7 +47,7 @@ public class JobController extends SuperSimpleBaseController<Long, JobDTO, JobPa
     @Log(value = "立即执行", businessType = BusinessTypeEnum.EXECUTOR)
     public Result<String> execution(@PathVariable("id") Long id) {
         service.execution(id);
-        return Results.resultSuccess("执行成功");
+        return R.success("执行成功");
     }
 }
 

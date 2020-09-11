@@ -2,7 +2,7 @@ package com.hb0730.boot.admin.handler;
 
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.domain.result.Result;
-import com.hb0730.boot.admin.domain.result.Results;
+import com.hb0730.boot.admin.domain.result.R;
 import com.hb0730.boot.admin.exceptions.AbstractException;
 import com.hb0730.boot.admin.exceptions.BusinessException;
 import org.slf4j.Logger;
@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(AbstractException.class)
     public Result<String> loginException(AbstractException e) {
-        return Results.result(e.getStatus(), e.getData());
+        return R.result(e.getStatus(), e.getData());
     }
 
     /**
@@ -42,13 +42,13 @@ public class GlobalExceptionHandler {
     public Result<String> validExceptionHandler(MethodArgumentNotValidException e) {
         LOGGER.error(e.getMessage(), e);
         String message = Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage();
-        return Results.result(ResponseStatusEnum.PARAMS_REQUIRED_IS_NULL, message);
+        return R.result(ResponseStatusEnum.PARAMS_REQUIRED_IS_NULL, message);
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)
     public Result<String> handlerNoFoundException(Exception e) {
         LOGGER.error(e.getMessage(), e);
-        return Results.result(ResponseStatusEnum.URL_NOT_FOUND, "路径不存在，请检查路径是否正确");
+        return R.result(ResponseStatusEnum.URL_NOT_FOUND, "路径不存在，请检查路径是否正确");
     }
 
     /**
@@ -57,7 +57,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public Result<String> handlerBaseException(BusinessException e) {
         LOGGER.error(e.getMessage(), e);
-        return Results.resultFail(e.getMessage());
+        return R.fail(e.getMessage());
     }
 
 }

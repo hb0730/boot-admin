@@ -8,7 +8,7 @@ import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
  * @author bing_huang
  * @since 3.0.0
  */
-public class Results {
+public class R {
     /**
      * 请求成功
      *
@@ -16,7 +16,7 @@ public class Results {
      * @param <T>  数据类型
      * @return {@link Result<T>} 返回成功数据
      */
-    public static <T> Result<T> resultSuccess(T data) {
+    public static <T> Result<T> success(T data) {
         return result(ResponseStatusEnum.SUCCESS, data);
     }
 
@@ -27,7 +27,7 @@ public class Results {
      * @param <T>  错误类型
      * @return {@link Result<T>}
      */
-    public static <T> Result<T> resultFail(T data) {
+    public static <T> Result<T> fail(T data) {
         return result(ResponseStatusEnum.FAIL, data);
     }
 

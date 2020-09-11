@@ -6,7 +6,7 @@ import com.hb0730.boot.admin.annotation.ClassDescribe;
 import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.domain.controller.SuperSimpleBaseController;
 import com.hb0730.boot.admin.domain.result.Result;
-import com.hb0730.boot.admin.domain.result.Results;
+import com.hb0730.boot.admin.domain.result.R;
 import com.hb0730.boot.admin.project.system.permission.model.dto.PermissionDTO;
 import com.hb0730.boot.admin.project.system.permission.model.entity.PermissionEntity;
 import com.hb0730.boot.admin.project.system.permission.model.query.PermissionParams;
@@ -41,14 +41,14 @@ public class PermissionController extends SuperSimpleBaseController<Long, Permis
     public Result<Page<PermissionDTO>> getPermissionPageByMenuId(@PathVariable("menuId") Long menuId, @RequestBody PermissionParams params) {
         params.setMenuId(menuId);
         Page<PermissionDTO> result = service.page(params);
-        return Results.resultSuccess(result);
+        return R.success(result);
     }
 
     @PostMapping("/menu/list/{menuId}")
     public Result<List<PermissionDTO>> getPermissionListByMenuId(@PathVariable("menuId") Long menuId, @RequestBody PermissionParams params) {
         params.setMenuId(menuId);
         List<PermissionDTO> result = service.list(params);
-        return Results.resultSuccess(result);
+        return R.success(result);
     }
 
 }
