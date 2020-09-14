@@ -18,10 +18,7 @@ import com.hb0730.commons.spring.ServletUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,6 +68,13 @@ public class LogAspectj {
         handleLog(joinPoint, result, null);
     }
 
+    @Before(value = "logPointCut()")
+    public void doBefore() {
+        if (properties.isDemoEnabled()) {
+            throw new BusinessException("演示环境禁止操作");
+        }
+    }
+
     /**
      * 拦截异常操作
      *
@@ -87,9 +91,6 @@ public class LogAspectj {
      */
     void handleLog(final JoinPoint joinPoint, Object jsonResult, final Exception e) {
         try {
-            if (properties.isDemoEnabled()) {
-                throw new BusinessException("演示环境禁止操作");
-            }
             Log log = getAnnotationLog(joinPoint);
             if (check(joinPoint, log)) {
                 return;
