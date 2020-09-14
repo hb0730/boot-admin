@@ -110,6 +110,7 @@ CREATE TABLE `t_sys_job`  (
 -- ----------------------------
 -- Table structure for t_sys_job_log
 -- ----------------------------
+
 DROP TABLE IF EXISTS `t_sys_job_log`;
 CREATE TABLE `t_sys_job_log`  (
   `version` int(11) NULL DEFAULT NULL COMMENT '乐观锁',
@@ -134,8 +135,6 @@ CREATE TABLE `t_sys_job_log`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '任务日志 ' ROW_FORMAT = Dynamic;
 
-truncate table `t_sys_job_log`;
-
 -- ----------------------------
 -- Table structure for t_sys_login_log
 -- ----------------------------
@@ -158,8 +157,6 @@ CREATE TABLE `t_sys_login_log`  (
   `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '登录信息',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '登录日志 ' ROW_FORMAT = Dynamic;
-
-truncate table `t_sys_job_log`;
 
 -- ----------------------------
 -- Table structure for t_sys_menu
@@ -449,8 +446,15 @@ INSERT INTO `t_sys_dict_entry` VALUES (1, -1, '2020-09-10 01:41:56', NULL, NULL,
 -- ----------------------------
 -- Records of t_sys_job
 -- ----------------------------
+truncate table `t_sys_job`;
+
 INSERT INTO `t_sys_job` VALUES (19, -1, '2020-09-08 00:24:33', -1, '2020-09-08 00:42:22', 0, 0, '', 1, '测试01', 'SYSTEM', 'taskTest', 'params', '{\"java.lang.String\":\"test\"}', '0/10 * * * * ?', '超级管理员', '1278032416@qq.com');
 INSERT INTO `t_sys_job` VALUES (3, -1, '2020-09-08 00:45:51', -1, '2020-09-08 00:46:07', 1, 1, '', 2, '測試02', 'SYSTEM', 'com.hb0730.boot.admin.project.system.quartz.handler.TaskTest', 'multipleParams', '{java.lang.String:test,java.lang.Boolean:true,java.lang.Long:123L,java.lang.Double:123.03D,java.lang.Integer:123}', '0/10 * * * * ?', '', '');
+
+-- ----------------------------
+-- Records of t_sys_job_log
+-- ----------------------------
+truncate table `t_sys_job_log`;
 
 -- ----------------------------
 -- Records of t_sys_menu
