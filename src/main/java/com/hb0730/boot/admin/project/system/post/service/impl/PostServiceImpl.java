@@ -2,19 +2,25 @@ package com.hb0730.boot.admin.project.system.post.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.domain.service.impl.SuperBaseServiceImpl;
 import com.hb0730.boot.admin.exceptions.BusinessException;
 import com.hb0730.boot.admin.project.system.post.mapper.IPostMapper;
 import com.hb0730.boot.admin.project.system.post.model.dto.PostDTO;
+import com.hb0730.boot.admin.project.system.post.model.dto.PostExcelDTO;
 import com.hb0730.boot.admin.project.system.post.model.entity.PostEntity;
 import com.hb0730.boot.admin.project.system.post.model.query.PostParams;
 import com.hb0730.boot.admin.project.system.post.service.IPostService;
 import com.hb0730.commons.lang.StringUtils;
+import com.hb0730.commons.spring.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Nonnull;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -30,6 +36,17 @@ public class PostServiceImpl extends SuperBaseServiceImpl<Long, PostParams, Post
     public boolean save(PostEntity entity) {
         verify(entity, false);
         return super.save(entity);
+    }
+
+    @Override
+    public boolean saveBatch(Collection<PostEntity> entityList) {
+        if (CollectionUtils.isEmpty(entityList)) {
+            return false;
+        }
+        for (PostEntity entity : entityList) {
+            verify(entity, false);
+        }
+        return super.saveBatch(entityList);
     }
 
     @Override
@@ -76,5 +93,22 @@ public class PostServiceImpl extends SuperBaseServiceImpl<Long, PostParams, Post
         } else if (!isUpdate && count > 0) {
             throw new BusinessException("编码重复:" + entity.getNumber());
         }
+    }
+
+    @Override
+    public List<PostExcelDTO> export(@Nonnull PostParams params) {
+        QueryWrapper<PostEntity> query = this.query(params);
+        List<PostEntity> entities = super.list(query);
+        return BeanUtils.transformFromInBatch(entities, PostExcelDTO.class);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean upload(Collection<PostExcelDTO> dataList) {
+        if (CollectionUtils.isEmpty(dataList)) {
+            return false;
+        }
+        List<PostEntity> entities = BeanUtils.transformFromInBatch(dataList, PostEntity.class);
+        return this.saveBatch(entities);
     }
 }

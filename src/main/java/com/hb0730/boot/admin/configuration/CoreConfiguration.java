@@ -33,6 +33,7 @@ public class CoreConfiguration {
         configuration.addAllowedOrigin("*");
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
+        configuration.addExposedHeader("content-disposition");
         configuration.setMaxAge(3600L);
         return configuration;
     }
