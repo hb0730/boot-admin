@@ -24,4 +24,9 @@ public class RedisConstant {
      * 路由
      */
     public static final String ROUTER_KEY_PREFIX = "sys_router:";
+    /**
+     * options
+     */
+    public static final String OPTIONS_KEY_PREFIX = "sys_options:";
+    public static final String OPTION_VALUE = "-1";
 }
