@@ -13,6 +13,7 @@
 + 自定义权限认证与Security的结合使用
 + 对一般的操作的:page,save,update等进行抽象封装,进一步减少重复代码的使用
 + 前后端统一异常拦截处理，统一输出异常，避免繁琐的判断
++ mail邮件服务
 # 在线预览
 http://admin.hb0730.com/  (可能比较慢)
 
@@ -30,6 +31,7 @@ http://admin.hb0730.com/  (可能比较慢)
 * hb0730/commons-http
 * hb0730/commons-cache
 * hb0730/commons-json
+* hb0730/commons-mail
 * quartz 2.3.2
 * spring security 5.3.4
 * spring data redis 2.3.3
@@ -48,6 +50,7 @@ http://admin.hb0730.com/  (可能比较慢)
 + 系统日志：记录用户操作日志与异常日志，方便开发人员定位拍错
 + 定时任务：整合Quartz做定时任务，可视化操作,以及运行日志信息
 + token存储: 提供redis存储，可自行扩展存储方式
++ 邮件管理: 实现了系统mail服务
 # 
 # 系统预览
 |<img src="https://github.com/hb0730/boot-admin-ui/blob/v3/docs/view/boot-admin_v3_1.png">|<img src="https://github.com/hb0730/boot-admin-ui/blob/v3/docs/view/boot-admin_v3_2.png">|
