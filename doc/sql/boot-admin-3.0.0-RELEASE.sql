@@ -402,6 +402,27 @@ CREATE TABLE `t_sys_user_role`  (
   `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色id'
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户角色 ' ROW_FORMAT = Dynamic;
 
+
+-- ----------------------------
+-- Table structure for t_sys_option
+-- ----------------------------
+DROP TABLE IF EXISTS `t_sys_option`;
+CREATE TABLE `t_sys_option`  (
+  `version` int(11) NULL DEFAULT NULL COMMENT '乐观锁',
+  `create_user_id` bigint(20) NULL DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `is_enabled` int(11) NULL DEFAULT NULL COMMENT '是否启用',
+  `del_flag` int(11) NULL DEFAULT NULL COMMENT '是否删除',
+  `description` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `option_key` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'key',
+  `option_value` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'value',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'options选项 ' ROW_FORMAT = Dynamic;
+
+
 -- ----------------------------
 -- Records of t_sys_dept
 -- ----------------------------
@@ -564,5 +585,11 @@ INSERT INTO `t_sys_user_info` VALUES (3, -1, NULL, -1, '2020-08-28 08:44:44', 1,
 -- ----------------------------
 -- Records of t_sys_user_role
 -- ----------------------------
+
+-- ----------------------------
+-- Records of t_sys_job_log
+-- ----------------------------
+truncate table `t_sys_option`;
+
 
 SET FOREIGN_KEY_CHECKS = 1;
