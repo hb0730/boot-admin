@@ -3,6 +3,7 @@ package com.hb0730.boot.admin.domain.service.impl;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hb0730.boot.admin.domain.model.entity.BusinessDomain;
 import com.hb0730.boot.admin.security.model.User;
@@ -32,5 +33,17 @@ public class BaseServiceImpl<MAPPER extends BaseMapper<ENTITY>, ENTITY> extends 
             }
         }
         return super.update(updateWrapper);
+    }
+
+    @Override
+    @SuppressWarnings({"unchecked"})
+    protected Class<ENTITY> currentMapperClass() {
+        return (Class<ENTITY>) ReflectionKit.getSuperClassGenericType(getClass(), 0);
+    }
+
+    @Override
+    @SuppressWarnings({"unchecked"})
+    protected Class<ENTITY> currentModelClass() {
+        return (Class<ENTITY>) ReflectionKit.getSuperClassGenericType(getClass(), 1);
     }
 }

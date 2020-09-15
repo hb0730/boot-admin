@@ -2,6 +2,7 @@ package com.hb0730.boot.admin.domain.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
@@ -83,5 +84,17 @@ public class SuperBaseServiceImpl<ID extends Serializable, PARAMS extends BasePa
     @SuppressWarnings({"unchecked"})
     protected Class<ENTITY> getEntityClass() {
         return (Class<ENTITY>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[3];
+    }
+
+    @Override
+    @SuppressWarnings({"unchecked"})
+    protected Class<ENTITY> currentModelClass() {
+        return (Class<ENTITY>) ReflectionKit.getSuperClassGenericType(getClass(), 3);
+    }
+
+    @Override
+    @SuppressWarnings({"unchecked"})
+    protected Class<ENTITY> currentMapperClass() {
+        return (Class<ENTITY>) ReflectionKit.getSuperClassGenericType(getClass(), 4);
     }
 }

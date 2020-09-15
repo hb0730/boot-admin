@@ -132,6 +132,16 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
     }
 
     @Override
+    public boolean updateCurrentMenu() {
+        User currentUser = SecurityUtils.getCurrentUser();
+        if (null == currentUser) {
+            throw new LoginException(ResponseStatusEnum.USE_LOGIN_ERROR, "当前用户未登录,请登录后重试");
+        }
+        eventPublisher.publishEvent(new MenuEvent(this, currentUser.getId()));
+        return true;
+    }
+
+    @Override
     public List<TreeMenuDTO> queryTree() {
         MenuParams params = new MenuParams();
         params.setSortColumn(Collections.singletonList(MenuEntity.SORT));

@@ -15,6 +15,7 @@ import com.sun.corba.se.impl.util.RepositoryId;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
@@ -42,7 +43,6 @@ public class OptionServiceImpl extends SuperBaseServiceImpl<Long, OptionParams, 
     public OptionServiceImpl(ApplicationEventPublisher eventPublisher) {
         this.eventPublisher = eventPublisher;
         this.propertyEnumMap = Collections.unmodifiableMap(PropertyEnum.getValuePropertyEnumMap());
-        ;
     }
 
     @Override
@@ -52,6 +52,7 @@ public class OptionServiceImpl extends SuperBaseServiceImpl<Long, OptionParams, 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(Map<String, Object> options) {
         if (CollectionUtils.isEmpty(options)) {
             return;

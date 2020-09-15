@@ -471,6 +471,8 @@ INSERT INTO `t_sys_menu` VALUES (1, -1, '2020-09-08 06:16:13', NULL, NULL, 1, 0,
 INSERT INTO `t_sys_menu` VALUES (1, -1, '2020-09-08 06:17:58', NULL, NULL, 1, 0, NULL, 1303215983061684225, '在线用户', 'onlineUser', 1303215545302175746, '/boot/admin/monitor/online', 'bootAdmin/monitor/online/user/index', 'fa fa-user-circle', 21);
 INSERT INTO `t_sys_menu` VALUES (3, -1, '2020-09-09 05:58:35', -1, '2020-09-09 06:06:47', 1, 0, NULL, 1303573496625926146, '操作日志', 'operLogManager', 1303215545302175746, '/boot/admin/monitor/operation/log', 'bootAdmin/monitor/operation/index', 'fa fa-address-book', 22);
 INSERT INTO `t_sys_menu` VALUES (2, -1, '2020-09-09 08:31:31', -1, '2020-09-09 08:33:02', 1, 0, NULL, 1303611980636012546, '登录日志', 'loginLogManager', 1303215545302175746, '/boot/admin/monitor/log/login', 'bootAdmin/monitor/log/login/index', 'fa fa-file-text-o', 23);
+INSERT INTO `t_sys_menu` VALUES (1, -1, '2020-09-15 05:17:36', NULL, NULL, 1, 0, NULL, 1305737508465725442, '消息管理', 'messageManager', -1, '/boot/admin/message', '', 'fa fa-comment-o', 30);
+INSERT INTO `t_sys_menu` VALUES (1, -1, '2020-09-15 05:18:35', NULL, NULL, 1, 0, NULL, 1305737755229212674, '邮件设置', 'mailManager', 1305737508465725442, '/boot/admin/message/mail', 'bootAdmin/message/mail/index', 'el-icon-message', 31);
 
 -- ----------------------------
 -- Records of t_sys_permission
@@ -522,6 +524,8 @@ INSERT INTO `t_sys_permission` VALUES (1, -1, '2020-09-10 01:18:07', NULL, NULL,
 INSERT INTO `t_sys_permission` VALUES (1, -1, '2020-09-10 01:18:26', NULL, NULL, 1, 0, '', 1303865381466710018, '字典项修改', 'dict:entry:update', 1302748141795176449, 7);
 INSERT INTO `t_sys_permission` VALUES (1, -1, '2020-09-10 01:18:42', NULL, NULL, 1, 0, '', 1303865447745101825, '字典项删除', 'dict:entry:delete', 1302748141795176449, 8);
 INSERT INTO `t_sys_permission` VALUES (1, -1, '2020-09-10 01:23:12', NULL, NULL, 1, 0, '', 1303866580093935617, '立即执行', 'job:exec', 1302813425436504066, 5);
+INSERT INTO `t_sys_permission` VALUES (1, -1, '2020-09-15 05:22:04', NULL, NULL, 1, 0, '', 1305738631863914497, '邮件详情', 'mail:info', 1305737755229212674, 1);
+INSERT INTO `t_sys_permission` VALUES (1, -1, '2020-09-15 05:22:23', NULL, NULL, 1, 0, '', 1305738710540668930, '邮件保存', 'mail:save', 1305737755229212674, 2);
 
 -- ----------------------------
 -- Records of t_sys_post

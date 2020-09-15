@@ -4,8 +4,8 @@ package com.hb0730.boot.admin.project.system.menu.controller;
 import com.hb0730.boot.admin.annotation.ClassDescribe;
 import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.domain.controller.SuperSimpleBaseController;
-import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.R;
+import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.project.system.menu.model.dto.MenuDTO;
 import com.hb0730.boot.admin.project.system.menu.model.dto.TreeMenuDTO;
 import com.hb0730.boot.admin.project.system.menu.model.entity.MenuEntity;
@@ -57,6 +57,17 @@ public class MenuController extends SuperSimpleBaseController<Long, MenuDTO, Men
     public Result<List<MenuPermissionVO>> queryMenuPermissionTree() {
         List<MenuPermissionVO> menuPermission = service.queryMenuPermissionTree();
         return R.success(menuPermission);
+    }
+
+    /**
+     * 更新当前用户缓存
+     *
+     * @return 是否成功
+     */
+    @GetMapping("/update/current")
+    public Result<String> updateCurrentMenu() {
+        service.updateCurrentMenu();
+        return R.success("更新成功");
     }
 
     /**
