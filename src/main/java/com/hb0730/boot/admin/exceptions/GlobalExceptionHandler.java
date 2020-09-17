@@ -1,10 +1,8 @@
-package com.hb0730.boot.admin.handler;
+package com.hb0730.boot.admin.exceptions;
 
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
-import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.R;
-import com.hb0730.boot.admin.exceptions.AbstractException;
-import com.hb0730.boot.admin.exceptions.BusinessException;
+import com.hb0730.boot.admin.domain.result.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -45,11 +43,24 @@ public class GlobalExceptionHandler {
         return R.result(ResponseStatusEnum.PARAMS_REQUIRED_IS_NULL, message);
     }
 
+    /**
+     * 用户不存在
+     */
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public Result<String> handlerUsernameNotFoundException(UsernameNotFoundException e) {
+        LOGGER.error(e.getMessage(), e);
+        return R.result(ResponseStatusEnum.USER_NAME_NOT_FONT, "用户不存在,请确认账户是否正确");
+    }
+
+    /**
+     * 路径不存在
+     */
     @ExceptionHandler(NoHandlerFoundException.class)
     public Result<String> handlerNoFoundException(Exception e) {
         LOGGER.error(e.getMessage(), e);
         return R.result(ResponseStatusEnum.URL_NOT_FOUND, "路径不存在，请检查路径是否正确");
     }
+
 
     /**
      * 基础异常

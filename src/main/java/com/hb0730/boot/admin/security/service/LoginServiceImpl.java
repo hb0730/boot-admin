@@ -16,7 +16,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -38,7 +37,7 @@ public class LoginServiceImpl {
             // see com.hb0730.boot.admin.security.service.UserDetailsServiceImpl#loadUserByUsername
             authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (Exception e) {
-            if (e instanceof UsernameNotFoundException) {
+            if (e.getCause() instanceof com.hb0730.boot.admin.exceptions.UsernameNotFoundException) {
                 AsyncManager.me().execute(
                         AsyncFactory.recordLoginLog(username,
                                 StatusEnum.FAIL, "用户不存在")
@@ -55,7 +54,7 @@ public class LoginServiceImpl {
                         AsyncFactory.recordLoginLog(username,
                                 StatusEnum.FAIL, e.getMessage())
                 );
-                throw new LoginException(ResponseStatusEnum.USE_LOGIN_ERROR, "用户名或者密码错误", e);
+                throw new LoginException(ResponseStatusEnum.USE_LOGIN_ERROR, "登录异常,请稍后尝试", e);
             }
         }
         User user = (User) authenticate.getPrincipal();
