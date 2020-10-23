@@ -44,6 +44,6 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
         response.setStatus(200);
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
-        response.getWriter().print(Jsons.Utils.instance().objectToJson(result));
+        response.getWriter().print(Jsons.JSONS.objectToJson(result));
     }
 }

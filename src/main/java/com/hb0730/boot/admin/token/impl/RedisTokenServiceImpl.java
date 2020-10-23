@@ -46,7 +46,7 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
             Optional<Object> optional = cache.get(getUserTokenKey(userTokenKey));
             if (optional.isPresent()) {
                 try {
-                    return Jsons.Utils.instance().jsonToObject(Jsons.Utils.instance().objectToJson(optional.get()), User.class, jacksonObjectMapper);
+                    return Jsons.JSONS.jsonToObject(Jsons.JSONS.objectToJson(optional.get()), User.class, jacksonObjectMapper);
                 } catch (JsonException e) {
                     e.printStackTrace();
                 }
@@ -132,7 +132,7 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
                     String tokenKey = (String) optionalKey.get();
                     Optional<Object> optional = cache.get(getUserTokenKey(tokenKey));
                     if (optional.isPresent()) {
-                        User cacheUser = Jsons.Utils.instance().jsonToObject(Jsons.Utils.instance().objectToJson(optional.get()), User.class, jacksonObjectMapper);
+                        User cacheUser = Jsons.JSONS.jsonToObject(Jsons.JSONS.objectToJson(optional.get()), User.class, jacksonObjectMapper);
                         maps.put(accessToken, cacheUser);
                     }
                 }

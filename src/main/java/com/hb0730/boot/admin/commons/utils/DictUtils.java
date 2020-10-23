@@ -38,7 +38,7 @@ public class DictUtils {
             return "";
         }
         try {
-            Optional<DictVO.DictEntryVO> entryValue = Jsons.Utils.instance().jsonToList(Jsons.Utils.instance().objectToJson(cache), DictVO.class)
+            Optional<DictVO.DictEntryVO> entryValue = Jsons.JSONS.jsonToList(Jsons.JSONS.objectToJson(cache), DictVO.class)
                     .stream()
                     .filter(dictType -> dictType.getType().equals(type))
                     .map(DictVO::getEntry)

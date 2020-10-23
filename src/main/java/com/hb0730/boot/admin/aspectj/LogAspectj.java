@@ -143,12 +143,12 @@ public class LogAspectj {
             }
             //返回参数
             if (log.response()) {
-                String result = Jsons.Utils.instance().objectToJson(null == jsonResult ? "" : jsonResult);
+                String result = Jsons.JSONS.objectToJson(null == jsonResult ? "" : jsonResult);
                 entity.setRequestResult(result);
             }
             if (null != e) {
                 if (log.requestByError()) {
-                    String result = Jsons.Utils.instance().objectToJson(null == jsonResult ? "" : jsonResult);
+                    String result = Jsons.JSONS.objectToJson(null == jsonResult ? "" : jsonResult);
                     entity.setRequestResult(result);
                     String message = ExceptionUtils.getExceptionMessage(e);
                     entity.setErrorMessage(StringUtils.substring(message, 0, 2000));
@@ -279,7 +279,7 @@ public class LogAspectj {
                         }
                     }
                 }
-                params = Jsons.Utils.instance().objectToJson(paramsObj);
+                params = Jsons.JSONS.objectToJson(paramsObj);
             }
         } catch (Exception e) {
             LOGGER.error("参数拼接异常");

@@ -128,7 +128,7 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
         if (!optional.isPresent()) {
             return Lists.newArrayList();
         }
-        return Jsons.Utils.instance().jsonToList(Jsons.Utils.instance().objectToJson(optional.get()), TreeMenuDTO.class);
+        return Jsons.JSONS.jsonToList(Jsons.JSONS.objectToJson(optional.get()), TreeMenuDTO.class);
     }
 
     @Override
