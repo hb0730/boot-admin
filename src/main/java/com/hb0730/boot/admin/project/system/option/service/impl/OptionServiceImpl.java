@@ -9,9 +9,7 @@ import com.hb0730.boot.admin.project.system.option.model.dto.OptionDTO;
 import com.hb0730.boot.admin.project.system.option.model.entity.OptionEntity;
 import com.hb0730.boot.admin.project.system.option.model.query.OptionParams;
 import com.hb0730.boot.admin.project.system.option.service.IOptionService;
-import com.hb0730.commons.cache.Cache;
 import com.hb0730.commons.spring.BeanUtils;
-import com.sun.corba.se.impl.util.RepositoryId;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -20,12 +18,10 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.hb0730.boot.admin.commons.constant.RedisConstant.OPTIONS_KEY_PREFIX;
-import static com.hb0730.boot.admin.commons.constant.RedisConstant.OPTION_VALUE;
+import static com.hb0730.boot.admin.commons.constant.RedisConstant.OPTIONS_KEY_ALL;
 
 /**
  * options选项  服务实现类
@@ -36,8 +32,6 @@ import static com.hb0730.boot.admin.commons.constant.RedisConstant.OPTION_VALUE;
 @Service
 public class OptionServiceImpl extends SuperBaseServiceImpl<Long, OptionParams, OptionDTO, OptionEntity, IOptionMapper> implements IOptionService {
     private final ApplicationEventPublisher eventPublisher;
-    @Resource
-    private Cache<String, Map<String, Object>> redisCache;
     private final Map<String, PropertyEnum> propertyEnumMap;
 
     public OptionServiceImpl(ApplicationEventPublisher eventPublisher) {
@@ -98,7 +92,7 @@ public class OptionServiceImpl extends SuperBaseServiceImpl<Long, OptionParams, 
     @Override
     @Nonnull
     public Map<String, Object> listOptions() {
-        return OptionCacheUtils.getCacheValue(OPTION_VALUE).orElseGet(() -> {
+        return OptionCacheUtils.getCacheValue(OPTIONS_KEY_ALL).orElseGet(() -> {
             // 可做成缓存
             List<OptionEntity> list = super.list();
             Set<String> keys = list.stream().map(OptionEntity::getOptionKey).collect(Collectors.toSet());
@@ -187,11 +181,11 @@ public class OptionServiceImpl extends SuperBaseServiceImpl<Long, OptionParams, 
     }
 
     private void publishOptionUpdatedEvent() {
-        OptionCacheUtils.deleteCache(OPTION_VALUE);
+        OptionCacheUtils.deleteCache(OPTIONS_KEY_ALL);
         eventPublisher.publishEvent(new OptionUpdatedEvent(this));
     }
 
     private void setCache(Map<String, Object> values) {
-        RepositoryId.cache.put(OPTIONS_KEY_PREFIX + OPTION_VALUE, values);
+        OptionCacheUtils.setCache(OPTIONS_KEY_ALL, values);
     }
 }

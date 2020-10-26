@@ -28,5 +28,9 @@ public class RedisConstant {
      * options
      */
     public static final String OPTIONS_KEY_PREFIX = "sys_options:";
+    /**
+     * options 全部集
+     */
+    public static final String OPTIONS_KEY_ALL = "-1";
     public static final String OPTION_VALUE = "-1";
 }

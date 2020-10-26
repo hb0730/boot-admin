@@ -28,7 +28,6 @@ public class OptionCacheUtils {
         Assert.hasText(key, "key can not be blank");
         @SuppressWarnings("unchecked")
         Cache<String, Map<String, Object>> cache = SpringContextUtils.getBean(RedisSpringDataCache.class);
-        ;
         try {
             return cache.get(OPTIONS_KEY_PREFIX + key);
         } catch (Exception e) {
