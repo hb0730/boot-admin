@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.constant.RedisConstant;
+import com.hb0730.boot.admin.commons.utils.DictCacheUtils;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.domain.service.impl.SuperBaseServiceImpl;
 import com.hb0730.boot.admin.event.dict.DictEvent;
@@ -17,7 +18,6 @@ import com.hb0730.boot.admin.project.system.dict.model.query.DictParams;
 import com.hb0730.boot.admin.project.system.dict.model.vo.DictVO;
 import com.hb0730.boot.admin.project.system.dict.service.IDictEntryService;
 import com.hb0730.boot.admin.project.system.dict.service.IDictService;
-import com.hb0730.commons.cache.Cache;
 import com.hb0730.commons.lang.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -37,7 +37,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class DictServiceImpl extends SuperBaseServiceImpl<Long, DictParams, DictDTO, DictEntity, IDictMapper> implements IDictService {
-    private final Cache<String, List<DictVO>> redisCache;
     private final IDictEntryService entryService;
     private final ApplicationEventPublisher eventPublisher;
 
@@ -128,17 +127,18 @@ public class DictServiceImpl extends SuperBaseServiceImpl<Long, DictParams, Dict
             vo.setEntry(entryVos);
             dict.add(vo);
         }
-        redisCache.put(RedisConstant.DICT_KEY_PREFIX + RedisConstant.DICT_PATENT_KEY, dict);
+        DictCacheUtils.setCache(RedisConstant.DICT_PATENT_KEY, dict);
     }
 
     @Override
     public List<DictVO> getCache() {
-        Optional<List<DictVO>> results = redisCache.get(RedisConstant.DICT_KEY_PREFIX + RedisConstant.DICT_PATENT_KEY);
+
+        Optional<List<DictVO>> results = DictCacheUtils.getCacheValue(RedisConstant.DICT_PATENT_KEY);
         if (results.isPresent()) {
             return results.get();
         } else {
             this.updateCache();
-            results = redisCache.get(RedisConstant.DICT_KEY_PREFIX + RedisConstant.DICT_PATENT_KEY);
+            results = DictCacheUtils.getCacheValue(RedisConstant.DICT_PATENT_KEY);
             return results.orElseGet(ArrayList::new);
         }
     }
