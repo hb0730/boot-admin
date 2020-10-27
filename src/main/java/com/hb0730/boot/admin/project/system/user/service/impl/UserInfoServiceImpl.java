@@ -54,6 +54,7 @@ import static com.hb0730.boot.admin.commons.constant.DictConstant.SysConstants.T
 @Service
 @RequiredArgsConstructor
 public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoParams, UserInfoDTO, UserInfoEntity, IUserInfoMapper> implements IUserInfoService {
+    public static final String DEFAULT_PASSWORD_VALUE = "123456";
     @Getter
     private final IUserAccountService accountService;
     @Getter
@@ -144,7 +145,7 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         // 默认密码
         String password = DictUtils.getEntryValue(TYPE, DEFAULT_PASSWORD);
         if (StringUtils.isBlank(password)) {
-            password = "123456";
+            password = DEFAULT_PASSWORD_VALUE;
         }
         return accountService.updatePassword(id, password);
     }
@@ -196,7 +197,7 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         // 默认密码
         String password = DictUtils.getEntryValue(TYPE, DEFAULT_PASSWORD);
         if (StringUtils.isBlank(password)) {
-            password = "123456";
+            password = DEFAULT_PASSWORD_VALUE;
         }
         account.setPassword(PasswordSecurityUtils.encode(SecurityUtils.getPasswordEncoder(), password));
 
