@@ -17,7 +17,7 @@
 
 
         <spring.boot.version>2.3.3.RELEASE</spring.boot.version>
-        <hb0730-commons.version>2.0.1-RELEASE</hb0730-commons.version>
+        <hb0730-commons.version>2.0.2-RELEASE</hb0730-commons.version>
 
         <mybatis-plus.version>3.4.0</mybatis-plus.version>
         <mysql.version>8.0.16</mysql.version>
