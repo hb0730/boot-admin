@@ -1,6 +1,8 @@
 # v3.0.1
  * fix OptionService 189行缓存更新问题
  + add DictCacheUtil新增字典缓存工具类
+ + 采用JDK8的LocalDateTime时间工具类
+ + 更新hb0730-commons的版本
  
 # v2.0.0
  * update 更改page使用mybatisPlus自带分页，去除pagehelper

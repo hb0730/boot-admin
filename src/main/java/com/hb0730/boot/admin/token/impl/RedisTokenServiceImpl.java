@@ -2,12 +2,12 @@ package com.hb0730.boot.admin.token.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
+import com.hb0730.boot.admin.commons.utils.JsonUtils;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.token.AbstractTokenService;
 import com.hb0730.boot.admin.token.configuration.TokenProperties;
 import com.hb0730.commons.cache.Cache;
 import com.hb0730.commons.json.exceptions.JsonException;
-import com.hb0730.commons.json.utils.Jsons;
 import com.hb0730.commons.lang.StringUtils;
 import com.hb0730.commons.lang.collection.CollectionUtils;
 import com.hb0730.commons.lang.date.DateUtils;
@@ -46,7 +46,7 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
             Optional<Object> optional = cache.get(getUserTokenKey(userTokenKey));
             if (optional.isPresent()) {
                 try {
-                    return Jsons.JSONS.jsonToObject(Jsons.JSONS.objectToJson(optional.get()), User.class, jacksonObjectMapper);
+                    return JsonUtils.getJson().jsonToObject(JsonUtils.getJson().objectToJson(optional.get()), User.class);
                 } catch (JsonException e) {
                     e.printStackTrace();
                 }
@@ -132,7 +132,7 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
                     String tokenKey = (String) optionalKey.get();
                     Optional<Object> optional = cache.get(getUserTokenKey(tokenKey));
                     if (optional.isPresent()) {
-                        User cacheUser = Jsons.JSONS.jsonToObject(Jsons.JSONS.objectToJson(optional.get()), User.class, jacksonObjectMapper);
+                        User cacheUser = JsonUtils.getJson().jsonToObject(JsonUtils.getJson().objectToJson(optional.get()), User.class);
                         maps.put(accessToken, cacheUser);
                     }
                 }

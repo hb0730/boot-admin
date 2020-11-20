@@ -1,9 +1,9 @@
 package com.hb0730.boot.admin.security.handler;
 
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
+import com.hb0730.boot.admin.commons.utils.JsonUtils;
 import com.hb0730.boot.admin.domain.result.R;
 import com.hb0730.boot.admin.domain.result.Result;
-import com.hb0730.commons.json.utils.Jsons;
 import lombok.SneakyThrows;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -33,7 +33,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, S
         response.setStatus(200);
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
-        response.getWriter().print(Jsons.JSONS.objectToJson(result));
+        response.getWriter().print(JsonUtils.getJson().objectToJson(result));
     }
 
 }

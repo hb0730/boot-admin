@@ -1,8 +1,8 @@
 package com.hb0730.boot.admin.task.utils;
 
+import com.hb0730.boot.admin.commons.utils.JsonUtils;
 import com.hb0730.boot.admin.task.domain.JobInvokeInfo;
 import com.hb0730.commons.json.exceptions.JsonException;
-import com.hb0730.commons.json.utils.Jsons;
 import com.hb0730.commons.lang.collection.CollectionUtils;
 import com.hb0730.commons.lang.convert.ConverterRegistry;
 import com.hb0730.commons.lang.reflect.ReflectUtils;
@@ -107,7 +107,8 @@ public class JobInvokeUtil {
 
     private static List<Object[]> getMethodParams(String targetParams) throws ClassNotFoundException, JsonException {
         List<Object[]> classs = new LinkedList<>();
-        Map<String, Object> map = Jsons.JSONS.jsonToObject(targetParams, Map.class);
+        @SuppressWarnings({"unchecked"})
+        Map<String, Object> map = JsonUtils.getJson().jsonToObject(targetParams, Map.class);
         if (CollectionUtils.isEmpty(map)) {
             return classs;
         }

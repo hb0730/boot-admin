@@ -9,6 +9,7 @@ import com.hb0730.boot.admin.commons.constant.RedisConstant;
 import com.hb0730.boot.admin.commons.enums.EnabledEnum;
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.commons.enums.SortTypeEnum;
+import com.hb0730.boot.admin.commons.utils.JsonUtils;
 import com.hb0730.boot.admin.domain.service.impl.SuperBaseServiceImpl;
 import com.hb0730.boot.admin.event.menu.MenuEvent;
 import com.hb0730.boot.admin.exceptions.LoginException;
@@ -26,7 +27,6 @@ import com.hb0730.boot.admin.project.system.permission.model.entity.PermissionEn
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.security.utils.SecurityUtils;
 import com.hb0730.commons.cache.Cache;
-import com.hb0730.commons.json.utils.Jsons;
 import com.hb0730.commons.lang.StringUtils;
 import com.hb0730.commons.lang.collection.CollectionUtils;
 import com.hb0730.commons.spring.BeanUtils;
@@ -128,7 +128,7 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
         if (!optional.isPresent()) {
             return Lists.newArrayList();
         }
-        return Jsons.JSONS.jsonToList(Jsons.JSONS.objectToJson(optional.get()), TreeMenuDTO.class);
+        return JsonUtils.getJson().jsonToList(JsonUtils.getJson().objectToJson(optional.get()), TreeMenuDTO.class);
     }
 
     @Override

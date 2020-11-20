@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author bing_huang
@@ -25,7 +25,7 @@ class DomainDTO implements Serializable {
      * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 修改者
@@ -36,7 +36,7 @@ class DomainDTO implements Serializable {
      * 修改时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     /**
      * 是否启用

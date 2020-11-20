@@ -6,7 +6,7 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/boot-admin?characterEncoding=UTF-8&useSSL=false&useUnicode=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/boot-admin?characterEncoding=UTF-8&useSSL=false&useUnicode=true&serverTimezone=GMT%2b8
     username: root
     password: admin123
     platform: mysql

@@ -14,7 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import javax.annotation.Nonnull;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 /**
  * 抽象quartz调用
@@ -27,7 +28,7 @@ public abstract class AbstractQuartzJob extends QuartzJobBean {
     /**
      * 线程本地变量
      */
-    private static final ThreadLocal<Date> THREAD_LOCAL = new ThreadLocal<>();
+    private static final ThreadLocal<LocalDateTime> THREAD_LOCAL = new ThreadLocal<>();
 
     @Override
     protected void executeInternal(@Nonnull JobExecutionContext context) {
@@ -64,7 +65,7 @@ public abstract class AbstractQuartzJob extends QuartzJobBean {
      * @param job     系统计划任务
      */
     protected void before(JobExecutionContext context, JobEntity job) {
-        THREAD_LOCAL.set(new Date());
+        THREAD_LOCAL.set(LocalDateTime.now());
     }
 
     /**
@@ -75,7 +76,7 @@ public abstract class AbstractQuartzJob extends QuartzJobBean {
      * @param e       执行异常
      */
     protected void after(JobExecutionContext context, JobEntity job, Exception e) {
-        Date startTime = THREAD_LOCAL.get();
+        LocalDateTime startTime = THREAD_LOCAL.get();
         THREAD_LOCAL.remove();
         JobLogEntity entity = new JobLogEntity();
         entity.setJobId(job.getId());
@@ -84,8 +85,13 @@ public abstract class AbstractQuartzJob extends QuartzJobBean {
         entity.setInvokeTarget(job.getBeanName() + "." + job.getBeanMethod());
         entity.setMethodParams(job.getMethodParams());
         entity.setStartTime(startTime);
-        entity.setEndTime(new Date());
-        long runMs = entity.getEndTime().getTime() - entity.getStartTime().getTime();
+        entity.setEndTime(LocalDateTime.now());
+        long runMs = entity.getEndTime()
+                .atZone(ZoneId.systemDefault())
+                .toInstant()
+                .toEpochMilli() - entity.getStartTime()
+                .atZone(ZoneId.systemDefault())
+                .toInstant().toEpochMilli();
         entity.setJobMessage(entity.getJobName() + " 总共耗时：" + runMs + "毫秒");
         if (null != e) {
             entity.setStatus(0);

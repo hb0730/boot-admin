@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 操作日志检索
@@ -36,9 +36,9 @@ public class OperLogParams extends BaseParams {
     /**
      * 开始时间
      */
-    private Date startTime;
+    private LocalDateTime startTime;
     /**
      * 结束时间
      */
-    private Date endTime;
+    private LocalDateTime endTime;
 }

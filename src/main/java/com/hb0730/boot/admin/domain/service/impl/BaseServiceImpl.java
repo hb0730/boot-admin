@@ -9,7 +9,7 @@ import com.hb0730.boot.admin.domain.model.entity.BusinessDomain;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.security.utils.SecurityUtils;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 基类service(填充删除修改) <br>
@@ -25,7 +25,7 @@ public class BaseServiceImpl<MAPPER extends BaseMapper<ENTITY>, ENTITY> extends 
     public boolean update(Wrapper<ENTITY> updateWrapper) {
         if (updateWrapper instanceof UpdateWrapper) {
             UpdateWrapper<ENTITY> update = (UpdateWrapper<ENTITY>) updateWrapper;
-            update.set(BusinessDomain.UPDATE_TIME, new Date());
+            update.set(BusinessDomain.UPDATE_TIME, LocalDateTime.now());
             // 设置用户
             User currentUser = SecurityUtils.getCurrentUser();
             if (null != currentUser) {

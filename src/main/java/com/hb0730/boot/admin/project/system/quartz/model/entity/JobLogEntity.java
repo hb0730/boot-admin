@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 任务日志
@@ -89,13 +89,13 @@ public class JobLogEntity extends BaseDomain {
      * 开始时间
      */
     @TableField("start_time")
-    private Date startTime;
+    private LocalDateTime startTime;
 
     /**
      * 结束时间
      */
     @TableField("end_time")
-    private Date endTime;
+    private LocalDateTime endTime;
 
 
     public static final String DESCRIPTION = "description";
@@ -118,7 +118,7 @@ public class JobLogEntity extends BaseDomain {
 
     public static final String EXCEPTION_INFO = "exception_info";
 
-    public static final String START_TIME="start_time";
+    public static final String START_TIME = "start_time";
 
-    public static final String END_TIME="end_time";
+    public static final String END_TIME = "end_time";
 }

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.annotation.ClassDescribe;
 import com.hb0730.boot.admin.annotation.Log;
 import com.hb0730.boot.admin.commons.enums.StatusEnum;
+import com.hb0730.boot.admin.commons.utils.JsonUtils;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.exceptions.BusinessException;
 import com.hb0730.boot.admin.manager.AsyncManager;
@@ -11,8 +12,8 @@ import com.hb0730.boot.admin.manager.factory.AsyncFactory;
 import com.hb0730.boot.admin.project.monitor.operation.model.entity.OperLogEntity;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.security.utils.SecurityUtils;
-import com.hb0730.commons.json.utils.Jsons;
 import com.hb0730.commons.lang.ExceptionUtils;
+import com.hb0730.commons.lang.date.LocalDateTimeUtils;
 import com.hb0730.commons.spring.IpUtils;
 import com.hb0730.commons.spring.ServletUtils;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,6 @@ import org.springframework.web.servlet.HandlerMapping;
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -106,7 +106,7 @@ public class LogAspectj {
             if (null != currentUser) {
                 entity.setUsername(currentUser.getUsername());
                 entity.setCreateUserId(currentUser.getId());
-                entity.setCreateTime(new Date());
+                entity.setCreateTime(LocalDateTimeUtils.now());
             }
             //请求ip
             String ip = IpUtils.getIp(ServletUtils.getRequest());
@@ -143,12 +143,12 @@ public class LogAspectj {
             }
             //返回参数
             if (log.response()) {
-                String result = Jsons.JSONS.objectToJson(null == jsonResult ? "" : jsonResult);
+                String result = JsonUtils.getJson().objectToJson(null == jsonResult ? "" : jsonResult);
                 entity.setRequestResult(result);
             }
             if (null != e) {
                 if (log.requestByError()) {
-                    String result = Jsons.JSONS.objectToJson(null == jsonResult ? "" : jsonResult);
+                    String result = JsonUtils.getJson().objectToJson(null == jsonResult ? "" : jsonResult);
                     entity.setRequestResult(result);
                     String message = ExceptionUtils.getExceptionMessage(e);
                     entity.setErrorMessage(StringUtils.substring(message, 0, 2000));
@@ -279,7 +279,7 @@ public class LogAspectj {
                         }
                     }
                 }
-                params = Jsons.JSONS.objectToJson(paramsObj);
+                params = JsonUtils.getJson().objectToJson(paramsObj);
             }
         } catch (Exception e) {
             LOGGER.error("参数拼接异常");

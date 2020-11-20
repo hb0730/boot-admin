@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hb0730.commons.cache.Cache;
 import com.hb0730.commons.cache.impl.remote.RedisSpringDataCache;
 import com.hb0730.commons.cache.support.redis.springdata.RedisSpringDataCacheConfig;
@@ -24,14 +25,16 @@ public class CacheConfiguration {
      * @param factory redis链接
      * @param <K>     Key类型
      * @param <V>     value 类型
+     * @param mapper  {@link ObjectMapper} jacksonMapper
      * @return {@link Cache}
      */
     @Bean
     @ConditionalOnMissingBean(name = "redisCache")
-    public <K, V> Cache<K, V> redisCache(RedisConnectionFactory factory) {
+    public <K, V> Cache<K, V> redisCache(RedisConnectionFactory factory, ObjectMapper mapper) {
         RedisSpringDataCacheConfig<K, V> config = new RedisSpringDataCacheConfig<>();
         config.setConnectionFactory(factory);
-        config.setSerializer(Jackson2JsonCacheWrapperSerializer.JSON_STRING_SERIALIZER);
+        Jackson2JsonCacheWrapperSerializer serializer = new Jackson2JsonCacheWrapperSerializer(true, mapper);
+        config.setSerializer(serializer);
         return new RedisSpringDataCache<>(config);
     }
 }

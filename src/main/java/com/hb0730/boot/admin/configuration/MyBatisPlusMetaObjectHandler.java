@@ -6,7 +6,7 @@ import com.hb0730.boot.admin.security.utils.SecurityUtils;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * mybatis-plus 填充
@@ -27,7 +27,7 @@ public class MyBatisPlusMetaObjectHandler implements MetaObjectHandler {
         if (null != currentUser) {
             this.fillStrategy(metaObject, "createUserId", currentUser.getId());
         }
-        this.fillStrategy(metaObject, "createTime", new Date());
+        this.fillStrategy(metaObject, "createTime", LocalDateTime.now());
         this.fillStrategy(metaObject, "version", 1);
 
     }
@@ -43,6 +43,6 @@ public class MyBatisPlusMetaObjectHandler implements MetaObjectHandler {
         if (null != currentUser) {
             this.fillStrategy(metaObject, "updateUserId", currentUser.getId());
         }
-        this.fillStrategy(metaObject, "updateTime", new Date());
+        this.fillStrategy(metaObject, "updateTime", LocalDateTime.now());
     }
 }
