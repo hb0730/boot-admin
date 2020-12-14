@@ -51,6 +51,8 @@ http://admin.hb0730.com/  (可能比较慢)
 + 定时任务：整合Quartz做定时任务，可视化操作,以及运行日志信息
 + token存储: 提供redis存储，可自行扩展存储方式
 + 邮件管理: 实现了系统mail服务
+# 代码生成
+[boot-admin-generator](https://github.com/hb0730/boot-admin-generator)
 # 
 # 系统预览
 |<img src="https://github.com/hb0730/boot-admin-ui/blob/v3/docs/view/boot-admin_v3_1.png">|<img src="https://github.com/hb0730/boot-admin-ui/blob/v3/docs/view/boot-admin_v3_2.png">|
