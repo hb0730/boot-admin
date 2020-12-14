@@ -3,6 +3,7 @@
  + add DictCacheUtil新增字典缓存工具类
  + 采用JDK8的LocalDateTime时间工具类
  + 更新hb0730-commons的版本
+ + 获取属性映射表字段对应`@FieldClass`和`@FieldInfo`
  
 # v2.0.0
  * update 更改page使用mybatisPlus自带分页，去除pagehelper
