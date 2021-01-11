@@ -104,6 +104,7 @@ public class User extends UserDTO implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public String getPassword() {
         return super.getPassword();
     }
