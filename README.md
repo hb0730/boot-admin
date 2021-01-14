@@ -66,5 +66,9 @@ http://admin.hb0730.com/  (可能比较慢)
 2. 本项目SQL放置在 [doc](https://github.com/hb0730/boot-admin/tree/v3/doc/sql) 下,可以对应版本
 3. 本项目可能有过多的个人项目使用,是可以替换成比较认可的:只要符合用法
 4. 项目当中domain下规定了很多基础设施,比如(controller,service,entity)等
+
 # thanks
 + [d2-admin](https://github.com/d2-projects/d2-admin)
+
+
+### 注意: 演示环境mysql与redis地区进行切换，(2020/01/14)
