@@ -18,6 +18,8 @@
 http://admin.hb0730.com/  (可能比较慢)
 
 `Administrator/123456`
+
+在线预览环境中jdbc连接采用的是UTC时区，存在时间差问题
 # 技术
 * jdk8
 * spring boot 2.3.3.RELEASE
