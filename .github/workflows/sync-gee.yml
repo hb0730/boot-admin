@@ -1,0 +1,18 @@
+name: giee sync Morris
+on:
+  schedule:
+    - cron '0 1 * * *'
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mirror the Github organization repos to Gitee
+        uses: Yikun/hub-mirror-action@master
+        with:
+          src: github/hb0730
+          dst: gitee/hb0730
+          dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
+          dst_token: ${{ secrets.GITEE_TOKEN }}
+          white_list: 'boot-admin'
+          static_list: 'boot-admin'
+          force_update: true
