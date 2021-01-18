@@ -1,7 +1,7 @@
 name: giee sync Morris
 on:
   schedule:
-    - cron '0 1 * * *'
+    - cron: '0 1 * * *'
 jobs:
   sync:
     runs-on: ubuntu-latest
