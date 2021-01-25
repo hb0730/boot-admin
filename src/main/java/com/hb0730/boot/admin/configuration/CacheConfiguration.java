@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hb0730.commons.cache.Cache;
 import com.hb0730.commons.cache.impl.remote.RedisSpringDataCache;
 import com.hb0730.commons.cache.support.redis.springdata.RedisSpringDataCacheConfig;
-import com.hb0730.commons.cache.support.serial.impl.Jackson2JsonCacheWrapperSerializer;
+import com.hb0730.commons.cache.support.serializer.impl.GenericJackson2JsonCacheWrapperSerializer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,9 +31,11 @@ public class CacheConfiguration {
     @Bean
     @ConditionalOnMissingBean(name = "redisCache")
     public <K, V> Cache<K, V> redisCache(RedisConnectionFactory factory, ObjectMapper mapper) {
+        ObjectMapper copyMapper = mapper.copy();
         RedisSpringDataCacheConfig<K, V> config = new RedisSpringDataCacheConfig<>();
         config.setConnectionFactory(factory);
-        Jackson2JsonCacheWrapperSerializer serializer = new Jackson2JsonCacheWrapperSerializer(true, mapper);
+//        Jackson2JsonCacheWrapperSerializer serializer = new Jackson2JsonCacheWrapperSerializer(true, mapper);
+        GenericJackson2JsonCacheWrapperSerializer serializer = new GenericJackson2JsonCacheWrapperSerializer(true, copyMapper);
         config.setSerializer(serializer);
         return new RedisSpringDataCache<>(config);
     }

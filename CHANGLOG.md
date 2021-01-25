@@ -5,6 +5,7 @@
  + 更新hb0730-commons的版本
  + 获取属性映射表字段对应`@FieldClass`和`@FieldInfo`
  + fix password不进行序列化
+ + fixed redis Cache 序列化泛型参数问题
  
 # v2.0.0
  * update 更改page使用mybatisPlus自带分页，去除pagehelper

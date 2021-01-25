@@ -3,11 +3,11 @@ package com.hb0730.boot.admin.project.system.user.model.dto;
 import com.hb0730.boot.admin.domain.model.InputConverter;
 import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
 import com.hb0730.boot.admin.project.system.user.model.entity.UserInfoEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import com.hb0730.commons.lang.collection.CollectionUtils;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -19,6 +19,8 @@ import java.util.Collection;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserInfoDTO extends BaseDTO implements InputConverter<UserInfoEntity> {
 
     private static final long serialVersionUID = 1L;
@@ -75,14 +77,36 @@ public class UserInfoDTO extends BaseDTO implements InputConverter<UserInfoEntit
      * 角色id
      */
     private Collection<Long> roleIds;
+
+    public void setRoleIds(Collection<Long> roleIds) {
+        if (CollectionUtils.isEmpty(roleIds)) {
+            return;
+        }
+        this.roleIds = new ArrayList<>(roleIds);
+    }
+
     /**
      * 岗位id
      */
     private Collection<Long> postIds;
 
+    public void setPostIds(Collection<Long> postIds) {
+        if (CollectionUtils.isEmpty(postIds)) {
+            return;
+        }
+        this.postIds = new ArrayList<>(postIds);
+    }
+
     /**
      * 权限id
      */
     private Collection<Long> permissionIds;
+
+    public void setPermissionIds(Collection<Long> permissionIds) {
+        if (CollectionUtils.isEmpty(permissionIds)) {
+            return;
+        }
+        this.permissionIds = new ArrayList<>(permissionIds);
+    }
 
 }

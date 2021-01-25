@@ -17,6 +17,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @ToString
 public class LoginBody implements Serializable {
+    private static final long serialVersionUID = 9174908796122625743L;
     @NotBlank(message = "用户账号不为空")
     private String username;
     @NotBlank(message = "用户密码不为空")

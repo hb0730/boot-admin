@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.configuration;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -30,13 +31,16 @@ public class JsonSerializerManage {
         builder.timeZone(TimeZone.getDefault());
         ObjectMapper objectMapper = builder.createXmlMapper(false).build();
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        //long丢失精度问题
         SimpleModule simpleModule = new SimpleModule();
         simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
         simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
 
+        //java8 时间类型
         JavaTimeModule timeModule = new JavaTimeModule();
-
         objectMapper.registerModules(simpleModule, timeModule);
+        // 忽略多余字段
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         return objectMapper;
     }
 }

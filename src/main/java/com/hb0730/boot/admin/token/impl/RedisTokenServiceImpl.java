@@ -1,13 +1,10 @@
 package com.hb0730.boot.admin.token.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
-import com.hb0730.boot.admin.commons.utils.JsonUtils;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.token.AbstractTokenService;
 import com.hb0730.boot.admin.token.configuration.TokenProperties;
 import com.hb0730.commons.cache.Cache;
-import com.hb0730.commons.json.exceptions.JsonException;
 import com.hb0730.commons.lang.StringUtils;
 import com.hb0730.commons.lang.collection.CollectionUtils;
 import com.hb0730.commons.lang.date.DateUtils;
@@ -30,8 +27,6 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
     private Cache<String, Object> cache;
     @Resource(name = "redisTemplate")
     private RedisTemplate<String, String> redisTemplate;
-    @Resource
-    private ObjectMapper jacksonObjectMapper;
 
     public RedisTokenServiceImpl(TokenProperties properties) {
         super(properties);
@@ -43,14 +38,7 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
         if (StringUtils.isNotBlank(accessToken)) {
             String accessTokenKey = getAccessTokenKey(accessToken);
             String userTokenKey = String.valueOf(cache.get(accessTokenKey).orElseGet(() -> ""));
-            Optional<Object> optional = cache.get(getUserTokenKey(userTokenKey));
-            if (optional.isPresent()) {
-                try {
-                    return JsonUtils.getJson().jsonToObject(JsonUtils.getJson().objectToJson(optional.get()), User.class);
-                } catch (JsonException e) {
-                    e.printStackTrace();
-                }
-            }
+            return (User) cache.get(getUserTokenKey(userTokenKey)).orElseGet(() -> null);
         }
         return null;
     }
@@ -130,11 +118,8 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
                 Optional<Object> optionalKey = cache.get(getAccessTokenKey(accessToken));
                 if (optionalKey.isPresent()) {
                     String tokenKey = (String) optionalKey.get();
-                    Optional<Object> optional = cache.get(getUserTokenKey(tokenKey));
-                    if (optional.isPresent()) {
-                        User cacheUser = JsonUtils.getJson().jsonToObject(JsonUtils.getJson().objectToJson(optional.get()), User.class);
-                        maps.put(accessToken, cacheUser);
-                    }
+                    User cacheUser = (User) cache.get(getUserTokenKey(tokenKey)).orElseGet(() -> null);
+                    maps.put(accessToken, cacheUser);
                 }
             }
         } catch (Exception e) {
