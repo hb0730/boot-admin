@@ -8,6 +8,7 @@ on:
     inputs:
       languages:
         required: true
+        description: 'default language `java`'
         default: 'java'
 jobs:
   build:
