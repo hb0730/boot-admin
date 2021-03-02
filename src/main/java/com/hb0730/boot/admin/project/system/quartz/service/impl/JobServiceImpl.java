@@ -5,11 +5,13 @@ import com.hb0730.boot.admin.commons.enums.JobActionEnum;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.domain.service.impl.SuperBaseServiceImpl;
 import com.hb0730.boot.admin.event.job.JobEvent;
+import com.hb0730.boot.admin.exceptions.BusinessException;
 import com.hb0730.boot.admin.project.system.quartz.mapper.IJobMapper;
 import com.hb0730.boot.admin.project.system.quartz.model.dto.JobDTO;
 import com.hb0730.boot.admin.project.system.quartz.model.entity.JobEntity;
 import com.hb0730.boot.admin.project.system.quartz.model.query.JobParams;
 import com.hb0730.boot.admin.project.system.quartz.service.IJobService;
+import com.hb0730.boot.admin.task.quartz.utils.CronUtils;
 import com.hb0730.commons.lang.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -35,6 +37,7 @@ public class JobServiceImpl extends SuperBaseServiceImpl<Long, JobParams, JobDTO
     @Override
     public boolean save(@Nonnull JobDTO dto) {
         JobEntity entity = dto.convertTo();
+        checkCron(entity.getCron());
         boolean result = save(entity);
         eventPublisher.publishEvent(new JobEvent(this, JobActionEnum.ADD_NEW, Collections.singletonList(entity.getId())));
         return result;
@@ -42,6 +45,7 @@ public class JobServiceImpl extends SuperBaseServiceImpl<Long, JobParams, JobDTO
 
     @Override
     public boolean updateById(JobEntity entity) {
+        checkCron(entity.getCron());
         boolean result = super.updateById(entity);
         eventPublisher.publishEvent(new JobEvent(this, JobActionEnum.UPDATE, Collections.singletonList(entity.getId())));
         return result;
@@ -90,5 +94,14 @@ public class JobServiceImpl extends SuperBaseServiceImpl<Long, JobParams, JobDTO
             query.eq(JobEntity.IS_ENABLED, params.getIsEnabled());
         }
         return query;
+    }
+
+    private void checkCron(String cron) {
+        if (StringUtils.isBlank(cron)) {
+            throw new BusinessException("cron为空");
+        }
+        if (!CronUtils.isValid(cron)) {
+            throw new BusinessException("cron不合法");
+        }
     }
 }

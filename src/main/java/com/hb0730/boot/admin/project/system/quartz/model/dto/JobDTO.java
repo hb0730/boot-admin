@@ -6,6 +6,8 @@ import com.hb0730.boot.admin.project.system.quartz.model.entity.JobEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * 定时任务(quartz)
  *
@@ -31,21 +33,25 @@ public class JobDTO extends BaseDTO implements InputConverter<JobEntity> {
     /**
      * 任务名称
      */
+    @NotBlank(message = "任务名称不为空")
     private String name;
 
     /**
      * 任务组
      */
+    @NotBlank(message = "任务组不为空")
     private String group;
 
     /**
      * Bean名称
      */
+    @NotBlank(message = "调用类不为空")
     private String beanName;
 
     /**
      * 方法名称
      */
+    @NotBlank(message = "调用方法不为空")
     private String beanMethod;
 
     /**
@@ -56,6 +62,7 @@ public class JobDTO extends BaseDTO implements InputConverter<JobEntity> {
     /**
      * cron表达式
      */
+    @NotBlank(message = "cron表达式不为空")
     private String cron;
 
     /**

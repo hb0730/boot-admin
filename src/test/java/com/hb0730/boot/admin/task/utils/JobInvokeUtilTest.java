@@ -45,6 +45,14 @@ public class JobInvokeUtilTest {
     }
 
     @Test
+    public void invokeMethodParamsNullTest() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        JobInvokeInfo info = new JobInvokeInfo();
+        info.setBean("taskTest");
+        info.setMethod("noParams");
+        JobInvokeUtil.invokeMethod(info);
+    }
+
+    @Test
     public void validClassName() throws ClassNotFoundException {
         SpringContextUtils.containsBean("taskTest");
     }

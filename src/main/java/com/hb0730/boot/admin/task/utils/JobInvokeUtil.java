@@ -107,6 +107,9 @@ public class JobInvokeUtil {
 
     private static List<Object[]> getMethodParams(String targetParams) throws ClassNotFoundException, JsonException {
         List<Object[]> classs = new LinkedList<>();
+        if (StringUtils.isBlank(targetParams)) {
+            return classs;
+        }
         @SuppressWarnings({"unchecked"})
         Map<String, Object> map = JsonUtils.getJson().jsonToObject(targetParams, Map.class);
         if (CollectionUtils.isEmpty(map)) {
