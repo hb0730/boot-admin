@@ -39,10 +39,10 @@ public class DictUtils {
         try {
             Optional<DictVO.DictEntryVO> entryValue = JsonUtils.getJson().jsonToList(JsonUtils.getJson().objectToJson(cache), DictVO.class)
                     .stream()
-                    .filter(dictType -> dictType.getType().equals(type))
+                    .filter(dictType -> type.equals(dictType.getType()))
                     .map(DictVO::getEntry)
                     .flatMap(List::stream)
-                    .filter(entry -> entry.getLabel().equals(name))
+                    .filter(entry -> name.equals(entry.getLabel()))
                     .findFirst();
             if (entryValue.isPresent()) {
                 return entryValue.get().getValue();
