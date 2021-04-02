@@ -234,6 +234,9 @@
                 <configuration>
                     <mainClass>com.hb0730.boot.admin.BootAdminApplication</mainClass>
                     <includeSystemScope>true</includeSystemScope>
+                    <layers>
+                        <enabled>true</enabled>
+                    </layers>
                 </configuration>
                 <executions>
                     <execution>

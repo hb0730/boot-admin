@@ -1,25 +1,21 @@
-FROM openjdk:11-jre
+FROM adoptopenjdk:8-jre-hotspot as builder
+WORKDIR application
+ARG JAR_FILE=./*.jar
+COPY ${JAR_FILE} application.jar
+RUN java -Djarmode=layertools -jar application.jar extract
 
-MAINTAINER bing_huang <1278032416@qq.com>
+FROM adoptopenjdk:8-jre-hotspot
+MAINTAINER hb0730 <huangbing0730@gmail.com>
+WORKDIR application
+COPY --from=builder application/dependencies/ ./
+COPY --from=builder application/spring-boot-loader/ ./
+COPY --from=builder application/snapshot-dependencies/ ./
+COPY --from=builder application/application/ ./
 
-RUN mkdir /app
+#
+ENV JAVA_OPTS="-server -Xms2048m -Xmx2048m -Xmn512m -XX:MaxMetaspaceSize=512m" \
+    TZ=Asia/Shanghai
+RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo $TZ > /etc/timezone
 
-ENV BASE_DIR="/app"
-ENV JAVA_OPTS="-server -Xms2048m -Xmx2048m -Xmn512m -XX:MaxMetaspaceSize=512m"
-
-# join arthas
-COPY --from=hengyunabc/arthas:latest /opt/arthas /opt/arthas
-
-COPY *.jar  /app/app.jar
-
-WORKDIR /$BASE_DIR
-
-RUN mkdir /app/bin
-
-ADD docker-entrypoint.sh bin/docker-entrypoint.sh
-
-RUN chmod +x bin/docker-entrypoint.sh
-
-EXPOSE 8088
-
-ENTRYPOINT ["bin/docker-entrypoint.sh"]
+ENTRYPOINT java ${JAVA_OPTS} -Djava.security.egd=file:/dev/./urandom org.springframework.boot.loader.JarLauncher
