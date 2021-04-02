@@ -21,7 +21,7 @@
 
         <mybatis-plus.version>3.4.0</mybatis-plus.version>
         <mysql.version>8.0.16</mysql.version>
-        <guava.version>29.0-jre</guava.version>
+        <guava.version>30.0-jre</guava.version>
         <velocity-engine.version>2.2</velocity-engine.version>
 
         <bitwalker.version>1.19</bitwalker.version>
