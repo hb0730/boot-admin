@@ -1,12 +1,12 @@
 package com.hb0730.boot.admin.listener.job;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.google.common.collect.Lists;
-import com.hb0730.boot.admin.commons.enums.JobActionEnum;
 import com.hb0730.boot.admin.event.job.JobEvent;
 import com.hb0730.boot.admin.project.system.quartz.mapper.IJobMapper;
 import com.hb0730.boot.admin.project.system.quartz.model.entity.JobEntity;
 import com.hb0730.boot.admin.task.domain.JobInfo;
+import com.hb0730.boot.admin.task.handler.IJobAction;
+import com.hb0730.boot.admin.task.handler.JobActionFactory;
 import com.hb0730.boot.admin.task.handler.JobHelper;
 import com.hb0730.commons.lang.collection.CollectionUtils;
 import com.hb0730.commons.spring.BeanUtils;
@@ -19,8 +19,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
-import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -34,34 +32,39 @@ import java.util.List;
 public class JobEventListener implements ApplicationListener<JobEvent> {
     private final IJobMapper mapper;
     private final JobHelper jobHelper;
+    private final JobActionFactory factory;
 
     @SneakyThrows
     @Override
     @Async("threadPoolTaskExecutor")
     public void onApplicationEvent(@Nonnull JobEvent event) {
-        JobActionEnum action = event.getAction();
-        Collection<? extends Serializable> ids = event.getIds();
-        switch (action) {
-            case ADD_NEW:
-                add(ids);
-                break;
-            case UPDATE:
-                update(ids);
-                break;
-            case DELETE:
-                delete(ids);
-                break;
-            case PAUSE:
-                pause(ids);
-                break;
-            case RESUME:
-                resume(ids);
-                break;
-            case RUN:
-                run(ids);
-                break;
-            default:
-                break;
+//        JobActionEnum action = event.getAction();
+//        Collection<? extends Serializable> ids = event.getIds();
+//        switch (action) {
+//            case ADD_NEW:
+//                add(ids);
+//                break;
+//            case UPDATE:
+//                update(ids);
+//                break;
+//            case DELETE:
+//                delete(ids);
+//                break;
+//            case PAUSE:
+//                pause(ids);
+//                break;
+//            case RESUME:
+//                resume(ids);
+//                break;
+//            case RUN:
+//                run(ids);
+//                break;
+//            default:
+//                break;
+//        }
+        IJobAction jobAction = factory.getJobAction(event.getAction());
+        if (null != jobAction) {
+            jobAction.run(event.getIds());
         }
     }
 
@@ -76,62 +79,62 @@ public class JobEventListener implements ApplicationListener<JobEvent> {
             jobHelper.addJob(jobInfo);
         }
     }
-
-    private void add(Collection<? extends Serializable> ids) throws SchedulerException {
-        List<JobInfo> jobInfos = getJobInfo(ids);
-        for (JobInfo jobInfo : jobInfos) {
-            jobHelper.addJob(jobInfo);
-        }
-    }
-
-    private void update(Collection<? extends Serializable> ids) throws SchedulerException {
-        List<JobInfo> jobInfos = getJobInfo(ids);
-        for (JobInfo jobInfo : jobInfos) {
-            // 先移除
-            if (jobHelper.checkExists(jobInfo.getId(), jobInfo.getGroup())) {
-                jobHelper.deleteJob(jobInfo.getId(), jobInfo.getGroup());
-            }
-            jobHelper.addJob(jobInfo);
-
-        }
-    }
-
-    private void delete(Collection<? extends Serializable> ids) throws SchedulerException {
-        List<JobInfo> jobInfos = getJobInfo(ids);
-        for (JobInfo jobInfo : jobInfos) {
-            jobHelper.deleteJob(jobInfo.getId(), jobInfo.getGroup());
-        }
-    }
-
-    private void pause(Collection<? extends Serializable> ids) throws SchedulerException {
-        List<JobInfo> jobInfos = getJobInfo(ids);
-        for (JobInfo jobInfo : jobInfos) {
-            jobHelper.pauseJob(jobInfo.getId(), jobInfo.getGroup());
-        }
-    }
-
-    private void resume(Collection<? extends Serializable> ids) throws SchedulerException {
-        List<JobInfo> jobInfos = getJobInfo(ids);
-        for (JobInfo jobInfo : jobInfos) {
-            jobHelper.resumeJob(jobInfo.getId(), jobInfo.getGroup());
-        }
-    }
-
-    private void run(Collection<? extends Serializable> ids) throws SchedulerException {
-        List<JobInfo> jobInfos = getJobInfo(ids);
-        for (JobInfo jobInfo : jobInfos) {
-            jobHelper.runJob(jobInfo.getId(), jobInfo.getGroup(), jobInfo);
-        }
-    }
-
-    private List<JobInfo> getJobInfo(Collection<? extends Serializable> ids) {
-        if (CollectionUtils.isEmpty(ids)) {
-            return Lists.newArrayList();
-        }
-        List<JobEntity> entities = mapper.selectBatchIds(ids);
-        if (CollectionUtils.isEmpty(entities)) {
-            return Lists.newArrayList();
-        }
-        return BeanUtils.transformFromInBatch(entities, JobInfo.class);
-    }
+//
+//    private void add(Collection<? extends Serializable> ids) throws SchedulerException {
+//        List<JobInfo> jobInfos = getJobInfo(ids);
+//        for (JobInfo jobInfo : jobInfos) {
+//            jobHelper.addJob(jobInfo);
+//        }
+//    }
+//
+//    private void update(Collection<? extends Serializable> ids) throws SchedulerException {
+//        List<JobInfo> jobInfos = getJobInfo(ids);
+//        for (JobInfo jobInfo : jobInfos) {
+//            // 先移除
+//            if (jobHelper.checkExists(jobInfo.getId(), jobInfo.getGroup())) {
+//                jobHelper.deleteJob(jobInfo.getId(), jobInfo.getGroup());
+//            }
+//            jobHelper.addJob(jobInfo);
+//
+//        }
+//    }
+//
+//    private void delete(Collection<? extends Serializable> ids) throws SchedulerException {
+//        List<JobInfo> jobInfos = getJobInfo(ids);
+//        for (JobInfo jobInfo : jobInfos) {
+//            jobHelper.deleteJob(jobInfo.getId(), jobInfo.getGroup());
+//        }
+//    }
+//
+//    private void pause(Collection<? extends Serializable> ids) throws SchedulerException {
+//        List<JobInfo> jobInfos = getJobInfo(ids);
+//        for (JobInfo jobInfo : jobInfos) {
+//            jobHelper.pauseJob(jobInfo.getId(), jobInfo.getGroup());
+//        }
+//    }
+//
+//    private void resume(Collection<? extends Serializable> ids) throws SchedulerException {
+//        List<JobInfo> jobInfos = getJobInfo(ids);
+//        for (JobInfo jobInfo : jobInfos) {
+//            jobHelper.resumeJob(jobInfo.getId(), jobInfo.getGroup());
+//        }
+//    }
+//
+//    private void run(Collection<? extends Serializable> ids) throws SchedulerException {
+//        List<JobInfo> jobInfos = getJobInfo(ids);
+//        for (JobInfo jobInfo : jobInfos) {
+//            jobHelper.runJob(jobInfo.getId(), jobInfo.getGroup(), jobInfo);
+//        }
+//    }
+//
+//    private List<JobInfo> getJobInfo(Collection<? extends Serializable> ids) {
+//        if (CollectionUtils.isEmpty(ids)) {
+//            return Lists.newArrayList();
+//        }
+//        List<JobEntity> entities = mapper.selectBatchIds(ids);
+//        if (CollectionUtils.isEmpty(entities)) {
+//            return Lists.newArrayList();
+//        }
+//        return BeanUtils.transformFromInBatch(entities, JobInfo.class);
+//    }
 }
