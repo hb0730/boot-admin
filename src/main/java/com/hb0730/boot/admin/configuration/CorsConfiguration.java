@@ -2,9 +2,11 @@ package com.hb0730.boot.admin.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 跨域
@@ -13,7 +15,7 @@ import org.springframework.web.filter.CorsFilter;
  * @since 3.0.0
  */
 @Configuration
-public class CoreConfiguration {
+public class CorsConfiguration {
 
     /**
      * 创建跨域filter
@@ -27,10 +29,16 @@ public class CoreConfiguration {
         return new CorsFilter(corsConfiguration);
     }
 
-    private CorsConfiguration build() {
-        CorsConfiguration configuration = new CorsConfiguration();
+    private org.springframework.web.cors.CorsConfiguration build() {
+        org.springframework.web.cors.CorsConfiguration configuration = new org.springframework.web.cors.CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.addAllowedOrigin("*");
+        // 允许访问的客户端域名
+        //        configuration.addAllowedOrigin("*");
+        // (springboot2.4以上的加入这一段可解决 allowedOrigins cannot contain the special value "*"问题)
+        List<String> allowedOriginPatterns = new ArrayList<>();
+        allowedOriginPatterns.add("*");
+        configuration.setAllowedOriginPatterns(allowedOriginPatterns);
+
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.addExposedHeader("content-disposition");
