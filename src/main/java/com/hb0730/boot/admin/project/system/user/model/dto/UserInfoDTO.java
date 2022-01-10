@@ -37,7 +37,6 @@ public class UserInfoDTO extends BaseDTO implements InputConverter<UserInfoEntit
     /**
      * 用户账号
      */
-    @NotBlank(message = "用户账号不为空")
     private String username;
     /**
      * 昵称
