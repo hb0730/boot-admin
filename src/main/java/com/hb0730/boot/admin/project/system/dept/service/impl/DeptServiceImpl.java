@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.system.dept.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.hb0730.boot.admin.domain.service.impl.SuperBaseServiceImpl;
@@ -10,7 +11,6 @@ import com.hb0730.boot.admin.project.system.dept.model.entity.DeptEntity;
 import com.hb0730.boot.admin.project.system.dept.model.query.DeptParams;
 import com.hb0730.boot.admin.project.system.dept.service.IDeptService;
 import com.hb0730.commons.lang.collection.CollectionUtils;
-import com.hb0730.commons.spring.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -74,7 +74,7 @@ public class DeptServiceImpl extends SuperBaseServiceImpl<Long, DeptParams, Dept
     public DeptDTO findById(@Nonnull Long id) {
         Assert.notNull(id, "id不为空");
         DeptEntity entity = super.getById(id);
-        return BeanUtils.transformFrom(entity, DeptDTO.class);
+        return BeanUtil.toBean(entity, DeptDTO.class);
     }
 
     @Nullable
@@ -82,7 +82,7 @@ public class DeptServiceImpl extends SuperBaseServiceImpl<Long, DeptParams, Dept
     public List<DeptDTO> getChildrenByParenId(@Nonnull Long id) {
         Assert.notNull(id, "id不为空");
         List<DeptEntity> entities = super.list();
-        List<DeptDTO> dept = BeanUtils.transformFromInBatch(entities, DeptDTO.class);
+        List<DeptDTO> dept = BeanUtil.copyToList(entities, DeptDTO.class);
         List<DeptDTO> result = Lists.newArrayList();
         for (DeptDTO dto : dept) {
             // 第一级
@@ -103,7 +103,7 @@ public class DeptServiceImpl extends SuperBaseServiceImpl<Long, DeptParams, Dept
         Set<TreeDeptDTO> trees = new LinkedHashSet<>();
         Set<TreeDeptDTO> depts = new LinkedHashSet<>();
         List<String> deptNames = deptList.stream().map(DeptDTO::getName).collect(Collectors.toList());
-        List<TreeDeptDTO> treeDeptList = BeanUtils.transformFromInBatch(deptList, TreeDeptDTO.class);
+        List<TreeDeptDTO> treeDeptList = BeanUtil.copyToList(deptList, TreeDeptDTO.class);
         boolean isChild;
         for (TreeDeptDTO dept : treeDeptList) {
             isChild = false;

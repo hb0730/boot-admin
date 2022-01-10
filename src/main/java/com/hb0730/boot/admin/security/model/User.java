@@ -3,12 +3,16 @@ package com.hb0730.boot.admin.security.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserDTO;
 import com.hb0730.commons.lang.collection.CollectionUtils;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
@@ -18,13 +22,12 @@ import java.util.Date;
  * @author bing_huang
  * @since 3.0.0
  */
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class User extends UserDTO implements UserDetails {
+public class User extends UserDTO implements UserDetails, Serializable {
     private static final String ROLE = "ROLE_";
 
     /**

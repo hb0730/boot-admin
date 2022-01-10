@@ -6,7 +6,6 @@ import com.hb0730.boot.admin.project.ProjectTest;
 import com.hb0730.boot.admin.project.system.user.model.query.UserAccountParams;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserAccountDTO;
 import com.hb0730.boot.admin.project.system.user.service.IUserAccountService;
-import com.hb0730.commons.spring.SpringContextUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,10 +26,6 @@ public class UserAccountServiceImplTest extends ProjectTest {
     @Autowired
     private ApplicationContext context;
 
-    @Before
-    public void init(){
-        SpringContextUtils.setApplicationContext(context);
-    }
 
     @Override
     @Test

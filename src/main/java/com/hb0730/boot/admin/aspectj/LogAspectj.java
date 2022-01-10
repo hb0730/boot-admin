@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.aspectj;
 
+import cn.hutool.extra.servlet.ServletUtil;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.annotation.ClassDescribe;
 import com.hb0730.boot.admin.annotation.Log;
@@ -14,17 +15,20 @@ import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.security.utils.SecurityUtils;
 import com.hb0730.commons.lang.ExceptionUtils;
 import com.hb0730.commons.lang.date.LocalDateTimeUtils;
-import com.hb0730.commons.spring.IpUtils;
-import com.hb0730.commons.spring.ServletUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.HandlerMapping;
@@ -108,8 +112,24 @@ public class LogAspectj {
                 entity.setCreateUserId(currentUser.getId());
                 entity.setCreateTime(LocalDateTimeUtils.now());
             }
+            RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
+            if (null == attributes) {
+                return;
+            }
+
             //请求ip
-            String ip = IpUtils.getIp(ServletUtils.getRequest());
+            String ip = "";
+            // 请求地址
+            String requestUrl = "";
+            //请求方式
+            String requestMethod = "";
+            if (attributes instanceof ServletRequestAttributes) {
+                HttpServletRequest request = ((ServletRequestAttributes) attributes).getRequest();
+                ip = ServletUtil.getClientIP(request);
+                // 请求地址
+                requestUrl = request.getRequestURI();
+                requestMethod = request.getMethod();
+            }
             entity.setOperIp(ip);
             //描述
             // 类描述
@@ -126,10 +146,8 @@ public class LogAspectj {
                 entity.setDescription(controllerMethodDescription);
             }
             // 请求地址
-            String requestUrl = ServletUtils.getRequest().getRequestURI();
             entity.setRequestUrl(requestUrl);
             //请求方式
-            String requestMethod = ServletUtils.getRequest().getMethod();
             entity.setRequestMethod(requestMethod);
             //操作方法
             String className = joinPoint.getTarget().getClass().getName();
@@ -143,12 +161,12 @@ public class LogAspectj {
             }
             //返回参数
             if (log.response()) {
-                String result = JsonUtils.getJson().objectToJson(null == jsonResult ? "" : jsonResult);
+                String result = JsonUtils.objectToJson(null == jsonResult ? "" : jsonResult);
                 entity.setRequestResult(result);
             }
             if (null != e) {
                 if (log.requestByError()) {
-                    String result = JsonUtils.getJson().objectToJson(null == jsonResult ? "" : jsonResult);
+                    String result = JsonUtils.objectToJson(null == jsonResult ? "" : jsonResult);
                     entity.setRequestResult(result);
                     String message = ExceptionUtils.getExceptionMessage(e);
                     entity.setErrorMessage(StringUtils.substring(message, 0, 2000));
@@ -189,7 +207,7 @@ public class LogAspectj {
             String[] parameterNames = ((MethodSignature) joinPoint.getSignature()).getParameterNames();
             return argsArrayToString(args, parameterNames, paramsName);
         } else {
-            Map<?, ?> paramsMap = (Map<?, ?>) ServletUtils.getRequest().getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+            Map<?, ?> paramsMap = (Map<?, ?>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
             return StringUtils.substring(paramsMap.toString(), 0, 2000);
         }
     }
@@ -279,7 +297,7 @@ public class LogAspectj {
                         }
                     }
                 }
-                params = JsonUtils.getJson().objectToJson(paramsObj);
+                params = JsonUtils.objectToJson(paramsObj);
             }
         } catch (Exception e) {
             LOGGER.error("参数拼接异常");

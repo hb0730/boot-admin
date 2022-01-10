@@ -1,9 +1,8 @@
 package com.hb0730.boot.admin.task.utils;
 
+import cn.hutool.extra.spring.SpringUtil;
+import com.hb0730.boot.admin.exceptions.JsonException;
 import com.hb0730.boot.admin.task.domain.JobInvokeInfo;
-import com.hb0730.commons.json.exceptions.JsonException;
-import com.hb0730.commons.spring.SpringContextUtils;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +20,6 @@ public class JobInvokeUtilTest {
     @Autowired
     private ApplicationContext application;
 
-    @Before
-    public void init() {
-        SpringContextUtils.setApplicationContext(application);
-    }
 
     @Test
     public void invokeMethodTest() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, JsonException {
@@ -54,6 +49,6 @@ public class JobInvokeUtilTest {
 
     @Test
     public void validClassName() throws ClassNotFoundException {
-        SpringContextUtils.containsBean("taskTest");
+        SpringUtil.getApplicationContext().containsBean("taskTest");
     }
 }

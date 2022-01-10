@@ -1,9 +1,9 @@
 package com.hb0730.boot.admin.commons.utils;
 
+import cn.hutool.extra.spring.SpringUtil;
+import com.hb0730.boot.admin.exceptions.JsonException;
 import com.hb0730.boot.admin.project.system.dict.model.vo.DictVO;
 import com.hb0730.boot.admin.project.system.dict.service.IDictService;
-import com.hb0730.commons.json.exceptions.JsonException;
-import com.hb0730.commons.spring.SpringContextUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
@@ -31,13 +31,14 @@ public class DictUtils {
     public static String getEntryValue(@Nonnull String type, @Nonnull String name) {
         Assert.hasText(type, "字典类型不为空");
         Assert.hasText(name, "字典项名称不为空");
-        IDictService service = SpringContextUtils.getBean(IDictService.class);
+        IDictService service = SpringUtil.getBean(IDictService.class);
         List<DictVO> cache = service.getCache();
         if (CollectionUtils.isEmpty(cache)) {
             return "";
         }
         try {
-            Optional<DictVO.DictEntryVO> entryValue = JsonUtils.getJson().jsonToList(JsonUtils.getJson().objectToJson(cache), DictVO.class)
+            Optional<DictVO.DictEntryVO> entryValue = JsonUtils.jsonToList(JsonUtils.objectToJson(cache),
+                            DictVO.class)
                     .stream()
                     .filter(dictType -> type.equals(dictType.getType()))
                     .map(DictVO::getEntry)

@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin;
 
-import com.hb0730.commons.spring.SpringContextUtils;
+import cn.hutool.extra.spring.EnableSpringUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -14,11 +14,11 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 @SpringBootApplication
 @EnableAsync
+@EnableSpringUtil
 public class BootAdminApplication {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext applicationContext = SpringApplication.run(BootAdminApplication.class, args);
-        SpringContextUtils.setApplicationContext(applicationContext);
+       SpringApplication.run(BootAdminApplication.class, args);
     }
 
 }

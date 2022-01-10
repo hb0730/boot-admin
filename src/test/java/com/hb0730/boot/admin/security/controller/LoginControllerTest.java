@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.security.controller;
 
-import com.hb0730.commons.json.gson.GsonUtils;
+import com.hb0730.boot.admin.commons.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -38,7 +38,7 @@ public class LoginControllerTest {
                 MockMvcRequestBuilders
                         .post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(GsonUtils.objectToJson(map))
+                        .content(JsonUtils.objectToJson(map))
                         .accept(MediaType.APPLICATION_JSON_UTF8)
         ).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
         Assert.assertNotNull(result);
@@ -55,7 +55,7 @@ public class LoginControllerTest {
                 MockMvcRequestBuilders
                         .post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(GsonUtils.objectToJson(map))
+                        .content(JsonUtils.objectToJson(map))
                         .accept(MediaType.APPLICATION_JSON_UTF8)
         ).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
         Assert.assertNotNull(result);

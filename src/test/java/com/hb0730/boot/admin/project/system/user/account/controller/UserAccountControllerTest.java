@@ -1,8 +1,8 @@
 package com.hb0730.boot.admin.project.system.user.account.controller;
 
+import com.hb0730.boot.admin.commons.utils.JsonUtils;
 import com.hb0730.boot.admin.project.ProjectTest;
 import com.hb0730.boot.admin.project.system.user.model.query.UserAccountParams;
-import com.hb0730.commons.json.gson.GsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -41,7 +41,7 @@ public class UserAccountControllerTest extends ProjectTest {
                             .post("/api/v3/system/user/account/list/page")
                             .accept(MediaType.APPLICATION_JSON_UTF8)
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
-                            .content(GsonUtils.objectToJson(new UserAccountParams()))
+                            .content(JsonUtils.objectToJson(new UserAccountParams()))
             ).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
             Assert.assertNotNull(result);
             String resultContent = result.getResponse().getContentAsString();

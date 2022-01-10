@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.system.option.service.impl;
 
 import com.hb0730.boot.admin.commons.enums.PropertyEnum;
-import com.hb0730.boot.admin.commons.utils.OptionCacheUtils;
+import com.hb0730.boot.admin.commons.utils.MapUtils;
 import com.hb0730.boot.admin.domain.service.impl.SuperBaseServiceImpl;
 import com.hb0730.boot.admin.event.option.OptionUpdatedEvent;
 import com.hb0730.boot.admin.project.system.option.mapper.IOptionMapper;
@@ -9,19 +9,26 @@ import com.hb0730.boot.admin.project.system.option.model.dto.OptionDTO;
 import com.hb0730.boot.admin.project.system.option.model.entity.OptionEntity;
 import com.hb0730.boot.admin.project.system.option.model.query.OptionParams;
 import com.hb0730.boot.admin.project.system.option.service.IOptionService;
-import com.hb0730.commons.spring.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.hb0730.boot.admin.commons.constant.RedisConstant.OPTIONS_KEY_ALL;
+import static com.hb0730.boot.admin.commons.constant.RedisConstant.OPTIONS_KEY_PREFIX;
 
 /**
  * options选项  服务实现类
@@ -33,10 +40,12 @@ import static com.hb0730.boot.admin.commons.constant.RedisConstant.OPTIONS_KEY_A
 public class OptionServiceImpl extends SuperBaseServiceImpl<Long, OptionParams, OptionDTO, OptionEntity, IOptionMapper> implements IOptionService {
     private final ApplicationEventPublisher eventPublisher;
     private final Map<String, PropertyEnum> propertyEnumMap;
+    private final RedisTemplate<String, Map<String, Object>> redisTemplate;
 
-    public OptionServiceImpl(ApplicationEventPublisher eventPublisher) {
+    public OptionServiceImpl(ApplicationEventPublisher eventPublisher, RedisTemplate<String, Map<String, Object>> redisTemplate) {
         this.eventPublisher = eventPublisher;
         this.propertyEnumMap = Collections.unmodifiableMap(PropertyEnum.getValuePropertyEnumMap());
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
@@ -55,7 +64,7 @@ public class OptionServiceImpl extends SuperBaseServiceImpl<Long, OptionParams, 
         List<OptionEntity> update = new LinkedList<>();
 
         List<OptionEntity> list = super.list();
-        Map<String, OptionEntity> optionsMap = BeanUtils.convertToMap(list, OptionEntity::getOptionKey);
+        Map<String, OptionEntity> optionsMap = MapUtils.convertToMap(list, OptionEntity::getOptionKey);
         options.forEach((key, value) -> {
             OptionEntity entity = optionsMap.get(key);
             if (entity == null || !StringUtils.equals(entity.getOptionValue(), value.toString())) {
@@ -92,11 +101,12 @@ public class OptionServiceImpl extends SuperBaseServiceImpl<Long, OptionParams, 
     @Override
     @Nonnull
     public Map<String, Object> listOptions() {
-        return OptionCacheUtils.getCacheValue(OPTIONS_KEY_ALL).orElseGet(() -> {
+        Map<String, Object> value = redisTemplate.opsForValue().get(OPTIONS_KEY_PREFIX + OPTIONS_KEY_ALL);
+        return Optional.ofNullable(value).orElseGet(() -> {
             // 可做成缓存
             List<OptionEntity> list = super.list();
             Set<String> keys = list.stream().map(OptionEntity::getOptionKey).collect(Collectors.toSet());
-            Map<String, Object> userDefinedOptionsMap = BeanUtils.convertToMap(list, OptionEntity::getOptionKey, data -> {
+            Map<String, Object> userDefinedOptionsMap = MapUtils.convertToMap(list, OptionEntity::getOptionKey, data -> {
                 String key = data.getOptionKey();
                 PropertyEnum propertyEnum = propertyEnumMap.get(key);
                 if (propertyEnum == null) {
@@ -181,11 +191,11 @@ public class OptionServiceImpl extends SuperBaseServiceImpl<Long, OptionParams, 
     }
 
     private void publishOptionUpdatedEvent() {
-        OptionCacheUtils.deleteCache(OPTIONS_KEY_ALL);
+        redisTemplate.delete(OPTIONS_KEY_PREFIX + OPTIONS_KEY_ALL);
         eventPublisher.publishEvent(new OptionUpdatedEvent(this));
     }
 
     private void setCache(Map<String, Object> values) {
-        OptionCacheUtils.setCache(OPTIONS_KEY_ALL, values);
+        redisTemplate.opsForValue().set(OPTIONS_KEY_PREFIX + OPTIONS_KEY_ALL, values);
     }
 }

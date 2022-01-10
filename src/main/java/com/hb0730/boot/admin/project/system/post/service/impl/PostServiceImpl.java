@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.system.post.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -14,7 +15,6 @@ import com.hb0730.boot.admin.project.system.post.model.entity.PostEntity;
 import com.hb0730.boot.admin.project.system.post.model.query.PostParams;
 import com.hb0730.boot.admin.project.system.post.service.IPostService;
 import com.hb0730.commons.lang.StringUtils;
-import com.hb0730.commons.spring.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -99,7 +99,7 @@ public class PostServiceImpl extends SuperBaseServiceImpl<Long, PostParams, Post
     public List<PostExcelDTO> export(@Nonnull PostParams params) {
         QueryWrapper<PostEntity> query = this.query(params);
         List<PostEntity> entities = super.list(query);
-        return BeanUtils.transformFromInBatch(entities, PostExcelDTO.class);
+        return BeanUtil.copyToList(entities, PostExcelDTO.class);
     }
 
     @Override
@@ -108,7 +108,7 @@ public class PostServiceImpl extends SuperBaseServiceImpl<Long, PostParams, Post
         if (CollectionUtils.isEmpty(dataList)) {
             return false;
         }
-        List<PostEntity> entities = BeanUtils.transformFromInBatch(dataList, PostEntity.class);
+        List<PostEntity> entities = BeanUtil.copyToList(dataList, PostEntity.class);
         return this.saveBatch(entities);
     }
 }

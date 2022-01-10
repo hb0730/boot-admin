@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.listener.role;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.hb0730.boot.admin.event.menu.MenuEvent;
 import com.hb0730.boot.admin.event.role.RolePermissionEvent;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserDTO;
@@ -7,7 +8,6 @@ import com.hb0730.boot.admin.project.system.user.service.IUserInfoService;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.token.ITokenService;
 import com.hb0730.commons.lang.collection.CollectionUtils;
-import com.hb0730.commons.spring.BeanUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
@@ -50,7 +50,7 @@ public class RolePermissionListener implements ApplicationListener<RolePermissio
         for (String username : usernameList) {
             UserDTO userDTO = userInfoService.loadUserByUsername(username);
             UserDetails details = onlineUserMap.get(username);
-            BeanUtils.updateProperties(userDTO, details);
+            BeanUtil.copyProperties(userDTO, details);
             //刷新token
             tokenService.refreshAccessToken((User) details);
             eventPublisher.publishEvent(new MenuEvent(this, userDTO.getId()));

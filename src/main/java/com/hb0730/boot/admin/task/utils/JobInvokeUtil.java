@@ -1,20 +1,24 @@
 package com.hb0730.boot.admin.task.utils;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import com.hb0730.boot.admin.commons.utils.JsonUtils;
+import com.hb0730.boot.admin.exceptions.JsonException;
 import com.hb0730.boot.admin.task.domain.JobInvokeInfo;
-import com.hb0730.commons.json.exceptions.JsonException;
 import com.hb0730.commons.lang.collection.CollectionUtils;
 import com.hb0730.commons.lang.convert.ConverterRegistry;
 import com.hb0730.commons.lang.reflect.ReflectUtils;
-import com.hb0730.commons.spring.BeanUtils;
-import com.hb0730.commons.spring.SpringContextUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nonnull;
 import javax.validation.constraints.NotBlank;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * 任务执行工具
@@ -44,8 +48,8 @@ public class JobInvokeUtil {
      */
     public static void invokeMethod(@NotBlank String beanName, @NotBlank String methodName, String params) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException, JsonException {
         List<Object[]> methodParams = getMethodParams(params);
-        if (SpringContextUtils.containsBean(beanName)) {
-            Object o = SpringContextUtils.getBean(beanName);
+        if (SpringUtil.getApplicationContext().containsBean(beanName)) {
+            Object o = SpringUtil.getBean(beanName);
             invokeMethod(o, methodName, methodParams);
         } else {
             Object o = Class.forName(beanName).getDeclaredConstructor().newInstance();
@@ -111,7 +115,7 @@ public class JobInvokeUtil {
             return classs;
         }
         @SuppressWarnings({"unchecked"})
-        Map<String, Object> map = JsonUtils.getJson().jsonToObject(targetParams, Map.class);
+        Map<String, Object> map = JsonUtils.jsonToObject(targetParams, Map.class);
         if (CollectionUtils.isEmpty(map)) {
             return classs;
         }
@@ -166,7 +170,7 @@ public class JobInvokeUtil {
 
                 }
             } else {
-                classs.add(new Object[]{BeanUtils.transformFrom(entry.getValue(), clazz), clazz});
+                classs.add(new Object[]{BeanUtil.toBean(entry.getValue(), clazz), clazz});
             }
         }
         return classs;

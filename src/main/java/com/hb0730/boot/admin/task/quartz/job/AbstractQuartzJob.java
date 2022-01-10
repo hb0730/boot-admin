@@ -1,12 +1,12 @@
 package com.hb0730.boot.admin.task.quartz.job;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.hb0730.boot.admin.manager.AsyncManager;
 import com.hb0730.boot.admin.manager.factory.AsyncFactory;
 import com.hb0730.boot.admin.project.system.quartz.model.entity.JobEntity;
 import com.hb0730.boot.admin.project.system.quartz.model.entity.JobLogEntity;
 import com.hb0730.boot.admin.task.quartz.constant.ScheduleConstants;
 import com.hb0730.commons.lang.ExceptionUtils;
-import com.hb0730.commons.spring.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobExecutionContext;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ public abstract class AbstractQuartzJob extends QuartzJobBean {
         LOGGER.debug("job start >>>>>>>>>>>");
         Object obj = context.getMergedJobDataMap().get(ScheduleConstants.TASK_PROPERTIES);
         if (null != obj) {
-            JobEntity job = BeanUtils.transformFrom(obj, JobEntity.class);
+            JobEntity job = BeanUtil.toBean(obj, JobEntity.class);
             if (null != job) {
                 try {
                     before(context, job);

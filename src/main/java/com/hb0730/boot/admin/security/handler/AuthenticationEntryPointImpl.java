@@ -33,7 +33,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, S
         response.setStatus(200);
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
-        response.getWriter().print(JsonUtils.getJson().objectToJson(result));
+        response.getWriter().print(JsonUtils.objectToJson(result));
     }
 
 }

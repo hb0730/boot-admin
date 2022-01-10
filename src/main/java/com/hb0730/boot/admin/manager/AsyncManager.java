@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.manager;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.hb0730.commons.lang.thread.ThreadUtils;
-import com.hb0730.commons.spring.SpringContextUtils;
 
 import java.util.TimerTask;
 import java.util.concurrent.ScheduledExecutorService;
@@ -22,7 +22,7 @@ public class AsyncManager {
     /**
      * 异步操作任务调度线程池
      */
-    private final ScheduledExecutorService executor = SpringContextUtils.getBean("scheduledExecutorService");
+    private final ScheduledExecutorService executor = SpringUtil.getBean("scheduledExecutorService");
 
     /**
      * 单例模式

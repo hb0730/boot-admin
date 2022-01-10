@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.system.role.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -20,7 +21,6 @@ import com.hb0730.boot.admin.project.system.role.service.IRolePermissionService;
 import com.hb0730.boot.admin.project.system.role.service.IRoleService;
 import com.hb0730.commons.lang.StringUtils;
 import com.hb0730.commons.lang.collection.CollectionUtils;
-import com.hb0730.commons.spring.BeanUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -93,7 +93,7 @@ public class RoleServiceImpl extends SuperBaseServiceImpl<Long, RoleParams, Role
     @Override
     public boolean updateById(RoleEntity entity) {
         RoleEntity e1 = super.getById(entity);
-        BeanUtils.updateProperties(entity, e1);
+        BeanUtil.copyProperties(entity, e1);
         return super.updateById(e1);
     }
 

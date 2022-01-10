@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.commons.utils;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.commons.enums.SortTypeEnum;
@@ -7,7 +8,6 @@ import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import com.hb0730.boot.admin.domain.model.entity.BusinessDomain;
 import com.hb0730.boot.admin.domain.model.query.BaseParams;
 import com.hb0730.commons.lang.collection.CollectionUtils;
-import com.hb0730.commons.spring.BeanUtils;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
@@ -46,7 +46,7 @@ public class QueryWrapperUtils {
     public static <ENTITY2, ENTITY> Page<ENTITY> pageToBean(Page<ENTITY2> page, Class<ENTITY> clazz) {
         List<ENTITY2> records = page.getRecords();
         Page<ENTITY> p1 = new Page<>();
-        List<ENTITY> entities = BeanUtils.transformFromInBatch(records, clazz);
+        List<ENTITY> entities = BeanUtil.copyToList(records, clazz);
         p1.setRecords(entities);
         p1.setTotal(page.getTotal());
         p1.setSize(page.getSize());

@@ -1,8 +1,6 @@
 package com.hb0730.boot.admin.task.quartz.utils;
 
 import com.hb0730.boot.admin.task.domain.JobInfo;
-import com.hb0730.commons.spring.SpringContextUtils;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.quartz.Scheduler;
@@ -24,11 +22,6 @@ public class ScheduleUtilsTest {
     @Autowired
     private ApplicationContext applicationContext;
 
-
-    @Before
-    public void init() {
-        SpringContextUtils.setApplicationContext(applicationContext);
-    }
 
     @Test
     public void createScheduleJobTest() throws SchedulerException, InterruptedException {

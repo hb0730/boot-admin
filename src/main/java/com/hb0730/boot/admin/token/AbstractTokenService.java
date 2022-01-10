@@ -1,15 +1,16 @@
 package com.hb0730.boot.admin.token;
 
+import cn.hutool.extra.servlet.ServletUtil;
 import com.google.common.collect.Maps;
-import com.hb0730.boot.admin.security.model.LoginUser;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.token.configuration.TokenProperties;
 import com.hb0730.commons.lang.StringUtils;
-import com.hb0730.commons.spring.IpUtils;
-import com.hb0730.commons.spring.ServletUtils;
 import eu.bitwalker.useragentutils.UserAgent;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -84,10 +85,17 @@ public abstract class AbstractTokenService implements ITokenService {
      * @param user 登录信息
      */
     protected void setUserAgent(User user) {
-        UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
-        String ip = IpUtils.getIp(ServletUtils.getRequest());
-        user.setIpaddr(ip);
-        user.setBrowser(userAgent.getBrowser().getName());
-        user.setOs(userAgent.getOperatingSystem().getName());
+        RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
+        if (null == attributes) {
+            return;
+        }
+        if (attributes instanceof ServletRequestAttributes) {
+            HttpServletRequest request = ((ServletRequestAttributes) attributes).getRequest();
+            UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
+            String ip = ServletUtil.getClientIP(request);
+            user.setIpaddr(ip);
+            user.setBrowser(userAgent.getBrowser().getName());
+            user.setOs(userAgent.getOperatingSystem().getName());
+        }
     }
 }

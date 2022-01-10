@@ -2,7 +2,6 @@ package com.hb0730.boot.admin.project.monitor.online.service;
 
 import com.hb0730.boot.admin.project.monitor.online.model.dto.UserOnlineDTO;
 import com.hb0730.boot.admin.project.monitor.online.model.query.UserOnlineParams;
-import com.hb0730.commons.json.exceptions.JsonException;
 
 import java.util.List;
 

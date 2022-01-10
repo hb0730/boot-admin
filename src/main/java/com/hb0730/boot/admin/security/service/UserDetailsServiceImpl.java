@@ -1,10 +1,10 @@
 package com.hb0730.boot.admin.security.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.hb0730.boot.admin.exceptions.UsernameNotFoundException;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserDTO;
 import com.hb0730.boot.admin.project.system.user.service.IUserInfoService;
 import com.hb0730.boot.admin.security.model.User;
-import com.hb0730.commons.spring.BeanUtils;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +30,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (null == user) {
             throw new UsernameNotFoundException("用户不存在");
         }
-        return BeanUtils.transformFrom(user, User.class);
+        return BeanUtil.toBean(user, User.class);
     }
 }

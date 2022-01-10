@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.security.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.commons.enums.StatusEnum;
 import com.hb0730.boot.admin.exceptions.LoginException;
@@ -8,7 +9,6 @@ import com.hb0730.boot.admin.manager.factory.AsyncFactory;
 import com.hb0730.boot.admin.security.model.LoginUser;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.token.ITokenService;
-import com.hb0730.commons.spring.BeanUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -59,7 +59,7 @@ public class LoginServiceImpl {
         }
         User user = (User) authenticate.getPrincipal();
         String accessToken = tokenService.createAccessToken(user);
-        LoginUser loginUser = BeanUtils.transformFrom(user, LoginUser.class);
+        LoginUser loginUser = BeanUtil.toBean(user, LoginUser.class);
         assert loginUser != null;
         loginUser.setAccessToken(accessToken);
         AsyncManager.me().execute(

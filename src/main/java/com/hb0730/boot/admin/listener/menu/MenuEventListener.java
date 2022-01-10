@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.listener.menu;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -18,15 +19,18 @@ import com.hb0730.boot.admin.project.system.user.model.dto.UserDTO;
 import com.hb0730.boot.admin.project.system.user.model.entity.UserAccountEntity;
 import com.hb0730.boot.admin.project.system.user.service.IUserInfoService;
 import com.hb0730.boot.admin.project.system.user.service.impl.UserInfoServiceImpl;
-import com.hb0730.commons.cache.Cache;
 import com.hb0730.commons.lang.collection.CollectionUtils;
-import com.hb0730.commons.spring.BeanUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -41,7 +45,8 @@ import java.util.stream.Collectors;
 public class MenuEventListener implements ApplicationListener<MenuEvent> {
     private final IUserInfoService userInfoService;
     private final IMenuService menuService;
-    private final Cache<String, List<TreeMenuDTO>> redisCache;
+    //    private final Cache<String, List<TreeMenuDTO>> redisCache;
+    private final RedisTemplate<String, List<TreeMenuDTO>> redisTemplate;
 
     @Override
     public void onApplicationEvent(@Nonnull MenuEvent event) {
@@ -58,7 +63,7 @@ public class MenuEventListener implements ApplicationListener<MenuEvent> {
         if (CollectionUtils.isEmpty(menu)) {
             return;
         }
-        redisCache.put(RedisConstant.MENU_KEY_PREFIX + userId, menu, 1, TimeUnit.DAYS);
+        redisTemplate.opsForValue().set(RedisConstant.MENU_KEY_PREFIX + userId, menu, 1, TimeUnit.DAYS);
 
     }
 
@@ -72,7 +77,7 @@ public class MenuEventListener implements ApplicationListener<MenuEvent> {
             params.setSortColumn(Collections.singletonList(MenuEntity.SORT));
             QueryWrapper<MenuEntity> query = QueryWrapperUtils.getQuery(params);
             List<MenuEntity> entities = menuService.list(query);
-            return BeanUtils.transformFromInBatch(entities, TreeMenuDTO.class);
+            return BeanUtil.copyToList(entities, TreeMenuDTO.class);
         }
         Collection<Long> permissionIds = user.getPermissionIds();
         if (CollectionUtils.isEmpty(permissionIds)) {
@@ -92,7 +97,7 @@ public class MenuEventListener implements ApplicationListener<MenuEvent> {
             entities.addAll(menuService.getSuperior(menuId, Lists.newArrayList()));
         }
         List<MenuEntity> menuEntities = entities.stream().sorted(Comparator.comparing(MenuEntity::getSort)).collect(Collectors.toList());
-        return BeanUtils.transformFromInBatch(menuEntities, TreeMenuDTO.class);
+        return BeanUtil.copyToList(menuEntities, TreeMenuDTO.class);
     }
 
     private UserDTO findUserById(Long userId) {

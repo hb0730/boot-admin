@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.domain.model;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.hb0730.commons.lang.collection.CollectionUtils;
-import com.hb0730.commons.spring.BeanUtils;
 import org.apache.commons.lang3.reflect.TypeUtils;
 
 import java.lang.reflect.Type;
@@ -29,7 +29,7 @@ public interface InputConverter<DOMAIN> {
         }
         Collection<Type> values = typeArguments.values();
         Class<DOMAIN> clazz = (Class<DOMAIN>) CollectionUtils.toArrayList(values).get(0);
-        return BeanUtils.transformFrom(this, clazz);
+        return BeanUtil.toBean(this, clazz);
     }
 
     /**
@@ -38,6 +38,6 @@ public interface InputConverter<DOMAIN> {
      * @param domain 更新目标
      */
     default void update(DOMAIN domain) {
-        BeanUtils.updateProperties(this, domain);
+        BeanUtil.copyProperties(this, domain);
     }
 }

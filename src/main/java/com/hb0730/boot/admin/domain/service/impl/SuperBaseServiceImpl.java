@@ -1,16 +1,16 @@
 package com.hb0730.boot.admin.domain.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
+import com.hb0730.boot.admin.commons.utils.ValidatorUtils;
 import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import com.hb0730.boot.admin.domain.model.query.BaseParams;
 import com.hb0730.boot.admin.domain.service.ISuperBaseService;
-import com.hb0730.commons.spring.BeanUtils;
-import com.hb0730.commons.spring.ValidatorUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +30,7 @@ public class SuperBaseServiceImpl<ID extends Serializable, PARAMS extends BasePa
     @Override
     public boolean updateById(@NonNull DTO dto) {
         ValidatorUtils.validate(dto);
-        ENTITY e = BeanUtils.transformFrom(dto, getEntityClass());
+        ENTITY e = BeanUtil.toBean(dto, getEntityClass());
         return this.updateById(e);
     }
 
@@ -48,7 +48,7 @@ public class SuperBaseServiceImpl<ID extends Serializable, PARAMS extends BasePa
     @Transactional(rollbackFor = Exception.class)
     public boolean save(@NonNull DTO dto) {
         ValidatorUtils.validate(dto);
-        ENTITY entity = BeanUtils.transformFrom(dto, getEntityClass());
+        ENTITY entity = BeanUtil.toBean(dto, getEntityClass());
         return this.save(entity);
     }
 
@@ -57,7 +57,7 @@ public class SuperBaseServiceImpl<ID extends Serializable, PARAMS extends BasePa
         ValidatorUtils.validate(dto);
         ValidatorUtils.validate(id);
         ENTITY entity = super.getById(id);
-        BeanUtils.updateProperties(dto, entity);
+        BeanUtil.copyProperties(dto, entity);
         return this.updateById(entity);
     }
 
@@ -73,7 +73,7 @@ public class SuperBaseServiceImpl<ID extends Serializable, PARAMS extends BasePa
     public List<DTO> list(@NonNull PARAMS params) {
         QueryWrapper<ENTITY> query = query(params);
         List<ENTITY> list = super.list(query);
-        return BeanUtils.transformFromInBatch(list, getVoClass());
+        return BeanUtil.copyToList(list, getVoClass());
     }
 
     @SuppressWarnings({"unchecked"})

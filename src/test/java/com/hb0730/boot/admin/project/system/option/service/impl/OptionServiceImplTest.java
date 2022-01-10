@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.system.option.service.impl;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.hb0730.boot.admin.project.system.option.service.IOptionService;
-import com.hb0730.commons.spring.SpringContextUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,13 +22,7 @@ import java.util.Map;
 public class OptionServiceImplTest {
     @Autowired
     private IOptionService service;
-    @Autowired
-    private ApplicationContext context;
 
-    @Before
-    public void init() {
-        SpringContextUtils.setApplicationContext(context);
-    }
 
     @Test
     public void listOptionsTest() {

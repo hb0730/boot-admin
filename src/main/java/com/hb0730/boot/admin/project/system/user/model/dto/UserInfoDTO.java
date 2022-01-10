@@ -4,7 +4,9 @@ import com.hb0730.boot.admin.domain.model.InputConverter;
 import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
 import com.hb0730.boot.admin.project.system.user.model.entity.UserInfoEntity;
 import com.hb0730.commons.lang.collection.CollectionUtils;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
@@ -19,8 +21,6 @@ import java.util.Collection;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
 public class UserInfoDTO extends BaseDTO implements InputConverter<UserInfoEntity> {
 
     private static final long serialVersionUID = 1L;

@@ -1,19 +1,23 @@
 package com.hb0730.boot.admin.token.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.token.AbstractTokenService;
 import com.hb0730.boot.admin.token.configuration.TokenProperties;
-import com.hb0730.commons.cache.Cache;
 import com.hb0730.commons.lang.StringUtils;
 import com.hb0730.commons.lang.collection.CollectionUtils;
 import com.hb0730.commons.lang.date.DateUtils;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.Date;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -23,13 +27,14 @@ import java.util.concurrent.TimeUnit;
  * @since 3.0.0
  */
 public class RedisTokenServiceImpl extends AbstractTokenService {
-    @Resource(name = "redisCache")
-    private Cache<String, Object> cache;
-    @Resource(name = "redisTemplate")
-    private RedisTemplate<String, String> redisTemplate;
+    private final StringRedisTemplate stringRedisTemplate;
+    private final RedisTemplate<String, User> redisTemplate;
 
-    public RedisTokenServiceImpl(TokenProperties properties) {
+    public RedisTokenServiceImpl(TokenProperties properties, StringRedisTemplate stringRedisTemplate,
+                                 RedisTemplate<String, User> redisTemplate) {
         super(properties);
+        this.stringRedisTemplate = stringRedisTemplate;
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
@@ -37,8 +42,9 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
         String accessToken = getAccessToken(request);
         if (StringUtils.isNotBlank(accessToken)) {
             String accessTokenKey = getAccessTokenKey(accessToken);
-            String userTokenKey = String.valueOf(cache.get(accessTokenKey).orElseGet(() -> ""));
-            return (User) cache.get(getUserTokenKey(userTokenKey)).orElseGet(() -> null);
+            String userTokenKey = stringRedisTemplate.opsForValue().get(accessTokenKey);
+            userTokenKey = StrUtil.isBlank(userTokenKey) ? "" : userTokenKey;
+            return redisTemplate.opsForValue().get(getUserTokenKey(userTokenKey));
         }
         return null;
     }
@@ -52,7 +58,8 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
         refreshAccessToken(user);
         String accessToken = extractKey(token);
         String accessTokenKey = getAccessTokenKey(accessToken);
-        cache.put(accessTokenKey, token, super.getProperties().getExpireTime(), super.getProperties().getTimeUnit());
+        stringRedisTemplate.opsForValue().set(accessTokenKey, token, super.getProperties().getExpireTime(),
+                super.getProperties().getTimeUnit());
         return accessToken;
     }
 
@@ -66,7 +73,7 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
         user.setExpireTime(expireTim);
         //缓存用户
         String userTokenKey = getUserTokenKey(user.getToken());
-        cache.put(userTokenKey, user, expire, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(userTokenKey, user, expire, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -80,7 +87,8 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
             if (expireTime.getTime() - currentTime.getTime() <= refreshTime) {
                 String accessToken = getAccessToken(request);
                 String accessTokenKey = getAccessTokenKey(accessToken);
-                cache.put(accessTokenKey, loginUser.getToken(), super.getProperties().getExpireTime(), super.getProperties().getTimeUnit());
+                stringRedisTemplate.opsForValue().set(accessTokenKey, loginUser.getToken(),
+                        super.getProperties().getExpireTime(), super.getProperties().getTimeUnit());
                 refreshAccessToken(loginUser);
             }
         }
@@ -98,9 +106,10 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
     @Override
     public void deleteAccessToken(String accessToken) {
         if (StringUtils.isNotBlank(accessToken)) {
-            String token = String.valueOf(cache.get(getAccessTokenKey(accessToken)).orElseGet(() -> ""));
-            cache.delete(getUserTokenKey(token));
-            cache.delete(getAccessTokenKey(accessToken));
+            String token = stringRedisTemplate.opsForValue().get(getAccessTokenKey(accessToken));
+            token = StrUtil.isNotBlank(token) ? "" : token;
+            stringRedisTemplate.delete(getUserTokenKey(token));
+            stringRedisTemplate.delete(getAccessTokenKey(accessToken));
         }
     }
 
@@ -109,16 +118,15 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
         Map<String, UserDetails> maps = Maps.newHashMap();
         try {
 
-            Set<String> keys = redisTemplate.keys(getAccessTokenKey("*"));
+            Set<String> keys = stringRedisTemplate.keys(getAccessTokenKey("*"));
             if (CollectionUtils.isEmpty(keys)) {
                 return maps;
             }
             for (String key : keys) {
                 String accessToken = org.apache.commons.lang3.StringUtils.remove(key, LOGIN_TOKEN_KEY_PREFIX);
-                Optional<Object> optionalKey = cache.get(getAccessTokenKey(accessToken));
-                if (optionalKey.isPresent()) {
-                    String tokenKey = (String) optionalKey.get();
-                    User cacheUser = (User) cache.get(getUserTokenKey(tokenKey)).orElseGet(() -> null);
+                String tokenKey = stringRedisTemplate.opsForValue().get(getAccessTokenKey(accessToken));
+                if (StrUtil.isNotBlank(tokenKey)) {
+                    User cacheUser = redisTemplate.opsForValue().get(getUserTokenKey(tokenKey));
                     maps.put(accessToken, cacheUser);
                 }
             }

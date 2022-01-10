@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.listener.job;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hb0730.boot.admin.event.job.JobEvent;
 import com.hb0730.boot.admin.project.system.quartz.mapper.IJobMapper;
@@ -9,7 +10,6 @@ import com.hb0730.boot.admin.task.handler.IJobAction;
 import com.hb0730.boot.admin.task.handler.JobActionFactory;
 import com.hb0730.boot.admin.task.handler.JobHelper;
 import com.hb0730.commons.lang.collection.CollectionUtils;
-import com.hb0730.commons.spring.BeanUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.quartz.SchedulerException;
@@ -50,7 +50,7 @@ public class JobEventListener implements ApplicationListener<JobEvent> {
         if (CollectionUtils.isEmpty(jobEntities)) {
             return;
         }
-        List<JobInfo> jobInfos = BeanUtils.transformFromInBatch(jobEntities, JobInfo.class);
+        List<JobInfo> jobInfos = BeanUtil.copyToList(jobEntities, JobInfo.class);
         for (JobInfo jobInfo : jobInfos) {
             jobHelper.addJob(jobInfo);
         }

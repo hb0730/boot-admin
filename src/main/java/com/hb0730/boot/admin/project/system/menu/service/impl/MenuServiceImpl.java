@@ -1,5 +1,8 @@
 package com.hb0730.boot.admin.project.system.menu.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -9,7 +12,6 @@ import com.hb0730.boot.admin.commons.constant.RedisConstant;
 import com.hb0730.boot.admin.commons.enums.EnabledEnum;
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.commons.enums.SortTypeEnum;
-import com.hb0730.boot.admin.commons.utils.JsonUtils;
 import com.hb0730.boot.admin.domain.service.impl.SuperBaseServiceImpl;
 import com.hb0730.boot.admin.event.menu.MenuEvent;
 import com.hb0730.boot.admin.exceptions.LoginException;
@@ -26,13 +28,10 @@ import com.hb0730.boot.admin.project.system.permission.mapper.IPermissionMapper;
 import com.hb0730.boot.admin.project.system.permission.model.entity.PermissionEntity;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.security.utils.SecurityUtils;
-import com.hb0730.commons.cache.Cache;
-import com.hb0730.commons.lang.StringUtils;
-import com.hb0730.commons.lang.collection.CollectionUtils;
-import com.hb0730.commons.spring.BeanUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -40,7 +39,12 @@ import org.springframework.util.Assert;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.hb0730.commons.lang.constants.PathConst.ROOT_PATH;
@@ -55,7 +59,8 @@ import static com.hb0730.commons.lang.constants.PathConst.ROOT_PATH;
 @RequiredArgsConstructor
 public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, MenuDTO, MenuEntity, IMenuMapper> implements IMenuService {
     private final IPermissionMapper permissionMapper;
-    private final Cache<String, List<TreeMenuDTO>> redisCache;
+    //    private final Cache<String, List<TreeMenuDTO>> redisCache;
+    private final RedisTemplate<String, List<TreeMenuDTO>> redisTemplate;
     private final ApplicationEventPublisher eventPublisher;
 
     @Override
@@ -68,7 +73,7 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
         // 禁用子集
         if (EnabledEnum.UN_ENABLED.getValue().equals(isEnabled)) {
             List<MenuDTO> children = getChildrenByParenId(entity.getId());
-            if (!CollectionUtils.isEmpty(children)) {
+            if (CollectionUtil.isNotEmpty(children)) {
                 Set<Long> childrenIds = children.stream().map(MenuDTO::getId).collect(Collectors.toSet());
                 UpdateWrapper<MenuEntity> update = Wrappers.update();
                 update.set(MenuEntity.IS_ENABLED, EnabledEnum.UN_ENABLED.getValue());
@@ -84,7 +89,7 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
         //获取子集
         Set<Long> ids = Sets.newHashSet((Long) id);
         List<MenuDTO> children = this.getChildrenByParenId((Long) id);
-        if (!CollectionUtils.isEmpty(children)) {
+        if (CollectionUtil.isNotEmpty(children)) {
             Set<Long> childrenIds = children.stream().map(MenuDTO::getId).collect(Collectors.toSet());
             ids.addAll(childrenIds);
         }
@@ -96,7 +101,7 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
     public List<MenuDTO> getChildrenByParenId(@Nonnull Long id) {
         Assert.notNull(id, "id不为空");
         List<MenuEntity> entities = super.list();
-        List<MenuDTO> menu = BeanUtils.transformFromInBatch(entities, MenuDTO.class);
+        List<MenuDTO> menu = BeanUtil.copyToList(entities, MenuDTO.class);
         List<MenuDTO> result = Lists.newArrayList();
         for (MenuDTO dto : menu) {
             // 第一级
@@ -119,16 +124,17 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
         if (null == currentUser) {
             throw new LoginException(ResponseStatusEnum.USE_LOGIN_ERROR, "当前用户未登录,请登录后重试");
         }
-        Optional<List<TreeMenuDTO>> optional = redisCache.get(RedisConstant.MENU_KEY_PREFIX + currentUser.getId());
-        if (!optional.isPresent()) {
+        List<TreeMenuDTO> treeMenu = redisTemplate.opsForValue().get(RedisConstant.MENU_KEY_PREFIX + currentUser.getId());
+        if (CollectionUtil.isEmpty(treeMenu)) {
             eventPublisher.publishEvent(new MenuEvent(this, currentUser.getId()));
         }
-        optional = redisCache.get(RedisConstant.MENU_KEY_PREFIX + currentUser.getId());
 
-        if (!optional.isPresent()) {
+        treeMenu = redisTemplate.opsForValue().get(RedisConstant.MENU_KEY_PREFIX + currentUser.getId());
+
+        if (CollectionUtil.isEmpty(treeMenu)) {
             return Lists.newArrayList();
         }
-        return JsonUtils.getJson().jsonToList(JsonUtils.getJson().objectToJson(optional.get()), TreeMenuDTO.class);
+        return treeMenu;
     }
 
     @Override
@@ -148,7 +154,7 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
         params.setSortType(SortTypeEnum.ASC.getValue());
         QueryWrapper<MenuEntity> query = super.query(params);
         List<MenuEntity> entities = super.list(query);
-        List<TreeMenuDTO> treeMenu = BeanUtils.transformFromInBatch(entities, TreeMenuDTO.class);
+        List<TreeMenuDTO> treeMenu = BeanUtil.copyToList(entities, TreeMenuDTO.class);
         return buildTree(treeMenu);
     }
 
@@ -200,8 +206,9 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
                         // component
                         if (menu.getParentId() == null || menu.getParentId() == -1) {
                             // 设置展开类型 默认 侧边栏
-                            menuVo.setComponent(StringUtils.isEmpty(menu.getComponent()) ? "Layout" : menu.getComponent());
-                        } else if (!StringUtils.isEmpty(menu.getComponent())) {
+                            menuVo.setComponent(StrUtil.isEmpty(menu.getComponent()) ? "Layout" :
+                                    menu.getComponent());
+                        } else if (!StrUtil.isEmpty(menu.getComponent())) {
                             menuVo.setComponent(menu.getComponent());
                         }
                         // vue router meta

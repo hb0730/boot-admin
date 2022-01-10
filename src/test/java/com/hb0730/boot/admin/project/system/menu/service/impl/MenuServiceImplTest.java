@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.system.menu.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.project.system.menu.model.dto.MenuDTO;
 import com.hb0730.boot.admin.project.system.menu.model.dto.TreeMenuDTO;
@@ -7,7 +8,6 @@ import com.hb0730.boot.admin.project.system.menu.model.entity.MenuEntity;
 import com.hb0730.boot.admin.project.system.menu.model.vo.MenuPermissionVO;
 import com.hb0730.boot.admin.project.system.menu.model.vo.VueMenuVO;
 import com.hb0730.boot.admin.project.system.menu.service.IMenuService;
-import com.hb0730.commons.spring.BeanUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -31,7 +31,7 @@ public class MenuServiceImplTest {
     @Test
     public void buildTreeTest() {
         List<MenuEntity> entities = menuService.list();
-        List<TreeMenuDTO> treeMenu = BeanUtils.transformFromInBatch(entities, TreeMenuDTO.class);
+        List<TreeMenuDTO> treeMenu = BeanUtil.copyToList(entities, TreeMenuDTO.class);
         treeMenu = menuService.buildTree(treeMenu);
         Assert.assertNotNull(treeMenu);
         log.info(treeMenu.toString());
@@ -40,7 +40,7 @@ public class MenuServiceImplTest {
     @Test
     public void buildVueMenusTest() {
         List<MenuEntity> entities = menuService.list();
-        List<TreeMenuDTO> treeMenu = BeanUtils.transformFromInBatch(entities, TreeMenuDTO.class);
+        List<TreeMenuDTO> treeMenu = BeanUtil.copyToList(entities, TreeMenuDTO.class);
         treeMenu = menuService.buildTree(treeMenu);
         List<VueMenuVO> vueMenu = menuService.buildVueMenus(treeMenu);
         Assert.assertNotNull(vueMenu);

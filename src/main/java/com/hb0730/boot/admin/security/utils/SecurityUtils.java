@@ -1,8 +1,8 @@
 package com.hb0730.boot.admin.security.utils;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.hb0730.boot.admin.security.configuration.WebSecurityConfig;
 import com.hb0730.boot.admin.security.model.User;
-import com.hb0730.commons.spring.SpringContextUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
@@ -45,6 +45,6 @@ public class SecurityUtils {
      */
     @NonNull
     public static PasswordEncoder getPasswordEncoder() {
-        return SpringContextUtils.getBean(PasswordEncoder.class);
+        return SpringUtil.getBean(PasswordEncoder.class);
     }
 }

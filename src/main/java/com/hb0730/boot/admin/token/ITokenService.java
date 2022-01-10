@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.token;
 
+import cn.hutool.crypto.digest.MD5;
 import com.hb0730.boot.admin.security.model.User;
-import com.hb0730.commons.encrypt.digest.MD5Utils;
 import com.hb0730.commons.lang.constants.Charsets;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -85,7 +85,7 @@ public interface ITokenService {
      * @return 令牌
      */
     default String createToken(Map<String, String> values) {
-        byte[] bytes = MD5Utils.md5(values.toString().getBytes(Charsets.UTF_8));
+        byte[] bytes = MD5.create().digest(values.toString().getBytes(Charsets.UTF_8));
         return String.format("%032x", new BigInteger(1, bytes));
     }
 }

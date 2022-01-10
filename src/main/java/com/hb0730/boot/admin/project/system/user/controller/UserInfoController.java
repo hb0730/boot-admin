@@ -1,13 +1,14 @@
 package com.hb0730.boot.admin.project.system.user.controller;
 
 
+import cn.hutool.core.bean.BeanUtil;
 import com.hb0730.boot.admin.annotation.ClassDescribe;
 import com.hb0730.boot.admin.annotation.Log;
 import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.domain.controller.SuperSimpleBaseController;
-import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.R;
+import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.exceptions.BusinessException;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserInfoDTO;
 import com.hb0730.boot.admin.project.system.user.model.entity.UserInfoEntity;
@@ -18,12 +19,15 @@ import com.hb0730.boot.admin.project.system.user.service.IUserInfoService;
 import com.hb0730.boot.admin.project.system.user.service.impl.UserInfoServiceImpl;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.security.utils.SecurityUtils;
-import com.hb0730.commons.json.exceptions.JsonException;
 import com.hb0730.commons.lang.StringUtils;
-import com.hb0730.commons.spring.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -54,7 +58,7 @@ public class UserInfoController extends SuperSimpleBaseController<Long, UserInfo
     @GetMapping("/{id}")
     public Result<UserInfoDTO> getUserInfoById(@PathVariable("id") Long id) {
         UserInfoEntity entity = service.getById(id);
-        UserInfoDTO info = BeanUtils.transformFrom(entity, UserInfoDTO.class);
+        UserInfoDTO info = BeanUtil.toBean(entity, UserInfoDTO.class);
         return R.success(info);
     }
 
@@ -67,7 +71,7 @@ public class UserInfoController extends SuperSimpleBaseController<Long, UserInfo
     @GetMapping
     public Result<UserInfoDTO> getCurrentInfo(HttpServletRequest request) {
         User user = SecurityUtils.getCurrentUser();
-        UserInfoDTO info = BeanUtils.transformFrom(user, UserInfoDTO.class);
+        UserInfoDTO info = BeanUtil.toBean(user, UserInfoDTO.class);
         return R.success(info);
     }
 
@@ -99,7 +103,7 @@ public class UserInfoController extends SuperSimpleBaseController<Long, UserInfo
     @GetMapping("/rest/password/{id}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR','user;rest:password')")
     @Log(value = "重置密码")
-    public Result<String> restPassword(@PathVariable("id") Long id) throws JsonException {
+    public Result<String> restPassword(@PathVariable("id") Long id) {
         UserInfoEntity entity = service.getById(id);
         if (entity.getIsAdmin() == 1) {
             throw new BusinessException("超级管理员无法重置");

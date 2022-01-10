@@ -1,9 +1,8 @@
 package com.hb0730.boot.admin.security.controller;
 
+import com.hb0730.boot.admin.commons.utils.JsonUtils;
 import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.security.model.LoginUser;
-import com.hb0730.boot.admin.security.model.User;
-import com.hb0730.commons.json.gson.GsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -41,21 +40,21 @@ public class TestControllerTest {
                 MockMvcRequestBuilders
                         .post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(GsonUtils.objectToJson(map))
+                        .content(JsonUtils.objectToJson(map))
                         .accept(MediaType.APPLICATION_JSON_UTF8)
         ).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
         Assert.assertNotNull(result);
         String contentAsString = result.getResponse().getContentAsString();
-        Result loginUser = GsonUtils.jsonToObject(contentAsString, Result.class);
+        Result loginUser = JsonUtils.jsonToObject(contentAsString, Result.class);
         Object data = loginUser.getData();
-        LoginUser user = GsonUtils.jsonToObject(GsonUtils.objectToJson(data), LoginUser.class);
+        LoginUser user = JsonUtils.jsonToObject(JsonUtils.objectToJson(data), LoginUser.class);
         String accessToken = user.getAccessToken();
 
         result = mvc.perform(
-                MockMvcRequestBuilders.get("/auth/test/ada")
-                        .header("Authorization","Bearer "+accessToken)
-                        .accept(MediaType.APPLICATION_JSON_UTF8)
-                        .contentType(MediaType.APPLICATION_JSON_UTF8))
+                        MockMvcRequestBuilders.get("/auth/test/ada")
+                                .header("Authorization", "Bearer " + accessToken)
+                                .accept(MediaType.APPLICATION_JSON_UTF8)
+                                .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print()).andReturn();
         Assert.assertNotNull(result);

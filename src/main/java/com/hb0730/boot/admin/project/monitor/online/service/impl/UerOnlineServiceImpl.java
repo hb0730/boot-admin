@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.monitor.online.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.project.monitor.online.model.dto.UserOnlineDTO;
 import com.hb0730.boot.admin.project.monitor.online.model.query.UserOnlineParams;
@@ -8,7 +9,6 @@ import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.token.ITokenService;
 import com.hb0730.commons.lang.StringUtils;
 import com.hb0730.commons.lang.collection.CollectionUtils;
-import com.hb0730.commons.spring.BeanUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -74,7 +74,7 @@ public class UerOnlineServiceImpl implements IUserOnlineService {
                 UserOnlineDTO dto = new UserOnlineDTO();
                 dto.setTokenId(detailsEntry.getKey());
                 User loginUser = (User) detailsEntry.getValue();
-                BeanUtils.updateProperties(loginUser, dto);
+                BeanUtil.copyProperties(loginUser, dto);
                 lists.add(dto);
             }
             return lists;

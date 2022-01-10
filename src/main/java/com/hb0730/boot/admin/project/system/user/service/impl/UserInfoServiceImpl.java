@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.system.user.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -31,7 +32,6 @@ import com.hb0730.boot.admin.project.system.user.service.IUserRoleService;
 import com.hb0730.boot.admin.security.utils.SecurityUtils;
 import com.hb0730.commons.lang.StringUtils;
 import com.hb0730.commons.lang.collection.CollectionUtils;
-import com.hb0730.commons.spring.BeanUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Nonnull;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.hb0730.boot.admin.commons.constant.DictConstant.SysConstants.SysEntryConstants.DEFAULT_PASSWORD;
@@ -100,7 +106,7 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         }
         Long userId = accountEntity.getUserId();
         UserInfoEntity entity = super.getById(userId);
-        UserDTO user = BeanUtils.transformFrom(entity, UserDTO.class);
+        UserDTO user = BeanUtil.toBean(entity, UserDTO.class);
         assert user != null;
         user.setUsername(accountEntity.getUsername());
         user.setPassword(accountEntity.getPassword());
@@ -234,7 +240,7 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
     @Override
     public boolean updateById(UserInfoEntity entity) {
         UserInfoEntity e1 = super.getById(entity.getId());
-        BeanUtils.updateProperties(entity, e1);
+        BeanUtil.copyProperties(entity, e1);
         return super.updateById(e1);
     }
 

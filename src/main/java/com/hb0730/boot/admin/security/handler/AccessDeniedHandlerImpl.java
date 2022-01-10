@@ -29,6 +29,6 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
         response.setStatus(200);
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
-        response.getWriter().print(JsonUtils.getJson().objectToJson(result));
+        response.getWriter().print(JsonUtils.objectToJson(result));
     }
 }

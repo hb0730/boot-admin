@@ -17,7 +17,8 @@
 
 
         <spring.boot.version>2.3.3.RELEASE</spring.boot.version>
-        <hb0730-commons.version>2.1.0-RELEASE</hb0730-commons.version>
+        <hb0730-commons.version>2.1.2-RELEASE</hb0730-commons.version>
+        <hutool.version>5.7.18</hutool.version>
 
         <mybatis-plus.version>3.4.0</mybatis-plus.version>
         <mysql.version>8.0.16</mysql.version>
@@ -33,13 +34,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>2.3.3.RELEASE</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.hb0730</groupId>
-                <artifactId>commons-dependencies</artifactId>
-                <version>${hb0730-commons.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -101,34 +95,27 @@
             <optional>true</optional>
         </dependency>
 
-        <!--hb0730 commons-->
+        <!--hutool-->
         <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>commons-lang</artifactId>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+            <version>${hutool.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>commons-spring</artifactId>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-extra</artifactId>
+            <version>${hutool.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>commons-cache</artifactId>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-crypto</artifactId>
+            <version>${hutool.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>commons-http</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>commons-json</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>commons-encrypt</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>com.hb0730</groupId>
             <artifactId>commons-mail</artifactId>
+            <version>${hb0730-commons.version}</version>
         </dependency>
 
 

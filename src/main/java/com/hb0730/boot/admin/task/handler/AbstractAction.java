@@ -1,11 +1,11 @@
 package com.hb0730.boot.admin.task.handler;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.project.system.quartz.mapper.IJobMapper;
 import com.hb0730.boot.admin.project.system.quartz.model.entity.JobEntity;
 import com.hb0730.boot.admin.task.domain.JobInfo;
 import com.hb0730.commons.lang.collection.CollectionUtils;
-import com.hb0730.commons.spring.BeanUtils;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -35,6 +35,6 @@ public abstract class AbstractAction implements IJobAction {
         if (CollectionUtils.isEmpty(entities)) {
             return Lists.newArrayList();
         }
-        return BeanUtils.transformFromInBatch(entities, JobInfo.class);
+        return BeanUtil.copyToList(entities, JobInfo.class);
     }
 }
