@@ -40,7 +40,7 @@ public interface IUserRoleService extends IService<UserRoleEntity> {
      * @param userIds 用户id
      * @return 是否成功
      */
-    boolean removeByUserIds(@Nonnull Collection<? extends Serializable> userIds);
+    boolean removeByUserIds(@Nonnull Collection<?> userIds);
 
     /**
      * 根据id查询角色id

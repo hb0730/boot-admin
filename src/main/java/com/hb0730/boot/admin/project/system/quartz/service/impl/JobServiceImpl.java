@@ -59,9 +59,10 @@ public class JobServiceImpl extends SuperBaseServiceImpl<Long, JobParams, JobDTO
     }
 
     @Override
-    public boolean removeByIds(Collection<? extends Serializable> idList) {
+    @SuppressWarnings({"unchecked"})
+    public boolean removeByIds(Collection<?> idList) {
         boolean result = super.removeByIds(idList);
-        eventPublisher.publishEvent(new JobEvent(this, JobActionEnum.DELETE, idList));
+        eventPublisher.publishEvent(new JobEvent(this, JobActionEnum.DELETE, (Collection<? extends Serializable>) idList));
         return result;
     }
 

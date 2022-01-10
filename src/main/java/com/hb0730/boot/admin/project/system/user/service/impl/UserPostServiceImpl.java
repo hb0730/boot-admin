@@ -78,7 +78,7 @@ public class UserPostServiceImpl extends BaseServiceImpl<IUserPostMapper, UserPo
     }
 
     @Override
-    public boolean removeByUserIds(@Nonnull Collection<? extends Serializable> userIds) {
+    public boolean removeByUserIds(@Nonnull Collection<?> userIds) {
         Assert.notEmpty(userIds, "用户id不为空");
         LambdaQueryWrapper<UserPostEntity> queryWrapper = Wrappers
                 .lambdaQuery(UserPostEntity.class)

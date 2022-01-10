@@ -67,7 +67,7 @@ public class DictEntryServiceImpl extends SuperBaseServiceImpl<Long, DictEntryPa
     }
 
     @Override
-    public boolean removeByIds(Collection<? extends Serializable> idList) {
+    public boolean removeByIds(Collection<?> idList) {
         boolean result = super.removeByIds(idList);
         eventPublisher.publishEvent(new DictEvent(this));
         return result;

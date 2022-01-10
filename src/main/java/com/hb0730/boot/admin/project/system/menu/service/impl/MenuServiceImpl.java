@@ -59,7 +59,6 @@ import static com.hb0730.commons.lang.constants.PathConst.ROOT_PATH;
 @RequiredArgsConstructor
 public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, MenuDTO, MenuEntity, IMenuMapper> implements IMenuService {
     private final IPermissionMapper permissionMapper;
-    //    private final Cache<String, List<TreeMenuDTO>> redisCache;
     private final RedisTemplate<String, List<TreeMenuDTO>> redisTemplate;
     private final ApplicationEventPublisher eventPublisher;
 

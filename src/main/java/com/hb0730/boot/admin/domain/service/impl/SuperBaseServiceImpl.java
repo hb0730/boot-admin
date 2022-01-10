@@ -81,20 +81,21 @@ public class SuperBaseServiceImpl<ID extends Serializable, PARAMS extends BasePa
         return (Class<DTO>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[2];
     }
 
+    @Override
     @SuppressWarnings({"unchecked"})
-    protected Class<ENTITY> getEntityClass() {
+    public Class<ENTITY> getEntityClass() {
         return (Class<ENTITY>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[3];
     }
 
     @Override
     @SuppressWarnings({"unchecked"})
     protected Class<ENTITY> currentModelClass() {
-        return (Class<ENTITY>) ReflectionKit.getSuperClassGenericType(getClass(), 3);
+        return (Class<ENTITY>) ReflectionKit.getSuperClassGenericType(getClass(), SuperBaseServiceImpl.class, 3);
     }
 
     @Override
     @SuppressWarnings({"unchecked"})
-    protected Class<ENTITY> currentMapperClass() {
-        return (Class<ENTITY>) ReflectionKit.getSuperClassGenericType(getClass(), 4);
+    protected Class<MAPPER> currentMapperClass() {
+        return (Class<MAPPER>) ReflectionKit.getSuperClassGenericType(getClass(), SuperBaseServiceImpl.class, 4);
     }
 }

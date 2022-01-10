@@ -87,7 +87,7 @@ public class PostServiceImpl extends SuperBaseServiceImpl<Long, PostParams, Post
         if (isUpdate) {
             queryWrapper.ne(PostEntity::getId, entity.getId());
         }
-        int count = super.count(queryWrapper);
+        long count = super.count(queryWrapper);
         if (isUpdate && count >= 1) {
             throw new BusinessException("编码重复:" + entity.getNumber());
         } else if (!isUpdate && count > 0) {

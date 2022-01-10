@@ -81,7 +81,7 @@ public class UserRoleServiceImpl extends BaseServiceImpl<IUserRoleMapper, UserRo
     }
 
     @Override
-    public boolean removeByUserIds(@Nonnull Collection<? extends Serializable> userIds) {
+    public boolean removeByUserIds(@Nonnull Collection<?> userIds) {
         Assert.notEmpty(userIds, "用户id为空");
         LambdaQueryWrapper<UserRoleEntity> queryWrapper = Wrappers.lambdaQuery(UserRoleEntity.class)
                 .in(UserRoleEntity::getUserId, userIds);

@@ -66,5 +66,5 @@ public interface IUserAccountService extends ISuperBaseService<Long, UserAccount
      * @param userIds 用户id
      * @return 是否成功
      */
-    boolean removeByUserIds(@Nonnull Collection<? extends Serializable> userIds);
+    boolean removeByUserIds(@Nonnull Collection<?> userIds);
 }

@@ -90,7 +90,7 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean removeByIds(Collection<? extends Serializable> ids) {
+    public boolean removeByIds(Collection<?> ids) {
         // 删除相关信息
         accountService.removeByUserIds(ids);
         userPostService.removeByUserIds(ids);

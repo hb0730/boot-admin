@@ -69,7 +69,7 @@ public class DictServiceImpl extends SuperBaseServiceImpl<Long, DictParams, Dict
     }
 
     @Override
-    public boolean removeByIds(Collection<? extends Serializable> idList) {
+    public boolean removeByIds(Collection<?> idList) {
         boolean result = super.removeByIds(idList);
         eventPublisher.publishEvent(new DictEvent(this));
         return result;
@@ -97,7 +97,7 @@ public class DictServiceImpl extends SuperBaseServiceImpl<Long, DictParams, Dict
         if (isUpdate) {
             queryWrapper.ne(DictEntity::getId, entity.getId());
         }
-        int count = super.count(queryWrapper);
+        long count = super.count(queryWrapper);
         if (isUpdate && count > 0) {
             throw new BusinessException("数据字典类型已存在");
         } else if (!isUpdate && count > 0) {

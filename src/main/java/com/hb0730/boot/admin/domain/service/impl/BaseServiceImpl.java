@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hb0730.boot.admin.domain.model.entity.BusinessDomain;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.security.utils.SecurityUtils;
+import org.apache.ibatis.mapping.MappedStatement;
 
 import java.time.LocalDateTime;
 
@@ -37,13 +38,13 @@ public class BaseServiceImpl<MAPPER extends BaseMapper<ENTITY>, ENTITY> extends 
 
     @Override
     @SuppressWarnings({"unchecked"})
-    protected Class<ENTITY> currentMapperClass() {
-        return (Class<ENTITY>) ReflectionKit.getSuperClassGenericType(getClass(), 0);
+    protected Class<MAPPER> currentMapperClass() {
+        return (Class<MAPPER>) ReflectionKit.getSuperClassGenericType(getClass(), BaseServiceImpl.class, 0);
     }
 
     @Override
     @SuppressWarnings({"unchecked"})
     protected Class<ENTITY> currentModelClass() {
-        return (Class<ENTITY>) ReflectionKit.getSuperClassGenericType(getClass(), 1);
+        return (Class<ENTITY>) ReflectionKit.getSuperClassGenericType(getClass(), BaseServiceImpl.class, 1);
     }
 }

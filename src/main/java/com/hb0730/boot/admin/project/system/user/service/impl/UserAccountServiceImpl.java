@@ -121,7 +121,7 @@ public class UserAccountServiceImpl
     }
 
     @Override
-    public boolean removeByUserIds(@Nonnull Collection<? extends Serializable> userIds) {
+    public boolean removeByUserIds(@Nonnull Collection<?> userIds) {
         Assert.notEmpty(userIds, "用户id不为空");
         LambdaQueryWrapper<UserAccountEntity> queryWrapper = Wrappers
                 .lambdaQuery(UserAccountEntity.class)

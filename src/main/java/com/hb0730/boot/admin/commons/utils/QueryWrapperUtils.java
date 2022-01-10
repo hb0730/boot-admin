@@ -3,6 +3,7 @@ package com.hb0730.boot.admin.commons.utils;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.commons.enums.SortTypeEnum;
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import com.hb0730.boot.admin.domain.model.entity.BusinessDomain;
@@ -69,11 +70,11 @@ public class QueryWrapperUtils {
         List<String> groupColumn = params.getGroupColumn();
         if (!CollectionUtils.isEmpty(groupColumn)) {
             String[] array = groupColumn.toArray(new String[0]);
-            queryWrapper.groupBy(array);
+            queryWrapper.groupBy(Lists.newArrayList(array));
         }
         if (!CollectionUtils.isEmpty(params.getSortColumn())) {
             String[] array = params.getSortColumn().toArray(new String[0]);
-            queryWrapper.orderBy(true, SortTypeEnum.ASC.getValue().equals(params.getSortType()), array);
+            queryWrapper.orderBy(true, SortTypeEnum.ASC.getValue().equals(params.getSortType()), Lists.newArrayList(array));
         }
         return queryWrapper;
     }

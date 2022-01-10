@@ -39,7 +39,7 @@ public interface IUserPostService extends IService<UserPostEntity> {
      * @param userIds 用户id
      * @return 是否成功
      */
-    boolean removeByUserIds(@Nonnull Collection<? extends Serializable> userIds);
+    boolean removeByUserIds(@Nonnull Collection<?> userIds);
 
     /**
      * 根据用户id查询岗位id
