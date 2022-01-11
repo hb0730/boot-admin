@@ -1,4 +1,6 @@
 # v3.1.0
+基于SpringBoot 2.6.2,spring Security 5.6.1,mybatis plus3.5.0的前后端分离的后台管理系统
+
 * 移除关于自己的所有相关依赖
 * 更新依赖版本
 # v3.0.0
