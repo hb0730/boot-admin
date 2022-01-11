@@ -27,23 +27,20 @@ http://admin.hb0730.com/  (可能比较慢)
 在线预览环境中jdbc连接采用的是UTC时区，存在时间差问题
 # 技术
 * jdk8
-* spring boot 2.3.3.RELEASE
-* mybatisPlus 3.4.0
-* mysql 8.0.16
-* hikaricp 3.4.5
-* guava 29.0-jre
-* gson 2.8.6
+* spring boot 2.6.2
+* mybatisPlus 3.5.0
+* mysql 8.0.27
+* hikaricp 4.0.3
+* guava 30.0-jre
+* gson 2.8.9
 * lombok 18.12
-* hb0730/commons-lang
-* hb0730/commons-http
-* hb0730/commons-cache
-* hb0730/commons-json
+* hutool 5.7.18
 * hb0730/commons-mail
 * quartz 2.3.2
-* spring security 5.3.4
-* spring data redis 2.3.3
+* spring security 5.6.1
+* spring data redis 2.6.0
 * okHttp 3.14.9
-* apache/commons-pool
+* apache/commons-pool2
 * apache/commons-lang3
 
 # 系统功能
