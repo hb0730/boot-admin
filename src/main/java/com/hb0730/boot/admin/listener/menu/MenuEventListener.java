@@ -22,6 +22,7 @@ import com.hb0730.boot.admin.project.system.user.service.impl.UserInfoServiceImp
 import com.hb0730.commons.lang.collection.CollectionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +32,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -45,7 +45,6 @@ import java.util.stream.Collectors;
 public class MenuEventListener implements ApplicationListener<MenuEvent> {
     private final IUserInfoService userInfoService;
     private final IMenuService menuService;
-    //    private final Cache<String, List<TreeMenuDTO>> redisCache;
     private final RedisTemplate<String, List<TreeMenuDTO>> redisTemplate;
 
     @Override
@@ -63,8 +62,8 @@ public class MenuEventListener implements ApplicationListener<MenuEvent> {
         if (CollectionUtils.isEmpty(menu)) {
             return;
         }
-        redisTemplate.opsForValue().set(RedisConstant.MENU_KEY_PREFIX + userId, menu, 1, TimeUnit.DAYS);
-
+        HashOperations<String, Long, List<TreeMenuDTO>> hash = redisTemplate.opsForHash();
+        hash.put(RedisConstant.MENU_KEY_PREFIX, userId, menu);
     }
 
     private List<TreeMenuDTO> findMenuByUser(UserDTO user) {

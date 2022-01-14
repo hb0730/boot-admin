@@ -132,19 +132,18 @@ public class DictServiceImpl extends SuperBaseServiceImpl<Long, DictParams, Dict
             vo.setEntry(entryVos);
             dict.add(vo);
         }
-        redisTemplate.opsForValue().set(RedisConstant.DICT_KEY_PREFIX + RedisConstant.DICT_PATENT_KEY, dict);
+        redisTemplate.opsForValue().set(RedisConstant.DICT_KEY_PREFIX, dict);
     }
 
     @Override
     public List<DictVO> getCache() {
-
-        List<DictVO> result = redisTemplate.opsForValue().get(RedisConstant.DICT_KEY_PREFIX + RedisConstant.DICT_PATENT_KEY);
+        List<DictVO> result = redisTemplate.opsForValue().get(RedisConstant.DICT_KEY_PREFIX);
         if (CollectionUtil.isNotEmpty(result)) {
             return result;
         } else {
             this.updateCache();
             ;
-            result = redisTemplate.opsForValue().get(RedisConstant.DICT_KEY_PREFIX + RedisConstant.DICT_PATENT_KEY);
+            result = redisTemplate.opsForValue().get(RedisConstant.DICT_KEY_PREFIX);
         }
         return result;
     }

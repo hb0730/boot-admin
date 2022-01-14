@@ -31,6 +31,7 @@ import com.hb0730.boot.admin.security.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -123,13 +124,12 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
         if (null == currentUser) {
             throw new LoginException(ResponseStatusEnum.USE_LOGIN_ERROR, "当前用户未登录,请登录后重试");
         }
-        List<TreeMenuDTO> treeMenu = redisTemplate.opsForValue().get(RedisConstant.MENU_KEY_PREFIX + currentUser.getId());
+        HashOperations<String, Long, List<TreeMenuDTO>> hash = redisTemplate.opsForHash();
+        List<TreeMenuDTO> treeMenu = hash.get(RedisConstant.MENU_KEY_PREFIX, currentUser.getId());
         if (CollectionUtil.isEmpty(treeMenu)) {
             eventPublisher.publishEvent(new MenuEvent(this, currentUser.getId()));
         }
-
-        treeMenu = redisTemplate.opsForValue().get(RedisConstant.MENU_KEY_PREFIX + currentUser.getId());
-
+        treeMenu = hash.get(RedisConstant.MENU_KEY_PREFIX, currentUser.getId());
         if (CollectionUtil.isEmpty(treeMenu)) {
             return Lists.newArrayList();
         }

@@ -27,7 +27,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.hb0730.boot.admin.commons.constant.RedisConstant.OPTIONS_KEY_ALL;
 import static com.hb0730.boot.admin.commons.constant.RedisConstant.OPTIONS_KEY_PREFIX;
 
 /**
@@ -101,7 +100,7 @@ public class OptionServiceImpl extends SuperBaseServiceImpl<Long, OptionParams, 
     @Override
     @Nonnull
     public Map<String, Object> listOptions() {
-        Map<String, Object> value = redisTemplate.opsForValue().get(OPTIONS_KEY_PREFIX + OPTIONS_KEY_ALL);
+        Map<String, Object> value = redisTemplate.opsForValue().get(OPTIONS_KEY_PREFIX);
         return Optional.ofNullable(value).orElseGet(() -> {
             // 可做成缓存
             List<OptionEntity> list = super.list();
@@ -191,11 +190,11 @@ public class OptionServiceImpl extends SuperBaseServiceImpl<Long, OptionParams, 
     }
 
     private void publishOptionUpdatedEvent() {
-        redisTemplate.delete(OPTIONS_KEY_PREFIX + OPTIONS_KEY_ALL);
+        redisTemplate.delete(OPTIONS_KEY_PREFIX);
         eventPublisher.publishEvent(new OptionUpdatedEvent(this));
     }
 
     private void setCache(Map<String, Object> values) {
-        redisTemplate.opsForValue().set(OPTIONS_KEY_PREFIX + OPTIONS_KEY_ALL, values);
+        redisTemplate.opsForValue().set(OPTIONS_KEY_PREFIX, values);
     }
 }
