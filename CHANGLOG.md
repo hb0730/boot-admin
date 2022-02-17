@@ -1,3 +1,6 @@
+#v4.0.0
+基于`java 11` `spring-boot-starter:2.6.3` `mybatis-plus:3.5.1` `Mysql:8`开发
+
 # v3.0.1
  * fix OptionService 189行缓存更新问题
  + add DictCacheUtil新增字典缓存工具类

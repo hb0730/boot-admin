@@ -1,23 +1,22 @@
 package com.hb0730.boot.admin.token.impl;
 
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.token.AbstractTokenService;
 import com.hb0730.boot.admin.token.configuration.TokenProperties;
-import com.hb0730.commons.lang.StringUtils;
-import com.hb0730.commons.lang.collection.CollectionUtils;
 import com.hb0730.commons.lang.date.DateUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -40,32 +39,31 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
     @Override
     public User getLoginUser(HttpServletRequest request) {
         String accessToken = getAccessToken(request);
-        if (StringUtils.isNotBlank(accessToken)) {
+        if (StrUtil.isNotBlank(accessToken)) {
             String accessTokenKey = getAccessTokenKey(accessToken);
-            String userTokenKey = stringRedisTemplate.opsForValue().get(accessTokenKey);
-            userTokenKey = StrUtil.isBlank(userTokenKey) ? "" : userTokenKey;
-            return redisTemplate.opsForValue().get(getUserTokenKey(userTokenKey));
+            String userToken = stringRedisTemplate.opsForValue().get(accessTokenKey);
+            if (StrUtil.isNotBlank(userToken)) {
+                return redisTemplate.opsForValue().get(getUserTokenKey(userToken));
+            }
         }
         return null;
     }
 
     @Override
     public String createAccessToken(User user) {
-        String token = UUID.randomUUID().toString();
+        String token = IdUtil.fastUUID();
         user.setToken(token);
-
         setUserAgent(user);
         refreshAccessToken(user);
         String accessToken = extractKey(token);
         String accessTokenKey = getAccessTokenKey(accessToken);
         stringRedisTemplate.opsForValue().set(accessTokenKey, token, super.getProperties().getExpireTime(),
-                super.getProperties().getTimeUnit());
+            super.getProperties().getTimeUnit());
         return accessToken;
     }
 
     @Override
     public void refreshAccessToken(User user) {
-        // 获取过期时长
         long expire = TimeUnit.MILLISECONDS.convert(super.getProperties().getExpireTime(), super.getProperties().getTimeUnit());
         // 设置登录时长与过期时间
         user.setLoginTime(DateUtils.now());
@@ -88,7 +86,7 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
                 String accessToken = getAccessToken(request);
                 String accessTokenKey = getAccessTokenKey(accessToken);
                 stringRedisTemplate.opsForValue().set(accessTokenKey, loginUser.getToken(),
-                        super.getProperties().getExpireTime(), super.getProperties().getTimeUnit());
+                    super.getProperties().getExpireTime(), super.getProperties().getTimeUnit());
                 refreshAccessToken(loginUser);
             }
         }
@@ -97,15 +95,14 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
     @Override
     public void delLoginUser(HttpServletRequest request) {
         String accessToken = getAccessToken(request);
-        if (StringUtils.isNotBlank(accessToken)) {
+        if (StrUtil.isNotBlank(accessToken)) {
             deleteAccessToken(accessToken);
         }
-
     }
 
     @Override
     public void deleteAccessToken(String accessToken) {
-        if (StringUtils.isNotBlank(accessToken)) {
+        if (StrUtil.isNotBlank(accessToken)) {
             String token = stringRedisTemplate.opsForValue().get(getAccessTokenKey(accessToken));
             token = StrUtil.isNotBlank(token) ? "" : token;
             stringRedisTemplate.delete(getUserTokenKey(token));

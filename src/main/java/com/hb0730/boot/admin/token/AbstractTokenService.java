@@ -73,10 +73,9 @@ public abstract class AbstractTokenService implements ITokenService {
      * @return token令牌
      */
     protected String extractKey(String key) {
-        Map<String, String> maps = Maps.newHashMap();
-        maps.put("secret", properties.getSecret());
+        Map<String, Object> maps = Maps.newHashMap();
         maps.put(LOGIN_USER_KEY_PREFIX, key);
-        return createToken(maps);
+        return createToken(maps, this.properties.getSecret());
     }
 
     /**

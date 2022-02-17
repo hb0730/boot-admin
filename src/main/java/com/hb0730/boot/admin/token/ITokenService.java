@@ -1,12 +1,12 @@
 package com.hb0730.boot.admin.token;
 
-import cn.hutool.crypto.digest.MD5;
 import com.hb0730.boot.admin.security.model.User;
-import com.hb0730.commons.lang.constants.Charsets;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.servlet.http.HttpServletRequest;
-import java.math.BigInteger;
 import java.util.Map;
 
 /**
@@ -82,10 +82,23 @@ public interface ITokenService {
      * 从数据声明生成令牌
      *
      * @param values 数据声明
+     * @param secret 密钥
      * @return 令牌
      */
-    default String createToken(Map<String, String> values) {
-        byte[] bytes = MD5.create().digest(values.toString().getBytes(Charsets.UTF_8));
-        return String.format("%032x", new BigInteger(1, bytes));
+    default String createToken(Map<String, Object> values, String secret) {
+        return  Jwts.builder()
+            .setClaims(values)
+            .signWith(SignatureAlgorithm.HS512, secret).compact();
+    }
+
+    /**
+     * 从令牌中获取数据声明
+     *
+     * @param token  令牌
+     * @param secret 密钥
+     * @return 数据声明
+     */
+    default Claims parseToken(String token, String secret) {
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 }

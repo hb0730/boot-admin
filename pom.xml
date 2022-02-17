@@ -5,24 +5,24 @@
 
     <groupId>com.hb0730</groupId>
     <artifactId>boot-admin</artifactId>
-    <version>3.1.0-SNAPSHOT</version>
+    <version>4.0.0-SNAPSHOT</version>
 
     <name>boot-admin</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <compile.version>1.8</compile.version>
+        <compile.version>11</compile.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 
-        <spring.boot.version>2.3.3.RELEASE</spring.boot.version>
+        <spring.boot.version>2.6.3</spring.boot.version>
         <hb0730-commons.version>2.1.2-RELEASE</hb0730-commons.version>
-        <hutool.version>5.7.18</hutool.version>
+        <hutool.version>5.7.20</hutool.version>
 
-        <mybatis-plus.version>3.5.0</mybatis-plus.version>
+        <mybatis-plus.version>3.5.1</mybatis-plus.version>
         <mysql.version>8.0.27</mysql.version>
-        <guava.version>30.0-jre</guava.version>
+        <guava.version>31.0.1-jre</guava.version>
         <velocity-engine.version>2.3</velocity-engine.version>
 
         <bitwalker.version>1.21</bitwalker.version>
@@ -165,12 +165,6 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatis-plus.version}</version>
         </dependency>
-        <!--mybatis-plus 代码生成-->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-generator</artifactId>
-            <version>${mybatis-plus.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity-engine-core</artifactId>
@@ -195,6 +189,17 @@
             <artifactId>easyexcel</artifactId>
             <version>${easyexcel.version}</version>
         </dependency>
+        <!--jwt-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
+
 
     </dependencies>
 

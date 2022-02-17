@@ -10,7 +10,7 @@ public enum ResponseStatusEnum implements ValueEnum<String> {
     /**
      * 请求成功
      */
-    SUCCESS("00000", "请求成功"),
+    SUCCESS("0", "请求成功"),
     // A类 用户端错误
     /**
      * 密码校验错误
