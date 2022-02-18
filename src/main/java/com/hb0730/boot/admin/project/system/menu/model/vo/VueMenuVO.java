@@ -22,21 +22,13 @@ public class VueMenuVO implements Serializable {
      */
     private String path;
     /**
-     * 是否隐藏
-     */
-    private Boolean hidden;
-    /**
-     * 重定向
-     */
-    private String redirect;
-    /**
      * 组件地址
      */
     private String component;
     /**
-     * 总是显示
+     * 重定向
      */
-    private Boolean alwaysShow;
+    private String redirect;
     /**
      * 路由元数据
      */

@@ -186,55 +186,45 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
     public List<VueMenuVO> buildVueMenus(List<TreeMenuDTO> treeMenu) {
         List<VueMenuVO> list = new LinkedList<>();
         treeMenu.forEach(menu -> {
-                    if (menu != null) {
-                        List<TreeMenuDTO> menuDtoList = menu.getChildren();
-                        // 前端路由
-                        VueMenuVO menuVo = new VueMenuVO();
-                        // 一级目录需要加斜杠，不然会报警告 path
-                        if (!menu.getPath().startsWith(ROOT_PATH)
-                                &&
-                                (menu.getParentId() == null || menu.getParentId() == -1)) {
-                            menuVo.setPath(ROOT_PATH + menu.getPath());
-                        } else {
-                            menuVo.setPath(menu.getPath());
-                        }
-                        // 组件名称 name
-                        menuVo.setName(menu.getEnname());
-                        //是否隐藏
-                        menuVo.setHidden(false);
-                        // component
-                        if (menu.getParentId() == null || menu.getParentId() == -1) {
-                            // 设置展开类型 默认 侧边栏
-                            menuVo.setComponent(StrUtil.isEmpty(menu.getComponent()) ? "Layout" :
-                                    menu.getComponent());
-                        } else if (!StrUtil.isEmpty(menu.getComponent())) {
-                            menuVo.setComponent(menu.getComponent());
-                        }
-                        // vue router meta
-                        menuVo.setMeta(new MenuMetaVO(menu.getTitle(), menu.getIcon(), false, true));
-
-                        if (menuDtoList != null && menuDtoList.size() != 0) {
-                            menuVo.setAlwaysShow(true);
-                            menuVo.setRedirect("noredirect");
-                            menuVo.setChildren(buildVueMenus(menuDtoList));
-                            // 处理是一级菜单并且没有子菜单的情况
-                        } else if (menu.getParentId() == null || menu.getParentId() == -1) {
-                            VueMenuVO menuVo1 = new VueMenuVO();
-                            menuVo1.setMeta(menuVo.getMeta());
-                            menuVo1.setName(menuVo.getName());
-                            menuVo1.setComponent(menuVo.getComponent());
-                            menuVo1.setPath(menu.getPath());
-
-                            menuVo.setName(null);
-                            menuVo.setMeta(null);
-                            menuVo.setComponent("Layout");
-                            List<VueMenuVO> list1 = new ArrayList<>();
-                            list1.add(menuVo1);
-                            menuVo.setChildren(list1);
-                        }
-                        list.add(menuVo);
+                if (menu != null) {
+                    VueMenuVO menuVO = new VueMenuVO();
+                    menuVO.setName(menu.getEnname());
+                    // 一级目录需要加斜杠，不然会报警告 path
+                    if (!menu.getPath().startsWith(ROOT_PATH)
+                        &&
+                        (menu.getParentId() == null || menu.getParentId() == -1)) {
+                        menuVO.setPath(ROOT_PATH + menu.getPath());
+                    } else {
+                        menuVO.setPath(menu.getPath());
                     }
+
+                    // component parent
+                    if (menu.getParentId()==null||menu.getParentId()==-1){
+                        menuVO.setComponent(StrUtil.isBlank(menu.getComponent())?"Layout":menu.getComponent());
+                    }else if(StrUtil.isNotBlank(menu.getComponent())){
+                        menuVO.setComponent(menu.getComponent());
+                    }
+
+                    // meta
+                    MenuMetaVO meta=new MenuMetaVO();
+                    meta.setRank(menu.getSort());
+                    meta.setShowLink(true);
+                    meta.setIcon(menu.getIcon());
+                    meta.setTitle(menu.getTitle());
+                    meta.setI18n(false);
+                    meta.setKeepAlive(false);
+                    menuVO.setMeta(meta);
+
+                    List<TreeMenuDTO> children = menu.getChildren();
+                    if (CollectionUtil.isNotEmpty(children)) {
+                        menuVO.setRedirect(children.get(0).getPath());
+                        menuVO.setChildren(buildVueMenus(children));
+                    } else {
+
+                    }
+                    list.add(menuVO);
                 }
+            }
         );
         return list;
     }

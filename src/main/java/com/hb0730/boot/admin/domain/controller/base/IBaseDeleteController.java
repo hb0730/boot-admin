@@ -9,6 +9,7 @@ import com.hb0730.boot.admin.domain.result.R;
 import com.hb0730.boot.admin.domain.service.ISuperBaseService;
 import com.hb0730.commons.lang.collection.CollectionUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +40,7 @@ public interface IBaseDeleteController<ID extends Serializable, ENTITY extends B
      * @param id id
      * @return 是否成功
      */
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     @SuppressWarnings({"rawtypes"})
     @Log(value = "删除", businessType = BusinessTypeEnum.DELETE)
     @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','delete')")

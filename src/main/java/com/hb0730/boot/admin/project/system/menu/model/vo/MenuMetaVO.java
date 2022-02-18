@@ -2,8 +2,10 @@ package com.hb0730.boot.admin.project.system.menu.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 前端菜单元
@@ -13,6 +15,7 @@ import java.io.Serializable;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class MenuMetaVO implements Serializable {
     /**
      * 页签标题
@@ -23,11 +26,23 @@ public class MenuMetaVO implements Serializable {
      */
     private String icon;
     /**
-     * 是否缓存
+     * 国际化
      */
-    private Boolean cache;
+    private Boolean i18n = false;
     /**
-     * 是否认证
+     * 是否在菜单中显示
      */
-    private Boolean auth;
+    private Boolean showLink;
+    /**
+     * 菜单升序排序，
+     */
+    private Integer rank;
+    /**
+     * 路由权限设置
+     */
+    private List<String> authority;
+    /**
+     * 路由组件缓存
+     */
+    private Boolean keepAlive;
 }

@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.Serializable;
@@ -41,7 +42,7 @@ public interface IBaseUpdateController<ID extends Serializable, DTO extends Base
      * @param dto 修改参数
      * @return 是否成功
      */
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     @SuppressWarnings({"rawtypes", "unchecked"})
     @Log(value = "修改", paramsName = {"dto"}, businessType = BusinessTypeEnum.UPDATE)
     @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','update')")
