@@ -80,7 +80,7 @@ public class PostController extends SuperSimpleBaseController<Long, PostDTO, Pos
     @Log(value = "导入", businessType = BusinessTypeEnum.IMPORT)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR','post:upload')")
     public Result<String> upload(MultipartFile file) throws IOException {
-        EasyExcel.read(file.getInputStream(), PostExcelDTO.class, new UploadDataListener<PostExcelDTO>(service));
+        EasyExcel.read(file.getInputStream(), PostExcelDTO.class, new UploadDataListener<PostExcelDTO>(service)).doReadAll();
         return R.success("导入成功");
     }
 }

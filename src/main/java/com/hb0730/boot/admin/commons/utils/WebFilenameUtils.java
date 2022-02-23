@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
  * @since 3.0.0
  */
 public class WebFilenameUtils {
-    private static final String DISPOSITION_FORMAT = "attachment; filename=\"%s\"; filename*=utf-8''%s";
+    private static final String DISPOSITION_FORMAT = "attachment; filename=%s; filename*=utf-8''%s";
 
     /**
      * 未编码文件名转Content-Disposition值
