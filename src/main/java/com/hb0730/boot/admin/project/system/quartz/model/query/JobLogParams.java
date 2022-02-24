@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.system.quartz.model.query;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hb0730.boot.admin.domain.model.query.BaseParams;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,6 +24,8 @@ public class JobLogParams extends BaseParams {
     private String jobName;
     private String jobGroup;
     private Integer status;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
 }
