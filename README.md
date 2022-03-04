@@ -22,9 +22,12 @@
 * mail邮件服务
 
 ## 在线预览
-https://admin-v4.hb0730.com 
+https://admin-v4.hb0730.com
 
-**能不能访问凭运气,server Host: HK,Redis Server: HK,Mysql Server:HK**
+`Administrator/123456`
+**能不能访问凭运气,Java Server: HK,Redis Server: HK,Mysql Server:HK**
+
+**停止vue2在线预览**
 
 ## 系统功能
 *用户管理：提供用户的相关配置,支持用户的相关操作
