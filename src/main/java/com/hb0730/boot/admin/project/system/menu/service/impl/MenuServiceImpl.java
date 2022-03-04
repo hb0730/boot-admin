@@ -2,6 +2,7 @@ package com.hb0730.boot.admin.project.system.menu.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -28,6 +29,7 @@ import com.hb0730.boot.admin.project.system.permission.mapper.IPermissionMapper;
 import com.hb0730.boot.admin.project.system.permission.model.entity.PermissionEntity;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.security.utils.SecurityUtils;
+import com.hb0730.commons.lang.constants.RegexConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.ApplicationEventPublisher;
@@ -194,19 +196,22 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
                         &&
                         (menu.getParentId() == null || menu.getParentId() == -1)) {
                         menuVO.setPath(ROOT_PATH + menu.getPath());
+                    } else if (ReUtil.isMatch("^(http[s]{0,1})://([\\w.]+\\/?)\\S*", menu.getPath())) {
+                        menuVO.setName(menu.getPath());
+                        menuVO.setPath(ROOT_PATH + menu.getEnname());
                     } else {
                         menuVO.setPath(menu.getPath());
                     }
 
                     // component parent
-                    if (menu.getParentId()==null||menu.getParentId()==-1){
-                        menuVO.setComponent(StrUtil.isBlank(menu.getComponent())?"Layout":menu.getComponent());
-                    }else if(StrUtil.isNotBlank(menu.getComponent())){
+                    if (menu.getParentId() == null || menu.getParentId() == -1) {
+                        menuVO.setComponent(StrUtil.isBlank(menu.getComponent()) ? "Layout" : menu.getComponent());
+                    } else if (StrUtil.isNotBlank(menu.getComponent())) {
                         menuVO.setComponent(menu.getComponent());
                     }
 
                     // meta
-                    MenuMetaVO meta=new MenuMetaVO();
+                    MenuMetaVO meta = new MenuMetaVO();
                     meta.setRank(menu.getSort());
                     meta.setShowLink(true);
                     meta.setIcon(menu.getIcon());
@@ -219,8 +224,6 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
                     if (CollectionUtil.isNotEmpty(children)) {
                         menuVO.setRedirect(children.get(0).getPath());
                         menuVO.setChildren(buildVueMenus(children));
-                    } else {
-
                     }
                     list.add(menuVO);
                 }
