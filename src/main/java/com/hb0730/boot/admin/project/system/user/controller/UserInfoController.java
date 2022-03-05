@@ -25,6 +25,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -82,7 +83,7 @@ public class UserInfoController extends SuperSimpleBaseController<Long, UserInfo
      * @param account 账号信息
      * @return 是否成功
      */
-    @PostMapping("/update/password/{id}")
+    @PutMapping("/update/password/{id}")
     public Result<String> updatePassword(@PathVariable("id") Long id, @RequestBody @Validated UserAccount account) {
         String newPassword = account.getNewPassword();
         String newPassword2 = account.getNewPassword2();
