@@ -40,7 +40,7 @@ import java.util.List;
  * @since 2020-09-04
  */
 @RestController
-@RequestMapping("/api/v3/system/post")
+@RequestMapping("/system/post")
 @PreAuth("post")
 @ClassDescribe("岗位管理")
 public class PostController extends SuperSimpleBaseController<Long, PostDTO, PostParams, PostEntity> implements IBasePoiController<PostParams> {

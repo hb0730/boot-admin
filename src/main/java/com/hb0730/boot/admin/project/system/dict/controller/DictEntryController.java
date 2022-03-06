@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 3.0.0
  */
 @RestController
-@RequestMapping("/api/v3/system/dict/entry")
+@RequestMapping("/system/dict/entry")
 @ClassDescribe("数据字典项")
 @PreAuth("dict:entry")
 public class DictEntryController extends SuperSimpleBaseController<Long, DictEntryDTO, DictEntryParams, DictEntryEntity> {

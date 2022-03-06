@@ -24,7 +24,7 @@ import java.util.List;
  * @since 3.0.0
  */
 @RestController
-@RequestMapping("/api/v3/system/permission")
+@RequestMapping("/system/permission")
 @Validated
 @ClassDescribe("权限管理")
 @PreAuth("permission")

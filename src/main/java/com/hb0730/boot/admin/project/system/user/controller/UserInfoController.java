@@ -39,7 +39,7 @@ import javax.servlet.http.HttpServletRequest;
  * @since 3.0.0
  */
 @RestController
-@RequestMapping("/api/v3/system/user/info")
+@RequestMapping("/system/user/info")
 @PreAuth("user")
 @ClassDescribe("用户管理")
 public class UserInfoController extends SuperSimpleBaseController<Long, UserInfoDTO, UserInfoParams, UserInfoEntity> {

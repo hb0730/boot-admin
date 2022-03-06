@@ -26,7 +26,7 @@ import java.util.List;
  * @since 3.0.0
  */
 @RestController
-@RequestMapping("/api/v3/system/menu")
+@RequestMapping("/system/menu")
 @PreAuth("menu")
 @ClassDescribe("菜单管理")
 public class MenuController extends SuperSimpleBaseController<Long, MenuDTO, MenuParams, MenuEntity> {

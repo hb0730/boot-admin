@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 3.0.0
  */
 @RestController
-@RequestMapping("/api/v3/system/user/account")
+@RequestMapping("/system/user/account")
 @Validated
 public class UserAccountController extends SuperSimpleBaseController<Long, UserAccountDTO, UserAccountParams, UserAccountEntity> {
     private final IUserAccountService service;

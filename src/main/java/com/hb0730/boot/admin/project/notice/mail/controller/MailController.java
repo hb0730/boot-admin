@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
  * @author bing_huang
  */
 @RestController()
-@RequestMapping("/api/v3/message/mail")
+@RequestMapping("/message/mail")
 @Validated
 @RequiredArgsConstructor
 @ClassDescribe("邮件服务")

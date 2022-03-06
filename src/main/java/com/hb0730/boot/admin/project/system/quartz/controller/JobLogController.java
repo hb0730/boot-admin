@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 3.0.0
  */
 @RestController
-@RequestMapping("/api/v3/system/job/log")
+@RequestMapping("/system/job/log")
 @ClassDescribe("任务日志")
 @PreAuth("job:log")
 public class JobLogController extends SuperSimpleBaseController<Long, JobLogDTO, JobLogParams, JobLogEntity> {

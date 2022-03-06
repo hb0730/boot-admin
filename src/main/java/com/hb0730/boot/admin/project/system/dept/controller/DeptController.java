@@ -25,7 +25,7 @@ import java.util.Set;
  * @since 3.0.0
  */
 @RestController
-@RequestMapping("/api/v3/system/dept")
+@RequestMapping("/system/dept")
 @ClassDescribe("部门管理")
 @PreAuth("dept")
 public class DeptController extends SuperSimpleBaseController<Long, DeptDTO, DeptParams, DeptEntity> {

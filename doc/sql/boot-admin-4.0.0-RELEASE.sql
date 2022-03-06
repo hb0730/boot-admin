@@ -4,7 +4,7 @@
  Source Server         : RDS-aliyun-hk
  Source Server Type    : MySQL
  Source Server Version : 80025
- Source Host           : rm-j6cq859ajhrr6b6ta9o.mysql.rds.aliyuncs.com:3306
+ Source Host           :
  Source Schema         : boot-admin-v4
 
  Target Server Type    : MySQL

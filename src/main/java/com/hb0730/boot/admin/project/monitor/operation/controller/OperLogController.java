@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 3.0.0
  */
 @RestController
-@RequestMapping("/api/v3/monitor/operation/log")
+@RequestMapping("/monitor/operation/log")
 @ClassDescribe("操作日志")
 @PreAuth("oper:log")
 public class OperLogController extends SuperSimpleBaseController<Long, OperLogDTO, OperLogParams, OperLogEntity> {

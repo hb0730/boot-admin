@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 3.0.0
  */
 @RestController
-@RequestMapping("/api/v3/monitor/log/login")
+@RequestMapping("/monitor/log/login")
 @PreAuth("login:log")
 @ClassDescribe("登录日志")
 public class LoginLogController extends SuperSimpleBaseController<Long, LoginLogDTO, LoginLogParams, LoginLogEntity> {

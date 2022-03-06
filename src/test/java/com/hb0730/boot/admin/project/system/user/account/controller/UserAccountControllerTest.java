@@ -38,7 +38,7 @@ public class UserAccountControllerTest extends ProjectTest {
         try {
             MvcResult result = mvc.perform(
                     MockMvcRequestBuilders
-                            .post("/api/v3/system/user/account/list/page")
+                            .post("/system/user/account/list/page")
                             .accept(MediaType.APPLICATION_JSON_UTF8)
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .content(JsonUtils.objectToJson(new UserAccountParams()))

@@ -24,7 +24,7 @@ import java.util.List;
  * @since 3.0.0
  */
 @RestController
-@RequestMapping("/api/v3/system/dict")
+@RequestMapping("/system/dict")
 @ClassDescribe("数据字典")
 @PreAuth("dict")
 public class DictController extends SuperSimpleBaseController<Long, DictDTO, DictParams, DictEntity> {

@@ -24,7 +24,7 @@ import java.util.List;
  * @since 3.0.0
  */
 @RestController
-@RequestMapping("/api/v3/system/role")
+@RequestMapping("/system/role")
 @PreAuth("role")
 @ClassDescribe("角色管理")
 public class RoleController extends SuperSimpleBaseController<Long, RoleExtDTO, RoleParams, RoleEntity> {

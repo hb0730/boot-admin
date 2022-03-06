@@ -23,7 +23,7 @@ import java.util.List;
  * @since 3.0.0
  */
 @RestController
-@RequestMapping("/api/v3/monitor/online/user")
+@RequestMapping("/monitor/online/user")
 @RequiredArgsConstructor
 @ClassDescribe("在线用户")
 public class UserOnlineController {

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 3.0.0
  */
 @RestController
-@RequestMapping("/api/v3/system/option")
+@RequestMapping("/system/option")
 public class OptionController extends SuperSimpleBaseController<Long, OptionDTO, OptionParams, OptionEntity> {
     private final IOptionService service;
 
