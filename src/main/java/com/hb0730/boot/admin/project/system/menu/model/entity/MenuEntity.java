@@ -35,6 +35,31 @@ public class MenuEntity extends BaseDomain {
     private Long id;
 
     /**
+     * 是否外链
+     */
+    @TableField("is_external")
+    private Integer external;
+    /**
+     * iframe菜单
+     */
+    @TableField("is_iframe")
+    private Integer iframe;
+    /**
+     * cache
+     */
+    @TableField("is_cache")
+    private Integer cache;
+    /**
+     * 是否可见
+     */
+    @TableField("is_hidden")
+    private Integer hidden;
+    /**
+     * 是否18n;
+     */
+    @TableField("is_i18n")
+    private Integer i18n;
+    /**
      * 名称
      */
     @TableField("name")

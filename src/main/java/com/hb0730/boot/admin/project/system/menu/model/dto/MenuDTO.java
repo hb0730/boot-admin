@@ -30,13 +30,31 @@ public class MenuDTO extends BaseDTO {
      * id
      */
     private Long id;
-
+    /**
+     * 是否外链
+     */
+    private Integer external;
+    /**
+     * iframe菜单
+     */
+    private Integer iframe;
+    /**
+     * cache
+     */
+    private Integer cache;
+    /**
+     * 是否可见
+     */
+    private Integer hidden;
+    /**
+     * 是否18n;
+     */
+    private Integer i18n;
     /**
      * 名称
      */
     @NotBlank(message = "名称不为空")
     private String title;
-
     /**
      * 英语名称
      */
@@ -71,4 +89,49 @@ public class MenuDTO extends BaseDTO {
     @Min(value = 0, message = "最小只能为0")
     @Max(value = 999, message = "最大为999")
     private Integer sort;
+
+    /**
+     * 是否外链
+     *
+     * @return 是否外链
+     */
+    public boolean isExternal() {
+        return this.external == 1;
+    }
+
+    /**
+     * 是否显示
+     *
+     * @return 是否显示
+     */
+    public boolean isShowLink() {
+        return this.hidden == 0;
+    }
+
+    /**
+     * 是否i18n
+     *
+     * @return i18n
+     */
+    public boolean isI18n() {
+        return this.i18n == 1;
+    }
+
+    /**
+     * 是否iframe
+     *
+     * @return iframe
+     */
+    public boolean isIframe() {
+        return this.iframe == 1;
+    }
+
+    /**
+     * 是否缓存
+     *
+     * @return 是否缓存
+     */
+    public boolean isCache() {
+        return this.cache == 1;
+    }
 }

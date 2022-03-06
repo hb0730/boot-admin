@@ -2,7 +2,6 @@ package com.hb0730.boot.admin.project.system.menu.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -29,7 +28,6 @@ import com.hb0730.boot.admin.project.system.permission.mapper.IPermissionMapper;
 import com.hb0730.boot.admin.project.system.permission.model.entity.PermissionEntity;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.security.utils.SecurityUtils;
-import com.hb0730.commons.lang.constants.RegexConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.ApplicationEventPublisher;
@@ -188,47 +186,44 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
     public List<VueMenuVO> buildVueMenus(List<TreeMenuDTO> treeMenu) {
         List<VueMenuVO> list = new LinkedList<>();
         treeMenu.forEach(menu -> {
-                if (menu != null) {
-                    VueMenuVO menuVO = new VueMenuVO();
-                    menuVO.setName(menu.getEnname());
-                    // 一级目录需要加斜杠，不然会报警告 path
-                    if (!menu.getPath().startsWith(ROOT_PATH)
-                        &&
-                        (menu.getParentId() == null || menu.getParentId() == -1)) {
-                        menuVO.setPath(ROOT_PATH + menu.getPath());
-                    } else if (ReUtil.isMatch("^(http[s]{0,1})://([\\w.]+\\/?)\\S*", menu.getPath())) {
-                        menuVO.setName(menu.getPath());
-                        menuVO.setPath(ROOT_PATH + menu.getEnname());
-                    } else {
-                        menuVO.setPath(menu.getPath());
-                    }
-
-                    // component parent
-                    if (menu.getParentId() == null || menu.getParentId() == -1) {
-                        menuVO.setComponent(StrUtil.isBlank(menu.getComponent()) ? "Layout" : menu.getComponent());
-                    } else if (StrUtil.isNotBlank(menu.getComponent())) {
-                        menuVO.setComponent(menu.getComponent());
-                    }
-
-                    // meta
-                    MenuMetaVO meta = new MenuMetaVO();
-                    meta.setRank(menu.getSort());
-                    meta.setShowLink(true);
-                    meta.setIcon(menu.getIcon());
-                    meta.setTitle(menu.getTitle());
-                    meta.setI18n(false);
-                    meta.setKeepAlive(false);
-                    menuVO.setMeta(meta);
-
-                    List<TreeMenuDTO> children = menu.getChildren();
-                    if (CollectionUtil.isNotEmpty(children)) {
-                        menuVO.setRedirect(children.get(0).getPath());
-                        menuVO.setChildren(buildVueMenus(children));
-                    }
-                    list.add(menuVO);
+            if (null != menu) {
+                VueMenuVO menuVO = new VueMenuVO();
+                //组件名称
+                menuVO.setName(menu.getEnname());
+                //地址
+                menuVO.setPath(menu.getPath());
+                //判断外链
+                if (menu.isExternal()) {
+                    menuVO.setName(menu.getPath());
+                    menuVO.setPath(ROOT_PATH + menu.getEnname());
                 }
+                //判断组件
+                if (StrUtil.isNotBlank(menu.getComponent())) {
+                    menuVO.setComponent(menu.getComponent());
+                } else if (!menu.isExternal()){
+                    menuVO.setComponent("Layout");
+                }
+
+                //meta
+                MenuMetaVO metaVO = new MenuMetaVO();
+                metaVO.setTitle(menu.getTitle());
+                metaVO.setIcon(menu.getIcon());
+                metaVO.setShowLink(menu.isShowLink());
+                metaVO.setI18n(menu.isI18n());
+                metaVO.setKeepAlive(menu.isCache());
+                metaVO.setRank(menu.getSort());
+                if (menu.isIframe()) {
+                    metaVO.setFrameSrc(menu.getPath());
+                }
+                menuVO.setMeta(metaVO);
+                List<TreeMenuDTO> children = menu.getChildren();
+                if (CollectionUtil.isNotEmpty(children)) {
+                    menuVO.setRedirect(children.get(0).getPath());
+                    menuVO.setChildren(buildVueMenus(children));
+                }
+                list.add(menuVO);
             }
-        );
+        });
         return list;
     }
 

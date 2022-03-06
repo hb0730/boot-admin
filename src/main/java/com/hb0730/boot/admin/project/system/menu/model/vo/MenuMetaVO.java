@@ -30,6 +30,10 @@ public class MenuMetaVO implements Serializable {
      */
     private Boolean i18n = false;
     /**
+     * iframe
+     */
+    private String frameSrc;
+    /**
      * 是否在菜单中显示
      */
     private Boolean showLink;
