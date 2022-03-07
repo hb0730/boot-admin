@@ -1,11 +1,10 @@
-FROM adoptopenjdk:8-jre-hotspot as builder
+FROM adoptopenjdk:11-jre-hotspot as builder
 WORKDIR application
 ARG JAR_FILE=./*.jar
 COPY ${JAR_FILE} application.jar
 RUN java -Djarmode=layertools -jar application.jar extract
 
-FROM adoptopenjdk:8-jre-hotspot
-MAINTAINER hb0730 <huangbing0730@gmail.com>
+FROM adoptopenjdk:11-jre-hotspot
 WORKDIR application
 COPY --from=builder application/dependencies/ ./
 COPY --from=builder application/spring-boot-loader/ ./
