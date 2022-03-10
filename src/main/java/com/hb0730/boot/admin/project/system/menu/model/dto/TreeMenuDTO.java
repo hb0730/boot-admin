@@ -16,7 +16,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @ToString
 public class TreeMenuDTO extends MenuDTO {
-
     /**
      * 子树
      */

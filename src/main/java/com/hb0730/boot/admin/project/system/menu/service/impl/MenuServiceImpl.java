@@ -200,7 +200,7 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
                 //判断组件
                 if (StrUtil.isNotBlank(menu.getComponent())) {
                     menuVO.setComponent(menu.getComponent());
-                } else if (!menu.isExternal()){
+                } else if (!menu.isExternal()) {
                     menuVO.setComponent("Layout");
                 }
 
@@ -212,6 +212,9 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
                 metaVO.setI18n(menu.isI18n());
                 metaVO.setKeepAlive(menu.isCache());
                 metaVO.setRank(menu.getSort());
+                metaVO.setShowParent(menu.isShowParent());
+                metaVO.setAuthority(menu.getAuthority());
+                // iframe
                 if (menu.isIframe()) {
                     metaVO.setFrameSrc(menu.getPath());
                 }

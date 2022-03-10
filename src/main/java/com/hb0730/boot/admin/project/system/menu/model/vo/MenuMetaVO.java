@@ -38,6 +38,10 @@ public class MenuMetaVO implements Serializable {
      */
     private Boolean showLink;
     /**
+     * 是否显示父级菜单
+     */
+    private Boolean showParent = true;
+    /**
      * 菜单升序排序，
      */
     private Integer rank;

@@ -31,6 +31,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -83,12 +84,15 @@ public class MenuEventListener implements ApplicationListener<MenuEvent> {
             return Lists.newArrayList();
         }
         LambdaQueryWrapper<PermissionEntity> queryWrapper = Wrappers.lambdaQuery(PermissionEntity.class)
-                .in(PermissionEntity::getId, permissionIds)
-                .select(PermissionEntity::getMenuId);
+            .in(PermissionEntity::getId, permissionIds)
+            .select(PermissionEntity::getMenuId,PermissionEntity::getPermission);
+        //权限
         List<PermissionEntity> permissionEntities = ((UserInfoServiceImpl) userInfoService.getThis()).getPermissionService().list(queryWrapper);
         if (CollectionUtils.isEmpty(permissionEntities)) {
             return Lists.newArrayList();
         }
+        Map<Long, List<String>> permissionMapping = permissionEntities.stream().collect(Collectors.groupingBy(PermissionEntity::getMenuId,
+            Collectors.mapping(PermissionEntity::getPermission, Collectors.toList())));
         // 菜单
         List<Long> menuIds = permissionEntities.parallelStream().map(PermissionEntity::getMenuId).collect(Collectors.toList());
         Set<MenuEntity> entities = Sets.newHashSet();
@@ -96,7 +100,11 @@ public class MenuEventListener implements ApplicationListener<MenuEvent> {
             entities.addAll(menuService.getSuperior(menuId, Lists.newArrayList()));
         }
         List<MenuEntity> menuEntities = entities.stream().sorted(Comparator.comparing(MenuEntity::getSort)).collect(Collectors.toList());
-        return BeanUtil.copyToList(menuEntities, TreeMenuDTO.class);
+        List<TreeMenuDTO> treeMenu = BeanUtil.copyToList(menuEntities, TreeMenuDTO.class);
+        for (TreeMenuDTO menu : treeMenu) {
+            menu.setAuthority(permissionMapping.get(menu.getId()));
+        }
+        return treeMenu;
     }
 
     private UserDTO findUserById(Long userId) {

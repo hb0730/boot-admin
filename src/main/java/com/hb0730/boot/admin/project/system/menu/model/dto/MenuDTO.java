@@ -8,6 +8,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 菜单
@@ -46,6 +48,11 @@ public class MenuDTO extends BaseDTO {
      * 是否可见
      */
     private Integer hidden;
+    /**
+     * 是否显示父类
+     */
+    private Integer showParent;
+
     /**
      * 是否18n;
      */
@@ -89,6 +96,10 @@ public class MenuDTO extends BaseDTO {
     @Min(value = 0, message = "最小只能为0")
     @Max(value = 999, message = "最大为999")
     private Integer sort;
+    /**
+     * 权限标识符
+     */
+    private List<String> authority;
 
     /**
      * 是否外链
@@ -127,11 +138,32 @@ public class MenuDTO extends BaseDTO {
     }
 
     /**
+     * 是否显示父级菜单
+     *
+     * @return 是否显示
+     */
+    public boolean isShowParent() {
+        return this.showParent == 1;
+    }
+
+    /**
      * 是否缓存
      *
      * @return 是否缓存
      */
     public boolean isCache() {
         return this.cache == 1;
+    }
+
+    public MenuDTO addAuth(String auth) {
+        return this.addAuths(List.of(auth));
+    }
+
+    public MenuDTO addAuths(List<String> auths) {
+        if (null == this.authority) {
+            this.authority = new ArrayList<>();
+        }
+        this.authority.addAll(auths);
+        return this;
     }
 }

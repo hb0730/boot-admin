@@ -60,6 +60,11 @@ public class MenuEntity extends BaseDomain {
     @TableField("is_i18n")
     private Integer i18n;
     /**
+     * 是否显示父级菜单
+     */
+    @TableField("is_show_parent")
+    private Integer showParent;
+    /**
      * 名称
      */
     @TableField("name")
@@ -107,7 +112,7 @@ public class MenuEntity extends BaseDomain {
 
     public static final String NAME = "title";
 
-    public static final String ENNAME="enname";
+    public static final String ENNAME = "enname";
 
     public static final String PARENT_ID = "parent_id";
 
