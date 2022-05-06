@@ -4,10 +4,12 @@ services:
     restart: always
     image: boot-admin:v4
     environment:
-      - JAVA_OPTS=-server -Dspring.profiles.active=prod
+      - JAVA_OPTS=-server -Dspring.profiles.active=prod -Dspring.config.additional-location=/application/conf/
       - TZ=Asia/Shanghai
     # ports:
     #   - 8088:8088
+    volumes:
+      - ./conf:/application/conf
     container_name: boot-admin-v4
     networks:
       - docker-net
