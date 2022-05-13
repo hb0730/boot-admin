@@ -80,6 +80,14 @@ public class QueryWrapperUtils {
         return queryWrapper;
     }
 
+    /**
+     * 动态拼接过滤参数
+     *
+     * @param params   过滤参数
+     * @param <PARAMS> 参数类型
+     * @param <ENTITY> 实体类型
+     * @return {@link LambdaQueryWrapper}
+     */
     public static <PARAMS extends BaseParams, ENTITY extends BaseDomain> LambdaQueryWrapper<ENTITY> getLambdaQuery(@NonNull PARAMS params) {
         QueryWrapper<ENTITY> query = getQuery(params);
         return query.lambda();
