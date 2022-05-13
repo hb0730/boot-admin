@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.commons.utils;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
@@ -77,5 +78,10 @@ public class QueryWrapperUtils {
             queryWrapper.orderBy(true, SortTypeEnum.ASC.getValue().equals(params.getSortType()), Lists.newArrayList(array));
         }
         return queryWrapper;
+    }
+
+    public static <PARAMS extends BaseParams, ENTITY extends BaseDomain> LambdaQueryWrapper<ENTITY> getLambdaQuery(@NonNull PARAMS params) {
+        QueryWrapper<ENTITY> query = getQuery(params);
+        return query.lambda();
     }
 }
