@@ -15,4 +15,6 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString
 public class DeptParams extends BaseParams {
+    private String name;
+    private Integer isEnabled;
 }

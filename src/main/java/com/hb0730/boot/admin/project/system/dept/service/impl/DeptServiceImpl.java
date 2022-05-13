@@ -1,8 +1,11 @@
 package com.hb0730.boot.admin.project.system.dept.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.domain.service.impl.SuperBaseServiceImpl;
 import com.hb0730.boot.admin.project.system.dept.mapper.IDeptMapper;
 import com.hb0730.boot.admin.project.system.dept.model.dto.DeptDTO;
@@ -18,6 +21,7 @@ import org.springframework.util.Assert;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
@@ -32,6 +36,20 @@ import java.util.stream.Collectors;
  */
 @Service
 public class DeptServiceImpl extends SuperBaseServiceImpl<Long, DeptParams, DeptDTO, DeptEntity, IDeptMapper> implements IDeptService {
+
+    @Override
+    public QueryWrapper<DeptEntity> query(@Nonnull DeptParams params) {
+        QueryWrapper<DeptEntity> query = QueryWrapperUtils.getQuery(params);
+        String name = params.getName();
+        if (StrUtil.isNotBlank(name)) {
+            query.like(DeptEntity.NAME, name);
+        }
+        Integer isEnabled = params.getIsEnabled();
+        if (Objects.nonNull(isEnabled)) {
+            query.eq(DeptEntity.IS_ENABLED, isEnabled);
+        }
+        return query;
+    }
 
     @Override
     public boolean updateById(DeptEntity entity) {
@@ -55,6 +73,20 @@ public class DeptServiceImpl extends SuperBaseServiceImpl<Long, DeptParams, Dept
             ids.addAll(childrenId.stream().map(DeptDTO::getId).collect(Collectors.toSet()));
         }
         ids.add(firstId);
+        return super.removeByIds(ids);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean removeByIds(Collection<?> list) {
+        Set<Long> ids = Sets.newHashSet();
+        for (Object id : list) {
+            List<DeptDTO> children = this.getChildrenByParenId((Long) id);
+            if (!CollectionUtils.isEmpty(children)) {
+                ids.addAll(children.stream().map(DeptDTO::getId).collect(Collectors.toSet()));
+            }
+            ids.add((Long) id);
+        }
         return super.removeByIds(ids);
     }
 
