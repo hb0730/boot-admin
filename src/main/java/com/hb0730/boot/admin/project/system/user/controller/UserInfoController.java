@@ -102,7 +102,7 @@ public class UserInfoController extends SuperSimpleBaseController<Long, UserInfo
      * @return 是否成功
      */
     @GetMapping("/rest/password/{id}")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR','user;rest:password')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR','user:rest:password')")
     @Log(value = "重置密码")
     public Result<String> restPassword(@PathVariable("id") Long id) {
         UserInfoEntity entity = service.getById(id);

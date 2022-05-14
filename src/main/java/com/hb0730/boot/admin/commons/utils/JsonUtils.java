@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hb0730.boot.admin.exceptions.JsonException;
 import lombok.experimental.UtilityClass;
 import org.springframework.util.Assert;
@@ -20,6 +22,10 @@ import java.util.Map;
 @UtilityClass
 public class JsonUtils {
     private static final ObjectMapper MAPPER = new ObjectMapper();
+    static {
+        JavaTimeModule timeModule = new JavaTimeModule();
+        MAPPER.registerModules(timeModule);
+    }
 
     /**
      * json 字符串转对象,会使用默认转换
