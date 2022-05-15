@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.monitor.login.log.model.query;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hb0730.boot.admin.domain.model.query.BaseParams;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,6 +22,8 @@ public class LoginLogParams extends BaseParams {
     private String username;
     private String loginIp;
     private Integer status;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime startTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime endTime;
 }

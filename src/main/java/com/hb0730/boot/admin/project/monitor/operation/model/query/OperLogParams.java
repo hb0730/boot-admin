@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.monitor.operation.model.query;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hb0730.boot.admin.domain.model.query.BaseParams;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,9 +37,11 @@ public class OperLogParams extends BaseParams {
     /**
      * 开始时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime startTime;
     /**
      * 结束时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime endTime;
 }

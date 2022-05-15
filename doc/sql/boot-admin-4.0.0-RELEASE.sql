@@ -518,14 +518,15 @@ INSERT INTO `t_sys_dict`
 VALUES (3, -1, '2020-09-06 23:25:36', -1, '2020-09-07 07:04:35', 1, 0, '', 1302749820213030914, '用户性别',
         'sys_user_gender');
 INSERT INTO `t_sys_dict`
-VALUES (2, -1, '2020-09-06 23:29:51', -1, '2020-09-06 23:34:11', 1, 0, '', 1302750889848631298, '系统状态',
-        'sys_common_status');
-INSERT INTO `t_sys_dict`
 VALUES (1, -1, '2020-09-07 04:57:10', NULL, NULL, 1, 0, '', 1302833264498651138, '任务分组', 'sys_job_group');
 INSERT INTO `t_sys_dict`
 VALUES (1, -1, '2020-09-09 06:00:31', NULL, NULL, 1, 0, '', 1303573982095642626, '操作类型', 'sys_oper_type');
 INSERT INTO `t_sys_dict`
 VALUES (1, -1, '2020-09-10 01:41:32', NULL, NULL, 1, 0, '', 1303871194717536257, '系统常量', 'sys_constant');
+INSERT INTO `t_sys_dict`
+VALUES (3, -1, '2020-09-06 23:29:51', -1, '2020-09-06 23:34:11', 1, 0, '', 1302750889848631298, '系统状态', 'sys_status');
+INSERT INTO `t_sys_dict`
+VALUES (1, -1, '2022-05-15 11:24:45', NULL, NULL, 1, 0, '', 1525678544818135041, '启用状态', 'sys_enable');
 
 -- ----------------------------
 -- Records of t_sys_dict_entry
@@ -536,10 +537,6 @@ INSERT INTO `t_sys_dict_entry`
 VALUES (1, -1, '2020-09-06 23:28:21', NULL, NULL, 1, 0, NULL, 1302750511375609857, 1302749820213030914, '女', '1', 2);
 INSERT INTO `t_sys_dict_entry`
 VALUES (1, -1, '2020-09-06 23:29:09', NULL, NULL, 1, 0, NULL, 1302750714396700673, 1302749820213030914, '未知', '2', 3);
-INSERT INTO `t_sys_dict_entry`
-VALUES (1, -1, '2020-09-06 23:30:13', NULL, NULL, 1, 0, NULL, 1302750984195305474, 1302750889848631298, '禁用', '0', 1);
-INSERT INTO `t_sys_dict_entry`
-VALUES (1, -1, '2020-09-06 23:30:27', NULL, NULL, 1, 0, NULL, 1302751041317531649, 1302750889848631298, '启用', '1', 0);
 INSERT INTO `t_sys_dict_entry`
 VALUES (1, -1, '2020-09-07 04:57:37', NULL, NULL, 1, 0, NULL, 1302833377216376833, 1302833264498651138, '默认', 'DEFAULT',
         1);
@@ -570,6 +567,16 @@ VALUES (1, -1, '2020-09-09 06:03:38', NULL, NULL, 1, 0, NULL, 130357476614947225
 INSERT INTO `t_sys_dict_entry`
 VALUES (1, -1, '2020-09-10 01:41:56', NULL, NULL, 1, 0, NULL, 1303871294541971458, 1303871194717536257,
         'default_password', '123456', 1);
+INSERT INTO `t_sys_dict_entry`
+VALUES (2, -1, '2020-09-06 23:30:13', -1, '2022-05-15 12:08:41', 1, 0, NULL, 1302750984195305474, 1302750889848631298,
+        '失败', '0', 1);
+INSERT INTO `t_sys_dict_entry`
+VALUES (2, -1, '2020-09-06 23:30:27', -1, '2022-05-15 12:08:46', 1, 0, NULL, 1302751041317531649, 1302750889848631298,
+        '成功', '1', 0);
+INSERT INTO `t_sys_dict_entry`
+VALUES (1, -1, '2022-05-15 11:25:00', NULL, NULL, 1, 0, '', 1525678605581017089, 1525678544818135041, '启用', '1', 1);
+INSERT INTO `t_sys_dict_entry`
+VALUES (1, -1, '2022-05-15 11:25:12', NULL, NULL, 1, 0, '', 1525678657313562626, 1525678544818135041, '禁用', '0', 2);
 
 -- ----------------------------
 -- Records of t_sys_job
@@ -593,23 +600,54 @@ truncate table `t_sys_job_log`;
 -- ----------------------------
 -- Records of t_sys_menu
 -- ----------------------------
-INSERT INTO `t_sys_menu` VALUES (4, -1, '2020-09-07 07:11:37', -1, '2022-02-19 08:45:21', 1, 0, NULL, 1, 0, 0, 0, 0,1,
-                                 0, '系统管理', 'systemManager', -1, '/system', '', 'fa fa-cogs', 10);
-INSERT INTO `t_sys_menu` VALUES (4, -1, '2020-09-07 07:12:51', -1, '2020-09-07 03:34:09', 1, 0, NULL, 2, 0, 0, 0, 0,
-                                 1, 0, '菜单管理', 'menuManager', 1, '/system/menu', 'system/menu/index', 'el-icon-menu', 13);
-INSERT INTO `t_sys_menu` VALUES (4, -1, '2020-09-06 23:16:12', -1, '2020-09-07 03:34:21', 1, 0, NULL, 1302747457825828866, 0, 0, 0, 0,1, 0, '部门管理', 'deptManager', 1, '/system/dept', 'system/dept/index', 'fa fa-sitemap', 14);
-INSERT INTO `t_sys_menu` VALUES (6, -1, '2020-09-06 23:16:48', -1, '2020-09-07 03:34:01', 1, 0, NULL, 1302747607004639233, 0, 0, 0, 0,1, 0, '角色管理', 'roleManager', 1, '/system/role', 'system/role/index', 'fa fa-user-secret', 12);
-INSERT INTO `t_sys_menu` VALUES (4, -1, '2020-09-06 23:17:47', -1, '2020-09-07 03:34:31', 1, 0, NULL, 1302747852438532097, 0, 0, 0, 0,1, 0, '岗位管理', 'postManger', 1, '/system/post', 'system/post/index', 'el-icon-postcard', 15);
-INSERT INTO `t_sys_menu` VALUES (9, -1, '2020-09-06 23:18:23', -1, '2022-02-15 08:35:54', 1, 0, NULL, 1302748004347834370, 0, 0, 0, 0,1, 0, '用户管理', 'userManager', 1, '/system/user', 'system/user/index', 'fa fa-users', 11);
-INSERT INTO `t_sys_menu` VALUES (2, -1, '2020-09-06 23:18:56', -1, '2022-02-23 09:33:00', 1, 0, NULL, 1302748141795176449, 0, 0, 0, 0,1, 0, '字典管理', 'dictManager', 1, '/system/dict', 'system/dict/index', 'fa fa-bookmark-o', 16);
-INSERT INTO `t_sys_menu` VALUES (2, -1, '2020-09-07 03:38:20', -1, '2022-02-23 09:33:54', 1, 0, NULL, 1302813425436504066, 0, 0, 0, 0,1, 0, '任务调度', 'scheduleManager', 1, '/system/job', 'system/job/index', 'fa fa-tasks', 17);
-INSERT INTO `t_sys_menu` VALUES (3, -1, '2020-09-08 06:16:13', -1, '2022-02-23 11:21:34', 1, 0, NULL, 1303215545302175746, 0, 0, 0, 0,1, 0, '系统监控', 'monitorManager', -1, '/monitor', '', 'el-icon-monitor', 20);
-INSERT INTO `t_sys_menu` VALUES (3, -1, '2020-09-08 06:17:58', -1, '2022-02-23 11:22:27', 1, 0, NULL, 1303215983061684225, 0, 0, 0, 0,1,0, '在线用户', 'onlineUser', 1303215545302175746, '/monitor/online/user', 'monitor/online/user/index', 'fa fa-user-circle-o', 21);
-INSERT INTO `t_sys_menu` VALUES (5, -1, '2020-09-09 05:58:35', -1, '2020-09-09 06:06:47', 1, 0, NULL, 1303573496625926146, 0, 0, 0, 0,1, 0, '操作日志', 'operLogManager', 1303215545302175746, '/monitor/operation', 'monitor/operation/index', 'fa fa-book', 22);
-INSERT INTO `t_sys_menu` VALUES (3, -1, '2020-09-09 08:31:31', -1, '2020-09-09 08:33:02', 1, 0, NULL, 1303611980636012546, 0, 0, 0, 0,1, 0, '登录日志', 'loginLogManager', 1303215545302175746, '/monitor/log/login', 'monitor/log/login/index', 'el-icon-notebook-2', 23);
-INSERT INTO `t_sys_menu` VALUES (3, -1, '2020-09-15 05:17:36', -1, '2022-02-23 11:24:29', 1, 0, NULL, 1305737508465725442, 0, 0, 0, 0,1, 0, '消息管理', 'messageManager', -1, '/message', '', 'fa fa-comment-o', 30);
-INSERT INTO `t_sys_menu` VALUES (5, -1, '2020-09-15 05:18:35', -1, '2022-02-23 11:25:11', 1, 0, NULL, 1305737755229212674, 0, 0, 0, 0,1,0, '邮件设置', 'mailManager', 1305737508465725442, '/message/mail', 'message/mail/index', 'el-icon-message', 31);
-INSERT INTO `t_sys_menu` VALUES (3, -1, '2022-03-10 11:36:13', -1, '2022-03-10 12:00:53', 1, 0, '', 1501763828068769793, 0, 0, 0, 1, 1, 0, '任务日志', 'jobLog', 1303215545302175746, '/monitor/log/job', 'monitor/log/job/index.vue', '', 24);
+INSERT INTO `t_sys_menu`
+VALUES (4, -1, '2020-09-07 07:11:37', -1, '2022-02-19 08:45:21', 1, 0, NULL, 1, 0, 0, 0, 0, 1,
+        0, '系统管理', 'systemManager', -1, '/system', '', 'fa fa-cogs', 10);
+INSERT INTO `t_sys_menu`
+VALUES (4, -1, '2020-09-07 07:12:51', -1, '2020-09-07 03:34:09', 1, 0, NULL, 2, 0, 0, 0, 0,
+        1, 0, '菜单管理', 'menuManager', 1, '/system/menu', 'system/menu/index', 'el-icon-menu', 13);
+INSERT INTO `t_sys_menu`
+VALUES (4, -1, '2020-09-06 23:16:12', -1, '2020-09-07 03:34:21', 1, 0, NULL, 1302747457825828866, 0, 0, 0, 0, 1, 0,
+        '部门管理', 'deptManager', 1, '/system/dept', 'system/dept/index', 'fa fa-sitemap', 14);
+INSERT INTO `t_sys_menu`
+VALUES (6, -1, '2020-09-06 23:16:48', -1, '2020-09-07 03:34:01', 1, 0, NULL, 1302747607004639233, 0, 0, 0, 0, 1, 0,
+        '角色管理', 'roleManager', 1, '/system/role', 'system/role/index', 'fa fa-user-secret', 12);
+INSERT INTO `t_sys_menu`
+VALUES (4, -1, '2020-09-06 23:17:47', -1, '2020-09-07 03:34:31', 1, 0, NULL, 1302747852438532097, 0, 0, 0, 0, 1, 0,
+        '岗位管理', 'postManger', 1, '/system/post', 'system/post/index', 'el-icon-postcard', 15);
+INSERT INTO `t_sys_menu`
+VALUES (9, -1, '2020-09-06 23:18:23', -1, '2022-02-15 08:35:54', 1, 0, NULL, 1302748004347834370, 0, 0, 0, 0, 1, 0,
+        '用户管理', 'userManager', 1, '/system/user', 'system/user/index', 'fa fa-users', 11);
+INSERT INTO `t_sys_menu`
+VALUES (2, -1, '2020-09-06 23:18:56', -1, '2022-02-23 09:33:00', 1, 0, NULL, 1302748141795176449, 0, 0, 0, 0, 1, 0,
+        '字典管理', 'dictManager', 1, '/system/dict', 'system/dict/index', 'fa fa-bookmark-o', 16);
+INSERT INTO `t_sys_menu`
+VALUES (2, -1, '2020-09-07 03:38:20', -1, '2022-02-23 09:33:54', 1, 0, NULL, 1302813425436504066, 0, 0, 0, 0, 1, 0,
+        '任务调度', 'scheduleManager', 1, '/system/job', 'system/job/index', 'fa fa-tasks', 17);
+INSERT INTO `t_sys_menu`
+VALUES (3, -1, '2020-09-08 06:16:13', -1, '2022-02-23 11:21:34', 1, 0, NULL, 1303215545302175746, 0, 0, 0, 0, 1, 0,
+        '系统监控', 'monitorManager', -1, '/monitor', '', 'el-icon-monitor', 20);
+INSERT INTO `t_sys_menu`
+VALUES (3, -1, '2020-09-08 06:17:58', -1, '2022-02-23 11:22:27', 1, 0, NULL, 1303215983061684225, 0, 0, 0, 0, 1, 0,
+        '在线用户', 'onlineUser', 1303215545302175746, '/monitor/online/user', 'monitor/online/user/index',
+        'fa fa-user-circle-o', 21);
+INSERT INTO `t_sys_menu`
+VALUES (5, -1, '2020-09-09 05:58:35', -1, '2020-09-09 06:06:47', 1, 0, NULL, 1303573496625926146, 0, 0, 0, 0, 1, 0,
+        '操作日志', 'operLogManager', 1303215545302175746, '/monitor/operation', 'monitor/operation/index', 'fa fa-book',
+        22);
+INSERT INTO `t_sys_menu`
+VALUES (3, -1, '2020-09-09 08:31:31', -1, '2020-09-09 08:33:02', 1, 0, NULL, 1303611980636012546, 0, 0, 0, 0, 1, 0,
+        '登录日志', 'loginLogManager', 1303215545302175746, '/monitor/log/login', 'monitor/log/login/index',
+        'el-icon-notebook-2', 23);
+INSERT INTO `t_sys_menu`
+VALUES (3, -1, '2020-09-15 05:17:36', -1, '2022-02-23 11:24:29', 1, 0, NULL, 1305737508465725442, 0, 0, 0, 0, 1, 0,
+        '消息管理', 'messageManager', -1, '/message', '', 'fa fa-comment-o', 30);
+INSERT INTO `t_sys_menu`
+VALUES (5, -1, '2020-09-15 05:18:35', -1, '2022-02-23 11:25:11', 1, 0, NULL, 1305737755229212674, 0, 0, 0, 0, 1, 0,
+        '邮件设置', 'mailManager', 1305737508465725442, '/message/mail', 'message/mail/index', 'el-icon-message', 31);
+INSERT INTO `t_sys_menu`
+VALUES (3, -1, '2022-03-10 11:36:13', -1, '2022-03-10 12:00:53', 1, 0, '', 1501763828068769793, 0, 0, 0, 1, 1, 0,
+        '任务日志', 'jobLog', 1303215545302175746, '/monitor/log/job', 'monitor/log/job/index.vue', '', 24);
 
 -- ----------------------------
 -- Records of t_sys_permission
@@ -753,8 +791,12 @@ VALUES (1, -1, '2020-09-15 05:22:04', NULL, NULL, 1, 0, '', 1305738631863914497,
 INSERT INTO `t_sys_permission`
 VALUES (1, -1, '2020-09-15 05:22:23', NULL, NULL, 1, 0, '', 1305738710540668930, '邮件保存', 'mail:save',
         1305737755229212674, 2);
-INSERT INTO `t_sys_permission` VALUES (2, -1, '2022-03-10 11:46:00', -1, '2022-03-10 11:46:23', 1, 0, '', 1501766292544180225, '任务日志查询', 'job:log:query', 1501763828068769793, 1);
-INSERT INTO `t_sys_permission` VALUES (2, -1, '2022-03-10 11:48:39', -1, '2022-03-10 11:49:40', 1, 0, '', 1501766958205390850, '任务日志删除', 'job:log:delete', 1501763828068769793, 2);
+INSERT INTO `t_sys_permission`
+VALUES (2, -1, '2022-03-10 11:46:00', -1, '2022-03-10 11:46:23', 1, 0, '', 1501766292544180225, '任务日志查询',
+        'job:log:query', 1501763828068769793, 1);
+INSERT INTO `t_sys_permission`
+VALUES (2, -1, '2022-03-10 11:48:39', -1, '2022-03-10 11:49:40', 1, 0, '', 1501766958205390850, '任务日志删除',
+        'job:log:delete', 1501763828068769793, 2);
 
 -- ----------------------------
 -- Records of t_sys_post
