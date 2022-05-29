@@ -10,7 +10,7 @@
 || 后端     | 前端                                    |
 |--------|---------------------------------------|----|
 | GitHub | https://github.com/hb0730/boot-admin  |https://github.com/hb0730/pure-admin-thin|
-| Gitee  | 	https://gitee.com/hb0730/boot-admin/ |
+| Gitee  | 	https://gitee.com/hb0730/boot-admin/ |https://gitee.com/hb0730/boot-admin-ui|
 
 ## 特征
 * 前端采用[vue-pure-admin](https://github.com/xiaoxian521/vue-pure-admin) (Vue3,Element-Plus,Vite)
@@ -43,9 +43,8 @@ https://admin-v4.hb0730.com
 * 邮件管理: 实现了系统mail服务
 
 ## 系统预览
-|<img src="https://raw.githubusercontent.com/hb0730/boot-admin-ui/v3/docs/view/boot-admin_v3_1.png">|<img src="https://raw.githubusercontent.com/hb0730/boot-admin-ui/v3/docs/view/boot-admin_v3_2.png">|
-|----|----|
-|<img src="https://raw.githubusercontent.com/hb0730/boot-admin-ui/v3/docs/view/boot-admin_v3_3.png">|<img src="https://raw.githubusercontent.com/hb0730/boot-admin-ui/v3/docs/view/boot-admin_v3_4.png">|
-|<img src="https://raw.githubusercontent.com/hb0730/boot-admin-ui/v3/docs/view/boot-admin_v3_5.png">|<img src="https://raw.githubusercontent.com/hb0730/boot-admin-ui/v3/docs/view/boot-admin_v3_6.png">|
-|<img src="https://raw.githubusercontent.com/hb0730/boot-admin-ui/v3/docs/view/boot-admin_v3_7.png">|<img src="https://raw.githubusercontent.com/hb0730/boot-admin-ui/v3/docs/view/boot-admin_v3_8.png">|
-|<img src="https://raw.githubusercontent.com/hb0730/boot-admin-ui/v3/docs/view/boot-admin_v3_9.png">||
+| <img src="https://raw.githubusercontent.com/hb0730/boot-admin/v4/doc/view/admin_index.png">         | <img src="https://raw.githubusercontent.com/hb0730/boot-admin/v4/doc/view/admin_users.png">         |
+|-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| <img src="https://raw.githubusercontent.com/hb0730/boot-admin/v4/doc/view/admin_menus.png">         | <img src="https://raw.githubusercontent.com/hb0730/boot-admin/v4/doc/view/admin_roles.png">         |
+| <img src="https://raw.githubusercontent.com/hb0730/boot-admin/v4/doc/view/admin_dept.png">          | <img src="https://raw.githubusercontent.com/hb0730/boot-admin/v4/doc/view/admin_dict.png">          |
+| <img src="https://raw.githubusercontent.com/hb0730/boot-admin/v4/doc/view/admin_quartz.png">        | |
