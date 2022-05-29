@@ -1,16 +1,22 @@
 version: '3.1'
 services:
-  boot-admin-v4:
+  boot_admin_v4:
     restart: always
     image: boot-admin:v4
     environment:
       - JAVA_OPTS=-server -Dspring.profiles.active=prod -Dspring.config.additional-location=/application/conf/
       - TZ=Asia/Shanghai
-    # ports:
-    #   - 8088:8088
     volumes:
       - ./conf:/application/conf
     container_name: boot-admin-v4
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=docker-net"
+      - "traefik.http.routers.boot_admin_v4.rule=(Host(`boot.hb0730.com`)&& PathPrefix(`/api/v4`))"
+      - "traefik.http.routers.boot_admin_v4.service=boot_service"
+      - "traefik.http.services.boot_service.loadbalancer.server.port=8088"
+      - "traefik.http.routers.boot_admin_v4.middlewares=stripprefix@docker"
+      - "traefik.http.middlewares.stripprefix.stripprefix.prefixes=/api/v4"
     networks:
       - docker-net
 networks:
