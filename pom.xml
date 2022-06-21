@@ -21,7 +21,7 @@
         <hutool.version>5.7.20</hutool.version>
 
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
-        <mysql.version>8.0.27</mysql.version>
+        <mysql.version>8.0.28</mysql.version>
         <guava.version>31.0.1-jre</guava.version>
         <velocity-engine.version>2.3</velocity-engine.version>
 
