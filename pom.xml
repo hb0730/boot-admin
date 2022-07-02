@@ -16,24 +16,24 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 
-        <spring.boot.version>2.6.3</spring.boot.version>
+        <spring.boot.version>2.6.9</spring.boot.version>
         <hb0730-commons.version>2.1.2-RELEASE</hb0730-commons.version>
-        <hutool.version>5.7.20</hutool.version>
+        <hutool.version>5.7.22</hutool.version>
 
-        <mybatis-plus.version>3.5.1</mybatis-plus.version>
-        <mysql.version>8.0.27</mysql.version>
-        <guava.version>31.0.1-jre</guava.version>
+        <mybatis-plus.version>3.5.2</mybatis-plus.version>
+        <mysql.version>8.0.28</mysql.version>
+        <guava.version>31.1-jre</guava.version>
         <velocity-engine.version>2.3</velocity-engine.version>
 
         <bitwalker.version>1.21</bitwalker.version>
-        <easyexcel.version>3.0.5</easyexcel.version>
+        <easyexcel.version>3.1.1</easyexcel.version>
     </properties>
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>2.6.2</version>
+                <version>${spring.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
