@@ -9,9 +9,9 @@ import com.hb0730.boot.admin.project.system.option.model.dto.OptionDTO;
 import com.hb0730.boot.admin.project.system.option.model.entity.OptionEntity;
 import com.hb0730.boot.admin.project.system.option.model.query.OptionParams;
 import com.hb0730.boot.admin.project.system.option.service.IOptionService;
+import com.hb0730.boot.admin.project.system.option.service.cache.OptionsCache;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -27,8 +27,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.hb0730.boot.admin.commons.constant.RedisConstant.OPTIONS_KEY_PREFIX;
-
 /**
  * options选项  服务实现类
  *
@@ -39,12 +37,14 @@ import static com.hb0730.boot.admin.commons.constant.RedisConstant.OPTIONS_KEY_P
 public class OptionServiceImpl extends SuperBaseServiceImpl<Long, OptionParams, OptionDTO, OptionEntity, IOptionMapper> implements IOptionService {
     private final ApplicationEventPublisher eventPublisher;
     private final Map<String, PropertyEnum> propertyEnumMap;
-    private final RedisTemplate<String, Map<String, Object>> redisTemplate;
+    //    private final RedisTemplate<String, Map<String, Object>> redisTemplate;
+    private final OptionsCache cache;
 
-    public OptionServiceImpl(ApplicationEventPublisher eventPublisher, RedisTemplate<String, Map<String, Object>> redisTemplate) {
+    public OptionServiceImpl(ApplicationEventPublisher eventPublisher, OptionsCache cache) {
         this.eventPublisher = eventPublisher;
         this.propertyEnumMap = Collections.unmodifiableMap(PropertyEnum.getValuePropertyEnumMap());
-        this.redisTemplate = redisTemplate;
+//        this.redisTemplate = redisTemplate;
+        this.cache = cache;
     }
 
     @Override
@@ -100,7 +100,7 @@ public class OptionServiceImpl extends SuperBaseServiceImpl<Long, OptionParams, 
     @Override
     @Nonnull
     public Map<String, Object> listOptions() {
-        Map<String, Object> value = redisTemplate.opsForValue().get(OPTIONS_KEY_PREFIX);
+        Map<String, Object> value = cache.getOptions();
         return Optional.ofNullable(value).orElseGet(() -> {
             // 可做成缓存
             List<OptionEntity> list = super.list();
@@ -118,16 +118,16 @@ public class OptionServiceImpl extends SuperBaseServiceImpl<Long, OptionParams, 
             Map<String, Object> result = new HashMap<>(userDefinedOptionsMap);
 
             propertyEnumMap.keySet()
-                    .stream()
-                    .filter(key -> !keys.contains(key))
-                    .forEach(key -> {
-                        PropertyEnum propertyEnum = propertyEnumMap.get(key);
-                        if (StringUtils.isBlank(propertyEnum.defaultValue())) {
-                            return;
-                        }
+                .stream()
+                .filter(key -> !keys.contains(key))
+                .forEach(key -> {
+                    PropertyEnum propertyEnum = propertyEnumMap.get(key);
+                    if (StringUtils.isBlank(propertyEnum.defaultValue())) {
+                        return;
+                    }
 
-                        result.put(key, PropertyEnum.convertTo(propertyEnum.defaultValue(), propertyEnum));
-                    });
+                    result.put(key, PropertyEnum.convertTo(propertyEnum.defaultValue(), propertyEnum));
+                });
             setCache(result);
             return result;
         });
@@ -145,8 +145,8 @@ public class OptionServiceImpl extends SuperBaseServiceImpl<Long, OptionParams, 
         Map<String, Object> result = new HashMap<>(keys.size());
 
         keys.stream()
-                .filter(optionMap::containsKey)
-                .forEach(key -> result.put(key, optionMap.get(key)));
+            .filter(optionMap::containsKey)
+            .forEach(key -> result.put(key, optionMap.get(key)));
         return result;
     }
 
@@ -190,11 +190,11 @@ public class OptionServiceImpl extends SuperBaseServiceImpl<Long, OptionParams, 
     }
 
     private void publishOptionUpdatedEvent() {
-        redisTemplate.delete(OPTIONS_KEY_PREFIX);
+        cache.delOptions();
         eventPublisher.publishEvent(new OptionUpdatedEvent(this));
     }
 
     private void setCache(Map<String, Object> values) {
-        redisTemplate.opsForValue().set(OPTIONS_KEY_PREFIX, values);
+        cache.setOptions(values);
     }
 }
