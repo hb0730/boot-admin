@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.hb0730.boot.admin.commons.constant.RedisConstant;
 import com.hb0730.boot.admin.commons.enums.EnabledEnum;
 import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 import com.hb0730.boot.admin.commons.enums.SortTypeEnum;
@@ -24,6 +23,7 @@ import com.hb0730.boot.admin.project.system.menu.model.vo.MenuMetaVO;
 import com.hb0730.boot.admin.project.system.menu.model.vo.MenuPermissionVO;
 import com.hb0730.boot.admin.project.system.menu.model.vo.VueMenuVO;
 import com.hb0730.boot.admin.project.system.menu.service.IMenuService;
+import com.hb0730.boot.admin.project.system.menu.service.cache.MenuCache;
 import com.hb0730.boot.admin.project.system.permission.mapper.IPermissionMapper;
 import com.hb0730.boot.admin.project.system.permission.model.entity.PermissionEntity;
 import com.hb0730.boot.admin.security.model.User;
@@ -31,8 +31,6 @@ import com.hb0730.boot.admin.security.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -60,7 +58,7 @@ import static com.hb0730.commons.lang.constants.PathConst.ROOT_PATH;
 @RequiredArgsConstructor
 public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, MenuDTO, MenuEntity, IMenuMapper> implements IMenuService {
     private final IPermissionMapper permissionMapper;
-    private final RedisTemplate<String, List<TreeMenuDTO>> redisTemplate;
+    private final MenuCache menuCache;
     private final ApplicationEventPublisher eventPublisher;
 
     @Override
@@ -124,12 +122,11 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
         if (null == currentUser) {
             throw new LoginException(ResponseStatusEnum.USE_LOGIN_ERROR, "当前用户未登录,请登录后重试");
         }
-        HashOperations<String, Long, List<TreeMenuDTO>> hash = redisTemplate.opsForHash();
-        List<TreeMenuDTO> treeMenu = hash.get(RedisConstant.MENU_KEY_PREFIX, currentUser.getId());
+        List<TreeMenuDTO> treeMenu = menuCache.getMenuCache(currentUser.getId() + "");
         if (CollectionUtil.isEmpty(treeMenu)) {
             eventPublisher.publishEvent(new MenuEvent(this, currentUser.getId()));
         }
-        treeMenu = hash.get(RedisConstant.MENU_KEY_PREFIX, currentUser.getId());
+        treeMenu = menuCache.getMenuCache(currentUser.getId() + "");
         if (CollectionUtil.isEmpty(treeMenu)) {
             return Lists.newArrayList();
         }

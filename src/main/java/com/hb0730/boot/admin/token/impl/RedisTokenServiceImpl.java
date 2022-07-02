@@ -3,6 +3,7 @@ package com.hb0730.boot.admin.token.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.cache.BootAdminCache;
 import com.hb0730.boot.admin.security.model.User;
@@ -28,9 +29,9 @@ import java.util.concurrent.TimeUnit;
 public class RedisTokenServiceImpl extends AbstractTokenService {
     private final TokenCache cache;
 
-    public RedisTokenServiceImpl(TokenProperties properties, BootAdminCache globalCache) {
+    public RedisTokenServiceImpl(TokenProperties properties, BootAdminCache globalCache, ObjectMapper objectMapper) {
         super(properties);
-        cache = new TokenCache(globalCache);
+        cache = new TokenCache(globalCache, objectMapper);
     }
 
     @Override

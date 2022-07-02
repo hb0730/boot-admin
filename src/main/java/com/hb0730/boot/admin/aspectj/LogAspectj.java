@@ -5,7 +5,6 @@ import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.annotation.ClassDescribe;
 import com.hb0730.boot.admin.annotation.Log;
 import com.hb0730.boot.admin.commons.enums.StatusEnum;
-import com.hb0730.boot.admin.commons.utils.JsonUtils;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.exceptions.BusinessException;
 import com.hb0730.boot.admin.manager.AsyncManager;
@@ -15,6 +14,7 @@ import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.security.utils.SecurityUtils;
 import com.hb0730.commons.lang.ExceptionUtils;
 import com.hb0730.commons.lang.date.LocalDateTimeUtils;
+import com.hb0730.jsons.SimpleJsonProxy;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
@@ -161,12 +161,15 @@ public class LogAspectj {
             }
             //返回参数
             if (log.response()) {
-                String result = JsonUtils.objectToJson(null == jsonResult ? "" : jsonResult);
+//                String result = JsonUtils.objectToJson(null == jsonResult ? "" : jsonResult);
+                String result = jsonResult == null ? "" : SimpleJsonProxy.json.toJson(jsonResult);
+
                 entity.setRequestResult(result);
             }
             if (null != e) {
                 if (log.requestByError()) {
-                    String result = JsonUtils.objectToJson(null == jsonResult ? "" : jsonResult);
+//                    String result = JsonUtils.objectToJson(null == jsonResult ? "" : jsonResult);
+                    String result = jsonResult == null ? "" : SimpleJsonProxy.json.toJson(jsonResult);
                     entity.setRequestResult(result);
                     String message = ExceptionUtils.getExceptionMessage(e);
                     entity.setErrorMessage(StringUtils.substring(message, 0, 2000));
@@ -231,8 +234,8 @@ public class LogAspectj {
             return annotation;
         } catch (Exception e) {
             LOGGER.warn("获取 {}.{} 的 @Log 注解失败",
-                    joinPoint.getSignature().getDeclaringTypeName(),
-                    joinPoint.getSignature().getName(), e);
+                joinPoint.getSignature().getDeclaringTypeName(),
+                joinPoint.getSignature().getName(), e);
             e.printStackTrace();
             return null;
         }
@@ -288,7 +291,7 @@ public class LogAspectj {
         try {
 
             if (((parameterNames != null && parameterNames.length > 0)
-                    && (filterParamsName != null && filterParamsName.length > 0))) {
+                && (filterParamsName != null && filterParamsName.length > 0))) {
                 List<Object> paramsObj = Lists.newArrayList();
                 for (int i = 0; i < parameterNames.length; i++) {
                     for (String s : filterParamsName) {
@@ -297,7 +300,8 @@ public class LogAspectj {
                         }
                     }
                 }
-                params = JsonUtils.objectToJson(paramsObj);
+//                params = JsonUtils.objectToJson(paramsObj);
+                params = SimpleJsonProxy.json.toJson(paramsObj);
             }
         } catch (Exception e) {
             LOGGER.error("参数拼接异常");

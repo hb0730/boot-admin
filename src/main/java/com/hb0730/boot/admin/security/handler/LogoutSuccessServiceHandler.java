@@ -1,8 +1,10 @@
 package com.hb0730.boot.admin.security.handler;
 
-import com.hb0730.boot.admin.commons.utils.JsonUtils;
 import com.hb0730.boot.admin.domain.result.R;
 import com.hb0730.boot.admin.domain.result.Result;
+import com.hb0730.boot.admin.token.ITokenService;
+import com.hb0730.jsons.SimpleJsonProxy;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -23,14 +25,18 @@ import java.nio.charset.StandardCharsets;
  * @since 1.0.0
  */
 @Component
+@RequiredArgsConstructor
 public class LogoutSuccessServiceHandler implements LogoutSuccessHandler {
+    private final ITokenService tokenService;
+
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        tokenService.delLoginUser(request);
         //注销成功响应为application/json
         Result<String> success = R.success();
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         response.setCharacterEncoding(StandardCharsets.UTF_8.displayName());
-        response.getWriter().println(JsonUtils.objectToJson(success));
+        response.getWriter().println(SimpleJsonProxy.json.toJson(success));
     }
 }

@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.hb0730.boot.admin.commons.constant.RedisConstant;
 import com.hb0730.boot.admin.commons.enums.SortTypeEnum;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.event.menu.MenuEvent;
@@ -14,6 +13,7 @@ import com.hb0730.boot.admin.project.system.menu.model.dto.TreeMenuDTO;
 import com.hb0730.boot.admin.project.system.menu.model.entity.MenuEntity;
 import com.hb0730.boot.admin.project.system.menu.model.query.MenuParams;
 import com.hb0730.boot.admin.project.system.menu.service.IMenuService;
+import com.hb0730.boot.admin.project.system.menu.service.cache.MenuCache;
 import com.hb0730.boot.admin.project.system.permission.model.entity.PermissionEntity;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserDTO;
 import com.hb0730.boot.admin.project.system.user.model.entity.UserAccountEntity;
@@ -22,8 +22,6 @@ import com.hb0730.boot.admin.project.system.user.service.impl.UserInfoServiceImp
 import com.hb0730.commons.lang.collection.CollectionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
-import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
@@ -46,7 +44,8 @@ import java.util.stream.Collectors;
 public class MenuEventListener implements ApplicationListener<MenuEvent> {
     private final IUserInfoService userInfoService;
     private final IMenuService menuService;
-    private final RedisTemplate<String, List<TreeMenuDTO>> redisTemplate;
+    private final MenuCache menuCache;
+//    private final RedisTemplate<String, List<TreeMenuDTO>> redisTemplate;
 
     @Override
     public void onApplicationEvent(@Nonnull MenuEvent event) {
@@ -63,8 +62,8 @@ public class MenuEventListener implements ApplicationListener<MenuEvent> {
         if (CollectionUtils.isEmpty(menu)) {
             return;
         }
-        HashOperations<String, Long, List<TreeMenuDTO>> hash = redisTemplate.opsForHash();
-        hash.put(RedisConstant.MENU_KEY_PREFIX, userId, menu);
+        menuCache.setMenuCache(userId + "", menu);
+
     }
 
     private List<TreeMenuDTO> findMenuByUser(UserDTO user) {
@@ -85,7 +84,7 @@ public class MenuEventListener implements ApplicationListener<MenuEvent> {
         }
         LambdaQueryWrapper<PermissionEntity> queryWrapper = Wrappers.lambdaQuery(PermissionEntity.class)
             .in(PermissionEntity::getId, permissionIds)
-            .select(PermissionEntity::getMenuId,PermissionEntity::getPermission);
+            .select(PermissionEntity::getMenuId, PermissionEntity::getPermission);
         //权限
         List<PermissionEntity> permissionEntities = ((UserInfoServiceImpl) userInfoService.getThis()).getPermissionService().list(queryWrapper);
         if (CollectionUtils.isEmpty(permissionEntities)) {

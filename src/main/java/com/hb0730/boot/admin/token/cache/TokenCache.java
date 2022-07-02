@@ -1,14 +1,16 @@
 package com.hb0730.boot.admin.token.cache;
 
 import cn.hutool.core.util.StrUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hb0730.boot.admin.cache.BootAdminCache;
 import com.hb0730.boot.admin.cache.CacheUtil;
 import com.hb0730.boot.admin.cache.KeyValue;
-import com.hb0730.boot.admin.commons.utils.JsonUtils;
 import com.hb0730.boot.admin.security.model.User;
+import com.hb0730.jsons.SimpleJsonProxy;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -20,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class TokenCache implements CacheUtil {
     @Getter
     private final BootAdminCache cache;
+    private final ObjectMapper objectMapper;
     private static TokenKeyValue keyValue = new TokenKeyValue();
     private static TokenUserValue userValue = new TokenUserValue();
 
@@ -44,14 +47,14 @@ public class TokenCache implements CacheUtil {
 
     public void setUserInfo(String token, User user, long timeout, TimeUnit timeUnit) {
         String cacheKey = getCacheKey(userValue, token);
-        cache.set(cacheKey, JsonUtils.objectToJson(user), timeout, timeUnit);
+        cache.set(cacheKey, SimpleJsonProxy.json.toJson(user, objectMapper), timeout, timeUnit);
     }
 
     public User getUserInfo(String token) {
         String cacheKey = getCacheKey(userValue, token);
         String json = cache.get(cacheKey);
         if (StrUtil.isNotBlank(json)) {
-            return JsonUtils.jsonToObject(json, User.class);
+            return SimpleJsonProxy.json.fromJson(json, User.class, objectMapper);
         }
         return null;
     }

@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hb0730.boot.admin.cache.BootAdminCache;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.security.model.User;
@@ -22,7 +23,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 public class BooAdminAutoConfiguration {
     private final BootAdminProperties properties;
     private final StringRedisTemplate stringRedisTemplate;
-    private final RedisTemplate<String, User> redisTemplate;
+    private final ObjectMapper objectMapper;
 
     /**
      * 配置redis token缓存
@@ -31,7 +32,7 @@ public class BooAdminAutoConfiguration {
      */
     @Bean
     public ITokenService tokenService() {
-        return new RedisTokenServiceImpl(properties.getTokenConfig(), cache());
+        return new RedisTokenServiceImpl(properties.getTokenConfig(), cache(),objectMapper);
     }
 
     /**

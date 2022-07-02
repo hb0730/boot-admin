@@ -81,7 +81,7 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean removeById(Serializable id) {
-        if (id == Integer.valueOf(-1)) {
+        if (id == Long.valueOf(-1)) {
             return false;
         }
         // 删除相关信息
@@ -94,7 +94,7 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean removeByIds(Collection<?> ids) {
-        if (ids.contains(-1)) {
+        if (ids.contains(-1L)) {
             return false;
         }
         // 删除相关信息

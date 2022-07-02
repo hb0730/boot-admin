@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
-import com.hb0730.boot.admin.commons.constant.RedisConstant;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
 import com.hb0730.boot.admin.domain.service.impl.SuperBaseServiceImpl;
 import com.hb0730.boot.admin.event.dict.DictEvent;
@@ -18,10 +17,10 @@ import com.hb0730.boot.admin.project.system.dict.model.query.DictParams;
 import com.hb0730.boot.admin.project.system.dict.model.vo.DictVO;
 import com.hb0730.boot.admin.project.system.dict.service.IDictEntryService;
 import com.hb0730.boot.admin.project.system.dict.service.IDictService;
+import com.hb0730.boot.admin.project.system.dict.service.cache.DictCache;
 import com.hb0730.commons.lang.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Nonnull;
@@ -43,7 +42,7 @@ import java.util.stream.Collectors;
 public class DictServiceImpl extends SuperBaseServiceImpl<Long, DictParams, DictDTO, DictEntity, IDictMapper> implements IDictService {
     private final IDictEntryService entryService;
     private final ApplicationEventPublisher eventPublisher;
-    private final RedisTemplate<String, List<DictVO>> redisTemplate;
+    private final DictCache dictCache;
 
     @Override
     public boolean save(DictEntity entity) {
@@ -93,7 +92,7 @@ public class DictServiceImpl extends SuperBaseServiceImpl<Long, DictParams, Dict
         }
         String type = entity.getType();
         LambdaQueryWrapper<DictEntity> queryWrapper = Wrappers.lambdaQuery(DictEntity.class)
-                .eq(DictEntity::getType, type);
+            .eq(DictEntity::getType, type);
         if (isUpdate) {
             queryWrapper.ne(DictEntity::getId, entity.getId());
         }
@@ -132,19 +131,17 @@ public class DictServiceImpl extends SuperBaseServiceImpl<Long, DictParams, Dict
             vo.setEntry(entryVos);
             dict.add(vo);
         }
-        redisTemplate.opsForValue().set(RedisConstant.DICT_KEY_PREFIX, dict);
+        dictCache.setDictCache(dict);
     }
 
     @Override
     public List<DictVO> getCache() {
-        List<DictVO> result = redisTemplate.opsForValue().get(RedisConstant.DICT_KEY_PREFIX);
-        if (CollectionUtil.isNotEmpty(result)) {
-            return result;
+        List<DictVO> distList = dictCache.getDictCache();
+        if (CollectionUtil.isNotEmpty(distList)) {
+            return distList;
         } else {
             this.updateCache();
-            ;
-            result = redisTemplate.opsForValue().get(RedisConstant.DICT_KEY_PREFIX);
+            return dictCache.getDictCache();
         }
-        return result;
     }
 }

@@ -2,12 +2,13 @@ package com.hb0730.boot.admin.task.utils;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.hb0730.boot.admin.commons.utils.JsonUtils;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.hb0730.boot.admin.exceptions.JsonException;
 import com.hb0730.boot.admin.task.domain.JobInvokeInfo;
 import com.hb0730.commons.lang.collection.CollectionUtils;
 import com.hb0730.commons.lang.convert.ConverterRegistry;
 import com.hb0730.commons.lang.reflect.ReflectUtils;
+import com.hb0730.jsons.SimpleJsonProxy;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nonnull;
@@ -114,8 +115,8 @@ public class JobInvokeUtil {
         if (StringUtils.isBlank(targetParams)) {
             return classs;
         }
-        @SuppressWarnings({"unchecked"})
-        Map<String, Object> map = JsonUtils.jsonToObject(targetParams, Map.class);
+        Map<String, Object> map = SimpleJsonProxy.json.fromJson(targetParams, new TypeReference<Map<String, Object>>() {
+        });
         if (CollectionUtils.isEmpty(map)) {
             return classs;
         }
@@ -145,8 +146,8 @@ public class JobInvokeUtil {
             } else if (clazz.getTypeName().equals(Long.class.getTypeName())) {
                 if (StringUtils.containsIgnoreCase(entry.getValue().toString(), "L")) {
                     classs.add(new Object[]{ConverterRegistry.getInstance()
-                            .getDefaultConverter(Long.TYPE)
-                            .convert(StringUtils.replace(entry.getValue().toString(), "L", ""), null), clazz});
+                        .getDefaultConverter(Long.TYPE)
+                        .convert(StringUtils.replace(entry.getValue().toString(), "L", ""), null), clazz});
                 } else {
                     classs.add(new Object[]{ConverterRegistry.getInstance().getDefaultConverter(Long.TYPE).convert(entry.getValue(), null), clazz});
                 }
@@ -154,7 +155,7 @@ public class JobInvokeUtil {
             } else if (clazz.getTypeName().equals(Float.class.getTypeName())) {
                 if (StringUtils.containsIgnoreCase(entry.getValue().toString(), "F")) {
                     classs.add(new Object[]{ConverterRegistry.getInstance().getDefaultConverter(Float.TYPE)
-                            .convert(StringUtils.replaceIgnoreCase(entry.getValue().toString(), "F", ""), null), clazz});
+                        .convert(StringUtils.replaceIgnoreCase(entry.getValue().toString(), "F", ""), null), clazz});
 
                 } else {
                     classs.add(new Object[]{ConverterRegistry.getInstance().getDefaultConverter(Float.TYPE).convert(entry.getValue(), null), clazz});
@@ -163,7 +164,7 @@ public class JobInvokeUtil {
             } else if (clazz.getTypeName().equals(Double.class.getTypeName())) {
                 if (StringUtils.containsIgnoreCase(entry.getValue().toString(), "D")) {
                     classs.add(new Object[]{ConverterRegistry.getInstance().getDefaultConverter(Double.TYPE)
-                            .convert(StringUtils.replaceIgnoreCase(entry.getValue().toString(), "D", ""), null), clazz});
+                        .convert(StringUtils.replaceIgnoreCase(entry.getValue().toString(), "D", ""), null), clazz});
 
                 } else {
                     classs.add(new Object[]{ConverterRegistry.getInstance().getDefaultConverter(Double.TYPE).convert(entry.getValue(), null), clazz});

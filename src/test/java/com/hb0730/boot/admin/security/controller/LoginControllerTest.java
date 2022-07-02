@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.security.controller;
 
-import com.hb0730.boot.admin.commons.utils.JsonUtils;
 import com.hb0730.boot.admin.security.model.Login;
+import com.hb0730.jsons.SimpleJsonProxy;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -33,7 +33,7 @@ class LoginControllerTest {
             MockMvcRequestBuilders.post(
                     "/auth/login"
                 ).contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(JsonUtils.objectToJson(login))
+                .content(SimpleJsonProxy.json.toJson(login))
                 .accept(MediaType.APPLICATION_JSON_UTF8)
         ).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
         String content = result.getResponse().getContentAsString();
