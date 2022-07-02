@@ -5,6 +5,8 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.Serializable;
+
 /**
  * boot admin 配置
  *
@@ -39,5 +41,23 @@ public class BootAdminProperties {
      */
     private boolean addressEnabled = false;
 
+    /**
+     * token配置
+     */
     private TokenProperties tokenConfig = new TokenProperties();
+    /**
+     * 全局缓存配置
+     */
+    private GlobalCacheProperties cache = new GlobalCacheProperties();
+
+    /**
+     * 缓存
+     */
+    @Data
+    public static class GlobalCacheProperties implements Serializable {
+        /**
+         * 缓存前缀
+         */
+        private String prefix = "boot-admin";
+    }
 }

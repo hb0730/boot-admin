@@ -73,11 +73,11 @@ public class RolePermissionListener implements ApplicationListener<RolePermissio
             return null;
         }
         return values
-                .stream()
-                .filter(value ->
-                        !CollectionUtils.isEmpty(((User) value).getRoleIds()) &&
-                                ((User) value).getRoleIds().contains(roleId)
-                )
-                .collect(Collectors.toSet());
+            .stream()
+            .filter(value ->
+                !CollectionUtils.isEmpty(((User) value).getRoleIds()) &&
+                    ((User) value).getRoleIds().contains(roleId)
+            )
+            .collect(Collectors.toSet());
     }
 }

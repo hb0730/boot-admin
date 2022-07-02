@@ -17,11 +17,6 @@ import java.util.Map;
  */
 public interface ITokenService {
     /**
-     * 登录用户 redis key
-     */
-    String LOGIN_TOKEN_KEY_PREFIX = "login_tokens:";
-
-    /**
      * 令牌前缀
      */
     String LOGIN_USER_KEY_PREFIX = "login_user_key:";
@@ -86,7 +81,7 @@ public interface ITokenService {
      * @return 令牌
      */
     default String createToken(Map<String, Object> values, String secret) {
-        return  Jwts.builder()
+        return Jwts.builder()
             .setClaims(values)
             .signWith(SignatureAlgorithm.HS512, secret).compact();
     }

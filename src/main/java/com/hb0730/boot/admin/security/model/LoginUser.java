@@ -5,10 +5,11 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * 登录成功
+ * 响应
  *
- * @author bing_huang
- * @since 3.0.0
+ * @author <a href="mailto:huangbing0730@gmail">hb0730</a>
+ * @date 2022/7/2
+ * @since 1.0.0
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

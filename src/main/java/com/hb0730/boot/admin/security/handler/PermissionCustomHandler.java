@@ -1,23 +1,23 @@
-package com.hb0730.boot.admin.security.service;
+package com.hb0730.boot.admin.security.handler;
 
+import cn.hutool.core.util.StrUtil;
 import com.hb0730.boot.admin.annotation.PreAuth;
 import com.hb0730.boot.admin.security.utils.SecurityUtils;
-import com.hb0730.commons.lang.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
 /**
- * 自定义权限认证，(尽量不要用此方法，使用标准的security认证),
- * 参考自<a href="https://github.com/yangzongzhuan/RuoYi-Vue">若依</a>
+ * 权限自定义处理
  *
- * @author bing_huang
- * @since 3.0.0
+ * @author <a href="mailto:huangbing0730@gmail">hb0730</a>
+ * @date 2022/7/2
+ * @since 1.0.0
  */
-@Service("bootAdmin")
-public class PermissionService {
+@Component("permissionHandler")
+public class PermissionCustomHandler {
     private static final String DEFAULTROLEPREFIX = "ROLE_";
 
     /**
@@ -34,7 +34,7 @@ public class PermissionService {
             return hasAnyAuthorityName(null, permission);
         }
         String value = annotation.value();
-        if (StringUtils.isBlank(value)) {
+        if (StrUtil.isBlank(value)) {
             return hasAnyAuthorityName(null, permission);
         } else {
             return hasAnyAuthorityName(value, permission);

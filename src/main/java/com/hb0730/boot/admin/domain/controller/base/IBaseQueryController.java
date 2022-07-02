@@ -48,7 +48,7 @@ public interface IBaseQueryController<ID extends Serializable,
 
     @PostMapping("/list/page" )
     @SuppressWarnings({"unchecked"})
-    @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','query')" )
+    @PreAuthorize("@permissionHandler.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','query')" )
     default Result<Object> page(@Validated @RequestBody PARAMS params) {
         ISuperBaseService<ID, PARAMS, DTO, ENTITY> service = getBaseService();
         if (null != service) {

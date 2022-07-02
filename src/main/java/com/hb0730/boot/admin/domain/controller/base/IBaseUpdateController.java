@@ -45,7 +45,7 @@ public interface IBaseUpdateController<ID extends Serializable, DTO extends Base
     @PutMapping("/update/{id}")
     @SuppressWarnings({"rawtypes", "unchecked"})
     @Log(value = "修改", paramsName = {"dto"}, businessType = BusinessTypeEnum.UPDATE)
-    @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','update')")
+    @PreAuthorize("@permissionHandler.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','update')")
     default Result<String> updateById(@PathVariable("id") ID id, @Validated @RequestBody DTO dto) {
         ValidatorUtils.validate(dto);
         ISuperBaseService service = getBaseService();

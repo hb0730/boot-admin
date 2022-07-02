@@ -1,26 +1,22 @@
 package com.hb0730.boot.admin.security.controller;
 
-import com.hb0730.boot.admin.domain.result.Result;
 import com.hb0730.boot.admin.domain.result.R;
-import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
+import com.hb0730.boot.admin.domain.result.Result;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 测试
- *
- * @author bing_huang
- * @since 3.0.0
+ * @author <a href="mailto:huangbing0730@gmail">hb0730</a>
+ * @date 2022/7/2
+ * @since 1.0.0
  */
 @RestController
-@RequestMapping("/auth")
-@RequiredArgsConstructor
-@Validated
+@RequestMapping("/test")
 public class TestController {
-    @GetMapping("/test/ada")
-    public Result<String> test() {
-        return R.success("测试");
+
+    @GetMapping("/test1")
+    public Result<String> test1() {
+        return R.success("测试1");
     }
 }

@@ -1,27 +1,25 @@
 package com.hb0730.boot.admin.security.service;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.hb0730.boot.admin.exceptions.UsernameNotFoundException;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserDTO;
 import com.hb0730.boot.admin.project.system.user.service.IUserInfoService;
 import com.hb0730.boot.admin.security.model.User;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
- * 用户验证处理
+ * 用户详情服务
  *
- * @author bing_huang
- * @since 3.0.0
+ * @author <a href="mailto:huangbing0730@gmail">hb0730</a>
+ * @date 2022/7/2
+ * @since 1.0.0
  */
-@Service("userDetailsService")
+@Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
     private final IUserInfoService userInfoService;
 
     @Override

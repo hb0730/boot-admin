@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.configuration;
 
+import com.hb0730.boot.admin.cache.BootAdminCache;
 import com.hb0730.boot.admin.configuration.properties.BootAdminProperties;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.token.ITokenService;
@@ -30,6 +31,16 @@ public class BooAdminAutoConfiguration {
      */
     @Bean
     public ITokenService tokenService() {
-        return new RedisTokenServiceImpl(properties.getTokenConfig(), stringRedisTemplate, redisTemplate);
+        return new RedisTokenServiceImpl(properties.getTokenConfig(), cache());
+    }
+
+    /**
+     * 缓存
+     *
+     * @return 缓存
+     */
+    @Bean
+    public BootAdminCache cache() {
+        return new BootAdminCache(stringRedisTemplate, properties.getCache().getPrefix());
     }
 }

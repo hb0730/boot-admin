@@ -1,8 +1,8 @@
 package com.hb0730.boot.admin.security.model;
 
+import cn.hutool.core.collection.CollUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserDTO;
-import com.hb0730.commons.lang.collection.CollectionUtils;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,27 +12,25 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
 /**
- * 登录用户信息
+ * 用户信息
  *
- * @author bing_huang
+ * @author <a href="mailto:huangbing0730@gmail">hb0730</a>
+ * @date 2022/7/2
  * @since 3.0.0
  */
-
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class User extends UserDTO implements UserDetails, Serializable {
-    private static final String ROLE = "ROLE_";
-
+public class User extends UserDTO implements UserDetails {
     /**
      * 用户 token
      */
+    @JsonIgnore
     private String token;
 
     /**
@@ -46,47 +44,16 @@ public class User extends UserDTO implements UserDetails, Serializable {
     /**
      * 登录IP地址
      */
-    @Getter
-    @Setter
     private String ipaddr;
     /**
      * 浏览器类型
      */
-    @Getter
-    @Setter
     private String browser;
 
     /**
      * 操作系统
      */
-    @Getter
-    @Setter
     private String os;
-
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public Date getLoginTime() {
-        return loginTime;
-    }
-
-    public void setLoginTime(Date loginTime) {
-        this.loginTime = loginTime;
-    }
-
-    public Date getExpireTime() {
-        return expireTime;
-    }
-
-    public void setExpireTime(Date expireTime) {
-        this.expireTime = expireTime;
-    }
 
     @Override
     @JsonIgnore
@@ -97,22 +64,22 @@ public class User extends UserDTO implements UserDetails, Serializable {
             return AuthorityUtils.commaSeparatedStringToAuthorityList(permission);
         }
         Collection<String> permissionList = super.getPermission();
-        if (!CollectionUtils.isEmpty(permissionList)) {
+        if (CollUtil.isNotEmpty(permissionList)) {
             permission = StringUtils.join(permissionList, ",");
         }
         Collection<String> roleList = super.getRole();
-        if (!CollectionUtils.isEmpty(roleList)) {
+        if (CollUtil.isNotEmpty(roleList)) {
             permission += "," + StringUtils.join(roleList, ",");
         }
         return AuthorityUtils.commaSeparatedStringToAuthorityList(permission);
     }
 
+    @JsonIgnore
     public boolean isAdmin() {
         return getIsAdmin() == 1;
     }
 
     @Override
-    @JsonIgnore
     public String getPassword() {
         return super.getPassword();
     }
@@ -128,6 +95,7 @@ public class User extends UserDTO implements UserDetails, Serializable {
      * @return true: 未过期
      */
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
@@ -138,6 +106,7 @@ public class User extends UserDTO implements UserDetails, Serializable {
      * @return true 可以解锁
      */
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
@@ -148,6 +117,7 @@ public class User extends UserDTO implements UserDetails, Serializable {
      * @return 提示已过期
      */
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
@@ -158,7 +128,12 @@ public class User extends UserDTO implements UserDetails, Serializable {
      * @return true:可用
      */
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return getIsEnabled() == 1;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        setIsEnabled(enabled ? 1 : 0);
     }
 }

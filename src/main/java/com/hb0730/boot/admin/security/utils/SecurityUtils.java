@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.security.utils;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.hb0730.boot.admin.security.configuration.WebSecurityConfig;
+import com.hb0730.boot.admin.security.configuration.WebSecurityConfiguration;
 import com.hb0730.boot.admin.security.model.User;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -41,7 +41,7 @@ public class SecurityUtils {
      * 获取密码加密bean
      *
      * @return {@link PasswordEncoder}
-     * @see WebSecurityConfig#passwordEncoder()
+     * @see WebSecurityConfiguration#passwordEncoder()
      */
     @NonNull
     public static PasswordEncoder getPasswordEncoder() {

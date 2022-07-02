@@ -31,26 +31,6 @@ public abstract class AbstractTokenService implements ITokenService {
     }
 
     /**
-     * 将AccessToken转换成redis key
-     *
-     * @param accessToken accessToken
-     * @return {@link #LOGIN_TOKEN_KEY_PREFIX}+accessToken
-     */
-    protected String getAccessTokenKey(String accessToken) {
-        return LOGIN_TOKEN_KEY_PREFIX + accessToken;
-    }
-
-    /**
-     * 将 token 转换成 redis key
-     *
-     * @param key token
-     * @return {@link #LOGIN_USER_KEY_PREFIX}+key
-     */
-    protected String getUserTokenKey(String key) {
-        return LOGIN_USER_KEY_PREFIX + key;
-    }
-
-    /**
      * 根据请求获取AccessToken
      *
      * @param request 请求

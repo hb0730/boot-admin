@@ -1,8 +1,10 @@
+application:
+  version: 3.1.0
 server:
   port: 8088
 spring:
   application:
-    name: boot-admin-3.0.0
+    name: boot-admin-3.1.0
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -97,7 +99,7 @@ mybatis-plus:
 boot:
   admin:
     name: boot-admin
-    version: 3.0.0
+    version: 3.1.0
     copyright-year: 2020
     demo-enabled: false
     address-enabled: false
@@ -108,3 +110,5 @@ boot:
       time-unit: hours
       refresh-time: 10
       secret: "abcdefghijklmnopqrstuvwxyz"
+    cache:
+      prefix: boot-admin

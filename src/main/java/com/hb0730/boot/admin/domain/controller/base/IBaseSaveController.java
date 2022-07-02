@@ -40,7 +40,7 @@ public interface IBaseSaveController<DTO extends BaseDTO, ENTITY extends BaseDom
     @PostMapping("/save")
     @SuppressWarnings({"rawtypes", "unchecked"})
     @Log(value = "保存", paramsName = {"dto"}, businessType = BusinessTypeEnum.INSERT)
-    @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','save')")
+    @PreAuthorize("@permissionHandler.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','save')")
     default Result<String> save(@RequestBody @Validated DTO dto) {
         ValidatorUtils.validate(dto);
         ISuperBaseService baseService = getBaseService();

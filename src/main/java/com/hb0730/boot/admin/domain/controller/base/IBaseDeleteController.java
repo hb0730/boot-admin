@@ -43,7 +43,7 @@ public interface IBaseDeleteController<ID extends Serializable, ENTITY extends B
     @DeleteMapping("/delete/{id}")
     @SuppressWarnings({"rawtypes"})
     @Log(value = "删除", businessType = BusinessTypeEnum.DELETE)
-    @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','delete')")
+    @PreAuthorize("@permissionHandler.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','delete')")
     default Result<String> deleteById(@PathVariable("id") ID id) {
         ISuperBaseService service = getBaseService();
         if (service != null) {
@@ -62,7 +62,7 @@ public interface IBaseDeleteController<ID extends Serializable, ENTITY extends B
     @PostMapping("/delete")
     @SuppressWarnings({"rawtypes"})
     @Log(value = "删除", paramsName = {"ids"}, businessType = BusinessTypeEnum.DELETE)
-    @PreAuthorize("@bootAdmin.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','delete')")
+    @PreAuthorize("@permissionHandler.hasAnyAuthority(this,'ROLE_ADMINISTRATOR','delete')")
     default Result<String> deleteByIds(@RequestBody List<ID> ids) {
         ISuperBaseService service = getBaseService();
         if (service != null && !CollectionUtils.isEmpty(ids)) {

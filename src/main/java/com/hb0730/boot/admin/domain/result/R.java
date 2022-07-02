@@ -11,6 +11,13 @@ import com.hb0730.boot.admin.commons.enums.ResponseStatusEnum;
 public class R {
     /**
      * 请求成功
+     */
+    public static Result<String> success() {
+        return result(ResponseStatusEnum.SUCCESS, "");
+    }
+
+    /**
+     * 请求成功
      *
      * @param data 响应数据
      * @param <T>  数据类型

@@ -81,6 +81,9 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean removeById(Serializable id) {
+        if (id == Integer.valueOf(-1)) {
+            return false;
+        }
         // 删除相关信息
         accountService.removeByUserId(id);
         userPostService.removeByUserId(id);
@@ -91,6 +94,9 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean removeByIds(Collection<?> ids) {
+        if (ids.contains(-1)) {
+            return false;
+        }
         // 删除相关信息
         accountService.removeByUserIds(ids);
         userPostService.removeByUserIds(ids);
@@ -261,13 +267,13 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         Map<Long, List<Long>> postMap = new HashMap<>(list.size() * 10);
         if (!CollectionUtils.isEmpty(userRoleEntities)) {
             Map<Long, List<Long>> map = userRoleEntities
-                    .parallelStream()
-                    .collect(
-                            Collectors.groupingBy(
-                                    UserRoleEntity::getUserId,
-                                    Collectors.mapping(UserRoleEntity::getRoleId, Collectors.toList())
-                            )
-                    );
+                .parallelStream()
+                .collect(
+                    Collectors.groupingBy(
+                        UserRoleEntity::getUserId,
+                        Collectors.mapping(UserRoleEntity::getRoleId, Collectors.toList())
+                    )
+                );
             roleMap.putAll(map);
 
         }
@@ -276,13 +282,13 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         List<UserPostEntity> userPostEntities = userPostService.list(q1);
         if (!CollectionUtils.isEmpty(userPostEntities)) {
             Map<Long, List<Long>> map = userPostEntities
-                    .parallelStream()
-                    .collect(
-                            Collectors.groupingBy(
-                                    UserPostEntity::getUserId,
-                                    Collectors.mapping(UserPostEntity::getPostId, Collectors.toList())
-                            )
-                    );
+                .parallelStream()
+                .collect(
+                    Collectors.groupingBy(
+                        UserPostEntity::getUserId,
+                        Collectors.mapping(UserPostEntity::getPostId, Collectors.toList())
+                    )
+                );
             postMap.putAll(map);
         }
         list.forEach(v -> {
@@ -307,13 +313,13 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
             return;
         }
         Map<Long, List<String>> map = entities
-                .parallelStream()
-                .collect(
-                        Collectors.groupingBy(
-                                UserAccountEntity::getUserId,
-                                Collectors.mapping(UserAccountEntity::getUsername, Collectors.toList())
-                        )
-                );
+            .parallelStream()
+            .collect(
+                Collectors.groupingBy(
+                    UserAccountEntity::getUserId,
+                    Collectors.mapping(UserAccountEntity::getUsername, Collectors.toList())
+                )
+            );
         list.forEach(v -> v.setUsername(map.get(v.getId()) == null ? null : map.get(v.getId()).get(0)));
     }
 

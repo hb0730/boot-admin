@@ -1,16 +1,16 @@
 package com.hb0730.boot.admin.token.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Maps;
+import com.hb0730.boot.admin.cache.BootAdminCache;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.token.AbstractTokenService;
+import com.hb0730.boot.admin.token.cache.TokenCache;
 import com.hb0730.boot.admin.token.configuration.TokenProperties;
 import com.hb0730.commons.lang.date.DateUtils;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -26,24 +26,20 @@ import java.util.concurrent.TimeUnit;
  * @since 3.0.0
  */
 public class RedisTokenServiceImpl extends AbstractTokenService {
-    private final StringRedisTemplate stringRedisTemplate;
-    private final RedisTemplate<String, User> redisTemplate;
+    private final TokenCache cache;
 
-    public RedisTokenServiceImpl(TokenProperties properties, StringRedisTemplate stringRedisTemplate,
-                                 RedisTemplate<String, User> redisTemplate) {
+    public RedisTokenServiceImpl(TokenProperties properties, BootAdminCache globalCache) {
         super(properties);
-        this.stringRedisTemplate = stringRedisTemplate;
-        this.redisTemplate = redisTemplate;
+        cache = new TokenCache(globalCache);
     }
 
     @Override
     public User getLoginUser(HttpServletRequest request) {
         String accessToken = getAccessToken(request);
         if (StrUtil.isNotBlank(accessToken)) {
-            String accessTokenKey = getAccessTokenKey(accessToken);
-            String userToken = stringRedisTemplate.opsForValue().get(accessTokenKey);
+            String userToken = cache.getUserToken(accessToken);
             if (StrUtil.isNotBlank(userToken)) {
-                return redisTemplate.opsForValue().get(getUserTokenKey(userToken));
+                return cache.getUserInfo(userToken);
             }
         }
         return null;
@@ -54,11 +50,11 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
         String token = IdUtil.fastUUID();
         user.setToken(token);
         setUserAgent(user);
+        //缓存
         refreshAccessToken(user);
         String accessToken = extractKey(token);
-        String accessTokenKey = getAccessTokenKey(accessToken);
-        stringRedisTemplate.opsForValue().set(accessTokenKey, token, super.getProperties().getExpireTime(),
-            super.getProperties().getTimeUnit());
+        // 缓存token
+        cache.setUserToken(accessToken, token, super.getProperties().getExpireTime(), super.getProperties().getTimeUnit());
         return accessToken;
     }
 
@@ -70,8 +66,7 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
         Date expireTim = DateUtils.add(user.getLoginTime(), expire, TimeUnit.MILLISECONDS);
         user.setExpireTime(expireTim);
         //缓存用户
-        String userTokenKey = getUserTokenKey(user.getToken());
-        redisTemplate.opsForValue().set(userTokenKey, user, expire, TimeUnit.MILLISECONDS);
+        cache.setUserInfo(user.getToken(), user, expire, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -84,9 +79,8 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
             // 校验 刷新
             if (expireTime.getTime() - currentTime.getTime() <= refreshTime) {
                 String accessToken = getAccessToken(request);
-                String accessTokenKey = getAccessTokenKey(accessToken);
-                stringRedisTemplate.opsForValue().set(accessTokenKey, loginUser.getToken(),
-                    super.getProperties().getExpireTime(), super.getProperties().getTimeUnit());
+                cache.setUserToken(accessToken, loginUser.getToken(), super.getProperties().getExpireTime(),
+                    super.getProperties().getTimeUnit());
                 refreshAccessToken(loginUser);
             }
         }
@@ -103,10 +97,9 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
     @Override
     public void deleteAccessToken(String accessToken) {
         if (StrUtil.isNotBlank(accessToken)) {
-            String token = stringRedisTemplate.opsForValue().get(getAccessTokenKey(accessToken));
-            token = StrUtil.isNotBlank(token) ? "" : token;
-            stringRedisTemplate.delete(getUserTokenKey(token));
-            stringRedisTemplate.delete(getAccessTokenKey(accessToken));
+            String userToken = cache.getUserToken(accessToken);
+            cache.delUserInfo(userToken);
+            cache.delUserToken(accessToken);
         }
     }
 
@@ -114,20 +107,20 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
     public Map<String, UserDetails> getOnline() {
         Map<String, UserDetails> maps = Maps.newHashMap();
         try {
-
-            Set<String> keys = stringRedisTemplate.keys(getAccessTokenKey("*"));
-            if (CollectionUtils.isEmpty(keys)) {
+            String all = cache.getUserTokenKey("*");
+            BootAdminCache bootAdminCache = cache.getCache();
+            Set<String> keys = bootAdminCache.getRedisTemplate().keys(bootAdminCache.normaliz(all));
+            if (CollUtil.isEmpty(keys)) {
                 return maps;
             }
             for (String key : keys) {
-                String accessToken = org.apache.commons.lang3.StringUtils.remove(key, LOGIN_TOKEN_KEY_PREFIX);
-                String tokenKey = stringRedisTemplate.opsForValue().get(getAccessTokenKey(accessToken));
-                if (StrUtil.isNotBlank(tokenKey)) {
-                    User cacheUser = redisTemplate.opsForValue().get(getUserTokenKey(tokenKey));
-                    maps.put(accessToken, cacheUser);
-                }
+                String accessToken = StrUtil.removePrefix(key, bootAdminCache.normaliz(cache.getUserTokenKey("")));
+                String token = bootAdminCache.getRedisTemplate().opsForValue().get(key);
+                User userInfo = cache.getUserInfo(token);
+                maps.put(accessToken, userInfo);
             }
-        } catch (Exception e) {
+        } catch (
+            Exception e) {
             e.printStackTrace();
         }
         return maps;

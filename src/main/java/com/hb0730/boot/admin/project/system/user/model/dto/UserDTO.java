@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.system.user.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hb0730.commons.lang.collection.CollectionUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,6 +26,7 @@ public class UserDTO extends UserInfoDTO {
     /**
      * 用户密码
      */
+    @JsonIgnore
     private String password;
 
     /**
