@@ -46,8 +46,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.hb0730.commons.lang.constants.PathConst.ROOT_PATH;
-
 /**
  * 菜单  服务实现类
  *
@@ -192,7 +190,7 @@ public class MenuServiceImpl extends SuperBaseServiceImpl<Long, MenuParams, Menu
                 //判断外链
                 if (menu.isExternal()) {
                     menuVO.setName(menu.getPath());
-                    menuVO.setPath(ROOT_PATH + menu.getEnname());
+                    menuVO.setPath("/" + menu.getEnname());
                 }
                 //判断组件
                 if (StrUtil.isNotBlank(menu.getComponent())) {

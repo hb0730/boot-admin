@@ -9,11 +9,14 @@ import com.hb0730.boot.admin.listener.option.OptionListener;
 import com.hb0730.boot.admin.project.notice.mail.model.dto.MailDTO;
 import com.hb0730.boot.admin.project.notice.mail.model.dto.MailTestDTO;
 import com.hb0730.boot.admin.project.notice.mail.service.IMailService;
-import com.hb0730.commons.mail.spring.service.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * mail controller
@@ -63,8 +66,7 @@ public class MailController {
      */
     @PostMapping("/test")
     public Result<String> test(@RequestBody MailTestDTO dto) {
-        MailService service = listener.getMailService();
-        service.sendTextMail(dto.getTo(), dto.getSubject(), dto.getContent());
+        service.test(dto);
         return R.success("测试成功");
     }
 }

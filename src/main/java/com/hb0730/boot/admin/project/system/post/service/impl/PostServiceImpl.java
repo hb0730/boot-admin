@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.project.system.post.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -14,7 +15,6 @@ import com.hb0730.boot.admin.project.system.post.model.dto.PostExcelDTO;
 import com.hb0730.boot.admin.project.system.post.model.entity.PostEntity;
 import com.hb0730.boot.admin.project.system.post.model.query.PostParams;
 import com.hb0730.boot.admin.project.system.post.service.IPostService;
-import com.hb0730.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,10 +59,10 @@ public class PostServiceImpl extends SuperBaseServiceImpl<Long, PostParams, Post
     @Nonnull
     public QueryWrapper<PostEntity> query(@Nonnull PostParams params) {
         QueryWrapper<PostEntity> query = QueryWrapperUtils.getQuery(params);
-        if (StringUtils.isNotBlank(params.getName())) {
+        if (StrUtil.isNotBlank(params.getName())) {
             query.like(PostEntity.NAME, params.getName());
         }
-        if (StringUtils.isNotBlank(params.getNumber())) {
+        if (StrUtil.isNotBlank(params.getNumber())) {
             query.eq(PostEntity.NUMBER, params.getNumber());
         }
         if (Objects.nonNull(params.getIsEnabled())) {
@@ -77,10 +77,10 @@ public class PostServiceImpl extends SuperBaseServiceImpl<Long, PostParams, Post
         }
         String number = entity.getNumber();
         String name = entity.getName();
-        if (StringUtils.isBlank(name)) {
+        if (StrUtil.isBlank(name)) {
             throw new BusinessException("岗位名称不为空");
         }
-        if (StringUtils.isBlank(number)) {
+        if (StrUtil.isBlank(number)) {
             throw new BusinessException("岗位编码不为空");
         }
         LambdaQueryWrapper<PostEntity> queryWrapper = Wrappers.lambdaQuery(PostEntity.class).eq(PostEntity::getNumber, number);

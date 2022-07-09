@@ -1,13 +1,13 @@
 package com.hb0730.boot.admin.task.utils;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.convert.ConverterRegistry;
+import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hb0730.boot.admin.exceptions.JsonException;
 import com.hb0730.boot.admin.task.domain.JobInvokeInfo;
-import com.hb0730.commons.lang.collection.CollectionUtils;
-import com.hb0730.commons.lang.convert.ConverterRegistry;
-import com.hb0730.commons.lang.reflect.ReflectUtils;
 import com.hb0730.jsons.SimpleJsonProxy;
 import org.apache.commons.lang3.StringUtils;
 
@@ -69,10 +69,10 @@ public class JobInvokeUtil {
      */
     public static void invokeMethod(@Nonnull Object bean, @NotBlank String methodName, List<Object[]> methodParams) throws InvocationTargetException, IllegalAccessException {
         if (Objects.nonNull(methodParams) && methodParams.size() > 0) {
-            Method method = ReflectUtils.getMethod(bean.getClass(), methodName, getMethodParamsType(methodParams));
+            Method method = ReflectUtil.getMethod(bean.getClass(), methodName, getMethodParamsType(methodParams));
             method.invoke(bean, getMethodParamsValue(methodParams));
         } else {
-            Method method = ReflectUtils.getMethod(bean.getClass(), methodName);
+            Method method = ReflectUtil.getMethod(bean.getClass(), methodName);
             method.invoke(bean, getMethodParamsValue(methodParams));
         }
     }
@@ -117,7 +117,7 @@ public class JobInvokeUtil {
         }
         Map<String, Object> map = SimpleJsonProxy.json.fromJson(targetParams, new TypeReference<Map<String, Object>>() {
         });
-        if (CollectionUtils.isEmpty(map)) {
+        if (CollectionUtil.isEmpty(map)) {
             return classs;
         }
         Set<Map.Entry<String, Object>> entries = map.entrySet();

@@ -1,6 +1,8 @@
 package com.hb0730.boot.admin.project.system.role.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -19,8 +21,6 @@ import com.hb0730.boot.admin.project.system.role.model.query.RoleParams;
 import com.hb0730.boot.admin.project.system.role.service.IRoleDeptService;
 import com.hb0730.boot.admin.project.system.role.service.IRolePermissionService;
 import com.hb0730.boot.admin.project.system.role.service.IRoleService;
-import com.hb0730.commons.lang.StringUtils;
-import com.hb0730.commons.lang.collection.CollectionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -49,7 +53,7 @@ public class RoleServiceImpl extends SuperBaseServiceImpl<Long, RoleParams, Role
     public Page<RoleExtDTO> page(@Nonnull RoleParams params) {
         Page<RoleExtDTO> page = super.page(params);
         List<RoleExtDTO> records = page.getRecords();
-        if (!CollectionUtils.isEmpty(records)) {
+        if (!CollectionUtil.isEmpty(records)) {
             fillDepts(records);
             filePermission(records);
         }
@@ -59,7 +63,7 @@ public class RoleServiceImpl extends SuperBaseServiceImpl<Long, RoleParams, Role
     @Override
     public List<RoleExtDTO> list(@Nonnull RoleParams params) {
         List<RoleExtDTO> list = super.list(params);
-        if (!CollectionUtils.isEmpty(list)) {
+        if (!CollectionUtil.isEmpty(list)) {
             fillDepts(list);
             filePermission(list);
         }
@@ -73,7 +77,7 @@ public class RoleServiceImpl extends SuperBaseServiceImpl<Long, RoleParams, Role
         boolean result = super.save(entity);
         Long id = entity.getId();
         List<Long> deptIds = dto.getDeptIds();
-        if (!CollectionUtils.isEmpty(deptIds) && Objects.nonNull(id)) {
+        if (!CollectionUtil.isEmpty(deptIds) && Objects.nonNull(id)) {
             roleDeptService.saveRoleDepts(id, deptIds);
         }
         return result;
@@ -100,10 +104,10 @@ public class RoleServiceImpl extends SuperBaseServiceImpl<Long, RoleParams, Role
     @Override
     public QueryWrapper<RoleEntity> query(@Nonnull RoleParams params) {
         QueryWrapper<RoleEntity> query = QueryWrapperUtils.getQuery(params);
-        if (StringUtils.isNotBlank(params.getName())) {
+        if (StrUtil.isNotBlank(params.getName())) {
             query.like(RoleEntity.NAME, params.getName());
         }
-        if (StringUtils.isNotBlank(params.getCode())) {
+        if (StrUtil.isNotBlank(params.getCode())) {
             query.eq(RoleEntity.CODE, params.getCode());
         }
         if (Objects.nonNull(params.getIsEnabled())) {
@@ -113,24 +117,24 @@ public class RoleServiceImpl extends SuperBaseServiceImpl<Long, RoleParams, Role
     }
 
     private void fillDepts(List<RoleExtDTO> roleDeptList) {
-        if (CollectionUtils.isEmpty(roleDeptList)) {
+        if (CollectionUtil.isEmpty(roleDeptList)) {
             return;
         }
         List<Long> ids = roleDeptList.parallelStream().map(RoleDTO::getId).collect(Collectors.toList());
         Map<Long, List<Long>> map = roleDeptService.findDeptIdByRoleIds(ids);
-        if (CollectionUtils.isEmpty(map)) {
+        if (CollectionUtil.isEmpty(map)) {
             return;
         }
         roleDeptList.forEach(e -> e.setDeptIds(map.get(e.getId())));
     }
 
     private void filePermission(List<RoleExtDTO> roleList) {
-        if (CollectionUtils.isEmpty(roleList)) {
+        if (CollectionUtil.isEmpty(roleList)) {
             return;
         }
         List<Long> ids = roleList.parallelStream().map(RoleDTO::getId).collect(Collectors.toList());
         Map<Long, List<Long>> map = rolePermissionService.findPermissionIdByRoleId(ids);
-        if (CollectionUtils.isEmpty(map)) {
+        if (CollectionUtil.isEmpty(map)) {
             return;
         }
         roleList.forEach(e -> e.setPermissionIds(map.get(e.getId())));
@@ -140,13 +144,13 @@ public class RoleServiceImpl extends SuperBaseServiceImpl<Long, RoleParams, Role
         Assert.notNull(id, "角色id不为空");
         LambdaQueryWrapper<RoleDeptEntity> queryWrapper = Wrappers.lambdaQuery(RoleDeptEntity.class).eq(RoleDeptEntity::getRoleId, id);
         // 数据范围为空-本级
-        if (CollectionUtils.isEmpty(roleRoleIds)) {
+        if (CollectionUtil.isEmpty(roleRoleIds)) {
             roleDeptService.remove(queryWrapper);
             return;
         }
         List<RoleDeptEntity> entities = roleDeptService.list(queryWrapper);
         // 全新 -新增
-        if (CollectionUtils.isEmpty(entities)) {
+        if (CollectionUtil.isEmpty(entities)) {
             roleDeptService.saveRoleDepts(id, roleRoleIds);
             return;
         }
@@ -158,14 +162,14 @@ public class RoleServiceImpl extends SuperBaseServiceImpl<Long, RoleParams, Role
         // 已过期
         // 原始数据-新数据=已过期数据
         oldDeptIds.removeAll(newDeptIds);
-        if (!CollectionUtils.isEmpty(oldDeptIds)) {
+        if (!CollectionUtil.isEmpty(oldDeptIds)) {
             LambdaQueryWrapper<RoleDeptEntity> query = Wrappers.lambdaQuery(RoleDeptEntity.class).eq(RoleDeptEntity::getRoleId, id).in(RoleDeptEntity::getDeptId, oldDeptIds);
             roleDeptService.remove(query);
         }
         // 新增
         // 新数据-原始数据=新增数据
         newDeptIds.removeAll(oldDeptIds2);
-        if (!CollectionUtils.isEmpty(newDeptIds)) {
+        if (!CollectionUtil.isEmpty(newDeptIds)) {
             roleDeptService.saveRoleDepts(id, newDeptIds);
         }
         //未变 交集
@@ -176,42 +180,42 @@ public class RoleServiceImpl extends SuperBaseServiceImpl<Long, RoleParams, Role
     public boolean updateRolePermission(@Nonnull Long id, List<Long> permissionIds) {
         Assert.notNull(id, "角色id不为空");
         LambdaQueryWrapper<RolePermissionEntity> queryWrapper = Wrappers
-                .lambdaQuery(RolePermissionEntity.class)
-                .eq(RolePermissionEntity::getRoleId, id);
+            .lambdaQuery(RolePermissionEntity.class)
+            .eq(RolePermissionEntity::getRoleId, id);
         // 角色 没有权限
-        if (CollectionUtils.isEmpty(permissionIds)) {
+        if (CollectionUtil.isEmpty(permissionIds)) {
             rolePermissionService.remove(queryWrapper);
             return true;
         }
         List<RolePermissionEntity> permissionEntities = rolePermissionService.list(queryWrapper);
         // 权限
-        if (CollectionUtils.isEmpty(permissionEntities)) {
+        if (CollectionUtil.isEmpty(permissionEntities)) {
             rolePermissionService.savePermissionIdByRoleId(id, permissionIds);
             return true;
         }
         // 旧的
         Set<Long> oldPermissionIds = permissionEntities
-                .parallelStream()
-                .map(RolePermissionEntity::getPermissionId).collect(Collectors.toSet());
+            .parallelStream()
+            .map(RolePermissionEntity::getPermissionId).collect(Collectors.toSet());
         Set<Long> oldPermissionIds2 = Sets.newHashSet(oldPermissionIds);
         //  新
         Set<Long> newPermissionIds = Sets.newHashSet(permissionIds);
 
         // 旧数据-新数据=已过期数据
         oldPermissionIds.removeAll(newPermissionIds);
-        if (!CollectionUtils.isEmpty(oldPermissionIds)) {
+        if (!CollectionUtil.isEmpty(oldPermissionIds)) {
             LambdaQueryWrapper<RolePermissionEntity> query = Wrappers
-                    .lambdaQuery(RolePermissionEntity.class).eq(RolePermissionEntity::getRoleId, id).in(RolePermissionEntity::getPermissionId, oldPermissionIds);
+                .lambdaQuery(RolePermissionEntity.class).eq(RolePermissionEntity::getRoleId, id).in(RolePermissionEntity::getPermissionId, oldPermissionIds);
             rolePermissionService.remove(query);
         }
 
         //新数据-旧数据=新增数据
 
         newPermissionIds.removeAll(oldPermissionIds2);
-        if (!CollectionUtils.isEmpty(newPermissionIds)) {
+        if (!CollectionUtil.isEmpty(newPermissionIds)) {
             rolePermissionService.savePermissionIdByRoleId(id, newPermissionIds);
         }
-        eventPublisher.publishEvent(new RolePermissionEvent(this,id));
+        eventPublisher.publishEvent(new RolePermissionEvent(this, id));
         return true;
     }
 
@@ -219,9 +223,9 @@ public class RoleServiceImpl extends SuperBaseServiceImpl<Long, RoleParams, Role
     public List<RoleEntity> findEnabledRoleByIds(@Nonnull Collection<Long> ids) {
         Assert.notNull(ids, "角色id不为空");
         LambdaQueryWrapper<RoleEntity> queryWrapper = Wrappers
-                .lambdaQuery(RoleEntity.class)
-                .in(RoleEntity::getId, ids)
-                .select(RoleEntity::getId, RoleEntity::getCode);
+            .lambdaQuery(RoleEntity.class)
+            .in(RoleEntity::getId, ids)
+            .select(RoleEntity::getId, RoleEntity::getCode);
         return super.list(queryWrapper);
     }
 }

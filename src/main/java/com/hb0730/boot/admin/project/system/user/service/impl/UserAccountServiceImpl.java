@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.system.user.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
@@ -16,7 +17,6 @@ import com.hb0730.boot.admin.project.system.user.model.entity.UserAccountEntity;
 import com.hb0730.boot.admin.project.system.user.model.query.UserAccountParams;
 import com.hb0730.boot.admin.project.system.user.service.IUserAccountService;
 import com.hb0730.boot.admin.security.utils.SecurityUtils;
-import com.hb0730.commons.lang.StringUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,7 @@ import java.util.Objects;
  */
 @Service
 public class UserAccountServiceImpl
-        extends SuperBaseServiceImpl<Long, UserAccountParams, UserAccountDTO, UserAccountEntity, IUserAccountMapper> implements IUserAccountService {
+    extends SuperBaseServiceImpl<Long, UserAccountParams, UserAccountDTO, UserAccountEntity, IUserAccountMapper> implements IUserAccountService {
 
     @Override
     public boolean save(@NonNull UserAccountDTO dto) {
@@ -72,7 +72,7 @@ public class UserAccountServiceImpl
     @Override
     @Nullable
     public UserAccountEntity findUserAccountByUsername(String username) {
-        if (StringUtils.isBlank(username)) {
+        if (StrUtil.isBlank(username)) {
             return null;
         }
         QueryWrapper<UserAccountEntity> queryWrapper = new QueryWrapper<>();
@@ -115,8 +115,8 @@ public class UserAccountServiceImpl
     public boolean removeByUserId(@Nonnull Serializable userId) {
         Assert.notNull(userId, "用户id不为空");
         LambdaQueryWrapper<UserAccountEntity> queryWrapper = Wrappers
-                .lambdaQuery(UserAccountEntity.class)
-                .eq(UserAccountEntity::getUserId, userId);
+            .lambdaQuery(UserAccountEntity.class)
+            .eq(UserAccountEntity::getUserId, userId);
         return super.remove(queryWrapper);
     }
 
@@ -124,8 +124,8 @@ public class UserAccountServiceImpl
     public boolean removeByUserIds(@Nonnull Collection<?> userIds) {
         Assert.notEmpty(userIds, "用户id不为空");
         LambdaQueryWrapper<UserAccountEntity> queryWrapper = Wrappers
-                .lambdaQuery(UserAccountEntity.class)
-                .in(UserAccountEntity::getUserId, userIds);
+            .lambdaQuery(UserAccountEntity.class)
+            .in(UserAccountEntity::getUserId, userIds);
         return super.remove(queryWrapper);
     }
 }

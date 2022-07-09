@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.manager;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.hb0730.commons.lang.thread.ThreadUtils;
+import com.hb0730.boot.admin.commons.utils.ThreadUtils;
 
 import java.util.TimerTask;
 import java.util.concurrent.ScheduledExecutorService;

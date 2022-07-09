@@ -1,6 +1,8 @@
 package com.hb0730.boot.admin.project.system.user.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -30,8 +32,6 @@ import com.hb0730.boot.admin.project.system.user.service.IUserInfoService;
 import com.hb0730.boot.admin.project.system.user.service.IUserPostService;
 import com.hb0730.boot.admin.project.system.user.service.IUserRoleService;
 import com.hb0730.boot.admin.security.utils.SecurityUtils;
-import com.hb0730.commons.lang.StringUtils;
-import com.hb0730.commons.lang.collection.CollectionUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -118,11 +118,11 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         user.setPassword(accountEntity.getPassword());
         //用户角色
         Collection<Long> roleIds = userRoleService.findRoleByUserId(userId);
-        if (CollectionUtils.isEmpty(roleIds)) {
+        if (CollectionUtil.isEmpty(roleIds)) {
             return user;
         }
         List<RoleEntity> roles = roleService.findEnabledRoleByIds(roleIds);
-        if (CollectionUtils.isEmpty(roles)) {
+        if (CollectionUtil.isEmpty(roles)) {
             return user;
         }
         Map<Long, String> roleMap = roles.parallelStream().collect(Collectors.toMap(RoleEntity::getId, RoleEntity::getCode));
@@ -130,12 +130,12 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         user.setRole(roleMap.values());
         // 权限
         Map<Long, List<Long>> permission = rolePermissionService.findPermissionIdByRoleId(roleIds);
-        if (CollectionUtils.isEmpty(permission)) {
+        if (CollectionUtil.isEmpty(permission)) {
             return user;
         }
         Set<Long> permissionIds = permission.values().stream().flatMap(List::stream).collect(Collectors.toSet());
         List<PermissionEntity> permissionEntities = permissionService.findEnabledPermissionByIds(permissionIds);
-        if (CollectionUtils.isEmpty(permissionEntities)) {
+        if (CollectionUtil.isEmpty(permissionEntities)) {
             return user;
         }
         Map<Long, String> permissionMap = permissionEntities.parallelStream().collect(Collectors.toMap(PermissionEntity::getId, PermissionEntity::getPermission));
@@ -156,7 +156,7 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         }
         // 默认密码
         String password = DictUtils.getEntryValue(TYPE, DEFAULT_PASSWORD);
-        if (StringUtils.isBlank(password)) {
+        if (StrUtil.isBlank(password)) {
             password = DEFAULT_PASSWORD_VALUE;
         }
         return accountService.updatePassword(id, password);
@@ -170,7 +170,7 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         page = super.page(page, query);
         Page<UserInfoDTO> pageInfo = QueryWrapperUtils.pageToBean(page, UserInfoDTO.class);
         List<UserInfoDTO> records = pageInfo.getRecords();
-        if (!CollectionUtils.isEmpty(records)) {
+        if (!CollectionUtil.isEmpty(records)) {
             fillRoleAndPost(records);
             fillAccount(records);
         }
@@ -180,7 +180,7 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
     @Override
     public List<UserInfoDTO> list(@Nonnull UserInfoParams params) {
         List<UserInfoDTO> list = super.list(params);
-        if (CollectionUtils.isEmpty(list)) {
+        if (CollectionUtil.isEmpty(list)) {
             return list;
         }
         fillRoleAndPost(list);
@@ -195,7 +195,7 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         UserInfoEntity entity = dto.convertTo();
         // 1.账号是否存在
         String username = dto.getUsername();
-        if (StringUtils.isBlank(username)) {
+        if (StrUtil.isBlank(username)) {
             throw new BusinessException("用户账号不为空");
         }
         UserAccountEntity account = accountService.findUserAccountByUsername(username);
@@ -208,7 +208,7 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         account.setUsername(username);
         // 默认密码
         String password = DictUtils.getEntryValue(TYPE, DEFAULT_PASSWORD);
-        if (StringUtils.isBlank(password)) {
+        if (StrUtil.isBlank(password)) {
             password = DEFAULT_PASSWORD_VALUE;
         }
         account.setPassword(PasswordSecurityUtils.encode(SecurityUtils.getPasswordEncoder(), password));
@@ -217,12 +217,12 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         accountService.save(account);
         // 保存 用户角色
         Collection<Long> roleIds = dto.getRoleIds();
-        if (!CollectionUtils.isEmpty(roleIds)) {
+        if (!CollectionUtil.isEmpty(roleIds)) {
             userRoleService.updateUserRole(entity.getId(), roleIds);
         }
         //保存 用户岗位
         Collection<Long> postIds = dto.getPostIds();
-        if (!CollectionUtils.isEmpty(postIds)) {
+        if (!CollectionUtil.isEmpty(postIds)) {
             userPostService.updateUserPost(entity.getId(), postIds);
         }
         return result;
@@ -256,7 +256,7 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
      * @param list 用户信息
      */
     private void fillRoleAndPost(List<UserInfoDTO> list) {
-        if (CollectionUtils.isEmpty(list)) {
+        if (CollectionUtil.isEmpty(list)) {
             return;
         }
         Set<Long> ids = list.parallelStream().map(UserInfoDTO::getId).collect(Collectors.toSet());
@@ -265,7 +265,7 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         List<UserRoleEntity> userRoleEntities = userRoleService.list(queryWrapper);
         Map<Long, List<Long>> roleMap = new HashMap<>(list.size() * 10);
         Map<Long, List<Long>> postMap = new HashMap<>(list.size() * 10);
-        if (!CollectionUtils.isEmpty(userRoleEntities)) {
+        if (!CollectionUtil.isEmpty(userRoleEntities)) {
             Map<Long, List<Long>> map = userRoleEntities
                 .parallelStream()
                 .collect(
@@ -280,7 +280,7 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         // 岗位
         LambdaQueryWrapper<UserPostEntity> q1 = Wrappers.lambdaQuery(UserPostEntity.class).in(UserPostEntity::getUserId, ids);
         List<UserPostEntity> userPostEntities = userPostService.list(q1);
-        if (!CollectionUtils.isEmpty(userPostEntities)) {
+        if (!CollectionUtil.isEmpty(userPostEntities)) {
             Map<Long, List<Long>> map = userPostEntities
                 .parallelStream()
                 .collect(
@@ -303,13 +303,13 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
      * @param list 用户id
      */
     private void fillAccount(List<UserInfoDTO> list) {
-        if (CollectionUtils.isEmpty(list)) {
+        if (CollectionUtil.isEmpty(list)) {
             return;
         }
         Set<Long> ids = list.parallelStream().map(UserInfoDTO::getId).collect(Collectors.toSet());
         LambdaQueryWrapper<UserAccountEntity> queryWrapper = Wrappers.lambdaQuery(UserAccountEntity.class).in(UserAccountEntity::getUserId, ids);
         List<UserAccountEntity> entities = accountService.list(queryWrapper);
-        if (CollectionUtils.isEmpty(entities)) {
+        if (CollectionUtil.isEmpty(entities)) {
             return;
         }
         Map<Long, List<String>> map = entities
@@ -330,10 +330,10 @@ public class UserInfoServiceImpl extends SuperBaseServiceImpl<Long, UserInfoPara
         if (Objects.nonNull(params.getDeptId())) {
             query.eq(UserInfoEntity.DEPT_ID, params.getDeptId());
         }
-        if (StringUtils.isNotBlank(params.getNickName())) {
+        if (StrUtil.isNotBlank(params.getNickName())) {
             query.like(UserInfoEntity.NICK_NAME, params.getNickName());
         }
-        if (StringUtils.isNotBlank(params.getUsername())) {
+        if (StrUtil.isNotBlank(params.getUsername())) {
             UserAccountEntity entity = accountService.findUserAccountByUsername(params.getUsername());
             if (Objects.nonNull(entity)) {
                 query.eq(UserInfoEntity.ID, entity.getUserId());

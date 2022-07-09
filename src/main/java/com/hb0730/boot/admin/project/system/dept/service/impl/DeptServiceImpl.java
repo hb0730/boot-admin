@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.project.system.dept.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
@@ -13,7 +14,6 @@ import com.hb0730.boot.admin.project.system.dept.model.dto.TreeDeptDTO;
 import com.hb0730.boot.admin.project.system.dept.model.entity.DeptEntity;
 import com.hb0730.boot.admin.project.system.dept.model.query.DeptParams;
 import com.hb0730.boot.admin.project.system.dept.service.IDeptService;
-import com.hb0730.commons.lang.collection.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -69,7 +69,7 @@ public class DeptServiceImpl extends SuperBaseServiceImpl<Long, DeptParams, Dept
         Long firstId = (Long) id;
         List<DeptDTO> childrenId = this.getChildrenByParenId(firstId);
         Set<Long> ids = Sets.newHashSet();
-        if (!CollectionUtils.isEmpty(childrenId)) {
+        if (!CollectionUtil.isEmpty(childrenId)) {
             ids.addAll(childrenId.stream().map(DeptDTO::getId).collect(Collectors.toSet()));
         }
         ids.add(firstId);
@@ -82,7 +82,7 @@ public class DeptServiceImpl extends SuperBaseServiceImpl<Long, DeptParams, Dept
         Set<Long> ids = Sets.newHashSet();
         for (Object id : list) {
             List<DeptDTO> children = this.getChildrenByParenId((Long) id);
-            if (!CollectionUtils.isEmpty(children)) {
+            if (!CollectionUtil.isEmpty(children)) {
                 ids.addAll(children.stream().map(DeptDTO::getId).collect(Collectors.toSet()));
             }
             ids.add((Long) id);
@@ -157,7 +157,7 @@ public class DeptServiceImpl extends SuperBaseServiceImpl<Long, DeptParams, Dept
                 depts.add(dept);
             }
         }
-        if (CollectionUtils.isEmpty(trees)) {
+        if (CollectionUtil.isEmpty(trees)) {
             trees = depts;
         }
         return trees;

@@ -1,11 +1,18 @@
 package com.hb0730.boot.admin.project.notice.mail.service.impl;
 
 import com.hb0730.boot.admin.commons.enums.EmailPropertiesEnum;
+import com.hb0730.boot.admin.message.BootAdminMsg;
+import com.hb0730.boot.admin.message.mail.EmailSendMsgHandle;
+import com.hb0730.boot.admin.message.mail.SpringMailProperties;
+import com.hb0730.boot.admin.message.mail.SpringMailSenderFactory;
 import com.hb0730.boot.admin.project.notice.mail.model.dto.MailDTO;
 import com.hb0730.boot.admin.project.notice.mail.model.dto.MailTestDTO;
 import com.hb0730.boot.admin.project.notice.mail.service.IMailService;
 import com.hb0730.boot.admin.project.system.option.service.IOptionService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -19,12 +26,12 @@ import java.util.Map;
  * @since 3.0.0
  */
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class MailServiceImpl implements IMailService {
     private final IOptionService optionService;
-
-    public MailServiceImpl(IOptionService optionService) {
-        this.optionService = optionService;
-    }
+    private final BootAdminMsg emailSendMsgHandle;
+    private JavaMailSender javaMailSender;
 
     @Override
     public boolean save(@NonNull MailDTO dto) {
@@ -38,6 +45,7 @@ public class MailServiceImpl implements IMailService {
         optionsMap.put(EmailPropertiesEnum.FROM_NAME.getValue(), dto.getFromName());
         optionsMap.put(EmailPropertiesEnum.ENABLED.getValue(), dto.getEnabled());
         optionService.save(optionsMap);
+        createJavaMailSend();
         return true;
     }
 
@@ -56,6 +64,31 @@ public class MailServiceImpl implements IMailService {
 
     @Override
     public void test(@NonNull MailTestDTO dto) {
+        emailSendMsgHandle.sendMsg(dto.getTo(), dto.getSubject(), dto.getContent());
+    }
 
+    private void createJavaMailSend() {
+        MailDTO info = info();
+        if (info.getEnabled() == 1) {
+
+            SpringMailProperties mailProperties = new SpringMailProperties(log.isDebugEnabled());
+            mailProperties.setPort(info.getSslPort());
+            mailProperties.setPassword(info.getPassword());
+            mailProperties.setProtocol(info.getProtocol());
+            mailProperties.setUsername(info.getUsername());
+            mailProperties.setHost(info.getHost());
+            this.javaMailSender = SpringMailSenderFactory.getMailSender(mailProperties);
+            ((EmailSendMsgHandle) emailSendMsgHandle).setJavaMailSender(javaMailSender);
+        } else {
+            this.javaMailSender = null;
+            ((EmailSendMsgHandle) emailSendMsgHandle).setJavaMailSender(null);
+        }
+    }
+
+    public JavaMailSender getJavaMailSender() {
+        if (this.javaMailSender == null) {
+            createJavaMailSend();
+        }
+        return this.javaMailSender;
     }
 }

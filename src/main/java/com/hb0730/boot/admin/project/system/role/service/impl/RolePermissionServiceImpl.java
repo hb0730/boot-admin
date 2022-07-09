@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.system.role.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hb0730.boot.admin.domain.service.impl.BaseServiceImpl;
@@ -9,7 +10,6 @@ import com.hb0730.boot.admin.project.system.permission.model.entity.PermissionEn
 import com.hb0730.boot.admin.project.system.role.mapper.IRolePermissionMapper;
 import com.hb0730.boot.admin.project.system.role.model.entity.RolePermissionEntity;
 import com.hb0730.boot.admin.project.system.role.service.IRolePermissionService;
-import com.hb0730.commons.lang.collection.CollectionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +17,11 @@ import org.springframework.util.Assert;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -37,16 +41,16 @@ public class RolePermissionServiceImpl extends BaseServiceImpl<IRolePermissionMa
         Assert.notEmpty(roleIds, "角色id为空");
         LambdaQueryWrapper<RolePermissionEntity> queryWrapper = Wrappers.lambdaQuery(RolePermissionEntity.class).in(RolePermissionEntity::getRoleId, roleIds);
         List<RolePermissionEntity> entities = super.list(queryWrapper);
-        if (CollectionUtils.isEmpty(entities)) {
+        if (CollectionUtil.isEmpty(entities)) {
             return null;
         }
         return entities.stream()
-                .collect(
-                        Collectors.groupingBy(
-                                RolePermissionEntity::getRoleId,
-                                Collectors.mapping(RolePermissionEntity::getPermissionId, Collectors.toList())
-                        )
-                );
+            .collect(
+                Collectors.groupingBy(
+                    RolePermissionEntity::getRoleId,
+                    Collectors.mapping(RolePermissionEntity::getPermissionId, Collectors.toList())
+                )
+            );
     }
 
     @Override
@@ -55,11 +59,11 @@ public class RolePermissionServiceImpl extends BaseServiceImpl<IRolePermissionMa
         Assert.notNull(id, "角色id为空");
         Assert.notEmpty(permissionIds, "权限id为空");
         LambdaQueryWrapper<PermissionEntity> queryWrapper = Wrappers
-                .lambdaQuery(PermissionEntity.class)
-                .in(PermissionEntity::getId, permissionIds)
-                .select(PermissionEntity::getId);
+            .lambdaQuery(PermissionEntity.class)
+            .in(PermissionEntity::getId, permissionIds)
+            .select(PermissionEntity::getId);
         List<PermissionEntity> entities = permissionMapper.selectList(queryWrapper);
-        if (CollectionUtils.isEmpty(entities)) {
+        if (CollectionUtil.isEmpty(entities)) {
             throw new BusinessException("请传入正确的权限id");
         }
         Set<Long> ids = entities.parallelStream().map(PermissionEntity::getId).collect(Collectors.toSet());

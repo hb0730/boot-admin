@@ -1,9 +1,9 @@
 package com.hb0730.boot.admin.project.system.user.model.dto;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.hb0730.boot.admin.domain.model.InputConverter;
 import com.hb0730.boot.admin.domain.model.dto.BaseDTO;
 import com.hb0730.boot.admin.project.system.user.model.entity.UserInfoEntity;
-import com.hb0730.commons.lang.collection.CollectionUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -78,7 +78,7 @@ public class UserInfoDTO extends BaseDTO implements InputConverter<UserInfoEntit
     private Collection<Long> roleIds;
 
     public void setRoleIds(Collection<Long> roleIds) {
-        if (CollectionUtils.isEmpty(roleIds)) {
+        if (CollectionUtil.isEmpty(roleIds)) {
             return;
         }
         this.roleIds = new ArrayList<>(roleIds);
@@ -90,7 +90,7 @@ public class UserInfoDTO extends BaseDTO implements InputConverter<UserInfoEntit
     private Collection<Long> postIds;
 
     public void setPostIds(Collection<Long> postIds) {
-        if (CollectionUtils.isEmpty(postIds)) {
+        if (CollectionUtil.isEmpty(postIds)) {
             return;
         }
         this.postIds = new ArrayList<>(postIds);
@@ -102,7 +102,7 @@ public class UserInfoDTO extends BaseDTO implements InputConverter<UserInfoEntit
     private Collection<Long> permissionIds;
 
     public void setPermissionIds(Collection<Long> permissionIds) {
-        if (CollectionUtils.isEmpty(permissionIds)) {
+        if (CollectionUtil.isEmpty(permissionIds)) {
             return;
         }
         this.permissionIds = new ArrayList<>(permissionIds);

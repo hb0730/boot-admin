@@ -1,12 +1,12 @@
 package com.hb0730.boot.admin.task.quartz.job;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.exceptions.ExceptionUtil;
 import com.hb0730.boot.admin.manager.AsyncManager;
 import com.hb0730.boot.admin.manager.factory.AsyncFactory;
 import com.hb0730.boot.admin.project.system.quartz.model.entity.JobEntity;
 import com.hb0730.boot.admin.project.system.quartz.model.entity.JobLogEntity;
 import com.hb0730.boot.admin.task.quartz.constant.ScheduleConstants;
-import com.hb0730.commons.lang.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobExecutionContext;
 import org.slf4j.Logger;
@@ -87,15 +87,15 @@ public abstract class AbstractQuartzJob extends QuartzJobBean {
         entity.setStartTime(startTime);
         entity.setEndTime(LocalDateTime.now());
         long runMs = entity.getEndTime()
-                .atZone(ZoneId.systemDefault())
-                .toInstant()
-                .toEpochMilli() - entity.getStartTime()
-                .atZone(ZoneId.systemDefault())
-                .toInstant().toEpochMilli();
+            .atZone(ZoneId.systemDefault())
+            .toInstant()
+            .toEpochMilli() - entity.getStartTime()
+            .atZone(ZoneId.systemDefault())
+            .toInstant().toEpochMilli();
         entity.setJobMessage(entity.getJobName() + " 总共耗时：" + runMs + "毫秒");
         if (null != e) {
             entity.setStatus(0);
-            String message = ExceptionUtils.getExceptionMessage(e);
+            String message = ExceptionUtil.getMessage(e);
             String errMessage = StringUtils.substring(message, 0, 2000);
             entity.setExceptionInfo(errMessage);
         } else {

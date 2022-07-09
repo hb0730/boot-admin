@@ -1,10 +1,10 @@
 package com.hb0730.boot.admin.aspectj;
 
+import cn.hutool.core.util.ReflectUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.annotation.FieldClass;
 import com.hb0730.boot.admin.annotation.FieldInfo;
-import com.hb0730.commons.lang.reflect.ReflectUtils;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -23,7 +23,7 @@ public class FieldInfoAspectj {
      * @return key, value形式的集合，key为 {@link FieldInfo#columnName()},value为 {@link FieldInfo#name()},
      */
     public static Map<String, String> getFieldInfo(Class<?> target) {
-        List<Field> fields = ReflectUtils.getFields(target, true);
+        Field[] fields = ReflectUtil.getFields(target);
         FieldClass annotation = target.getAnnotation(FieldClass.class);
         List<String> exclude = Lists.newArrayList();
         if (null != annotation) {

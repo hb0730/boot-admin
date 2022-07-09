@@ -1,10 +1,10 @@
 package com.hb0730.boot.admin.token;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.token.configuration.TokenProperties;
-import com.hb0730.commons.lang.StringUtils;
 import eu.bitwalker.useragentutils.UserAgent;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,7 +39,7 @@ public abstract class AbstractTokenService implements ITokenService {
     protected String getAccessToken(HttpServletRequest request) {
         String token = request.getHeader(this.properties.getHeader());
         // 校验是否满足前缀
-        if (StringUtils.isNotBlank(token) && token.startsWith(this.properties.getTokenPrefix())) {
+        if (StrUtil.isNotBlank(token) && token.startsWith(this.properties.getTokenPrefix())) {
             token = token.replace(this.properties.getTokenPrefix(), "");
         }
         return token;

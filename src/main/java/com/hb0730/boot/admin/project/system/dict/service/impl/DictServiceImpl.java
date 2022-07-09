@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.project.system.dict.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -18,7 +19,6 @@ import com.hb0730.boot.admin.project.system.dict.model.vo.DictVO;
 import com.hb0730.boot.admin.project.system.dict.service.IDictEntryService;
 import com.hb0730.boot.admin.project.system.dict.service.IDictService;
 import com.hb0730.boot.admin.project.system.dict.service.cache.DictCache;
-import com.hb0730.commons.lang.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -77,10 +77,10 @@ public class DictServiceImpl extends SuperBaseServiceImpl<Long, DictParams, Dict
     @Override
     public QueryWrapper<DictEntity> query(@Nonnull DictParams params) {
         QueryWrapper<DictEntity> query = QueryWrapperUtils.getQuery(params);
-        if (StringUtils.isNotBlank(params.getName())) {
+        if (StrUtil.isNotBlank(params.getName())) {
             query.like(DictEntity.NAME, params.getName());
         }
-        if (StringUtils.isNotBlank(params.getType())) {
+        if (StrUtil.isNotBlank(params.getType())) {
             query.eq(DictEntity.TYPE, params.getType());
         }
         return query;

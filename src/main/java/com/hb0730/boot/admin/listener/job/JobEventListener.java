@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.listener.job;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hb0730.boot.admin.event.job.JobEvent;
 import com.hb0730.boot.admin.project.system.quartz.mapper.IJobMapper;
@@ -9,7 +10,6 @@ import com.hb0730.boot.admin.task.domain.JobInfo;
 import com.hb0730.boot.admin.task.handler.IJobAction;
 import com.hb0730.boot.admin.task.handler.JobActionFactory;
 import com.hb0730.boot.admin.task.handler.JobHelper;
-import com.hb0730.commons.lang.collection.CollectionUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.quartz.SchedulerException;
@@ -47,7 +47,7 @@ public class JobEventListener implements ApplicationListener<JobEvent> {
     @PostConstruct
     public void init() throws SchedulerException {
         List<JobEntity> jobEntities = mapper.selectList(Wrappers.lambdaQuery());
-        if (CollectionUtils.isEmpty(jobEntities)) {
+        if (CollectionUtil.isEmpty(jobEntities)) {
             return;
         }
         List<JobInfo> jobInfos = BeanUtil.copyToList(jobEntities, JobInfo.class);

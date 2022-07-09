@@ -17,7 +17,6 @@
 
 
         <spring.boot.version>2.6.9</spring.boot.version>
-        <hb0730-commons.version>2.1.2-RELEASE</hb0730-commons.version>
         <hutool.version>5.7.22</hutool.version>
 
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
@@ -27,7 +26,7 @@
 
         <bitwalker.version>1.21</bitwalker.version>
         <easyexcel.version>3.1.1</easyexcel.version>
-        <jsons.version>1.0.0</jsons.version>
+        <jsons.version>1.0.3</jsons.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -115,11 +114,6 @@
 
         <dependency>
             <groupId>com.hb0730</groupId>
-            <artifactId>commons-mail</artifactId>
-            <version>${hb0730-commons.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
             <artifactId>jsons</artifactId>
             <version>${jsons.version}</version>
         </dependency>
@@ -158,6 +152,10 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

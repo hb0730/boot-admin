@@ -3,6 +3,7 @@ package com.hb0730.boot.admin.project.notice.mail.service;
 import com.hb0730.boot.admin.project.notice.mail.model.dto.MailDTO;
 import com.hb0730.boot.admin.project.notice.mail.model.dto.MailTestDTO;
 import org.springframework.lang.NonNull;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -35,4 +36,11 @@ public interface IMailService {
      * @param dto 测试信息
      */
     void test(@NonNull MailTestDTO dto);
+
+    /**
+     * 获取 {@link  JavaMailSender}
+     *
+     * @return {@link  JavaMailSender}
+     */
+    JavaMailSender getJavaMailSender();
 }

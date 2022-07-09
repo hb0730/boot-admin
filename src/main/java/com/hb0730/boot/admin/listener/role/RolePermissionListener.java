@@ -1,13 +1,13 @@
 package com.hb0730.boot.admin.listener.role;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import com.hb0730.boot.admin.event.menu.MenuEvent;
 import com.hb0730.boot.admin.event.role.RolePermissionEvent;
 import com.hb0730.boot.admin.project.system.user.model.dto.UserDTO;
 import com.hb0730.boot.admin.project.system.user.service.IUserInfoService;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.token.ITokenService;
-import com.hb0730.commons.lang.collection.CollectionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
@@ -41,7 +41,7 @@ public class RolePermissionListener implements ApplicationListener<RolePermissio
     public void onApplicationEvent(@Nonnull RolePermissionEvent event) {
         Long roleId = event.getRoleId();
         Set<UserDetails> onlineUser = getOnlineUserByRoleId(roleId);
-        if (CollectionUtils.isEmpty(onlineUser)) {
+        if (CollectionUtil.isEmpty(onlineUser)) {
             return;
         }
         Set<String> usernameList = onlineUser.stream().map(UserDetails::getUsername).collect(Collectors.toSet());
@@ -69,13 +69,13 @@ public class RolePermissionListener implements ApplicationListener<RolePermissio
         }
         Map<String, UserDetails> onlineUser = tokenService.getOnline();
         Collection<UserDetails> values = onlineUser.values();
-        if (CollectionUtils.isEmpty(values)) {
+        if (CollectionUtil.isEmpty(values)) {
             return null;
         }
         return values
             .stream()
             .filter(value ->
-                !CollectionUtils.isEmpty(((User) value).getRoleIds()) &&
+                !CollectionUtil.isEmpty(((User) value).getRoleIds()) &&
                     ((User) value).getRoleIds().contains(roleId)
             )
             .collect(Collectors.toSet());

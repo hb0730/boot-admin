@@ -1,5 +1,7 @@
 package com.hb0730.boot.admin.aspectj;
 
+import cn.hutool.core.date.LocalDateTimeUtil;
+import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.annotation.ClassDescribe;
@@ -12,8 +14,6 @@ import com.hb0730.boot.admin.manager.factory.AsyncFactory;
 import com.hb0730.boot.admin.project.monitor.operation.model.entity.OperLogEntity;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.security.utils.SecurityUtils;
-import com.hb0730.commons.lang.ExceptionUtils;
-import com.hb0730.commons.lang.date.LocalDateTimeUtils;
 import com.hb0730.jsons.SimpleJsonProxy;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -110,7 +110,7 @@ public class LogAspectj {
             if (null != currentUser) {
                 entity.setUsername(currentUser.getUsername());
                 entity.setCreateUserId(currentUser.getId());
-                entity.setCreateTime(LocalDateTimeUtils.now());
+                entity.setCreateTime(LocalDateTimeUtil.now());
             }
             RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
             if (null == attributes) {
@@ -171,7 +171,7 @@ public class LogAspectj {
 //                    String result = JsonUtils.objectToJson(null == jsonResult ? "" : jsonResult);
                     String result = jsonResult == null ? "" : SimpleJsonProxy.json.toJson(jsonResult);
                     entity.setRequestResult(result);
-                    String message = ExceptionUtils.getExceptionMessage(e);
+                    String message = ExceptionUtil.getMessage(e);
                     entity.setErrorMessage(StringUtils.substring(message, 0, 2000));
                     entity.setStatus(StatusEnum.FAIL.getValue());
                 }

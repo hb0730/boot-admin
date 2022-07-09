@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.system.quartz.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hb0730.boot.admin.commons.enums.JobActionEnum;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
@@ -12,7 +13,6 @@ import com.hb0730.boot.admin.project.system.quartz.model.entity.JobEntity;
 import com.hb0730.boot.admin.project.system.quartz.model.query.JobParams;
 import com.hb0730.boot.admin.project.system.quartz.service.IJobService;
 import com.hb0730.boot.admin.task.quartz.utils.CronUtils;
-import com.hb0730.commons.lang.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -85,10 +85,10 @@ public class JobServiceImpl extends SuperBaseServiceImpl<Long, JobParams, JobDTO
     @Override
     public QueryWrapper<JobEntity> query(@Nonnull JobParams params) {
         QueryWrapper<JobEntity> query = QueryWrapperUtils.getQuery(params);
-        if (StringUtils.isNotBlank(params.getName())) {
+        if (StrUtil.isNotBlank(params.getName())) {
             query.eq(JobEntity.NAME, params.getName());
         }
-        if (StringUtils.isNotBlank(params.getGroup())) {
+        if (StrUtil.isNotBlank(params.getGroup())) {
             query.eq(JobEntity.GROUP, params.getGroup());
         }
         if (Objects.nonNull(params.getIsEnabled())) {
@@ -98,7 +98,7 @@ public class JobServiceImpl extends SuperBaseServiceImpl<Long, JobParams, JobDTO
     }
 
     private void checkCron(String cron) {
-        if (StringUtils.isBlank(cron)) {
+        if (StrUtil.isBlank(cron)) {
             throw new BusinessException("cron为空");
         }
         if (!CronUtils.isValid(cron)) {

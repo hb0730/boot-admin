@@ -6,11 +6,11 @@ import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import com.hb0730.boot.admin.cache.BootAdminCache;
+import com.hb0730.boot.admin.commons.utils.DateUtils;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.token.AbstractTokenService;
 import com.hb0730.boot.admin.token.cache.TokenCache;
 import com.hb0730.boot.admin.token.configuration.TokenProperties;
-import com.hb0730.commons.lang.date.DateUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.servlet.http.HttpServletRequest;
@@ -63,7 +63,7 @@ public class RedisTokenServiceImpl extends AbstractTokenService {
     public void refreshAccessToken(User user) {
         long expire = TimeUnit.MILLISECONDS.convert(super.getProperties().getExpireTime(), super.getProperties().getTimeUnit());
         // 设置登录时长与过期时间
-        user.setLoginTime(DateUtils.now());
+        user.setLoginTime(new Date());
         Date expireTim = DateUtils.add(user.getLoginTime(), expire, TimeUnit.MILLISECONDS);
         user.setExpireTime(expireTim);
         //缓存用户

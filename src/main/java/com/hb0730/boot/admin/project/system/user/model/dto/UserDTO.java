@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.project.system.user.model.dto;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hb0730.commons.lang.collection.CollectionUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -35,7 +35,7 @@ public class UserDTO extends UserInfoDTO {
     private Collection<String> role;
 
     public void setRole(Collection<String> role) {
-        if (CollectionUtils.isEmpty(role)) {
+        if (CollectionUtil.isEmpty(role)) {
             return;
         }
         this.role = new ArrayList<>(role);
@@ -47,7 +47,7 @@ public class UserDTO extends UserInfoDTO {
     private Collection<String> permission;
 
     public void setPermission(Collection<String> permission) {
-        if (CollectionUtils.isEmpty(permission)) {
+        if (CollectionUtil.isEmpty(permission)) {
             return;
         }
         this.permission = new ArrayList<>(permission);

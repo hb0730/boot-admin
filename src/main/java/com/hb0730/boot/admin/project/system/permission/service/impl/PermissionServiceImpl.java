@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.system.permission.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -10,7 +11,6 @@ import com.hb0730.boot.admin.project.system.permission.model.dto.PermissionDTO;
 import com.hb0730.boot.admin.project.system.permission.model.entity.PermissionEntity;
 import com.hb0730.boot.admin.project.system.permission.model.query.PermissionParams;
 import com.hb0730.boot.admin.project.system.permission.service.IPermissionService;
-import com.hb0730.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -35,10 +35,10 @@ public class PermissionServiceImpl extends SuperBaseServiceImpl<Long, Permission
         if (Objects.nonNull(params.getMenuId())) {
             query.eq(PermissionEntity.MENU_ID, params.getMenuId());
         }
-        if (StringUtils.isNotBlank(params.getName())) {
+        if (StrUtil.isNotBlank(params.getName())) {
             query.like(PermissionEntity.NAME, params.getName());
         }
-        if (StringUtils.isNotBlank(params.getPermission())) {
+        if (StrUtil.isNotBlank(params.getPermission())) {
             query.eq(PermissionEntity.PERMISSION, params.getPermission());
         }
         return query;
@@ -48,8 +48,8 @@ public class PermissionServiceImpl extends SuperBaseServiceImpl<Long, Permission
     public List<PermissionEntity> findEnabledPermissionByIds(@Nonnull Collection<Long> ids) {
         Assert.notNull(ids, "权限id为空");
         LambdaQueryWrapper<PermissionEntity> queryWrapper = Wrappers.lambdaQuery(PermissionEntity.class)
-                .in(PermissionEntity::getId, ids)
-                .select(PermissionEntity::getId, PermissionEntity::getPermission);
+            .in(PermissionEntity::getId, ids)
+            .select(PermissionEntity::getId, PermissionEntity::getPermission);
         return super.list(queryWrapper);
     }
 }

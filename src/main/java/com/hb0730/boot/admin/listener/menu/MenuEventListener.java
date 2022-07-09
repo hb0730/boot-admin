@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.listener.menu;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -19,7 +20,6 @@ import com.hb0730.boot.admin.project.system.user.model.dto.UserDTO;
 import com.hb0730.boot.admin.project.system.user.model.entity.UserAccountEntity;
 import com.hb0730.boot.admin.project.system.user.service.IUserInfoService;
 import com.hb0730.boot.admin.project.system.user.service.impl.UserInfoServiceImpl;
-import com.hb0730.commons.lang.collection.CollectionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -59,7 +59,7 @@ public class MenuEventListener implements ApplicationListener<MenuEvent> {
         }
         //
         List<TreeMenuDTO> menu = findMenuByUser(user);
-        if (CollectionUtils.isEmpty(menu)) {
+        if (CollectionUtil.isEmpty(menu)) {
             return;
         }
         menuCache.setMenuCache(userId + "", menu);
@@ -79,7 +79,7 @@ public class MenuEventListener implements ApplicationListener<MenuEvent> {
             return BeanUtil.copyToList(entities, TreeMenuDTO.class);
         }
         Collection<Long> permissionIds = user.getPermissionIds();
-        if (CollectionUtils.isEmpty(permissionIds)) {
+        if (CollectionUtil.isEmpty(permissionIds)) {
             return Lists.newArrayList();
         }
         LambdaQueryWrapper<PermissionEntity> queryWrapper = Wrappers.lambdaQuery(PermissionEntity.class)
@@ -87,7 +87,7 @@ public class MenuEventListener implements ApplicationListener<MenuEvent> {
             .select(PermissionEntity::getMenuId, PermissionEntity::getPermission);
         //权限
         List<PermissionEntity> permissionEntities = ((UserInfoServiceImpl) userInfoService.getThis()).getPermissionService().list(queryWrapper);
-        if (CollectionUtils.isEmpty(permissionEntities)) {
+        if (CollectionUtil.isEmpty(permissionEntities)) {
             return Lists.newArrayList();
         }
         Map<Long, List<String>> permissionMapping = permissionEntities.stream().collect(Collectors.groupingBy(PermissionEntity::getMenuId,

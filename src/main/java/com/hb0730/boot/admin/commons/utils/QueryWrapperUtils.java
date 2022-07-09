@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.commons.utils;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -9,7 +10,6 @@ import com.hb0730.boot.admin.commons.enums.SortTypeEnum;
 import com.hb0730.boot.admin.domain.model.entity.BaseDomain;
 import com.hb0730.boot.admin.domain.model.entity.BusinessDomain;
 import com.hb0730.boot.admin.domain.model.query.BaseParams;
-import com.hb0730.commons.lang.collection.CollectionUtils;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
@@ -69,11 +69,11 @@ public class QueryWrapperUtils {
     public static <PARAMS extends BaseParams, ENTITY extends BaseDomain> QueryWrapper<ENTITY> getQuery(@NonNull PARAMS params) {
         QueryWrapper<ENTITY> queryWrapper = new QueryWrapper<>();
         List<String> groupColumn = params.getGroupColumn();
-        if (!CollectionUtils.isEmpty(groupColumn)) {
+        if (!CollectionUtil.isEmpty(groupColumn)) {
             String[] array = groupColumn.toArray(new String[0]);
             queryWrapper.groupBy(Lists.newArrayList(array));
         }
-        if (!CollectionUtils.isEmpty(params.getSortColumn())) {
+        if (!CollectionUtil.isEmpty(params.getSortColumn())) {
             String[] array = params.getSortColumn().toArray(new String[0]);
             queryWrapper.orderBy(true, SortTypeEnum.ASC.getValue().equals(params.getSortType()), Lists.newArrayList(array));
         }

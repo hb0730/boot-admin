@@ -1,11 +1,11 @@
 package com.hb0730.boot.admin.task.handler;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.project.system.quartz.mapper.IJobMapper;
 import com.hb0730.boot.admin.project.system.quartz.model.entity.JobEntity;
 import com.hb0730.boot.admin.task.domain.JobInfo;
-import com.hb0730.commons.lang.collection.CollectionUtils;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -28,11 +28,11 @@ public abstract class AbstractAction implements IJobAction {
     }
 
     protected List<JobInfo> getJobInfo(Collection<? extends Serializable> ids) {
-        if (CollectionUtils.isEmpty(ids)) {
+        if (CollectionUtil.isEmpty(ids)) {
             return Lists.newArrayList();
         }
         List<JobEntity> entities = mapper.selectBatchIds(ids);
-        if (CollectionUtils.isEmpty(entities)) {
+        if (CollectionUtil.isEmpty(entities)) {
             return Lists.newArrayList();
         }
         return BeanUtil.copyToList(entities, JobInfo.class);

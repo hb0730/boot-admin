@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.monitor.login.log.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
@@ -9,7 +10,6 @@ import com.hb0730.boot.admin.project.monitor.login.log.model.dto.LoginLogDTO;
 import com.hb0730.boot.admin.project.monitor.login.log.model.entity.LoginLogEntity;
 import com.hb0730.boot.admin.project.monitor.login.log.model.query.LoginLogParams;
 import com.hb0730.boot.admin.project.monitor.login.log.service.ILoginLogService;
-import com.hb0730.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,10 +35,10 @@ public class LoginLogServiceImpl extends SuperBaseServiceImpl<Long, LoginLogPara
     public QueryWrapper<LoginLogEntity> query(@Nonnull LoginLogParams params) {
 
         QueryWrapper<LoginLogEntity> queryWrapper = QueryWrapperUtils.getQuery(params);
-        if (StringUtils.isNotBlank(params.getUsername())) {
+        if (StrUtil.isNotBlank(params.getUsername())) {
             queryWrapper.eq(LoginLogEntity.USERNAME, params.getUsername());
         }
-        if (StringUtils.isNotBlank(params.getLoginIp())) {
+        if (StrUtil.isNotBlank(params.getLoginIp())) {
             queryWrapper.eq(LoginLogEntity.LOGIN_IP, params.getLoginIp());
         }
         if (Objects.nonNull(params.getStatus())) {

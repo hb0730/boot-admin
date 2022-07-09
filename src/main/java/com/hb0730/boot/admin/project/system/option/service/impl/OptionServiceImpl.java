@@ -37,13 +37,11 @@ import java.util.stream.Collectors;
 public class OptionServiceImpl extends SuperBaseServiceImpl<Long, OptionParams, OptionDTO, OptionEntity, IOptionMapper> implements IOptionService {
     private final ApplicationEventPublisher eventPublisher;
     private final Map<String, PropertyEnum> propertyEnumMap;
-    //    private final RedisTemplate<String, Map<String, Object>> redisTemplate;
     private final OptionsCache cache;
 
     public OptionServiceImpl(ApplicationEventPublisher eventPublisher, OptionsCache cache) {
         this.eventPublisher = eventPublisher;
         this.propertyEnumMap = Collections.unmodifiableMap(PropertyEnum.getValuePropertyEnumMap());
-//        this.redisTemplate = redisTemplate;
         this.cache = cache;
     }
 

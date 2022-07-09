@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.project.monitor.operation.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hb0730.boot.admin.commons.utils.QueryWrapperUtils;
@@ -9,7 +10,6 @@ import com.hb0730.boot.admin.project.monitor.operation.model.dto.OperLogDTO;
 import com.hb0730.boot.admin.project.monitor.operation.model.entity.OperLogEntity;
 import com.hb0730.boot.admin.project.monitor.operation.model.query.OperLogParams;
 import com.hb0730.boot.admin.project.monitor.operation.service.IOperLogService;
-import com.hb0730.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,10 +28,10 @@ public class OperLogServiceImpl extends SuperBaseServiceImpl<Long, OperLogParams
     @Override
     public QueryWrapper<OperLogEntity> query(@Nonnull OperLogParams params) {
         QueryWrapper<OperLogEntity> queryWrapper = QueryWrapperUtils.getQuery(params);
-        if (StringUtils.isNotBlank(params.getUsername())) {
+        if (StrUtil.isNotBlank(params.getUsername())) {
             queryWrapper.eq(OperLogEntity.USERNAME, params.getUsername());
         }
-        if (StringUtils.isNotBlank(params.getDescription())) {
+        if (StrUtil.isNotBlank(params.getDescription())) {
             queryWrapper.like(OperLogEntity.DESCRIPTION, params.getDescription());
         }
         if (Objects.nonNull(params.getOperType())) {

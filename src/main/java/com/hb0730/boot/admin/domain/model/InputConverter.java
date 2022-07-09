@@ -1,12 +1,13 @@
 package com.hb0730.boot.admin.domain.model;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.hb0730.commons.lang.collection.CollectionUtils;
+import cn.hutool.core.collection.CollectionUtil;
 import org.apache.commons.lang3.reflect.TypeUtils;
 
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,12 +25,15 @@ public interface InputConverter<DOMAIN> {
     @SuppressWarnings("unchecked")
     default DOMAIN convertTo() {
         Map<TypeVariable<?>, Type> typeArguments = TypeUtils.getTypeArguments(getClass(), InputConverter.class);
-        if (CollectionUtils.isEmpty(typeArguments)) {
+        if (CollectionUtil.isEmpty(typeArguments)) {
             return null;
         }
         Collection<Type> values = typeArguments.values();
-        Class<DOMAIN> clazz = (Class<DOMAIN>) CollectionUtils.toArrayList(values).get(0);
-        return BeanUtil.toBean(this, clazz);
+        List<Object> list = CollectionUtil.list(false);
+        list.addAll(values);
+        list.get(0);
+        Class<DOMAIN> clazz = (Class<DOMAIN>) list.get(0);
+        return BeanUtil.toBean(this, (Class<DOMAIN>) clazz);
     }
 
     /**

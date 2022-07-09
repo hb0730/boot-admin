@@ -1,14 +1,14 @@
 package com.hb0730.boot.admin.project.monitor.online.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Lists;
 import com.hb0730.boot.admin.project.monitor.online.model.dto.UserOnlineDTO;
 import com.hb0730.boot.admin.project.monitor.online.model.query.UserOnlineParams;
 import com.hb0730.boot.admin.project.monitor.online.service.IUserOnlineService;
 import com.hb0730.boot.admin.security.model.User;
 import com.hb0730.boot.admin.token.ITokenService;
-import com.hb0730.commons.lang.StringUtils;
-import com.hb0730.commons.lang.collection.CollectionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -35,11 +35,11 @@ public class UerOnlineServiceImpl implements IUserOnlineService {
         List<UserOnlineDTO> list = getOnline();
         if (Objects.nonNull(vo)) {
             return list.stream().filter((user) -> {
-                if (StringUtils.isNotBlank(vo.getIpaddr()) && StringUtils.isNotBlank(vo.getUsername())) {
+                if (StrUtil.isNotBlank(vo.getIpaddr()) && StrUtil.isNotBlank(vo.getUsername())) {
                     return user.getIpaddr().equals(vo.getIpaddr()) && user.getUsername().equals(vo.getUsername());
-                } else if (StringUtils.isNotBlank(vo.getIpaddr())) {
+                } else if (StrUtil.isNotBlank(vo.getIpaddr())) {
                     return user.getIpaddr().equals(vo.getIpaddr());
-                } else if (StringUtils.isNotBlank(vo.getUsername())) {
+                } else if (StrUtil.isNotBlank(vo.getUsername())) {
                     return user.getUsername().equals(vo.getUsername());
                 } else {
                     return true;
@@ -51,7 +51,7 @@ public class UerOnlineServiceImpl implements IUserOnlineService {
 
     @Override
     public boolean logout(List<String> token) {
-        if (CollectionUtils.isEmpty(token)) {
+        if (CollectionUtil.isEmpty(token)) {
             return false;
         }
         for (String s : token) {
@@ -68,7 +68,7 @@ public class UerOnlineServiceImpl implements IUserOnlineService {
      */
     private List<UserOnlineDTO> getOnline() {
         Map<String, UserDetails> online = tokenService.getOnline();
-        if (!CollectionUtils.isEmpty(online)) {
+        if (!CollectionUtil.isEmpty(online)) {
             List<UserOnlineDTO> lists = Lists.newArrayList();
             for (Map.Entry<String, UserDetails> detailsEntry : online.entrySet()) {
                 UserOnlineDTO dto = new UserOnlineDTO();

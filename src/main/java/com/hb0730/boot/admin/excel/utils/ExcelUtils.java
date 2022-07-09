@@ -1,17 +1,21 @@
 package com.hb0730.boot.admin.excel.utils;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.hb0730.boot.admin.commons.utils.WebFilenameUtils;
 import com.hb0730.boot.admin.domain.model.excel.ExcelDomain;
-import com.hb0730.commons.lang.collection.CollectionUtils;
 import org.springframework.lang.NonNull;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -89,7 +93,7 @@ public class ExcelUtils {
     public static <T extends ExcelDomain> void writeSheet(@NonNull OutputStream outputStream, Map<String, List<T>> data, ExcelTypeEnum excelTypeEnum, Class<T> clazz) {
         excelTypeEnum = excelTypeEnum == null ? ExcelTypeEnum.XLS : excelTypeEnum;
         ExcelWriter writer = EasyExcel.write(outputStream, clazz).excelType(excelTypeEnum).build();
-        if (!CollectionUtils.isEmpty(data)) {
+        if (!CollectionUtil.isEmpty(data)) {
             data.forEach((k, v) -> {
                 WriteSheet sheet = EasyExcel.writerSheet(k).build();
                 writer.write(v, sheet);
@@ -111,11 +115,11 @@ public class ExcelUtils {
         ExcelTypeEnum excelType = excelProperties.getExcelType();
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
         String sb = path +
-                "/" +
-                fileName +
-                "-" +
-                format.format(new Date()) +
-                "." + excelType.getValue();
+            "/" +
+            fileName +
+            "-" +
+            format.format(new Date()) +
+            "." + excelType.getValue();
         return new FileOutputStream(sb);
     }
 

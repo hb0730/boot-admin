@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.configuration;
 
-import com.hb0730.commons.lang.thread.ThreadUtils;
+import com.hb0730.boot.admin.commons.utils.ThreadUtils;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,7 +61,7 @@ public class ThreadPoolConfiguration {
     @Bean(name = "scheduledExecutorService")
     protected ScheduledExecutorService scheduledExecutorService() {
         return new ScheduledThreadPoolExecutor(corePoolSize,
-                new BasicThreadFactory.Builder().namingPattern("schedule-pool-%d").daemon(true).build()) {
+            new BasicThreadFactory.Builder().namingPattern("schedule-pool-%d").daemon(true).build()) {
             @Override
             protected void afterExecute(Runnable r, Throwable t) {
                 super.afterExecute(r, t);

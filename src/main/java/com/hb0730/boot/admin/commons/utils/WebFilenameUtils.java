@@ -1,6 +1,6 @@
 package com.hb0730.boot.admin.commons.utils;
 
-import com.hb0730.commons.lang.StringUtils;
+import cn.hutool.core.util.StrUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -22,7 +22,7 @@ public class WebFilenameUtils {
      */
     public static String disposition(String filename) throws UnsupportedEncodingException {
         String codedFilename = filename;
-        if (StringUtils.isNotBlank(filename)) {
+        if (StrUtil.isNotBlank(filename)) {
             codedFilename = java.net.URLEncoder.encode(filename, StandardCharsets.UTF_8.displayName());
         }
         return String.format(DISPOSITION_FORMAT, codedFilename, codedFilename);
