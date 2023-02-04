@@ -1,44 +1,68 @@
 package com.hb0730.boot.admin.security.filter;
 
-import com.hb0730.boot.admin.security.model.User;
-import com.hb0730.boot.admin.security.utils.SecurityUtils;
-import com.hb0730.boot.admin.token.ITokenService;
+import cn.hutool.core.util.StrUtil;
+import com.hb0730.boot.admin.base.util.JwtUtil;
+import com.hb0730.boot.admin.security.model.OnlineUser;
+import com.hb0730.boot.admin.security.service.UserDetailServiceImpl;
+import com.hb0730.boot.admin.security.token.JwtTokenRedisCacheProvider;
+import com.hb0730.boot.admin.security.token.UserCacheProvider;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Objects;
+import java.util.Optional;
 
 /**
- * 认证
+ * token认证过滤器
  *
  * @author <a href="mailto:huangbing0730@gmail">hb0730</a>
- * @date 2022/7/2
- * @since 1.0.0
+ * @date 2023/1/30
  */
-@Component
+@Slf4j
 @RequiredArgsConstructor
+@Component
 public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
-    private final ITokenService tokenService;
+    private final JwtTokenRedisCacheProvider jwtTokenRedisCacheProvider;
+    private final UserDetailServiceImpl userDetailService;
+    @Lazy
+    private UserCacheProvider userCacheProvider;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        User loginUser = tokenService.getLoginUser(request);
-        if (null != loginUser && Objects.isNull(SecurityUtils.getAuthentication())) {
-            //自动刷新
-            tokenService.verifyAccessToken(request);
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
-            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        String _jwtToken = JwtUtil.getTokenByRequest(request);
+        if (StrUtil.isNotBlank(_jwtToken)) {
+            Optional<OnlineUser> online = jwtTokenRedisCacheProvider.getOnlineFromToken(_jwtToken);
+            if (online.isPresent()) {
+                if (SecurityContextHolder.getContext().getAuthentication() == null) {
+                    UserDetails userDetails = userDetailService.loadUserByUsername(JwtUtil.getUsername(_jwtToken));
+
+                    UsernamePasswordAuthenticationToken authenticationToken =
+                        new UsernamePasswordAuthenticationToken(
+                            userDetails.getUsername(),
+                            userDetails,
+                            userDetails.getAuthorities()
+                        );
+                    authenticationToken.setDetails(
+                        new WebAuthenticationDetailsSource().buildDetails(request)
+                    );
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                }
+            } else {
+                userCacheProvider.clearUser(JwtUtil.getUsername(_jwtToken));
+            }
+            jwtTokenRedisCacheProvider.checkRenewal(_jwtToken);
         }
-        doFilter(request, response, filterChain);
+        filterChain.doFilter(request, response);
     }
 }

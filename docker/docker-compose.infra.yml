@@ -1,0 +1,26 @@
+version: '3'
+services:
+  redis_server:
+    image: redis:alpine
+    container_name: redis_server
+    ports:
+      - 6379:6379
+    volumes:
+      # redis配置
+      - ./conf/redis:/usr/local/etc/redis
+      # redis 数据挂载
+      - ./data/redis:/data
+    command: redis-server /usr/local/etc/redis/redis.conf
+  mysql_server:
+    image: mysql:8
+    container_name: mysql_server
+    ports:
+      - 3306:3306
+    volumes:
+      # mysql配置
+      #- ./conf/mysql:/etc/mysql/conf.d
+      # mysql数据挂载
+      - ./data/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: boot-admin

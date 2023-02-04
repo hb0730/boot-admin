@@ -1,22 +1,22 @@
 package com.hb0730.boot.admin;
 
 import cn.hutool.extra.spring.EnableSpringUtil;
-import org.springframework.boot.SpringApplication;
+import com.hb0730.boot.admin.base.BootAdminApp;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
- * 入口
- *
- * @author <a href="huangbing0730@gmail.com">bing_huang</a>
- * @since 3.0.0
+ * @author <a href="mailto:huangbing0730@gmail">hb0730</a>
+ * @date 2023/1/11
  */
 @SpringBootApplication
-@EnableAsync
 @EnableSpringUtil
-public class BootAdminApplication {
+public class BootAdminApplication extends BootAdminApp {
     public static void main(String[] args) {
-        SpringApplication.run(BootAdminApplication.class, args);
+        bootstrap(BootAdminApplication.class, args);
     }
 
+    @Override
+    protected void doSomethingAfterBooted() {
+
+    }
 }
