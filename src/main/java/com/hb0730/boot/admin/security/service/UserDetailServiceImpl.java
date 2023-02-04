@@ -1,6 +1,8 @@
 package com.hb0730.boot.admin.security.service;
 
-import com.hb0730.boot.admin.base.util.PasswordUtil;
+import com.hb0730.boot.admin.modules.sys.system.model.entity.SysUser;
+import com.hb0730.boot.admin.modules.sys.system.service.SysPermissionService;
+import com.hb0730.boot.admin.modules.sys.system.service.SysUserService;
 import com.hb0730.boot.admin.security.model.UserInfo;
 import com.hb0730.boot.admin.security.token.RedisCacheUserProvider;
 import lombok.RequiredArgsConstructor;
@@ -10,8 +12,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author <a href="mailto:huangbing0730@gmail">hb0730</a>
@@ -22,6 +25,8 @@ import java.util.Optional;
 @Slf4j
 public class UserDetailServiceImpl implements UserDetailsService {
     private final RedisCacheUserProvider redisCacheUserProvider;
+    private final SysUserService sysUserService;
+    private final SysPermissionService sysPermissionService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -33,13 +38,28 @@ public class UserDetailServiceImpl implements UserDetailsService {
             return userInfo;
         }
         log.info("获取授权用户信息->重新从库获取");
-        UserInfo info = new UserInfo();
-        info.setPassword(PasswordUtil.encoder("123456"));
-        info.setUsername("admin");
-        info.setRoles(Arrays.asList("ROLE_ADMIN"));
-        info.setPermissions(Arrays.asList("test::query", "test:add"));
-        info.setIsEnabled(1);
-        redisCacheUserProvider.cacheUser(username, info);
-        return info;
+        // 测试用例
+//        UserInfo info = new UserInfo();
+//        info.setPassword(PasswordUtil.encoder("123456"));
+//        info.setUsername("admin");
+//        info.setRoles(Arrays.asList("ROLE_ADMIN"));
+//        info.setPermissions(Arrays.asList("test::query", "test:add"));
+//        info.setIsEnabled(1);
+        // 正式
+        Optional<SysUser> userOptional = sysUserService.loadUserByUsername(username);
+        SysUser user = userOptional.orElseThrow(() -> new UsernameNotFoundException("根据用户名未找到用户信息"));
+        // 查找角色
+        Set<String> roleCodes = sysUserService.getRoleCodeByUsername(username);
+        // 用户信息ID 获取 用户角色ID集合
+        Set<String> roleIds = sysUserService.queryRoleIdsByUserId(user.getId());
+        // 用户ID集合 获取 用户权限ID集合
+        Set<String> permissionIds = sysPermissionService.listPermissionIdsByRoleIds(List.copyOf(roleIds));
+        Set<String> preCodes = sysPermissionService.listPermissionPreByIds(List.copyOf(permissionIds));
+        UserInfo userInfo = UserInfo.convert(
+            user,
+            List.copyOf(roleCodes),
+            List.copyOf(preCodes));
+        redisCacheUserProvider.cacheUser(username, userInfo);
+        return null;
     }
 }

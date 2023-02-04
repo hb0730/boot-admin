@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb0730.boot.admin.modules.sys.system.mapper.SysUserMapper">
+
+    <select id="getRoleCodeByUsername" resultType="java.lang.String">
+        select t.role_code
+        from sys_role t,
+             sys_user_role t1,
+             sys_user t2
+        where t.id = t1.role_id
+          and t1.user_id = t2.id
+          and t2.username = #{username}
+    </select>
+    <!-- 根据角色ID 获取对应的权限ID集合 -->
+    <select id="queryUserRole" resultType="java.lang.String">
+        SELECT ur.role_id
+        FROM sys_user_role ur, sys_role r
+        WHERE 1 = 1  AND ur.role_id = r.id AND r.is_enable = 1 AND ur.user_id = #{userId}
+    </select>
+</mapper>

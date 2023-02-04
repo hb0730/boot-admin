@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.security.model;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.hb0730.boot.admin.modules.sys.system.model.entity.SysUser;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -41,6 +42,7 @@ public class UserInfo implements UserDetails {
      * 角色
      */
     private List<String> roles;
+
     @Override
     public Collection<Authority> getAuthorities() {
         List<Authority> authorities = new ArrayList<>();
@@ -74,5 +76,22 @@ public class UserInfo implements UserDetails {
     @Override
     public boolean isEnabled() {
         return this.isEnabled == 1;
+    }
+
+    public static UserInfo convert(SysUser user, List<String> roleCodes,
+                                   List<String> permissionCodes) {
+        UserInfo userInfo = new UserInfo();
+        // 用户名
+        userInfo.setUsername(user.getUsername());
+        // 密码
+        userInfo.setPassword(user.getPassword());
+        // 角色
+        userInfo.setRoles(roleCodes);
+        // 权限
+        userInfo.setPermissions(permissionCodes);
+        // 是否启用
+        userInfo.setIsEnabled(user.getEnabled());
+
+        return userInfo;
     }
 }

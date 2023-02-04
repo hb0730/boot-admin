@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb0730.boot.admin.modules.sys.system.mapper.SysPermissionMapper">
+    <select id="listPermissionIdsByRoleIds" resultType="java.lang.String">
+        SELECT
+        a.permission_id
+        FROM
+        sys_role_permission a
+        WHERE 1=1
+        and role_id in
+        <foreach collection="roleIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="listPermissionPreByIds" resultType="java.lang.String">
+        SELECT
+        a.perms
+        FROM sys_permission a
+        WHERE a.menu_type = 2
+        AND a.id in
+        <foreach collection="permissionIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>
