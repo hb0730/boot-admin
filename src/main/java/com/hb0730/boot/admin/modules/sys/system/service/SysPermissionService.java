@@ -41,4 +41,15 @@ public class SysPermissionService extends BaseServiceImpl<SysPermissionMapper, S
         Set<String> preCodes = this.baseMapper.listPermissionPreByIds(permissionIds);
         return preCodes == null ? Collections.emptySet() : preCodes;
     }
+
+    /**
+     * 获取全部的权限信息
+     *
+     * @return .
+     */
+    @Nonnull
+    public Set<String> allPermissionPre() {
+        Set<String> preCodes = this.baseMapper.allPermissionPre();
+        return preCodes == null ? Collections.emptySet() : preCodes;
+    }
 }

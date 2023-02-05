@@ -30,4 +30,12 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      */
     @Nullable
     Set<String> queryUserRole(@Param("userId") String userId);
+
+    /**
+     * 获取全部角色code
+     *
+     * @return .
+     */
+    @Nullable
+    Set<String> allRoleCode();
 }

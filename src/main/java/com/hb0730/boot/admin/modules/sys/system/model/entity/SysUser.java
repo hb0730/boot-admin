@@ -48,5 +48,10 @@ public class SysUser extends BaseEntity {
     /**
      * 是否网点管理员
      */
-    protected Integer isManage;
+    private Integer isManage;
+
+
+    public boolean isManager() {
+        return isManage == 1;
+    }
 }

@@ -50,16 +50,23 @@ public class UserDetailServiceImpl implements UserDetailsService {
         // 正式
         Optional<SysUser> userOptional = sysUserService.loadUserByUsername(username);
         SysUser user = userOptional.orElseThrow(() -> new UsernameNotFoundException("根据用户名未找到用户信息"));
-        // 查找角色
-        Set<String> roleCodes = sysUserService.getRoleCodeByUsername(username);
-        // 用户信息ID 获取 用户角色ID集合
-        Set<String> roleIds = sysUserService.queryRoleIdsByUserId(user.getId());
-
-        // 用户ID集合 获取 用户权限ID集合
+        // 角色code
+        Set<String> roleCodes = new HashSet<>();
+        // 权限code
         Set<String> preCodes = new HashSet<>();
-        if (CollectionUtil.isNotEmpty(roleIds)) {
-            Set<String> permissionIds = sysPermissionService.listPermissionIdsByRoleIds(List.copyOf(roleIds));
-            preCodes = sysPermissionService.listPermissionPreByIds(List.copyOf(permissionIds));
+        if (user.isManager()) {
+            roleCodes = sysUserService.allRoleCode();
+            preCodes = sysPermissionService.allPermissionPre();
+        } else {
+            // 查找角色
+            roleCodes = sysUserService.getRoleCodeByUsername(username);
+            // 用户信息ID 获取 用户角色ID集合
+            Set<String> roleIds = sysUserService.queryRoleIdsByUserId(user.getId());
+
+            if (CollectionUtil.isNotEmpty(roleIds)) {
+                Set<String> permissionIds = sysPermissionService.listPermissionIdsByRoleIds(List.copyOf(roleIds));
+                preCodes = sysPermissionService.listPermissionPreByIds(List.copyOf(permissionIds));
+            }
         }
         UserInfo userInfo = UserInfo.convert(
             user,

@@ -23,4 +23,9 @@
             #{item}
         </foreach>
     </select>
+    <select id="allPermissionPre" resultType="java.lang.String">
+        SELECT  a.perms
+        FROM sys_permission a
+        WHERE a.menu_type=2
+    </select>
 </mapper>

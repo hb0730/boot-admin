@@ -18,4 +18,10 @@
         FROM sys_user_role ur, sys_role r
         WHERE 1 = 1  AND ur.role_id = r.id AND r.is_enable = 1 AND ur.user_id = #{userId}
     </select>
+    <select id="allRoleCode" resultType="java.lang.String">
+        SELECT
+            a.role_code
+        FROM sys_role a
+        WHERE  a.is_enable=1
+    </select>
 </mapper>

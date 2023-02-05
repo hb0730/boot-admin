@@ -47,6 +47,16 @@ public class SysUserService extends BaseServiceImpl<SysUserMapper, SysUser> {
         return res == null ? Collections.emptySet() : res;
     }
 
+    /**
+     * 获取全部的角色编码
+     *
+     * @return .
+     */
+    public Set<String> allRoleCode() {
+        Set<String> res=this.baseMapper.allRoleCode();
+        return res == null ? Collections.emptySet() : res;
+    }
+
 
     /**
      * 根据用户ID 获取对应的角色ID集合
