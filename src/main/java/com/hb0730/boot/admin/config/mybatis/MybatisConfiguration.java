@@ -3,6 +3,7 @@ package com.hb0730.boot.admin.config.mybatis;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2023/1/11
  */
 @Configuration
+@MapperScan(basePackages = "com.hb0730.boot.admin.**.mapper")
 public class MybatisConfiguration {
     /**
      * 插件

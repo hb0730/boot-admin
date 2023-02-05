@@ -69,6 +69,12 @@ public class JwtTokenRedisCacheProvider implements TokenProvider, CacheUtil {
         return true;
     }
 
+    @Override
+    public boolean removeToken(String token) {
+        String cacheKey = getCacheKey(CacheKeyValue.online_user_cache, token);
+        return cache.del(cacheKey);
+    }
+
     @Getter
     public enum CacheKeyValue implements KeyValue {
         online_user_cache(

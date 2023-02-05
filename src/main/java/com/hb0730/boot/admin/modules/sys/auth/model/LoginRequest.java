@@ -18,10 +18,10 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @ToString
 public class LoginRequest implements Serializable {
-    @Schema(name = "用户名", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "用户名", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "用户名为空")
     private String username;
-    @Schema(name = "密码", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "密码", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "密码为空")
     private String password;
 }

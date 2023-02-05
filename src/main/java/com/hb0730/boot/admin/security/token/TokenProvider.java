@@ -45,4 +45,12 @@ public interface TokenProvider {
      * @return .
      */
     boolean checkRenewal(@Nonnull String token);
+
+    /**
+     * 移除token
+     *
+     * @param token .
+     * @return .
+     */
+    boolean removeToken(String token);
 }

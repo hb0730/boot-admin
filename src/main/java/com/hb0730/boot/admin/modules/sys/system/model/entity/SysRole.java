@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.modules.sys.system.model.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.hb0730.boot.admin.base.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,5 +34,6 @@ public class SysRole extends BaseEntity {
     /**
      * 删除状态（1，启用，2禁用）
      */
+    @TableField("is_enable")
     private Integer enabled;
 }

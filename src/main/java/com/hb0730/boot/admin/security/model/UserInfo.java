@@ -26,6 +26,10 @@ public class UserInfo implements UserDetails {
      */
     private String username;
     /**
+     * nickname
+     */
+    private String nickname;
+    /**
      * password
      */
     private String password;
@@ -83,6 +87,8 @@ public class UserInfo implements UserDetails {
         UserInfo userInfo = new UserInfo();
         // 用户名
         userInfo.setUsername(user.getUsername());
+        // nickname
+        userInfo.setNickname(user.getNickname());
         // 密码
         userInfo.setPassword(user.getPassword());
         // 角色
