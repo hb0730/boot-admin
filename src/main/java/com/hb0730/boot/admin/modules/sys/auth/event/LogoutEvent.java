@@ -12,16 +12,21 @@ public class LogoutEvent extends ApplicationEvent {
     /**
      * 访问token
      */
-    private String token;
+    private final String token;
     /**
      * 用户名
      */
-    private String username;
+    private final String username;
+    /**
+     * 用户ID
+     */
+    private final String userid;
 
-    public LogoutEvent(Object source, String token, String username) {
+    public LogoutEvent(Object source, String token, String username, String userid) {
         super(source);
         this.token = token;
         this.username = username;
+        this.userid = userid;
     }
 
     public String getToken() {
@@ -30,5 +35,9 @@ public class LogoutEvent extends ApplicationEvent {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getUserid() {
+        return userid;
     }
 }

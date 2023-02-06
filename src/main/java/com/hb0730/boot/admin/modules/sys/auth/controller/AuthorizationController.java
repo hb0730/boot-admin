@@ -10,6 +10,7 @@ import com.hb0730.boot.admin.modules.sys.auth.model.LoginResponse;
 import com.hb0730.boot.admin.security.config.LoginProperties;
 import com.hb0730.boot.admin.security.model.UserInfo;
 import com.hb0730.boot.admin.security.token.TokenProvider;
+import com.hb0730.boot.admin.security.util.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -80,8 +81,8 @@ public class AuthorizationController {
     @PostMapping("/logout")
     public R<String> logout(HttpServletRequest request) {
         String _jwtToken = JwtUtil.getTokenByRequest(request);
-        String username = JwtUtil.getUsername(_jwtToken);
-        applicationContext.publishEvent(new LogoutEvent(this, _jwtToken, username));
+        UserInfo userInfo = SecurityUtil.getCurrentUser();
+        applicationContext.publishEvent(new LogoutEvent(this, _jwtToken, userInfo.getUsername(), userInfo.getUserid()));
         jwtTokenRedisCacheProvider.removeToken(_jwtToken);
         return R.OK("成功");
     }

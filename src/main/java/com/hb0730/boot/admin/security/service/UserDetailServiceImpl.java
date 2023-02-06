@@ -51,7 +51,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         Optional<SysUser> userOptional = sysUserService.loadUserByUsername(username);
         SysUser user = userOptional.orElseThrow(() -> new UsernameNotFoundException("根据用户名未找到用户信息"));
         // 角色code
-        Set<String> roleCodes = new HashSet<>();
+        Set<String> roleCodes;
         // 权限code
         Set<String> preCodes = new HashSet<>();
         if (user.isManager()) {

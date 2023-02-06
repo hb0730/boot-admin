@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hb0730.boot.admin.modules.sys.system.mapper.SysPermissionMapper">
+
     <select id="listPermissionIdsByRoleIds" resultType="java.lang.String">
         SELECT
         a.permission_id
@@ -27,5 +28,38 @@
         SELECT  a.perms
         FROM sys_permission a
         WHERE a.menu_type=2
+    </select>
+    <select id="allPermissionIds" resultType="java.lang.String">
+        SELECT a.id
+        FROM sys_permission a
+    </select>
+
+
+    <select id="listEnabledPermission"
+            resultType="com.hb0730.boot.admin.modules.sys.system.model.entity.SysPermission">
+        SELECT p.id,
+               p.parent_id,
+               p.path,
+               p.name,
+               p.title,
+               p.icon,
+               p.show_link,
+               p.`rank`,
+               p.component,
+               p.show_parent,
+               p.keep_alive,
+               p.is_frame,
+               p.frame_src,
+               p.menu_type,
+               p.perms,
+               p.is_enable,
+               p.created,
+               p.created_by,
+               p.modified,
+               p.modified_by
+        FROM sys_permission p
+        WHERE p.is_enable = 1
+          AND p.menu_type in (0, 1)
+        order by created
     </select>
 </mapper>

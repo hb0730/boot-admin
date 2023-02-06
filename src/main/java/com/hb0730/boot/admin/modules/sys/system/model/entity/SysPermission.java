@@ -19,29 +19,84 @@ import lombok.experimental.Accessors;
 @ToString
 public class SysPermission extends BaseEntity {
     /**
-     * 父id
+     * 父类
      */
     private String parentId;
-
     /**
-     * 菜单名称
+     * 路由地址
+     */
+    private String path;
+    /**
+     * 路由名字
      */
     private String name;
     /**
-     * 权限字符串
+     * 菜单名称
      */
-    private String perms;
+    private String title;
     /**
-     * 类型（0：目录；1：菜单 ；2：按钮）
+     * 菜单icon
+     */
+    private String icon;
+    /**
+     * 是否显示
+     */
+    private Integer showLink;
+
+    public Integer getShowLink() {
+        return showLink == null ? 0 : showLink;
+    }
+
+    /**
+     * 排序
+     */
+    private Integer rank;
+    /**
+     * 组件
+     */
+    private String component;
+    /**
+     * 是否显示父菜单
+     */
+    private Integer showParent;
+
+    public Integer getShowParent() {
+        return showParent == null ? 0 : showParent;
+    }
+
+    /**
+     * 是否缓存该路由页面（开启后，会保存该页面的整体状态，刷新后会清空状态）
+     */
+    private Integer keepAlive;
+
+    public Integer getKeepAlive() {
+        return keepAlive == null ? 0 : keepAlive;
+    }
+
+    /**
+     * 是否iframe
+     */
+    private Integer isFrame;
+
+    public Integer getIsFrame() {
+        return isFrame == null ? 0 : isFrame;
+    }
+
+    /**
+     * 需要内嵌的iframe链接地址
+     */
+    private String frameSrc;
+    /**
+     * 类型（0：目录；1：菜单 ；2：按钮权限）
      */
     private Integer menuType;
     /**
-     * 是否叶子节点: 1:是 0:不是
+     * 菜单权限编码，例如：“sys:schedule:list,sys:schedule:info”,多个逗号隔开
      */
-    private boolean leaf;
+    private String perms;
     /**
-     * 是否路由菜单: 0:不是 1:是（默认值1）
+     * 是否启用
      */
-    @TableField(value = "is_route")
-    private boolean route;
+    @TableField("is_enable")
+    private Integer enabled;
 }

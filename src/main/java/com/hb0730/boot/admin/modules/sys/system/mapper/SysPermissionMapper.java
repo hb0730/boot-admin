@@ -37,4 +37,20 @@ public interface SysPermissionMapper extends BaseMapper<SysPermission> {
      * @return .
      */
     Set<String> allPermissionPre();
+
+    /**
+     * 获取全部的ID
+     *
+     * @return .
+     */
+    Set<String> allPermissionIds();
+
+    /**
+     * 根据ID获取菜单与权限
+     *
+     * @param ids id
+     * @return 菜单与权限
+     */
+    @Nullable
+    List<SysPermission> listEnabledPermission(@Param("ids") List<String> ids);
 }

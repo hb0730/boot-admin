@@ -22,6 +22,10 @@ import java.util.List;
 @ToString
 public class UserInfo implements UserDetails {
     /**
+     * 用户ID
+     */
+    private String userid;
+    /**
      * username
      */
     private String username;
@@ -46,6 +50,11 @@ public class UserInfo implements UserDetails {
      * 角色
      */
     private List<String> roles;
+
+    /**
+     * 是否为管理员
+     */
+    private boolean isManger;
 
     @Override
     public Collection<Authority> getAuthorities() {
@@ -85,6 +94,8 @@ public class UserInfo implements UserDetails {
     public static UserInfo convert(SysUser user, List<String> roleCodes,
                                    List<String> permissionCodes) {
         UserInfo userInfo = new UserInfo();
+        // 用户ID
+        userInfo.setUserid(user.getId());
         // 用户名
         userInfo.setUsername(user.getUsername());
         // nickname
@@ -97,6 +108,8 @@ public class UserInfo implements UserDetails {
         userInfo.setPermissions(permissionCodes);
         // 是否启用
         userInfo.setIsEnabled(user.getEnabled());
+        // 是否为管理员
+        userInfo.setManger(user.isManager());
 
         return userInfo;
     }
