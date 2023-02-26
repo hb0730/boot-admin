@@ -6,6 +6,7 @@ import com.hb0730.boot.admin.security.model.OnlineUser;
 import com.hb0730.boot.admin.security.service.UserDetailServiceImpl;
 import com.hb0730.boot.admin.security.token.JwtTokenRedisCacheProvider;
 import com.hb0730.boot.admin.security.token.UserCacheProvider;
+import jakarta.annotation.Resource;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,6 +37,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenRedisCacheProvider jwtTokenRedisCacheProvider;
     private final UserDetailServiceImpl userDetailService;
     @Lazy
+    @Resource
     private UserCacheProvider userCacheProvider;
 
     @Override

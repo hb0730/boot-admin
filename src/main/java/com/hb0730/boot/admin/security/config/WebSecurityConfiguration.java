@@ -2,6 +2,8 @@ package com.hb0730.boot.admin.security.config;
 
 import com.hb0730.boot.admin.base.util.PasswordUtil;
 import com.hb0730.boot.admin.security.filter.JwtTokenAuthenticationFilter;
+import com.hb0730.boot.admin.security.handler.TokenAccessDeniedHandler;
+import com.hb0730.boot.admin.security.handler.TokenAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,6 +38,8 @@ public class WebSecurityConfiguration {
     private final UserDetailsService userDetailsService;
     private final CorsFilter corsFilter;
     private final JwtTokenAuthenticationFilter tokenAuthenticationFilter;
+    private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
+    private final TokenAuthenticationEntryPoint authenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -45,9 +49,9 @@ public class WebSecurityConfiguration {
             // 异常处理
             .exceptionHandling()
 //            // 认证异常
-//            .authenticationEntryPoint()
+            .authenticationEntryPoint(authenticationEntryPoint)
 //            // 授权异常
-//            .accessDeniedHandler()
+            .accessDeniedHandler(tokenAccessDeniedHandler)
             .and()
             .userDetailsService(userDetailsService)
             // 防止iframe 造成跨域

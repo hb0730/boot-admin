@@ -62,7 +62,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
             roleCodes = sysUserService.getRoleCodeByUsername(username);
             // 用户信息ID 获取 用户角色ID集合
             Set<String> roleIds = sysUserService.queryRoleIdsByUserId(user.getId());
-
             if (CollectionUtil.isNotEmpty(roleIds)) {
                 Set<String> permissionIds = sysPermissionService.listPermissionIdsByRoleIds(List.copyOf(roleIds));
                 preCodes = sysPermissionService.listPermissionPreByIds(List.copyOf(permissionIds));

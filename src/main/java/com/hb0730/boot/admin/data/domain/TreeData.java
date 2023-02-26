@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.base.domain;
+package com.hb0730.boot.admin.data.domain;
 
 import java.io.Serializable;
 import java.util.List;
@@ -30,7 +30,7 @@ public interface TreeData<T extends TreeData<T>> extends Serializable {
      *
      * @return .
      */
-    List<TreeData<T>> getChildren();
+    List<T> getChildren();
 
     /**
      * set children
@@ -38,5 +38,5 @@ public interface TreeData<T extends TreeData<T>> extends Serializable {
      * @param data .
      * @return .
      */
-    List<TreeData<T>> setChildren(List<T> data);
+    TreeData<T> setChildren(List<T> data);
 }

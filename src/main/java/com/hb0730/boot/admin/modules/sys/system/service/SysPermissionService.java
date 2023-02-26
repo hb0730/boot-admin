@@ -3,23 +3,32 @@ package com.hb0730.boot.admin.modules.sys.system.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import com.hb0730.boot.admin.base.core.service.BaseServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.hb0730.boot.admin.core.service.BaseServiceImpl;
 import com.hb0730.boot.admin.data.enums.MenuTypeEnums;
 import com.hb0730.boot.admin.modules.sys.system.mapper.SysPermissionMapper;
 import com.hb0730.boot.admin.modules.sys.system.model.dto.PermissionTree;
 import com.hb0730.boot.admin.modules.sys.system.model.entity.SysPermission;
+import com.hb0730.boot.admin.modules.sys.system.model.query.PermissionTreeQuery;
+import com.hb0730.boot.admin.modules.sys.system.model.vo.PermissionVO;
 import com.hb0730.boot.admin.modules.sys.system.model.vo.VueMenuRouteMeta;
 import com.hb0730.boot.admin.modules.sys.system.model.vo.VueMenuRouteVO;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,10 +38,12 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class SysPermissionService extends BaseServiceImpl<SysPermissionMapper, SysPermission> {
     @Resource
     @Lazy
     private SysUserService sysUserService;
+    private final ApplicationContext applicationContext;
 
     /**
      * 获取权限ID集合 BY 角色ID结合
@@ -42,20 +53,26 @@ public class SysPermissionService extends BaseServiceImpl<SysPermissionMapper, S
      */
     @Nonnull
     public Set<String> listPermissionIdsByRoleIds(@Nonnull List<String> roleIds) {
-        Set<String> permissionIds = this.baseMapper.listPermissionIdsByRoleIds(roleIds);
-        return permissionIds == null ? Collections.emptySet() : permissionIds;
+        List<SysPermission> permissions = this.baseMapper.listByRoleIds(roleIds, true);
+        if (null == permissions) {
+            return Collections.emptySet();
+        }
+        return permissions.stream().map(SysPermission::getId).collect(Collectors.toSet());
     }
 
     /**
-     * 根据权限ID获取ID代码
+     * 根据ID查询已启用的权限code
      *
-     * @param permissionIds 权限ID
-     * @return 权限代码
+     * @param permissionIds ID
+     * @return 已启用的权限code
      */
     @Nonnull
     public Set<String> listPermissionPreByIds(@Nonnull List<String> permissionIds) {
-        Set<String> preCodes = this.baseMapper.listPermissionPreByIds(permissionIds);
-        return preCodes == null ? Collections.emptySet() : preCodes;
+        List<SysPermission> permissions = this.baseMapper.listPermission(permissionIds, true);
+        if (permissions == null) {
+            return Collections.emptySet();
+        }
+        return permissions.stream().map(SysPermission::getPerms).collect(Collectors.toSet());
     }
 
     /**
@@ -65,8 +82,11 @@ public class SysPermissionService extends BaseServiceImpl<SysPermissionMapper, S
      */
     @Nonnull
     public Set<String> allPermissionPre() {
-        Set<String> preCodes = this.baseMapper.allPermissionPre();
-        return preCodes == null ? Collections.emptySet() : preCodes;
+        List<SysPermission> permissions = this.baseMapper.listPermission(null, true);
+        if (null == permissions) {
+            return Collections.emptySet();
+        }
+        return permissions.stream().map(SysPermission::getPerms).collect(Collectors.toSet());
     }
 
     /**
@@ -76,8 +96,11 @@ public class SysPermissionService extends BaseServiceImpl<SysPermissionMapper, S
      */
     @Nonnull
     public Set<String> allPermissionIds() {
-        Set<String> preCodes = this.baseMapper.allPermissionIds();
-        return preCodes == null ? Collections.emptySet() : preCodes;
+        List<SysPermission> permissions = this.baseMapper.list(true);
+        if (null == permissions) {
+            return Collections.emptySet();
+        }
+        return permissions.stream().map(SysPermission::getId).collect(Collectors.toSet());
     }
 
     /**
@@ -93,14 +116,14 @@ public class SysPermissionService extends BaseServiceImpl<SysPermissionMapper, S
     }
 
     /**
-     * 根据权限ID获取菜单路由
+     * 根据ID查询已启用的路由信息
      *
-     * @param ids 权限ID
-     * @return 菜单路由
+     * @param ids ID
+     * @return 路由信息
      */
     @Nonnull
     public List<VueMenuRouteVO> queryRouteByIds(@Nonnull List<String> ids) {
-        List<SysPermission> sysPermissions = this.baseMapper.listEnabledPermission(ids);
+        List<SysPermission> sysPermissions = this.baseMapper.listMenuByIds(ids, true);
         if (null == sysPermissions) {
             return Collections.emptyList();
         }
@@ -190,7 +213,7 @@ public class SysPermissionService extends BaseServiceImpl<SysPermissionMapper, S
             routeMeta.setKeepAlive(permissionTree.getKeepAlive() == 1);
             // 需要内嵌的iframe链接地址
             if (permissionTree.getIsFrame() == 1) {
-                routeMeta.setFrameSrc(permissionTree.getFrameSrc());
+                routeMeta.setFrameSrc(permissionTree.getPath());
             }
         }
         menuRoute.setMeta(routeMeta);
@@ -200,4 +223,78 @@ public class SysPermissionService extends BaseServiceImpl<SysPermissionMapper, S
         }
         return menuRoute;
     }
+    /*==============================================================================*/
+
+
+    /**
+     * 查询菜单与权限列表
+     *
+     * @param query .
+     * @return .
+     */
+    public Optional<List<SysPermission>> listPermission(PermissionTreeQuery query) {
+        LambdaQueryWrapper<SysPermission> queryWrapper = buildQuery(query);
+        return Optional.ofNullable(this.list(queryWrapper));
+    }
+
+    /**
+     * 只查询菜单列表
+     *
+     * @param query .
+     * @return .
+     */
+    public Optional<List<SysPermission>> listMenu(PermissionTreeQuery query) {
+        LambdaQueryWrapper<SysPermission> queryWrapper = buildQuery(query);
+        queryWrapper.ne(SysPermission::getMenuType, MenuTypeEnums.permission.getValue());
+        return Optional.ofNullable(this.list(queryWrapper));
+    }
+
+    /**
+     * 保存
+     *
+     * @param vo .
+     * @return .
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public Optional<PermissionTree> save(PermissionVO vo) {
+        SysPermission permission = BeanUtil.toBean(vo, SysPermission.class);
+        log.info("【菜单与权限】新增菜单与权限，参数: {}", permission);
+        this.save(permission);
+        PermissionTree bean = BeanUtil.toBean(permission, PermissionTree.class);
+        return Optional.of(bean);
+    }
+
+    /**
+     * 根据ID更新
+     *
+     * @param vo .
+     * @param id .
+     * @return ,
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public Optional<PermissionTree> updateById(PermissionVO vo, @Nonnull String id) {
+        SysPermission permission = BeanUtil.toBean(vo, SysPermission.class);
+        permission.setId(id);
+        log.info("【菜单与权限】根据ID更新菜单与权限，参数: id--->{} data:---> {}", id, permission);
+        this.updateById(permission);
+        PermissionTree bean = BeanUtil.toBean(permission, PermissionTree.class);
+        return Optional.of(bean);
+    }
+
+
+    private LambdaQueryWrapper<SysPermission> buildQuery(@Nullable PermissionTreeQuery query) {
+        LambdaQueryWrapper<SysPermission> queryWrapper = Wrappers.lambdaQuery(SysPermission.class);
+        queryWrapper.orderByAsc(SysPermission::getRank);
+        if (null == query) {
+            return queryWrapper;
+        }
+        if (StrUtil.isNotBlank(query.getTitle())) {
+            queryWrapper.like(SysPermission::getTitle, query.getTitle());
+        }
+        if (null != query.getEnabled()) {
+            queryWrapper.eq(SysPermission::getEnabled, query.getEnabled());
+        }
+        return queryWrapper;
+    }
+
 }

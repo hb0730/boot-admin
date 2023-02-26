@@ -81,8 +81,13 @@ public class AuthorizationController {
     @PostMapping("/logout")
     public R<String> logout(HttpServletRequest request) {
         String _jwtToken = JwtUtil.getTokenByRequest(request);
-        UserInfo userInfo = SecurityUtil.getCurrentUser();
-        applicationContext.publishEvent(new LogoutEvent(this, _jwtToken, userInfo.getUsername(), userInfo.getUserid()));
+        try {
+            // 如果超时，则获取失败
+            UserInfo userInfo = SecurityUtil.getCurrentUser();
+            applicationContext.publishEvent(new LogoutEvent(this, _jwtToken, userInfo.getUsername(), userInfo.getUserid()));
+        } catch (Exception ignored) {
+
+        }
         jwtTokenRedisCacheProvider.removeToken(_jwtToken);
         return R.OK("成功");
     }

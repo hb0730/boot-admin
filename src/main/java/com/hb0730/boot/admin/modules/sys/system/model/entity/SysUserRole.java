@@ -8,7 +8,9 @@ import lombok.ToString;
 
 import java.io.Serializable;
 
-/**用户角色表
+/**
+ * 用户角色表
+ *
  * @author <a href="mailto:huangbing0730@gmail">hb0730</a>
  * @date 2023/2/4
  */

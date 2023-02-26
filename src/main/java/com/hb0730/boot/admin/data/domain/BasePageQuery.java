@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.base.domain;
+package com.hb0730.boot.admin.data.domain;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

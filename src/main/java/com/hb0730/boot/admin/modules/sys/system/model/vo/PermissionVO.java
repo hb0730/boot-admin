@@ -1,24 +1,56 @@
-package com.hb0730.boot.admin.modules.sys.system.model.entity;
+package com.hb0730.boot.admin.modules.sys.system.model.vo;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.hb0730.boot.admin.data.domain.BaseEntity;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
- * 菜单与权限
- *
  * @author <a href="mailto:huangbing0730@gmail">hb0730</a>
- * @date 2023/2/4
+ * @date 2023/2/25
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
+@EqualsAndHashCode
 @ToString
-public class SysPermission extends BaseEntity {
+public class PermissionVO implements Serializable {
+
+    /**
+     * ID
+     */
+    @TableId(type = IdType.ASSIGN_ID)
+    @Schema(description = "id")
+    protected String id;
+
+    /**
+     * 创建人
+     */
+    @Schema(description = "创建人")
+    protected String createdBy;
+
+    /**
+     * 创建时间
+     */
+    @Schema(description = "创建时间")
+    protected LocalDateTime created;
+
+    /**
+     * 更新人
+     */
+    @Schema(description = "更新人")
+    protected String modifiedBy;
+
+    /**
+     * 更新时间
+     */
+    @Schema(description = "更新时间")
+    protected LocalDateTime modified;
     /**
      * 父类
      */
@@ -48,10 +80,10 @@ public class SysPermission extends BaseEntity {
      * 是否显示
      */
     @Schema(description = "是否显示")
-    private Integer showLink;
+    private boolean showLink;
 
     public Integer getShowLink() {
-        return showLink == null ? 0 : showLink;
+        return showLink ? 1 : 0;
     }
 
     /**
@@ -69,20 +101,20 @@ public class SysPermission extends BaseEntity {
      * 是否显示父菜单
      */
     @Schema(description = "是否显示父菜单")
-    private Integer showParent;
+    private boolean showParent;
 
     public Integer getShowParent() {
-        return showParent == null ? 0 : showParent;
+        return showParent ? 1 : 0;
     }
 
     /**
      * 是否缓存该路由页面（开启后，会保存该页面的整体状态，刷新后会清空状态）
      */
     @Schema(description = "是否缓存该路由页面")
-    private Integer keepAlive;
+    private boolean keepAlive;
 
     public Integer getKeepAlive() {
-        return keepAlive == null ? 0 : keepAlive;
+        return keepAlive ? 1 : 0;
     }
 
     /**
@@ -91,14 +123,16 @@ public class SysPermission extends BaseEntity {
     @Schema(description = "是否iframe")
     private Integer isFrame;
 
-    public Integer getIsFrame() {
-        return isFrame == null ? 0 : isFrame;
-    }
-
+    /**
+     * 需要内嵌的iframe链接地址
+     */
+    @Schema(description = "需要内嵌的iframe链接地址")
+    private String frameSrc;
     /**
      * 类型（0：目录；1：菜单 ；2：按钮权限）
      */
     @Schema(description = "类型")
+    @NotBlank(message = "菜单类型不为空")
     private Integer menuType;
     /**
      * 菜单权限编码，例如：“sys:schedule:list,sys:schedule:info”,多个逗号隔开
@@ -109,6 +143,9 @@ public class SysPermission extends BaseEntity {
      * 是否启用
      */
     @Schema(description = "是否启用")
-    @TableField("is_enable")
-    private Integer enabled;
+    private boolean enabled;
+
+    public Integer getEnabled() {
+        return enabled ? 1 : 0;
+    }
 }

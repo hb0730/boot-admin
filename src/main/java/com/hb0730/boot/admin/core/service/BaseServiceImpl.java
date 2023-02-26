@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.base.core.service;
+package com.hb0730.boot.admin.core.service;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.IService;

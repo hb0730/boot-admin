@@ -2,11 +2,11 @@ package com.hb0730.boot.admin.modules.sys.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.hb0730.boot.admin.modules.sys.system.model.entity.SysPermission;
+import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author <a href="mailto:huangbing0730@gmail">hb0730</a>
@@ -15,42 +15,40 @@ import java.util.Set;
 public interface SysPermissionMapper extends BaseMapper<SysPermission> {
 
     /**
-     * 获取权限ID集合 BY 角色ID结合
+     * 根据角色ID查询菜单与权限
      *
-     * @param roleIds 角色ID集合
-     * @return 权限ID集合
-     */
-    @Nullable
-    Set<String> listPermissionIdsByRoleIds(@Param("roleIds") List<String> roleIds);
-
-    /**
-     * 获取权限代码根据权限ID
-     *
-     * @param permissionIds 权限ID
-     * @return 权限代码
-     */
-    Set<String> listPermissionPreByIds(@Param("permissionIds") List<String> permissionIds);
-
-    /**
-     * 获取全部的权限code
-     *
-     * @return .
-     */
-    Set<String> allPermissionPre();
-
-    /**
-     * 获取全部的ID
-     *
-     * @return .
-     */
-    Set<String> allPermissionIds();
-
-    /**
-     * 根据ID获取菜单与权限
-     *
-     * @param ids id
+     * @param roleIds   角色ID
+     * @param isEnabled 是否查询启用的
      * @return 菜单与权限
      */
     @Nullable
-    List<SysPermission> listEnabledPermission(@Param("ids") List<String> ids);
+    List<SysPermission> listByRoleIds(@Nonnull @Param("roleIds") List<String> roleIds,
+                                      @Nullable @Param("is_enabled") Boolean isEnabled);
+
+    /**
+     * 菜单与权限
+     * @param isEnabled 是否查询启用的
+     * @return 菜单与权限
+     */
+    List<SysPermission> list(@Nullable @Param("is_enabled") Boolean isEnabled);
+    /**
+     * 查询权限
+     *
+     * @param ids       ID集合
+     * @param isEnabled 是否查询已启用的
+     * @return 权限信息
+     */
+    List<SysPermission> listPermission(@Nullable @Param("ids") List<String> ids,
+                                       @Nullable @Param("is_enabled") Boolean isEnabled);
+
+    /**
+     * 查询菜单根据ID
+     *
+     * @param ids       菜单ID集合
+     * @param isEnabled 是否查询启用
+     * @return 菜单集合
+     */
+    @Nullable
+    List<SysPermission> listMenuByIds(@Nullable @Param("ids") List<String> ids,
+                                      @Nullable @Param("is_enabled") Boolean isEnabled);
 }

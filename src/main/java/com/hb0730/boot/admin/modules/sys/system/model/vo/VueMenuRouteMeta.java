@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.modules.sys.system.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,6 +17,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode
 @ToString
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class VueMenuRouteMeta implements Serializable {
     /**
      * title

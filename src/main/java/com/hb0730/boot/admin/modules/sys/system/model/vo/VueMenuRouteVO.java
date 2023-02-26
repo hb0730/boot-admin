@@ -18,6 +18,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode
 @ToString
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class VueMenuRouteVO implements Serializable {
     /**
      * 路由地址

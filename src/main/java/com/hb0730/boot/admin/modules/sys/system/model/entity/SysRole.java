@@ -1,7 +1,7 @@
 package com.hb0730.boot.admin.modules.sys.system.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.hb0730.boot.admin.base.domain.BaseEntity;
+import com.hb0730.boot.admin.data.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

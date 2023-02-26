@@ -2,7 +2,7 @@ package com.hb0730.boot.admin.modules.sys.system.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.hb0730.boot.admin.base.core.service.BaseServiceImpl;
+import com.hb0730.boot.admin.core.service.BaseServiceImpl;
 import com.hb0730.boot.admin.modules.sys.system.mapper.SysUserMapper;
 import com.hb0730.boot.admin.modules.sys.system.model.entity.SysUser;
 import jakarta.annotation.Nonnull;

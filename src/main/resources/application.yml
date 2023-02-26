@@ -10,7 +10,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://localhost:3306/boot-admin?characterEncoding=UTF-8&useSSL=false&useUnicode=true&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
     username: root
-    password: 123456
+    password: 1234
   data:
     redis:
       url: redis://localhost:6379

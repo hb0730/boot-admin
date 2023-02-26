@@ -9,6 +9,7 @@
              sys_user_role t1,
              sys_user t2
         where t.id = t1.role_id
+          AND t.is_enable = 1
           and t1.user_id = t2.id
           and t2.username = #{username}
     </select>
