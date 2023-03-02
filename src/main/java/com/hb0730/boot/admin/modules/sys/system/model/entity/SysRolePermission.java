@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 角色权限表
@@ -40,14 +40,13 @@ public class SysRolePermission implements Serializable {
      * 数据权限
      */
     private String dataRuleIds;
-
     /**
-     * 操作时间
+     * 创建时间
      */
-    private Date operateDate;
+    private LocalDateTime created;
     /**
-     * 操作ip
+     * 创建人
      */
-    private String operateIp;
+    private String createdBy;
 
 }

@@ -201,6 +201,7 @@ public class SysPermissionService extends BaseServiceImpl<SysPermissionMapper, S
         // 目录
         if (MenuTypeEnums.dir.getValue().equals(menuType)) {
             // 菜单排序，值越高排的越后（只针对顶级路由）
+            // TODO 其实这里已经时有序取出了，所以可以不需要给RouteMeta设置rank
             routeMeta.setRank(permissionTree.getRank());
         }
         //菜单
