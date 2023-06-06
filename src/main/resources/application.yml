@@ -59,6 +59,7 @@ boot:
   admin:
     cache:
       prefix: boot:admin:cache
+    refresh-routes: true
 
 springdoc:
   swagger-ui:

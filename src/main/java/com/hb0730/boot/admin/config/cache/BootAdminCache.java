@@ -2,7 +2,7 @@ package com.hb0730.boot.admin.config.cache;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import jakarta.annotation.Nullable;
+import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 @Slf4j
 public class BootAdminCache {
-    private final BootAdminCacheProperties cacheProperties;
+    private final BootAdminProperties cacheProperties;
     private final StringRedisTemplate redisTemplate;
 
     /**
@@ -35,7 +36,19 @@ public class BootAdminCache {
         if (StrUtil.isBlank(key)) {
             return null;
         }
-        return cacheProperties.getPrefix() + ":" + key;
+        return cacheProperties.getCache().getPrefix() + ":" + key;
+    }
+
+    /**
+     * 获取所有keys
+     *
+     * @param key .
+     * @return .
+     */
+    public Set<String> getKeys(String key) {
+        String normalizKey = normaliz(key);
+        return Optional.ofNullable(redisTemplate.keys(normalizKey))
+                .orElse(CollUtil.newHashSet());
     }
 
     /**
@@ -138,7 +151,7 @@ public class BootAdminCache {
      * @param key,自动追加前缀{@link #normaliz(String)}
      * @return .
      */
-    @Nullable
+    @Nonnull
     public Optional<String> getStr(final String key) {
         String _key = normaliz(key);
         return Optional.ofNullable(this.redisTemplate.opsForValue().get(_key));

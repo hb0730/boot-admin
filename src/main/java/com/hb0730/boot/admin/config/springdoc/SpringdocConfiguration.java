@@ -29,7 +29,7 @@ public class SpringdocConfiguration {
                     .contact(
                         new Contact()
                             .name("hb0730")
-                            .url("https://blog.hb00730.me")
+                            .url("https://blog.hb0730.me")
                             .email("huangbing0730@gmail.com")
                     )
                     .version("v1.0.0")

@@ -2,6 +2,7 @@ package com.hb0730.boot.admin.security.token;
 
 import com.hb0730.boot.admin.security.model.UserInfo;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -19,6 +20,13 @@ public interface UserCacheProvider {
      * @return .
      */
     boolean cacheUser(String key, UserInfo userInfo);
+
+    /**
+     * 获取所有缓存的登录用户
+     *
+     * @return .
+     */
+    Optional<List<UserInfo>> getCacheUsers();
 
     /**
      * 清理登录用户
