@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb0730.boot.admin.modules.sys.system.mapper.SysOrgMapper">
+    <sql id="Base_org">
+        t.id,
+        t.parent_id,
+        t.name,
+        t.code,
+        t.is_enable,
+        t.created,
+        t.created_by,
+        t.modified,
+        t.modified_by,
+        t.path,
+        t.link_man,
+        t.link_tel,
+        t.province_id,
+        t.city_id,
+        t.county_id,
+        t.address,
+        t.longitude,
+        t.memo,
+        t.is_system,
+        t.is_enable
+    </sql>
+    <select id="queryPage" resultType="com.hb0730.boot.admin.modules.sys.system.model.vo.OrganizationVO">
+        SELECT
+        <include refid="Base_org"/>,p.code as parent_code,p.name as parent_name
+        from sys_org t
+        LEFT JOIN sys_org p ON t.parent_id = p.id
+        WHERE 1=1
+        <if test="query.parentId != null and query.parentId != ''">
+            t.parent_id = #{query.parentId}
+        </if>
+        <if test="query.name != null and query.name != ''">
+            and t.name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.code != null and query.code != ''">
+            and t.code =#{query.code}
+        </if>
+        <if test="query.isEnable != null">
+            and t.is_enable =#{query.isEnable}
+        </if>
+        order by t.created desc
+    </select>
+</mapper>

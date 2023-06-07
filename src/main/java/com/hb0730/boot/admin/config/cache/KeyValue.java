@@ -7,6 +7,19 @@ package com.hb0730.boot.admin.config.cache;
  * @date 2023/1/30
  */
 public interface KeyValue {
+
+    /**
+     * 缓存key的失效时间
+     * <p> 不设置失效时间 == 永久有效 ；
+     * XXX: setObject方法设为-1时，经封装后代表永久有效
+     * <p> 单位：秒
+     */
+    long EXPIRE_TIME_DEFAULT = -1;
+
+    /**
+     * 工单号在缓存存储时间 90天
+     */
+    long ORDER_TIME_OUT_LIMIT = 60 * 60 * 24 * 30;
     /**
      * KEY前缀
      *
