@@ -31,7 +31,7 @@
         LEFT JOIN sys_org p ON t.parent_id = p.id
         WHERE 1=1
         <if test="query.parentId != null and query.parentId != ''">
-            t.parent_id = #{query.parentId}
+          and  t.parent_id = #{query.parentId}
         </if>
         <if test="query.name != null and query.name != ''">
             and t.name like concat('%',#{query.name},'%')
