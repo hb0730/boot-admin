@@ -7,39 +7,38 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * 机构查询
+ * 用户查询参数
  *
  * @author <a href="mailto:huangbing0730@gmail">hb0730</a>
- * @date 2023/6/3
+ * @date 2023/6/8
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString
-public class OrganizationQuery extends BasePageQuery {
+public class UserQuery extends BasePageQuery {
     /**
      * 所属机构
      */
-    @Parameter(description = "所属机构ID")
-    private String parentId;
+    @Parameter(description = "所属机构")
+    private String orgId;
     /**
-     * 机构名称
+     * 用户帐号
      */
-    @Parameter(description = "机构名称")
-    private String name;
+    @Parameter(description = "用户帐号")
+    private String username;
     /**
-     * 机构编码
+     * 姓名
      */
-    @Parameter(description = "机构编码")
-    private String code;
+    @Parameter(description = "姓名")
+    private String nickname;
     /**
-     * 联系人电话
+     * 联系电话
      */
-    @Parameter(description = "联系人电话")
-    private String linkTel;
+    @Parameter(description = "联系电话")
+    private String phone;
     /**
      * 状态
      */
     @Parameter(description = "状态")
-    private Integer isEnable;
-
+    private Integer enable;
 }

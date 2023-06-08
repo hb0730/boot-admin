@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.data.domain;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,8 +18,10 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @ToString
 public class BasePageQuery implements Serializable {
+    @Parameter(description = "分页size")
     @Schema(description = "分页size")
     private long size;
+    @Parameter(description = "当前页数")
     @Schema(description = "当前页数")
     private long current;
 }

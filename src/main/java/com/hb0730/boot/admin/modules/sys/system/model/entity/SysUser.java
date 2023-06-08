@@ -34,17 +34,13 @@ public class SysUser extends BaseEntity {
      */
     private String phone;
     /**
-     * 性别
-     */
-    private Integer gender;
-    /**
      * 是否启用
      */
     private Integer enabled;
     /**
      * 所属机构
      */
-    private String deptId;
+    private String orgId;
     /**
      * 是否网点管理员
      */

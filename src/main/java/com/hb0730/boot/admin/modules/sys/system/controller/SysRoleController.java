@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,14 +48,14 @@ public class SysRoleController {
     @GetMapping("/query/page")
     @PreAuthorize("@permission.hashPermission('role:query')")
     @Operation(summary = "分页查询")
-    public R<BasePage<SysRole>> queryPage(RoleQuery query) {
+    public R<BasePage<SysRole>> queryPage(@ParameterObject RoleQuery query) {
         BasePage<SysRole> page = sysRoleService.queryPage(query);
         return R.OK(page);
     }
 
     @GetMapping("/query/list")
     @Operation(summary = "列表查询")
-    public R<List<SysRole>> queryList(RoleQuery query) {
+    public R<List<SysRole>> queryList(@ParameterObject RoleQuery query) {
         List<SysRole> roles = sysRoleService.queryList(query);
         return R.OK(roles);
     }

@@ -1,10 +1,14 @@
 package com.hb0730.boot.admin.modules.sys.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.modules.sys.system.model.entity.SysUser;
+import com.hb0730.boot.admin.modules.sys.system.model.query.UserQuery;
+import com.hb0730.boot.admin.modules.sys.system.model.vo.UserVO;
 import jakarta.annotation.Nullable;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -38,4 +42,13 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      */
     @Nullable
     Set<String> allRoleCode();
+    /*=========================================================*/
+
+    /**
+     * 分页查询
+     * @param page .
+     * @param query  .
+     * @return .
+     */
+    List<UserVO> queryPage(Page<UserVO> page, @Param("query") UserQuery query);
 }

@@ -14,10 +14,12 @@ import com.hb0730.boot.admin.modules.sys.system.service.SysPermissionService;
 import com.hb0730.boot.admin.security.model.UserInfo;
 import com.hb0730.boot.admin.security.util.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -79,20 +81,20 @@ public class SysPermissionController {
     @GetMapping("/tree")
     @Operation(summary = "获取菜单与权限树形列表")
     @PreAuthorize("@permission.hashPermission('menu:query')")
-    public R<List<PermissionTree>> treesPermission(PermissionTreeQuery query) {
+    public R<List<PermissionTree>> treesPermission(@ParameterObject PermissionTreeQuery query) {
         Optional<List<SysPermission>> permissionOpt = sysPermissionService.listPermission(query);
         Optional<List<PermissionTree>> treeOpt = permissionOpt
-            .flatMap(e -> Optional.ofNullable(sysPermissionService.buildTree(e)));
+                .flatMap(e -> Optional.ofNullable(sysPermissionService.buildTree(e)));
         List<PermissionTree> tree = treeOpt.orElse(Collections.emptyList());
         return R.OK(tree);
     }
 
     @GetMapping("/tree/menu")
     @Operation(summary = "获取菜单树形列表")
-    public R<List<PermissionTree>> tressMenus(PermissionTreeQuery query) {
+    public R<List<PermissionTree>> tressMenus(@ParameterObject PermissionTreeQuery query) {
         Optional<List<SysPermission>> permissionOpt = sysPermissionService.listMenu(query);
         Optional<List<PermissionTree>> treeOpt = permissionOpt
-            .flatMap(e -> Optional.ofNullable(sysPermissionService.buildTree(e)));
+                .flatMap(e -> Optional.ofNullable(sysPermissionService.buildTree(e)));
         List<PermissionTree> tree = treeOpt.orElse(Collections.emptyList());
         return R.OK(tree);
     }
@@ -123,7 +125,8 @@ public class SysPermissionController {
     @PutMapping("/update")
     @Operation(summary = "更新菜单与权限")
     @PreAuthorize("@permission.hashPermission('menu:update')")
-    public R<PermissionTree> update(@RequestParam("id") String id, @Valid @RequestBody PermissionVO vo) {
+    public R<PermissionTree> update(@Parameter(name = "id", description = "当前ID", required = true) @RequestParam("id") String id,
+                                    @Valid @RequestBody PermissionVO vo) {
         MenuTypeEnums menuType = ValueEnum.valueToEnum(MenuTypeEnums.class, vo.getMenuType());
         R<PermissionTree> res = null;
         if (MenuTypeEnums.dir == menuType) {

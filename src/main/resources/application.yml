@@ -70,8 +70,9 @@ springdoc:
     path: /v3/api-docs
   group-configs:
     - group: 'default'
-      paths-to-match: '/**'
-      packages-to-scan: com.hb0730.boot.admin
+      paths-to-match:
+        - /sys/**
+        - /auth/**
 # 增强 swaager
 knife4j:
   enable: true

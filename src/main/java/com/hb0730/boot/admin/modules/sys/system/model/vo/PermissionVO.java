@@ -1,8 +1,6 @@
 package com.hb0730.boot.admin.modules.sys.system.model.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -24,7 +22,6 @@ public class PermissionVO implements Serializable {
     /**
      * ID
      */
-    @TableId(type = IdType.ASSIGN_ID)
     @Schema(description = "id")
     protected String id;
 

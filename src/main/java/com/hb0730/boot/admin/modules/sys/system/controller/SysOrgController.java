@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +42,7 @@ public class SysOrgController {
     @GetMapping("/query/page")
     @Operation(summary = "分页查询")
     @PreAuthorize("hasAuthority('org:query')")
-    public R<BasePage<OrganizationVO>> getListPage(HttpServletRequest request, OrganizationQuery query) {
+    public R<BasePage<OrganizationVO>> getListPage(HttpServletRequest request,@ParameterObject OrganizationQuery query) {
         BasePage<OrganizationVO> page = sysOrgService.queryPage(query);
         return R.OK(page);
     }
@@ -49,14 +50,14 @@ public class SysOrgController {
     @GetMapping("/query/tree")
     @Operation(summary = "树形结构")
     @PreAuthorize("hasAuthority('org:query:tree')")
-    public R<List<OrganizationTree>> getTree(HttpServletRequest request, OrganizationQuery query) {
+    public R<List<OrganizationTree>> getTree(HttpServletRequest request,@ParameterObject OrganizationQuery query) {
         List<OrganizationTree> res = sysOrgService.queryTree(query);
         return R.OK(res);
     }
 
     @GetMapping("/query/list")
     @Operation(summary = "列表")
-    public R<List<OrganizationVO>> getList(HttpServletRequest request, OrganizationQuery query) {
+    public R<List<OrganizationVO>> getList(HttpServletRequest request,@ParameterObject OrganizationQuery query) {
         List<OrganizationVO> res = sysOrgService.queryList(query);
         return R.OK(res);
     }

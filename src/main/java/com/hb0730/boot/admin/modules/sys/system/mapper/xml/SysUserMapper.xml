@@ -2,7 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hb0730.boot.admin.modules.sys.system.mapper.SysUserMapper">
-
+    <sql id="Base_sql">
+        t.id,t.created_by
+        ,t.created,t.modified_by,t.modified,t.username,t.password,t.nickname,t.phone,t.enabled,t.org_id,t.is_manage
+    </sql>
     <select id="getRoleCodeByUsername" resultType="java.lang.String">
         select t.role_code
         from sys_role t,
@@ -24,5 +27,25 @@
             a.role_code
         FROM sys_role a
         WHERE  a.is_enable=1
+    </select>
+    <select id="queryPage" resultType="com.hb0730.boot.admin.modules.sys.system.model.vo.UserVO">
+        SELECT
+            <include refid="Base_sql"/>,t1.name as org_name,t1.code as org_code
+        FROM `sys_user` t
+        LEFT JOIN sys_org t1 ON t.org_id = t1.id
+        WHERE 1=1
+        <if test="query.username!=null and query.username!=''">
+            AND t.username LIKE CONCAT('%',#{query.username},'%')
+        </if>
+        <if test="query.nickname!=null and query.nickname!=''">
+            AND t.nickname LIKE CONCAT('%',#{query.nickname},'%')
+        </if>
+        <if test="query.phone!=null and query.phone!=''">
+            AND t.phone = #{query.phone}
+        </if>
+        <if test="query.orgId!=null and query.orgId!=''">
+            AND t.org_id = #{query.orgId}
+        </if>
+        ORDER BY t.created DESC
     </select>
 </mapper>

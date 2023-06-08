@@ -19,6 +19,7 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
+@Schema(description = "vue 路由菜单")
 public class VueMenuRouteVO implements Serializable {
     /**
      * 路由地址

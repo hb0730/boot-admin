@@ -1,8 +1,7 @@
 package com.hb0730.boot.admin.modules.sys.system.model.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -24,7 +23,6 @@ public class OrganizationVO implements Serializable {
     /**
      * ID
      */
-    @TableId(type = IdType.ASSIGN_ID)
     @Schema(description = "id")
     protected String id;
 
@@ -54,7 +52,8 @@ public class OrganizationVO implements Serializable {
     /**
      * 父类
      */
-    @Schema(description = "父ID")
+    @Schema(description = "父ID", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotBlank(message = "父ID不能为空")
     private String parentId;
     @Schema(description = "所属机构名称")
     private String parentName;
@@ -68,7 +67,8 @@ public class OrganizationVO implements Serializable {
     /**
      * 机构名称
      */
-    @Schema(description = "机构名称")
+    @Schema(description = "机构名称", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotBlank(message = "机构名称不能为空")
     private String name;
     /**
      * 机构path
