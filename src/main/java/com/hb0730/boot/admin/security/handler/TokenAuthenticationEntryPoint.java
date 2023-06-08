@@ -28,6 +28,6 @@ public class TokenAuthenticationEntryPoint implements AuthenticationEntryPoint {
         // 当用户尝试访问安全的REST资源而不提供任何凭据时，将调用此方法发送401 响应
         int code = HttpStatus.UNAUTHORIZED.value();
         String msg = StrUtil.format("请求访问：{}，认证失败，无法访问系统资源", request.getRequestURI());
-        JakartaServletUtil.write(response, JsonUtil.DEFAULT.toJson(R.NG(code, msg)), MediaType.APPLICATION_JSON_VALUE);
+        JakartaServletUtil.write(response, JsonUtil.DEFAULT.toJson(R.NG(code, msg)), MediaType.APPLICATION_JSON_UTF8_VALUE);
     }
 }

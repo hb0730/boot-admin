@@ -23,7 +23,7 @@
         <!--        <lombok.version>1.18.24</lombok.version>-->
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <hb0730-jsons.version>1.0.3</hb0730-jsons.version>
-        <knife4j.version>4.0.0</knife4j.version>
+        <knife4j.version>4.1.0</knife4j.version>
         <jwt.version>4.2.2</jwt.version>
     </properties>
     <dependencies>
@@ -38,6 +38,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
