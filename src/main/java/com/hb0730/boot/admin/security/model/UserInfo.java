@@ -107,7 +107,7 @@ public class UserInfo implements UserDetails {
         // 权限
         userInfo.setPermissions(permissionCodes);
         // 是否启用
-        userInfo.setIsEnabled(user.getEnabled());
+        userInfo.setIsEnabled(user.getIsEnabled());
         // 是否为管理员
         userInfo.setManger(user.isManager());
 

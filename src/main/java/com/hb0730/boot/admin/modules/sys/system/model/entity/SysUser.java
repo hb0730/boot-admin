@@ -36,7 +36,7 @@ public class SysUser extends BaseEntity {
     /**
      * 是否启用
      */
-    private Integer enabled;
+    private Integer isEnabled;
     /**
      * 所属机构
      */

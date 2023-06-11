@@ -16,6 +16,13 @@ import java.util.Set;
  * @date 2023/2/4
  */
 public interface SysUserMapper extends BaseMapper<SysUser> {
+    /**
+     * 根据用户名获取用户信息
+     *
+     * @param username .
+     * @return .
+     */
+    SysUser getByUsername(@Param("username") String username);
 
     /**
      * 根据用户名获取已授权的角色代码
@@ -46,9 +53,44 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 
     /**
      * 分页查询
-     * @param page .
-     * @param query  .
+     *
+     * @param page  .
+     * @param query .
      * @return .
      */
     List<UserVO> queryPage(Page<UserVO> page, @Param("query") UserQuery query);
+
+    /**
+     * 保存用户角色
+     *
+     * @param userId  .
+     * @param roleIds .
+     * @return .
+     */
+    int saveUserRole(@Param("userId") String userId, @Param("roleIds") Set<String> roleIds);
+
+    /**
+     * 根据用户ID删除用户角色
+     *
+     * @param userId .
+     * @return .
+     */
+    int delUserRoleByUserid(@Param("userId") String userId);
+
+    /**
+     * 根据用户ID删除用户角色
+     *
+     * @param userIds .
+     * @return .
+     */
+    int delUserRoleByUserids(@Param("userIds") List<String> userIds);
+
+    /**
+     * 重置密码
+     *
+     * @param username .
+     * @param password .
+     * @return .
+     */
+    int resetPassword(@Param("username") String username, @Param("password") String password);
 }

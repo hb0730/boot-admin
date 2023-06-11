@@ -1,12 +1,16 @@
 package com.hb0730.boot.admin.modules.sys.system.model.vo;
 
+import cn.hutool.core.util.StrUtil;
+import com.hb0730.boot.admin.base.util.AesEncryptUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 用户信息
@@ -51,6 +55,7 @@ public class UserVO implements Serializable {
      * 用户名
      */
     @Schema(description = "用户帐号")
+    @NotBlank(message = "用户帐号不能为空")
     private String username;
     /**
      * 用户密码
@@ -67,11 +72,29 @@ public class UserVO implements Serializable {
      */
     @Schema(description = "手机号")
     private String phone;
+
+    public String getPhone() {
+        if (StrUtil.isBlank(phone)) {
+            return null;
+        }
+        // 有可能没有加密
+        try {
+            return AesEncryptUtil.desEncrypt(phone);
+        } catch (Exception e) {
+            return phone;
+        }
+    }
+
+    /**
+     * 邮箱
+     */
+    @Schema(description = "邮箱")
+    private String email;
     /**
      * 是否启用
      */
     @Schema(description = "是否启用")
-    private Integer enabled;
+    private Integer isEnabled;
 
     /**
      * 是否启用
@@ -80,10 +103,10 @@ public class UserVO implements Serializable {
      */
     @Schema(description = "是否启用")
     public boolean isEnabled() {
-        if (null == enabled) {
+        if (null == isEnabled) {
             return false;
         }
-        return enabled == 1;
+        return isEnabled == 1;
     }
 
     /**
@@ -106,4 +129,10 @@ public class UserVO implements Serializable {
      */
     @Schema(description = "是否网点管理员")
     private Integer isManage;
+
+    /**
+     * 角色id集合
+     */
+    @Schema(description = "角色id集合")
+    private List<String> roleIds;
 }
