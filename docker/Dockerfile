@@ -16,4 +16,4 @@ ENV JAVA_OPTS="-server -Xms2048m -Xmx2048m -Xmn512m -XX:MaxMetaspaceSize=512m" \
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-ENTRYPOINT ["java", "$JAVA_OPTS","org.springframework.boot.loader.JarLauncher"]
+ENTRYPOINT java $JAVA_OPTS org.springframework.boot.loader.JarLauncher
