@@ -128,7 +128,7 @@ public class SysUserController {
         if (StrUtil.isBlank(vo.getNewPassword())) {
             return R.NG("新密码不能为空");
         }
-        if (vo.getNewPassword().equals(vo.getConfirmPassword())) {
+        if (!vo.getNewPassword().equals(vo.getConfirmPassword())) {
             return R.NG("两次密码不一致");
         }
         return this.sysUserService.resetPassword(username, vo.getConfirmPassword());
@@ -141,7 +141,7 @@ public class SysUserController {
         if (StrUtil.isBlank(vo.getNewPassword())) {
             return R.NG("新密码不能为空");
         }
-        if (vo.getNewPassword().equals(vo.getConfirmPassword())) {
+        if (!vo.getNewPassword().equals(vo.getConfirmPassword())) {
             return R.NG("两次密码不一致");
         }
         if (vo.getOldPassword().equals(vo.getNewPassword())) {
