@@ -1,0 +1,12 @@
+version: '3'
+services:
+  next_boot-admin:
+    image: boot-admin:v5
+    container_name: next_boot-admin
+    ports:
+      - '8089:8088'
+    environment:
+      - JAVA_OPTS=-server -Dspring.profiles.active=prod -Dspring.config.additional-location=/application/conf/
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./conf:/application/conf
