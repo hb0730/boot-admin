@@ -13,8 +13,9 @@ spring:
     password: 1234
   data:
     redis:
-      url: redis://localhost:6379
+      host: localhost
       port: 6379
+      database: 0
   quartz:
     # 数据库存储
     job-store-type: jdbc

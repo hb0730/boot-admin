@@ -6,7 +6,7 @@ services:
     ports:
       - '8089:8088'
     environment:
-      - JAVA_OPTS=-server -Dspring.profiles.active=prod -Dspring.config.additional-location=/application/conf/
-      - TZ=Asia/Shanghai
+      JAVA_OPTS: '-server -Dspring.profiles.active=prod -Dspring.config.additional-location=/application/conf/'
+      TZ: "Asia/Shanghai"
     volumes:
       - ./conf:/application/conf
