@@ -1,5 +1,6 @@
 package com.hb0730.boot.admin.modules.sys.system.service;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -105,6 +106,25 @@ public class SysRoleService extends BaseServiceImpl<SysRoleMapper, SysRole> {
         }
         updateById(sysRole);
         return R.OK(sysRole);
+    }
+
+    /**
+     * 根据ID删除角色
+     *
+     * @param ids .
+     * @return .
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public R<String> deleteByIds(@Nonnull List<String> ids) {
+        if (CollectionUtil.isEmpty(ids)) {
+            return R.NG("删除失败");
+        }
+        boolean remove = removeByIds(ids);
+        if (remove) {
+            return R.OK("删除成功");
+        }
+        return R.NG("删除失败");
+
     }
 
     private LambdaQueryWrapper<SysRole> buildQuery(RoleQuery query) {
