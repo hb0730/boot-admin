@@ -2,7 +2,7 @@ package com.hb0730.boot.admin.modules.sys.system.model.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -129,7 +129,7 @@ public class PermissionVO implements Serializable {
      * 类型（0：目录；1：菜单 ；2：按钮权限）
      */
     @Schema(description = "类型")
-    @NotBlank(message = "菜单类型不为空")
+    @NotNull(message = "菜单类型不为空")
     private Integer menuType;
     /**
      * 菜单权限编码，例如：“sys:schedule:list,sys:schedule:info”,多个逗号隔开

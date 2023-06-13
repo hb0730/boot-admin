@@ -14,12 +14,13 @@ public enum DefaultKeyValue implements KeyValue {
      * <p>系统配置表【sys_config】缓存</p>
      * --------------------------------------------------------------------------------
      */
-    SYS_CONFIG("SYS:",
+    SYS_CONFIG("SYS",
             EXPIRE_TIME_DEFAULT,
             CacheType.STRING,
             String.class,
             "系统配置",
             "SYS:key --> (String)value"),
+
     ;
     /**
      * KEY前缀

@@ -57,9 +57,9 @@ public class BasePage<T> implements Serializable {
 
     public BasePage(long current, long size, long total, List<T> records) {
         this.setCurrent(current)
-            .setSize(size)
-            .setTotal(total)
-            .setRecords(records);
+                .setSize(size)
+                .setTotal(total)
+                .setRecords(records);
     }
 
     public BasePage<T> setCurrent(long current) {

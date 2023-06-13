@@ -25,9 +25,26 @@ public interface ValueEnum<T> {
      */
     static <V, E extends Enum<E> & ValueEnum<V>> E valueToEnum(Class<E> enumType, V value) {
         return Stream.of(enumType.getEnumConstants())
-            .filter(item -> item.getValue().equals(value))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("unknown database value: " + value));
+                .filter(item -> item.getValue().equals(value))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("unknown database value: " + value));
+    }
+
+    /**
+     * Converts value to corresponding enum.
+     *
+     * @param enumType     枚举类型,不为空
+     * @param value        值
+     * @param defaultValue 默认值
+     * @param <V>          值类型
+     * @param <E>          枚举类型
+     * @return corresponding enum
+     */
+    static <V, E extends Enum<E> & ValueEnum<V>> E valueToEnum(Class<E> enumType, V value, E defaultValue) {
+        return Stream.of(enumType.getEnumConstants())
+                .filter(item -> item.getValue().equals(value))
+                .findFirst()
+                .orElse(defaultValue);
     }
 
     /**

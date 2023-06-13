@@ -1,6 +1,7 @@
 package com.hb0730.boot.admin.modules.sys.system.controller;
 
 import com.hb0730.boot.admin.base.R;
+import com.hb0730.boot.admin.data.enums.ConfigTypeEnums;
 import com.hb0730.boot.admin.data.enums.EnabledEnums;
 import com.hb0730.boot.admin.data.enums.GenderEnums;
 import com.hb0730.boot.admin.modules.sys.system.vo.SelectOptionVO;
@@ -35,8 +36,8 @@ public class SysEnumsController {
     @Operation(summary = "状态列表")
     public R<List<SelectOptionVO>> enabledOptions() {
         List<SelectOptionVO> res = Stream.of(EnabledEnums.values())
-            .map(v -> SelectOptionVO.builder().value(v.getValue() + "").name(v.getName()).build())
-            .collect(Collectors.toList());
+                .map(v -> SelectOptionVO.builder().value(v.getValue() + "").name(v.getName()).build())
+                .collect(Collectors.toList());
         return R.OK(res);
     }
 
@@ -49,8 +50,22 @@ public class SysEnumsController {
     @Operation(summary = "性别")
     public R<List<SelectOptionVO>> genderOptions() {
         List<SelectOptionVO> res = Stream.of(GenderEnums.values())
-            .map(v -> SelectOptionVO.builder().name(v.getName()).value(v.getValue() + "").build())
-            .collect(Collectors.toList());
+                .map(v -> SelectOptionVO.builder().name(v.getName()).value(v.getValue() + "").build())
+                .collect(Collectors.toList());
+        return R.OK(res);
+    }
+
+    /**
+     * 配置类型
+     *
+     * @return .
+     */
+    @Operation(summary = "配置类型")
+    @GetMapping("/config_type")
+    public R<List<SelectOptionVO>> configTypeOptions() {
+        List<SelectOptionVO> res = Stream.of(ConfigTypeEnums.values())
+                .map(v -> SelectOptionVO.builder().name(v.getName()).value(v.getValue() + "").build())
+                .collect(Collectors.toList());
         return R.OK(res);
     }
 }
