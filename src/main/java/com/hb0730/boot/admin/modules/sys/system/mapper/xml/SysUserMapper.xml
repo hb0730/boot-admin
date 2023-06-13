@@ -46,6 +46,9 @@
         <if test="query.orgId!=null and query.orgId!=''">
             AND t.org_id = #{query.orgId}
         </if>
+        <if test="query.enable != null ">
+            AND t.is_enabled = #{query.enable}
+        </if>
         ORDER BY t.modified DESC
     </select>
     <select id="getByUsername" resultType="com.hb0730.boot.admin.modules.sys.system.model.entity.SysUser">
