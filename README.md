@@ -2,10 +2,10 @@
 
 基于Java17,SpringBoot3,Spring security6,Mysql8,MybatisPlus的前后端分离的后台管理系统
 
-|                                                                                |                                                                                |                                                                                |
-|--------------------------------------------------------------------------------|--------------------------------------------------------------------------------|--------------------------------------------------------------------------------|
-| ![](https://github.com/hb0730/boot-admin/raw/v5/doc/aseet/boot-admin_v5_1.png) | ![](https://github.com/hb0730/boot-admin/raw/v5/doc/aseet/boot-admin_v5_2.png) | ![](https://github.com/hb0730/boot-admin/raw/v5/doc/aseet/boot-admin_v5_2.png) |
-| ![](https://github.com/hb0730/boot-admin/raw/v5/doc/aseet/boot-admin_v5_3.png) | ![](https://github.com/hb0730/boot-admin/raw/v5/doc/aseet/boot-admin_v5_5.png) | ![](https://github.com/hb0730/boot-admin/raw/v5/doc/aseet/boot-admin_v5_6.png) |
+|                                                                                 |                                                                                |                                                                                |
+|---------------------------------------------------------------------------------|--------------------------------------------------------------------------------|--------------------------------------------------------------------------------|
+| ![](https://github.com/hb0730/boot-admin/raw/v5/doc/asset/boot-admin_v5_1.png) | ![](https://github.com/hb0730/boot-admin/raw/v5/doc/asset/boot-admin_v5_2.png) | ![](https://github.com/hb0730/boot-admin/raw/v5/doc/asset/boot-admin_v5_2.png) |
+| ![](https://github.com/hb0730/boot-admin/raw/v5/doc/asset/boot-admin_v5_3.png)  | ![](https://github.com/hb0730/boot-admin/raw/v5/doc/asset/boot-admin_v5_5.png) | ![](https://github.com/hb0730/boot-admin/raw/v5/doc/asset/boot-admin_v5_6.png) |
 
 
 ## 开源地址
