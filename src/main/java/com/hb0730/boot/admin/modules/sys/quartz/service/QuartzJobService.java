@@ -1,10 +1,14 @@
 package com.hb0730.boot.admin.modules.sys.quartz.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.base.exception.BootAdminException;
 import com.hb0730.boot.admin.core.service.BaseServiceImpl;
+import com.hb0730.boot.admin.data.domain.BasePage;
 import com.hb0730.boot.admin.data.enums.EnabledEnums;
 import com.hb0730.boot.admin.modules.sys.quartz.mapper.QuartzJobMapper;
 import com.hb0730.boot.admin.modules.sys.quartz.model.entity.QuartzJob;
+import com.hb0730.boot.admin.modules.sys.quartz.model.query.QuartzJobQuery;
+import com.hb0730.boot.admin.modules.sys.quartz.model.vo.QuartzJobVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.CronScheduleBuilder;
@@ -31,6 +35,28 @@ import java.util.List;
 @Slf4j
 public class QuartzJobService extends BaseServiceImpl<QuartzJobMapper, QuartzJob> {
     private final Scheduler scheduler;
+
+    /**
+     * 列表查询
+     *
+     * @param query .
+     * @return .
+     */
+    public BasePage<QuartzJobVO> queryPage(QuartzJobQuery query) {
+        Page<QuartzJobVO> page = new Page<>(query.getCurrent(), query.getSize());
+        List<QuartzJobVO> list = this.baseMapper.queryPage(page, query);
+        return new BasePage<>(page.getCurrent(), page.getSize(), page.getTotal(), list);
+    }
+
+    /**
+     * 列表查询
+     *
+     * @param query .
+     * @return .
+     */
+    public List<QuartzJobVO> queryList(QuartzJobQuery query) {
+        return this.baseMapper.queryPage(null, query);
+    }
 
     /**
      * 根据任务实现类全名取得匹配的任务

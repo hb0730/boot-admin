@@ -1,7 +1,10 @@
 package com.hb0730.boot.admin.modules.sys.quartz.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.modules.sys.quartz.model.entity.QuartzJob;
+import com.hb0730.boot.admin.modules.sys.quartz.model.query.QuartzJobQuery;
+import com.hb0730.boot.admin.modules.sys.quartz.model.vo.QuartzJobVO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -23,4 +26,13 @@ public interface QuartzJobMapper extends BaseMapper<QuartzJob> {
      */
     @Select("select * from sys_quartz_job where job_class_name = #{jobClassName}")
     List<QuartzJob> findByJobClassName(@Param("jobClassName") String jobClassName);
+
+    /**
+     * 分页查询
+     *
+     * @param page  .
+     * @param query .
+     * @return .
+     */
+    List<QuartzJobVO> queryPage(Page<QuartzJobVO> page, @Param("query") QuartzJobQuery query);
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb0730.boot.admin.modules.sys.quartz.mapper.QuartzJobMapper">
+    <select id="queryPage" resultType="com.hb0730.boot.admin.modules.sys.quartz.model.vo.QuartzJobVO">
+        SELECT *
+        FROM `sys_quartz_job`
+        WHERE 1 = 1
+        <if test="query.jobClassName != null and query.jobClassName != '' ">
+            and job_class_name = #{query.jobClassName}
+        </if>
+        <if test="query.status != null ">
+            and status = #{query.status}
+        </if>
+        ORDER BY created DESC
+    </select>
+</mapper>
