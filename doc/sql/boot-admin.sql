@@ -9,7 +9,7 @@
  Target Server Version : 80031 (8.0.31)
  File Encoding         : 65001
 
- Date: 13/06/2023 14:38:49
+ Date: 15/06/2023 09:29:29
 */
 
 SET NAMES utf8mb4;
@@ -173,7 +173,7 @@ CREATE TABLE `QRTZ_SCHEDULER_STATE` (
 -- Records of QRTZ_SCHEDULER_STATE
 -- ----------------------------
 BEGIN;
-INSERT INTO `QRTZ_SCHEDULER_STATE` (`SCHED_NAME`, `INSTANCE_NAME`, `LAST_CHECKIN_TIME`, `CHECKIN_INTERVAL`) VALUES ('MyScheduler', 'huangbingdeMacBook-Pro.local1686637814635', 1686638322473, 10000);
+INSERT INTO `QRTZ_SCHEDULER_STATE` (`SCHED_NAME`, `INSTANCE_NAME`, `LAST_CHECKIN_TIME`, `CHECKIN_INTERVAL`) VALUES ('MyScheduler', 'huangbingdeMacBook-Pro.local1686792295294', 1686792566695, 10000);
 COMMIT;
 
 -- ----------------------------
@@ -279,6 +279,7 @@ CREATE TABLE `sys_config` (
 -- Records of sys_config
 -- ----------------------------
 BEGIN;
+INSERT INTO `sys_config` (`id`, `created_by`, `created`, `modified_by`, `modified`, `type`, `code`, `value`, `memo`) VALUES ('1669144282138763265', 'admin', '2023-06-15 08:46:23', 'admin', '2023-06-15 09:04:10', 2, 'BIZ_TEST_CACHE', '{\n  \"name\": \"qiu\",\n  \"age\": 18,\n  \"isMan\": false,\n  \"date\": \"2023-06-15T00:26:00.342Z\",\n  \"arr\": [\n    1,\n    2,\n    5\n  ],\n  \"reg\": {}\n}', NULL);
 COMMIT;
 
 -- ----------------------------
@@ -388,6 +389,10 @@ INSERT INTO `sys_permission` (`id`, `created_by`, `created`, `modified_by`, `mod
 INSERT INTO `sys_permission` (`id`, `created_by`, `created`, `modified_by`, `modified`, `parent_id`, `path`, `name`, `title`, `icon`, `show_link`, `rank`, `component`, `show_parent`, `keep_alive`, `is_frame`, `menu_type`, `perms`, `is_enable`) VALUES ('1668456007738155010', 'admin', '2023-06-13 11:11:25', NULL, NULL, '1668455675150819330', NULL, NULL, '恢复', NULL, 1, 5, NULL, 1, 0, 0, 2, 'sys:quartz:job:resume', 1);
 INSERT INTO `sys_permission` (`id`, `created_by`, `created`, `modified_by`, `modified`, `parent_id`, `path`, `name`, `title`, `icon`, `show_link`, `rank`, `component`, `show_parent`, `keep_alive`, `is_frame`, `menu_type`, `perms`, `is_enable`) VALUES ('1668456068949827585', 'admin', '2023-06-13 11:11:40', NULL, NULL, '1668455675150819330', NULL, NULL, '执行', NULL, 1, 6, NULL, 1, 0, 0, 2, 'sys:quartz:job:execute', 1);
 INSERT INTO `sys_permission` (`id`, `created_by`, `created`, `modified_by`, `modified`, `parent_id`, `path`, `name`, `title`, `icon`, `show_link`, `rank`, `component`, `show_parent`, `keep_alive`, `is_frame`, `menu_type`, `perms`, `is_enable`) VALUES ('1668456129616240641', 'admin', '2023-06-13 11:11:54', NULL, NULL, '1668455675150819330', NULL, NULL, '删除', NULL, 1, 7, NULL, 1, 0, 0, 2, 'sys:quartz:job:delete', 1);
+INSERT INTO `sys_permission` (`id`, `created_by`, `created`, `modified_by`, `modified`, `parent_id`, `path`, `name`, `title`, `icon`, `show_link`, `rank`, `component`, `show_parent`, `keep_alive`, `is_frame`, `menu_type`, `perms`, `is_enable`) VALUES ('1668788439079194625', 'admin', '2023-06-14 09:12:23', NULL, NULL, '1629850171439321089', 'monitor/cache', 'Cache', '系统缓存', 'fa-solid:registered', 1, 2, 'monitor/cache', 1, 1, 0, 1, NULL, 1);
+INSERT INTO `sys_permission` (`id`, `created_by`, `created`, `modified_by`, `modified`, `parent_id`, `path`, `name`, `title`, `icon`, `show_link`, `rank`, `component`, `show_parent`, `keep_alive`, `is_frame`, `menu_type`, `perms`, `is_enable`) VALUES ('1668788526173917185', 'admin', '2023-06-14 09:12:44', NULL, NULL, '1668788439079194625', NULL, NULL, '缓存列表', NULL, 1, 1, NULL, 1, 0, 0, 2, 'cache:list', 1);
+INSERT INTO `sys_permission` (`id`, `created_by`, `created`, `modified_by`, `modified`, `parent_id`, `path`, `name`, `title`, `icon`, `show_link`, `rank`, `component`, `show_parent`, `keep_alive`, `is_frame`, `menu_type`, `perms`, `is_enable`) VALUES ('1668788588144758786', 'admin', '2023-06-14 09:12:59', NULL, NULL, '1668788439079194625', NULL, NULL, '查询缓存', NULL, 1, 2, NULL, 1, 0, 0, 2, 'cache:query', 1);
+INSERT INTO `sys_permission` (`id`, `created_by`, `created`, `modified_by`, `modified`, `parent_id`, `path`, `name`, `title`, `icon`, `show_link`, `rank`, `component`, `show_parent`, `keep_alive`, `is_frame`, `menu_type`, `perms`, `is_enable`) VALUES ('1668788650828632066', 'admin', '2023-06-14 09:13:14', NULL, NULL, '1668788439079194625', NULL, NULL, '删除缓存', NULL, 1, 3, NULL, 1, 0, 0, 2, 'cache:remove', 1);
 COMMIT;
 
 -- ----------------------------

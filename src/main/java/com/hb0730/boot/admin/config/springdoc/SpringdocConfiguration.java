@@ -40,7 +40,7 @@ public class SpringdocConfiguration {
                                 .url("https://blog.hb0730.me")
                                 .email("huangbing0730@gmail.com")
                 )
-                .version("v1.0.0")
+                .version("v5.0.0")
                 ;
     }
 
