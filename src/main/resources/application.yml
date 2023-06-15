@@ -91,6 +91,10 @@ springdoc:
       display-name: "权限管理"
       paths-to-match:
         - /auth/**
+    - group: "monitor"
+      display-name: "监控管理"
+      paths-to-match:
+        - /monitor/**
   default-produces-media-type: application/json;charset=UTF-8
   default-consumes-media-type: application/json;charset=UTF-8
 

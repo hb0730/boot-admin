@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hb0730.boot.admin.modules.sys.quartz.mapper.QuartzJobMapper">
-    <select id="queryPage" resultType="com.hb0730.boot.admin.modules.sys.quartz.model.vo.QuartzJobVO">
+<mapper namespace="com.hb0730.boot.admin.modules.sys.monitor.mapper.QuartzJobMapper">
+    <select id="queryPage" resultType="com.hb0730.boot.admin.modules.sys.monitor.model.vo.QuartzJobVO">
         SELECT *
         FROM `sys_quartz_job`
         WHERE 1 = 1

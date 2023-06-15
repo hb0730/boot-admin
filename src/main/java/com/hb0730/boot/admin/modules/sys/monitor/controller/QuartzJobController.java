@@ -1,12 +1,12 @@
-package com.hb0730.boot.admin.modules.sys.quartz.controller;
+package com.hb0730.boot.admin.modules.sys.monitor.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.hb0730.boot.admin.base.R;
 import com.hb0730.boot.admin.data.domain.BasePage;
-import com.hb0730.boot.admin.modules.sys.quartz.model.entity.QuartzJob;
-import com.hb0730.boot.admin.modules.sys.quartz.model.query.QuartzJobQuery;
-import com.hb0730.boot.admin.modules.sys.quartz.model.vo.QuartzJobVO;
-import com.hb0730.boot.admin.modules.sys.quartz.service.QuartzJobService;
+import com.hb0730.boot.admin.modules.sys.monitor.model.vo.QuartzJobVO;
+import com.hb0730.boot.admin.modules.sys.monitor.model.entity.QuartzJob;
+import com.hb0730.boot.admin.modules.sys.monitor.model.query.QuartzJobQuery;
+import com.hb0730.boot.admin.modules.sys.monitor.service.QuartzJobService;
 import com.hb0730.boot.admin.security.util.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,7 +36,7 @@ import java.util.List;
  * @date 2023/6/12
  */
 @RestController
-@RequestMapping("/quartz/job")
+@RequestMapping("/monitor/quartz/job")
 @Tag(name = "定时任务")
 @RequiredArgsConstructor
 @Slf4j

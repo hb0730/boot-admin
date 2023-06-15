@@ -82,11 +82,15 @@ public enum DefaultKeyValue implements KeyValue {
         return desc;
     }
 
+    public CacheType getType() {
+        return type;
+    }
+
     /**
      * JimDB缓存的数据类型
      * <p> 涉及如何 set、get </p>
      */
-    enum CacheType {
+    public enum CacheType {
         STRING, OBJECT, HASHMAP, SET, LIST
     }
 }

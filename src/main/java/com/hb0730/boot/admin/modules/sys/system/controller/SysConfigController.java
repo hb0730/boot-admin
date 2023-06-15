@@ -38,7 +38,7 @@ import java.util.List;
 @Tag(name = "系统：系统配置")
 @RequiredArgsConstructor
 @Validated
-public class SysConfigController {
+public class  SysConfigController {
     private final SysConfigService configService;
 
     @GetMapping("/query/page")

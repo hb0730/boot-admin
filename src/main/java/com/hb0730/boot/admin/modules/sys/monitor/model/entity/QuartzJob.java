@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.modules.sys.quartz.model.entity;
+package com.hb0730.boot.admin.modules.sys.monitor.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hb0730.boot.admin.data.domain.BaseEntity;

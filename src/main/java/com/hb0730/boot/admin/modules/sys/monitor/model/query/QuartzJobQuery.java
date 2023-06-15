@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.modules.sys.quartz.model.query;
+package com.hb0730.boot.admin.modules.sys.monitor.model.query;
 
 import com.hb0730.boot.admin.data.domain.BasePageQuery;
 import io.swagger.v3.oas.annotations.media.Schema;

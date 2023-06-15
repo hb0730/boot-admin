@@ -1,14 +1,14 @@
-package com.hb0730.boot.admin.modules.sys.quartz.service;
+package com.hb0730.boot.admin.modules.sys.monitor.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb0730.boot.admin.base.exception.BootAdminException;
 import com.hb0730.boot.admin.core.service.BaseServiceImpl;
 import com.hb0730.boot.admin.data.domain.BasePage;
 import com.hb0730.boot.admin.data.enums.EnabledEnums;
-import com.hb0730.boot.admin.modules.sys.quartz.mapper.QuartzJobMapper;
-import com.hb0730.boot.admin.modules.sys.quartz.model.entity.QuartzJob;
-import com.hb0730.boot.admin.modules.sys.quartz.model.query.QuartzJobQuery;
-import com.hb0730.boot.admin.modules.sys.quartz.model.vo.QuartzJobVO;
+import com.hb0730.boot.admin.modules.sys.monitor.model.entity.QuartzJob;
+import com.hb0730.boot.admin.modules.sys.monitor.model.vo.QuartzJobVO;
+import com.hb0730.boot.admin.modules.sys.monitor.mapper.QuartzJobMapper;
+import com.hb0730.boot.admin.modules.sys.monitor.model.query.QuartzJobQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.CronScheduleBuilder;

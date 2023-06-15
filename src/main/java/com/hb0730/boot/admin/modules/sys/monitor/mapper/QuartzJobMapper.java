@@ -1,10 +1,10 @@
-package com.hb0730.boot.admin.modules.sys.quartz.mapper;
+package com.hb0730.boot.admin.modules.sys.monitor.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hb0730.boot.admin.modules.sys.quartz.model.entity.QuartzJob;
-import com.hb0730.boot.admin.modules.sys.quartz.model.query.QuartzJobQuery;
-import com.hb0730.boot.admin.modules.sys.quartz.model.vo.QuartzJobVO;
+import com.hb0730.boot.admin.modules.sys.monitor.model.entity.QuartzJob;
+import com.hb0730.boot.admin.modules.sys.monitor.model.vo.QuartzJobVO;
+import com.hb0730.boot.admin.modules.sys.monitor.model.query.QuartzJobQuery;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 

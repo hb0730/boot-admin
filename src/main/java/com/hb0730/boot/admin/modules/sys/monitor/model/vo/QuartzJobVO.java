@@ -1,4 +1,4 @@
-package com.hb0730.boot.admin.modules.sys.quartz.model.vo;
+package com.hb0730.boot.admin.modules.sys.monitor.model.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;

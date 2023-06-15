@@ -9,6 +9,9 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -37,6 +40,16 @@ public class BootAdminCache {
             return null;
         }
         return cacheProperties.getCache().getPrefix() + ":" + key;
+    }
+
+    /**
+     * 是否存在
+     *
+     * @param key .
+     * @return .
+     */
+    public boolean hasKey(String key) {
+        return Boolean.TRUE.equals(redisTemplate.hasKey(normaliz(key)));
     }
 
     /**
@@ -155,6 +168,59 @@ public class BootAdminCache {
     public Optional<String> getStr(final String key) {
         String _key = normaliz(key);
         return Optional.ofNullable(this.redisTemplate.opsForValue().get(_key));
+    }
+
+    /**
+     * 获取hashKey对应的所有键值
+     *
+     * @param key 键
+     * @return 对应的多个键值
+     */
+    @Nonnull
+    public Optional<Map<String, String>> hmget(final String key) {
+        String _key = normaliz(key);
+        Map<Object, Object> entries = this.redisTemplate.opsForHash().entries(_key);
+        return Optional.of(entries).map(Map::entrySet).map(entries1 -> {
+            Map<String, String> map = new HashMap<>(entries1.size());
+            entries1.forEach(entry -> map.put(entry.getKey().toString(), entry.getValue().toString()));
+            return map;
+        });
+    }
+
+    /**
+     * 获取hashKey对应的所有键值
+     *
+     * @param key .
+     * @return .
+     */
+    @Nonnull
+    public Optional<Set<String>> sGet(final String key) {
+        String _key = normaliz(key);
+        return Optional.ofNullable(this.redisTemplate.opsForSet().members(_key));
+    }
+
+    /**
+     * 获取list缓存的内容,默认 0 到 -1
+     *
+     * @param key .
+     * @return .
+     */
+    @Nonnull
+    public Optional<List<String>> lGet(final String key) {
+        return lGet(key, 0, -1);
+    }
+
+    /**
+     * 获取list缓存的内容， 0 到 -1代表所有值
+     *
+     * @param key   .
+     * @param start 开始
+     * @param end   结束
+     * @return .
+     */
+    public Optional<List<String>> lGet(final String key, long start, long end) {
+        String _key = normaliz(key);
+        return Optional.ofNullable(this.redisTemplate.opsForList().range(_key, start, end));
     }
 
     /**
