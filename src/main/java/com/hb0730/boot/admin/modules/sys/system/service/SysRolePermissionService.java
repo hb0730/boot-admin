@@ -5,11 +5,14 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hb0730.boot.admin.core.service.BaseServiceImpl;
+import com.hb0730.boot.admin.modules.sys.system.event.RefreshOnlineUserRouteEvent;
 import com.hb0730.boot.admin.modules.sys.system.mapper.SysRolePermissionMapper;
 import com.hb0730.boot.admin.modules.sys.system.model.entity.SysRolePermission;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +28,9 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class SysRolePermissionService extends BaseServiceImpl<SysRolePermissionMapper, SysRolePermission> {
-
+    private final ApplicationContext applicationContext;
 
     /**
      * 获取角色对应的权限
@@ -35,9 +39,10 @@ public class SysRolePermissionService extends BaseServiceImpl<SysRolePermissionM
      * @return 权限ID
      */
     public Optional<List<String>> findPermissionIdByRole(String id) {
-        LambdaQueryWrapper<SysRolePermission> queryWrapper = Wrappers.lambdaQuery(SysRolePermission.class)
-                .eq(SysRolePermission::getRoleId, id);
-        return Optional.of(this.baseMapper.selectList(queryWrapper).stream().map(SysRolePermission::getPermissionId).collect(Collectors.toList()));
+//        LambdaQueryWrapper<SysRolePermission> queryWrapper = Wrappers.lambdaQuery(SysRolePermission.class)
+//                .eq(SysRolePermission::getRoleId, id);
+//        return Optional.of(this.baseMapper.selectList(queryWrapper).stream().map(SysRolePermission::getPermissionId).collect(Collectors.toList()));
+        return Optional.ofNullable(this.baseMapper.getPermissionIdByRoleId(id));
     }
 
     /**
@@ -74,7 +79,10 @@ public class SysRolePermissionService extends BaseServiceImpl<SysRolePermissionM
             rolePermission.setCreatedBy(permissionIds.get(0).getCreatedBy());
             return rolePermission;
         }).toList();
-        return saveBatch(rolePermissions);
+        boolean success = this.saveBatch(rolePermissions);
+        // 刷新在线用户权限
+        applicationContext.publishEvent(new RefreshOnlineUserRouteEvent(this));
+        return success;
     }
 
     private Set<String> getParentId(List<String> permissionIdList, Set<String> container) {

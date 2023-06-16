@@ -80,7 +80,7 @@ public class SysPermissionController {
      */
     @GetMapping("/tree")
     @Operation(summary = "获取菜单与权限树形列表")
-    @PreAuthorize("@permission.hashPermission('menu:query')")
+    @PreAuthorize("@permission.hashPermission('menu:query','role:query')")
     public R<List<PermissionTree>> treesPermission(@ParameterObject PermissionTreeQuery query) {
         Optional<List<SysPermission>> permissionOpt = sysPermissionService.listPermission(query);
         Optional<List<PermissionTree>> treeOpt = permissionOpt

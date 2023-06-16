@@ -171,6 +171,16 @@ public class BootAdminCache {
     }
 
     /**
+     * 获取缓存
+     *
+     * @param key key
+     * @return .
+     */
+    public Optional<String> defaultGet(final String key) {
+        return Optional.ofNullable(this.redisTemplate.opsForValue().get(key));
+    }
+
+    /**
      * 获取hashKey对应的所有键值
      *
      * @param key 键

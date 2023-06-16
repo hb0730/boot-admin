@@ -9,4 +9,10 @@
             #{permissionId}
         </foreach>
     </select>
+    <select id="getPermissionIdByRoleId" resultType="java.lang.String">
+        SELECT permission_id
+        FROM sys_role_permission
+        WHERE role_id = #{roleId} AND (SELECT count(id) FROM sys_permission WHERE parent_id = permission_id) =0;
+
+    </select>
 </mapper>

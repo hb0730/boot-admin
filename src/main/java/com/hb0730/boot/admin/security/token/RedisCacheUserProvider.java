@@ -63,7 +63,7 @@ public class RedisCacheUserProvider implements UserCacheProvider, CacheUtil {
         }
         List<UserInfo> userInfoList=new ArrayList<>();
         for (String key : keys) {
-            Optional<String> cacheValue = cache.getStr(key);
+            Optional<String> cacheValue = cache.defaultGet(key);
             if (cacheValue.isPresent()) {
                 UserInfo cacheUserInfo = JsonUtil.DEFAULT.fromJson(cacheValue.get(), UserInfo.class);
                 userInfoList.add(cacheUserInfo);

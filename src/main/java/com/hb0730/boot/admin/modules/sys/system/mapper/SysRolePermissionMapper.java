@@ -21,4 +21,12 @@ public interface SysRolePermissionMapper extends BaseMapper<SysRolePermission> {
      * @return .
      */
     List<String> getParentIdByPermissionIds(@Param("permissionIds") List<String> permissionIds);
+
+    /**
+     * 根据角色ID查询权限ID,只查询没有下级的权限
+     *
+     * @param roleId .
+     * @return .
+     */
+    List<String> getPermissionIdByRoleId(@Param("roleId") String roleId);
 }

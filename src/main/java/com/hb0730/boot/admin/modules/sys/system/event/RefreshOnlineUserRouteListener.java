@@ -8,6 +8,7 @@ import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-//@Async
+@Async
 public class RefreshOnlineUserRouteListener implements ApplicationListener<RefreshOnlineUserRouteEvent> {
     private final UserCacheProvider userCacheProvider;
     private final BootAdminProperties properties;
