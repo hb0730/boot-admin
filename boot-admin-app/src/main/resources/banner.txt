@@ -1,0 +1,9 @@
+${AnsiColor.BRIGHT_YELLOW}
+.-.               .-.                 .-.          _
+: :              .' `.                : :         :_;
+: `-.  .--.  .--.`. .'_____  .--.   .-' :,-.,-.,-..-.,-.,-.
+' .; :' .; :' .; :: ::_____:' .; ; ' .; :: ,. ,. :: :: ,. :
+`.__.'`.__.'`.__.':_;       `.__,_;`.__.':_;:_;:_;:_;:_;:_;
+${AnsiColor.BRIGHT_RED}
+Application Version: ${spring.application.name}:${spring.application.version}
+Spring Boot Version: ${spring-boot.version}${spring-boot.formatted-version}

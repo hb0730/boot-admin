@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+
+    <groupId>com.hb0730</groupId>
+    <artifactId>boot-admin</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+
+    <modules>
+        <!-- 主业务:核心模块-->
+        <module>boot-admin-app</module>
+        <!-- 纯对外接口:m3 模块用-->
+        <module>boot-admin-api</module>
+        <!-- 纯对外接口-->
+        <module>boot-admin-open</module>
+        <!-- SAAS端:中控-->
+        <module>boot-admin-web</module>
+        <!-- 主业务:任务-->
+        <module>boot-admin-job</module>
+        <!-- 主业务:消息-->
+        <module>boot-admin-msg</module>
+        <!-- 模块: 基础-->
+        <module>boot-admin-base</module>
+        <!-- 模块: 配置-->
+        <module>boot-admin-conf</module>
+        <!-- 模块: 实体数据-->
+        <module>boot-admin-data</module>
+        <module>boot-admin-modules</module>
+    </modules>
+
+    <properties>
+        <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <spring-boot.version>3.2.2</spring-boot.version>
+        <sofa-boot.version>4.2.0</sofa-boot.version>
+        <hutool.version>5.8.25</hutool.version>
+        <mysql.version>8.0.27</mysql.version>
+        <springdoc.version>2.3.0</springdoc.version>
+        <guava.version>31.0.1-jre</guava.version>
+        <spring-grpc.version>2.15.0.RELEASE</spring-grpc.version>
+        <s3.version>2.17.0</s3.version>
+        <lombok.version>1.18.28</lombok.version>
+        <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        <jwt.version>4.4.0</jwt.version>
+
+        <poi.version>5.2.3</poi.version>
+        <easyexcel.version>3.3.3</easyexcel.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <!-- spring boot 3.2.2 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--alipay sofaBoot -->
+            <dependency>
+                <groupId>com.alipay.sofa</groupId>
+                <artifactId>sofaboot-dependencies</artifactId>
+                <type>pom</type>
+                <scope>import</scope>
+                <version>${sofa-boot.version}</version>
+            </dependency>
+            <!--hutool-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-bom</artifactId>
+                <version>${hutool.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--mysql-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <!--springdoc-openapi-->
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-common</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+
+            <!--jpa Specification-->
+            <dependency>
+                <groupId>com.blinkfox</groupId>
+                <artifactId>fenix</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+
+
+            <!--apache excel-->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-scratchpad</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <!--ali easyexcel-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>${easyexcel.version}</version>
+            </dependency>
+
+            <!--guava-->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <!--oss amazon s3-->
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>s3</artifactId>
+                <version>${s3.version}</version>
+            </dependency>
+
+            <!--mapstruct-->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+
+            <!--jwt-->
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+
+    <build>
+        <plugins>
+            <!--maven compiler-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <!--https://github.com/spring-projects/spring-boot/issues/38541#issuecomment-1827462871-->
+                    <!--https://github.com/spring-projects/spring-framework/wiki/Upgrading-to-Spring-Framework-6.x#parameter-name-retention-->
+                    <parameters>true</parameters>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>${lombok-mapstruct-binding.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            <!--maven resource-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <nonFilteredFileExtensions>
+                        <nonFilteredFileExtension>woff</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>woff2</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>eot</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>svg</nonFilteredFileExtension>
+                    </nonFilteredFileExtensions>
+                </configuration>
+            </plugin>
+            <!-- 打包跳过测试 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.1</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.json</include>
+                    <include>**/*.ftl</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
+</project>

@@ -1,0 +1,65 @@
+server:
+  port: 9004
+
+logging:
+  level:
+    root: info
+    com.hb0730: debug
+
+spring:
+  application:
+    name: boot-admin-job
+    version: 1.0.0
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/boot-admin?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+  quartz:
+    # 存储类型
+    job-store-type: jdbc
+    # 自动启动
+    auto-startup: true
+    # 更新已存在的job
+    overwrite-existing-jobs: true
+    # 等待所有job完成再关闭
+    wait-for-jobs-to-complete-on-shutdown: true
+    jdbc:
+      # schema初始模式
+      initialize-schema: embedded
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceName: MyScheduler
+            instanceId: AUTO
+          jobStore:
+            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            tablePrefix: QRTZ_
+            isClustered: true
+            misfireThreshold: 60000
+            clusterCheckinInterval: 10000
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 10
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: 123456
+      database: 0
+
+sofa:
+  boot:
+    rpc:
+      registry-address: local://${user.home}/.sofa-boot/registry/boot-admin.reg
+
+
+boot:
+  admin:
+    cache:
+      enabled: true
+      prefix: "boot_admin"

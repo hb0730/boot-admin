@@ -1,0 +1,42 @@
+version: "3"
+services:
+  web_server:
+    build:
+      context: ../
+      dockerfile: docker/web.Dockerfile
+    container_name: web_server
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+      JAVA_TOOL_OPTIONS: "-Duser.timezone=Asia/Shanghai -DSpring.profiles.active=prod -Xms256m -Xmx512m"
+    ports:
+      - "9002:9002"
+    depends_on:
+      - app_server
+    networks:
+      - boot-admin-net
+  app_server:
+    build:
+      context: ../
+      dockerfile: docker/app.Dockerfile
+    container_name: app_server
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+      JAVA_TOOL_OPTIONS: "-Duser.timezone=Asia/Shanghai -DSpring.profiles.active=prod -Xms256m -Xmx512m"
+    networks:
+      - boot-admin-net
+  job_server:
+    build:
+      context: ../
+      dockerfile: docker/job.Dockerfile
+    container_name: job_server
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+      JAVA_TOOL_OPTIONS: "-Duser.timezone=Asia/Shanghai -DSpring.profiles.active=prod -Xms256m -Xmx512m"
+    networks:
+      - boot-admin-net
+networks:
+  boot-admin-net:
+    driver: bridge
