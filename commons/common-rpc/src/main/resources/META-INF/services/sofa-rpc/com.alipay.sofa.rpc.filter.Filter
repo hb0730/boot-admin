@@ -1,0 +1,3 @@
+serverExceptionLogPrintFilter=com.hb0730.base.conf.filter.ServerExceptionLogPrintFilter
+tenantClientFilter=com.hb0730.base.conf.filter.TenantClientFilter
+tenantServerFilter=com.hb0730.base.conf.filter.TenantServerFilter
