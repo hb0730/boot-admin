@@ -9,6 +9,13 @@
 | ![](./docs/screenshot/demo1.png) | ![](./docs/screenshot/demo2.png) | ![](./docs/screenshot/demo3.png) |
 | ![](./docs/screenshot/demo4.png) | ![](./docs/screenshot/demo5.png) | ![](./docs/screenshot/demo6.png) |
 
+## 开源地址
+
+|        | 前端                                                    | 后端                                                 |                                          
+|--------|-------------------------------------------------------|----------------------------------------------------|
+| Github | [boot-admin](https://github.com/hb0730/boot-admin-ui) | [boot-admin](https://github.com/hb0730/boot-admin) |
+| Gitee  | [boot-admin](https://gitee.com/hb0730/boot-admin-ui)  | [boot-admin](https://gitee.com/hb0730/boot-admin)  |
+
 ## 项目结构
 
 ```shell
