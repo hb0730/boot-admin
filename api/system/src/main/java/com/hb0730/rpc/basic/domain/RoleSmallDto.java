@@ -14,7 +14,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class RoleSmallDto implements Serializable {
     @Schema(description = "角色ID")
-    private Long id;
+    private String id;
     @Schema(description = "角色名称")
     private String name;
 }

@@ -3,6 +3,7 @@ package com.hb0730.modules.basic.rpcservice;
 import com.hb0730.base.conf.client.ClientRemoteRpcService;
 import com.hb0730.commons.JR;
 import com.hb0730.rpc.basic.domain.BasPermissionDto;
+import com.hb0730.rpc.basic.domain.query.BasPermissionQuery;
 import com.hb0730.rpc.basic.service.BasPermissionRpcService;
 import com.hb0730.rpc.sys.system.domain.PermissionDto;
 import lombok.extern.slf4j.Slf4j;
@@ -30,5 +31,10 @@ public class BasPermissionRemoteRpcService extends ClientRemoteRpcService<BasPer
     @Override
     public JR<String> clearUserRoutesCache(String userId, String sysCode) {
         return getRpcService().clearUserRoutesCache(userId, sysCode);
+    }
+
+    @Override
+    public JR<List<BasPermissionDto>> list(BasPermissionQuery query) {
+        return getRpcService().list(query);
     }
 }

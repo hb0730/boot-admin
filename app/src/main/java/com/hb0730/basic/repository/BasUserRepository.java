@@ -16,6 +16,14 @@ import java.util.Date;
 @Repository
 public interface BasUserRepository extends JpaRepository<BasUser, String>, JpaSpecificationExecutor<BasUser> {
     /**
+     * 根据系统编码统计
+     *
+     * @param sysCode 系统编码
+     * @return .
+     */
+    int countBySysCode(String sysCode);
+
+    /**
      * 根据用户名查询系统编码
      *
      * @param username 用户名
@@ -40,4 +48,33 @@ public interface BasUserRepository extends JpaRepository<BasUser, String>, JpaSp
     @Modifying
     @Query("update BasUser u set u.lastLoginTime = ?1 where u.username = ?2")
     void updateLastLoginTimeByUsername(Date lastLoginTime, String username);
+
+    /**
+     * 根据用户名查询是否存在
+     *
+     * @param username 用户名
+     * @return .
+     */
+    boolean existsByUsername(String username);
+
+    /**
+     * 根据用户名查询是否存在
+     *
+     * @param username 用户名
+     * @param id       需要排除的id
+     * @return .
+     */
+    boolean existsByUsernameAndIdNot(String username, String id);
+
+    /**
+     * 重置密码
+     *
+     * @param id       id
+     * @param password 密码
+     * @param operator 操作人
+     */
+    @Modifying
+    @Query("update BasUser u set u.password = ?2, u.modifiedBy = ?3, u.modified = now(),u.pwdResetTime = now() where " +
+            "u.id = ?1")
+    void resetPassword(String id, String password, String operator);
 }

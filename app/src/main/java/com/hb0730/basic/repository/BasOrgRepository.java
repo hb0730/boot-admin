@@ -11,4 +11,20 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface BasOrgRepository extends JpaRepository<BasOrg, String>, JpaSpecificationExecutor<BasOrg> {
+
+    /**
+     * 查询厂商信息
+     *
+     * @param sysCode .
+     * @return .
+     */
+    BasOrg findBySysCodeAndSystemIsTrue(String sysCode);
+
+    /**
+     * 根据系统编码查询数量
+     *
+     * @param sysCode .
+     * @return .
+     */
+    int countBySysCode(String sysCode);
 }

@@ -10,6 +10,7 @@ import com.hb0730.basic.service.IBasPermissionService;
 import com.hb0730.basic.service.IBasRoleService;
 import com.hb0730.commons.JR;
 import com.hb0730.rpc.basic.domain.BasPermissionDto;
+import com.hb0730.rpc.basic.domain.query.BasPermissionQuery;
 import com.hb0730.rpc.basic.service.BasPermissionRpcService;
 import com.hb0730.rpc.sys.system.domain.PermissionDto;
 import lombok.RequiredArgsConstructor;
@@ -57,5 +58,11 @@ public class BasPermissionRpcServiceImpl extends BaseServerRpcService<BasPermiss
     public JR<String> clearUserRoutesCache(String userId, String sysCode) {
         basUserMenusCache.removeUserRoutes(userId, sysCode);
         return JR.ok();
+    }
+
+    @Override
+    public JR<List<BasPermissionDto>> list(BasPermissionQuery query) {
+        List<BasPermission> list = basPermissionService.list(query);
+        return JR.okData(basPermissionMapper.toDtoList(list));
     }
 }

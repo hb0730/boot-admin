@@ -41,7 +41,16 @@ public class ProductDto extends DomainDto {
      */
     @Schema(description = "联系方式")
     private String contact;
-
+    /**
+     * 站点数量
+     */
+    @Schema(description = "站点数量")
+    private Integer siteNum;
+    /**
+     * 账号数量
+     */
+    @Schema(description = "账号数量")
+    private Integer accountNum;
     /**
      * 描述
      */

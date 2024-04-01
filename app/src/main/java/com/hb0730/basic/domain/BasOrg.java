@@ -2,9 +2,12 @@ package com.hb0730.basic.domain;
 
 import com.hb0730.base.jpa.core.domain.TenantBaseEntity;
 import com.hb0730.base.jpa.core.id.IdGenerator;
+import com.hb0730.sys.system.domain.SysProduct;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -26,6 +29,12 @@ public class BasOrg extends TenantBaseEntity {
     @Id
     @IdGenerator
     private String id;
+    /**
+     * 产品
+     */
+    @OneToOne
+    @JoinColumn(name = "product_id")
+    private SysProduct product;
     /**
      * 上级机构
      */

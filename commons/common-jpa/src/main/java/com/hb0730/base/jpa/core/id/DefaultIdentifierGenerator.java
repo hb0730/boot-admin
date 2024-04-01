@@ -4,6 +4,7 @@ import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.generator.BeforeExecutionGenerator;
 import org.hibernate.generator.EventType;
 
+import java.io.Serializable;
 import java.util.EnumSet;
 
 import static org.hibernate.generator.EventTypeSets.INSERT_ONLY;
@@ -16,8 +17,9 @@ public class DefaultIdentifierGenerator implements BeforeExecutionGenerator {
     private static final Sequence sequence = new Sequence(null);
 
     @Override
-    public Object generate(SharedSessionContractImplementor session, Object owner, Object currentValue, EventType eventType) {
-        return sequence.nextId();
+    public Serializable generate(SharedSessionContractImplementor session, Object owner, Object currentValue,
+                                 EventType eventType) {
+        return sequence.nextId() + "";
     }
 
     @Override

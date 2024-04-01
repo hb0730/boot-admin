@@ -23,7 +23,11 @@ public class PageUtil {
                 query.getSize()
         );
         if (query.getSorts().isPresent()) {
-            pageRequest.withSort(Sort.by(query.getSorts().get()));
+            pageRequest = pageRequest.withSort(
+                    Sort.by(
+                            query.getSorts().get()
+                    )
+            );
         }
         return pageRequest;
     }

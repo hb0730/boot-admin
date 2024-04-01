@@ -1,6 +1,7 @@
 package com.hb0730.basic.service;
 
 import com.hb0730.basic.domain.BasPermission;
+import com.hb0730.rpc.basic.domain.query.BasPermissionQuery;
 
 import java.util.List;
 
@@ -17,4 +18,12 @@ public interface IBasPermissionService {
      * @return .
      */
     List<BasPermission> findByRoleIds(List<String> roleIds);
+
+    /**
+     * 列表查询
+     *
+     * @param query .
+     * @return .
+     */
+    List<BasPermission> list(BasPermissionQuery query);
 }

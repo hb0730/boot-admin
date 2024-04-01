@@ -3,7 +3,7 @@ package com.hb0730.rpc.basic.domain;
 import com.hb0730.base.enums.sys.MenuTypeEnums;
 import com.hb0730.base.utils.TreeUtil;
 import com.hb0730.commons.DomainDto;
-import com.hb0730.rpc.sys.system.domain.PermissionDto;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class BasPermissionDto extends DomainDto implements TreeUtil.Node<PermissionDto, Long> {
+public class BasPermissionDto extends DomainDto implements TreeUtil.Node<BasPermissionDto, Long> {
     @Schema(description = "id")
     private Long id;
 
@@ -36,16 +36,16 @@ public class BasPermissionDto extends DomainDto implements TreeUtil.Node<Permiss
     /**
      * 子类
      */
-    @Schema(description = "子类", hidden = true)
-    private List<PermissionDto> children;
+    @ArraySchema(schema = @Schema(description = "子类", implementation = Object.class, allOf = BasPermissionDto.class))
+    private List<BasPermissionDto> children;
 
     @Override
-    public void setChildren(List<PermissionDto> children) {
+    public void setChildren(List<BasPermissionDto> children) {
         this.children = children;
     }
 
     @Override
-    public List<PermissionDto> getChildren() {
+    public List<BasPermissionDto> getChildren() {
         return children;
     }
 
@@ -131,4 +131,5 @@ public class BasPermissionDto extends DomainDto implements TreeUtil.Node<Permiss
      */
     @Schema(description = "是否启用")
     private Boolean enabled;
+
 }

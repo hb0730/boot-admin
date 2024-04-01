@@ -1,5 +1,6 @@
 package com.hb0730.basic.domain;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.hb0730.base.jpa.core.domain.TenantBaseEntity;
 import com.hb0730.base.jpa.core.id.IdGenerator;
 import jakarta.persistence.Column;
@@ -33,7 +34,7 @@ public class BasRole extends TenantBaseEntity {
     /**
      * 权限
      */
-    @ManyToMany
+    @ManyToMany(fetch = jakarta.persistence.FetchType.EAGER)
     @JoinTable(name = "bas_role_permission",
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id"))
@@ -73,4 +74,11 @@ public class BasRole extends TenantBaseEntity {
      */
     @Column(name = "`is_enabled`", columnDefinition = "bit(1) default 1")
     private Boolean enabled = true;
+
+    public List<Long> getPermissionIds() {
+        if (CollectionUtil.isNotEmpty(permissions)) {
+            return this.permissions.stream().map(BasPermission::getId).toList();
+        }
+        return null;
+    }
 }

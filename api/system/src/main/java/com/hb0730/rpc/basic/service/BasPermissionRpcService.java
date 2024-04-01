@@ -2,6 +2,7 @@ package com.hb0730.rpc.basic.service;
 
 import com.hb0730.commons.JR;
 import com.hb0730.rpc.basic.domain.BasPermissionDto;
+import com.hb0730.rpc.basic.domain.query.BasPermissionQuery;
 import com.hb0730.rpc.sys.system.domain.PermissionDto;
 
 import java.util.List;
@@ -38,6 +39,17 @@ public interface BasPermissionRpcService {
      * @return 结果
      */
     default JR<String> clearUserRoutesCache(String userId, String sysCode) {
+        return JR.fail("暂未实现");
+    }
+
+
+    /**
+     * 查询权限列表
+     *
+     * @param query 查询条件
+     * @return 权限列表
+     */
+    default JR<List<BasPermissionDto>> list(BasPermissionQuery query) {
         return JR.fail("暂未实现");
     }
 }

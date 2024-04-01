@@ -2,8 +2,6 @@ package com.hb0730.rpc.basic.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hb0730.base.enums.ValueEnum;
-import com.hb0730.base.enums.sys.GenderEnums;
 import com.hb0730.commons.TenantDomainDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -22,22 +20,24 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 public class BasUserDto extends TenantDomainDto {
-    @Schema(description = "用户ID")
+    @Schema(description = "id")
     private String id;
     /**
      * 机构
      */
+    @Schema(description = "所属机构")
     private OrgSmallDto org;
     /**
      * 角色
      */
     @Schema(description = "角色")
     private List<RoleSmallDto> roles;
+
     /**
      * 用户名
      */
-    @Schema(description = "用户名")
     @NotBlank(message = "用户名不能为空")
+    @Schema(description = "用户名")
     private String username;
     /**
      * 密码
@@ -49,53 +49,44 @@ public class BasUserDto extends TenantDomainDto {
      * 昵称
      */
     @Schema(description = "昵称")
-    @NotBlank(message = "昵称不能为空")
     private String nickname;
-    /**
-     * 邮箱
-     */
-    @Schema(description = "邮箱")
-    private String email;
     /**
      * 手机号
      */
     @Schema(description = "手机号")
     private String phone;
     /**
+     * 邮箱
+     */
+    @Schema(description = "邮箱")
+    private String email;
+    /**
      * 头像
      */
     @Schema(description = "头像")
     private String avatar;
     /**
-     * 性别
+     * 性别,0 保密,1 男,2 女
      */
     @Schema(description = "性别,0 保密,1 男,2 女")
-    private Integer gender;
-
-    @Schema(description = "性别名称")
-    public String getGenderName() {
-        GenderEnums valueEnum = ValueEnum.valueToEnum(GenderEnums.class, gender, GenderEnums.UNKNOWN);
-        return valueEnum.getName();
-
-    }
-
+    private Integer gender = 0;
     /**
      * 最后登录时间
      */
     @Schema(description = "最后登录时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date lastLoginTime;
-
     /**
-     * 最近修改密码时间
+     * 密码重置时间
      */
-    @Schema(description = "最近修改密码时间")
+    @Schema(description = "密码重置时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date pwdResetTime;
     /**
      * 是否系统用户
      */
     @Schema(description = "是否系统用户")
-    private Boolean system = false;
+    private Boolean system;
     /**
      * 状态
      */

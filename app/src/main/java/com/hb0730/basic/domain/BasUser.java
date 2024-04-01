@@ -41,7 +41,7 @@ public class BasUser extends TenantBaseEntity {
      * 角色
      */
     @ManyToMany(fetch = jakarta.persistence.FetchType.EAGER)
-    @JoinTable(name = "sys_user_role",
+    @JoinTable(name = "bas_user_role",
             joinColumns = @jakarta.persistence.JoinColumn(name = "user_id"),
             inverseJoinColumns = @jakarta.persistence.JoinColumn(name = "role_id"))
     private List<BasRole> roles;
