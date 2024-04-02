@@ -1,4 +1,4 @@
-package com.hb0730.base.conf.server;
+package com.hb0730.base.conf.rpc.server;
 
 import com.alipay.sofa.rpc.boot.runtime.param.BoltBindingParam;
 import com.alipay.sofa.runtime.api.client.ClientFactory;
@@ -6,7 +6,7 @@ import com.alipay.sofa.runtime.api.client.ServiceClient;
 import com.alipay.sofa.runtime.api.client.param.BindingParam;
 import com.alipay.sofa.runtime.api.client.param.ServiceParam;
 import com.hb0730.base.AppUtil;
-import com.hb0730.base.conf.SofaRpcClientFactoryBean;
+import com.hb0730.base.conf.rpc.SofaRpcClientFactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.lang.reflect.ParameterizedType;

@@ -1,6 +1,6 @@
 package com.hb0730.security.security.filter;
 
-import com.hb0730.base.TenantContext;
+import com.hb0730.base.tenant.TenantContext;
 import com.hb0730.base.utils.StrUtil;
 import com.hb0730.security.context.AuthenticationContext;
 import com.hb0730.security.context.AuthenticationContextHolder;
@@ -54,10 +54,20 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
                     Optional<String> usernameOptional = JwtUtil.getUsername(request);
                     if (usernameOptional.isEmpty()) {
                         filterChain.doFilter(request, response);
+                        return;
                     }
                     //  tenant 上下文
-                    Optional<String> sysCode = JwtUtil.getTenant(token);
-                    sysCode.ifPresent(TenantContext::setTenant);
+                    JwtUtil.getTenant(token)
+                            .ifPresent(
+                                    sysCode -> {
+                                        TenantContext.UserInfo userInfo =
+                                                new TenantContext.UserInfo(
+                                                        usernameOptional.get(),
+                                                        sysCode
+                                                );
+                                        TenantContext.set(userInfo);
+                                    }
+                            );
 
                     UserDetails userDetails = userDetailsService.loadUserByUsername(usernameOptional.get());
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
@@ -73,7 +83,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } finally {
             AuthenticationContextHolder.clear();
-            TenantContext.clear();
+            TenantContext.remove();
         }
     }
 

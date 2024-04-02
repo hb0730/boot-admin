@@ -62,8 +62,8 @@ public class BasUserController {
     @Operation(summary = "分页查询")
     @PreAuthorize("hasAnyAuthority('bas:user:query')")
     public R<JsfPage<BasUserDto>> page(BasUserQuery query) {
-        String sysCode = SecurityUtil.getSysCode();
-        query.setSysCode(sysCode);
+//        String sysCode = SecurityUtil.getSysCode();
+//        query.setSysCode(sysCode);
         JR<JsfPage<BasUserDto>> jr = basUserRpcService.page(query);
         return ResponseUtil.converter(jr);
     }
@@ -76,11 +76,11 @@ public class BasUserController {
         if (StrUtil.isBlank(dto.getPassword())) {
             return R.NG("密码不能为空");
         }
-        String sysCode = SecurityUtil.getSysCode();
+//        String sysCode = SecurityUtil.getSysCode();
         String username = SecurityUtil.getUsername();
         dto.setCreatedBy(username);
         dto.setCreated(new Date());
-        dto.setSysCode(sysCode);
+//        dto.setSysCode(sysCode);
         JR<String> jr = basUserRpcService.save(dto);
         return ResponseUtil.converter(jr);
     }
@@ -96,7 +96,7 @@ public class BasUserController {
         String username = SecurityUtil.getUsername();
         dto.setModifiedBy(username);
         dto.setModified(new Date());
-        dto.setSysCode(SecurityUtil.getSysCode());
+//        dto.setSysCode(SecurityUtil.getSysCode());
         JR<String> jr = basUserRpcService.updateById(dto);
         return ResponseUtil.converter(jr);
     }

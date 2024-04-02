@@ -1,11 +1,11 @@
-package com.hb0730.base.conf.client;
+package com.hb0730.base.conf.rpc.client;
 
 import com.alipay.sofa.rpc.boot.runtime.param.BoltBindingParam;
 import com.alipay.sofa.runtime.api.client.ReferenceClient;
 import com.alipay.sofa.runtime.api.client.param.ReferenceParam;
 import com.hb0730.base.AppUtil;
-import com.hb0730.base.conf.RpcRemoteProperties;
-import com.hb0730.base.conf.SofaRpcClientFactoryBean;
+import com.hb0730.base.conf.rpc.RpcRemoteProperties;
+import com.hb0730.base.conf.rpc.SofaRpcClientFactoryBean;
 import lombok.Setter;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;

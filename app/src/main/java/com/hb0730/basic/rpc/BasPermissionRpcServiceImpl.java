@@ -1,7 +1,7 @@
 package com.hb0730.basic.rpc;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.hb0730.base.conf.server.BaseServerRpcService;
+import com.hb0730.base.conf.rpc.server.BaseServerRpcService;
 import com.hb0730.basic.domain.BasPermission;
 import com.hb0730.basic.domain.BasRole;
 import com.hb0730.basic.rpc.cache.BasUserMenusCache;

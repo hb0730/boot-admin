@@ -1,4 +1,4 @@
-package com.hb0730.base.conf.filter;
+package com.hb0730.base.conf.rpc.filter;
 
 import com.alipay.sofa.rpc.core.exception.SofaRpcException;
 import com.alipay.sofa.rpc.core.request.SofaRequest;

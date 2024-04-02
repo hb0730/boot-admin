@@ -1,4 +1,4 @@
-package com.hb0730.base.conf;
+package com.hb0730.base.conf.rpc;
 
 import lombok.Data;
 import lombok.Getter;

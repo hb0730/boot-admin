@@ -1,7 +1,7 @@
 package com.hb0730.sys.system.rpc;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.hb0730.base.conf.server.BaseServerRpcService;
+import com.hb0730.base.conf.rpc.server.BaseServerRpcService;
 import com.hb0730.commons.JR;
 import com.hb0730.rpc.sys.system.domain.PermissionDto;
 import com.hb0730.rpc.sys.system.domain.PermissionSaveDto;

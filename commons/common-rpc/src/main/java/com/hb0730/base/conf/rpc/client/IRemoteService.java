@@ -1,4 +1,4 @@
-package com.hb0730.base.conf.client;
+package com.hb0730.base.conf.rpc.client;
 
 import org.springframework.beans.factory.BeanFactoryAware;
 

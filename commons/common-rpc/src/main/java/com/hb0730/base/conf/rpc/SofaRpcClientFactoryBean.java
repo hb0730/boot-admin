@@ -1,4 +1,4 @@
-package com.hb0730.base.conf;
+package com.hb0730.base.conf.rpc;
 
 import com.alipay.sofa.runtime.api.aware.ClientFactoryAware;
 import com.alipay.sofa.runtime.api.client.ClientFactory;

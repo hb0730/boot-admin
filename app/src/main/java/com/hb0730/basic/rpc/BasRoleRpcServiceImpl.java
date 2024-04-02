@@ -1,6 +1,6 @@
 package com.hb0730.basic.rpc;
 
-import com.hb0730.base.conf.server.BaseServerRpcService;
+import com.hb0730.base.conf.rpc.server.BaseServerRpcService;
 import com.hb0730.basic.domain.BasRole;
 import com.hb0730.basic.rpc.mapstruct.BasRoleMapper;
 import com.hb0730.basic.service.IBasRoleService;

@@ -1,6 +1,6 @@
 package com.hb0730.sys.system.rpc;
 
-import com.hb0730.base.conf.server.BaseServerRpcService;
+import com.hb0730.base.conf.rpc.server.BaseServerRpcService;
 import com.hb0730.base.utils.StrUtil;
 import com.hb0730.commons.JR;
 import com.hb0730.commons.JsfPage;

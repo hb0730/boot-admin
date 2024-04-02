@@ -1,5 +1,6 @@
-package com.hb0730.base.conf.filter;
+package com.hb0730.base.conf.rpc.filter;
 
+import com.alipay.sofa.rpc.context.RpcInvokeContext;
 import com.alipay.sofa.rpc.core.exception.SofaRpcException;
 import com.alipay.sofa.rpc.core.request.SofaRequest;
 import com.alipay.sofa.rpc.core.response.SofaResponse;
@@ -7,8 +8,7 @@ import com.alipay.sofa.rpc.ext.Extension;
 import com.alipay.sofa.rpc.filter.AutoActive;
 import com.alipay.sofa.rpc.filter.Filter;
 import com.alipay.sofa.rpc.filter.FilterInvoker;
-import com.hb0730.base.TenantContext;
-import com.hb0730.base.utils.StrUtil;
+import com.hb0730.base.tenant.TenantContext;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -21,10 +21,16 @@ import lombok.extern.slf4j.Slf4j;
 public class TenantClientFilter extends Filter {
     @Override
     public SofaResponse invoke(FilterInvoker invoker, SofaRequest request) throws SofaRpcException {
-        String sysCode = TenantContext.getTenant();
-        if (StrUtil.isNotBlank(sysCode)) {
-            request.addRequestProp("sysCode", sysCode);
+        TenantContext.UserInfo userInfo = TenantContext.get();
+        if (null != userInfo) {
+            RpcInvokeContext.getContext().putRequestBaggage(
+                    TenantContext.INVOKE_CTX_USERNAME,
+                    userInfo.getUsername());
+            RpcInvokeContext.getContext().putRequestBaggage(
+                    TenantContext.INVOKE_CTX_SYS_CODE,
+                    userInfo.getSysCode());
         }
+
         return invoker.invoke(request);
     }
 }

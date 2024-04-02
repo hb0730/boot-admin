@@ -1,6 +1,6 @@
 package com.hb0730.modules.basic.rpcservice;
 
-import com.hb0730.base.conf.client.ClientRemoteRpcService;
+import com.hb0730.base.conf.rpc.client.ClientRemoteRpcService;
 import com.hb0730.commons.JR;
 import com.hb0730.commons.JsfPage;
 import com.hb0730.rpc.basic.domain.BasUserDto;
