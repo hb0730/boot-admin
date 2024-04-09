@@ -70,7 +70,8 @@ public class TenantSqlInterceptor extends BaseMultiTableInnerInterceptor impleme
         if (statement instanceof Insert) {
             processInsert((Insert) statement, null);
         } else if (statement instanceof Select) {
-            processSelectBody(((Select) statement).getSelectBody(), null);
+//            processSelectBody(((Select) statement).getSelectBody(), null);
+            processSelect((Select) statement, 0, null, null);
         } else if (statement instanceof Update) {
             processUpdate((Update) statement, 0, null, null);
         } else if (statement instanceof Delete) {
