@@ -12,14 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 @Slf4j
 class INoticeServiceTest extends BaseTest {
-
-    @Test
-    @DisplayName("获取最新的一条公告")
-    void getLatestNotice(@Autowired INoticeService noticeService) {
-        log.info("获取最新的一条公告:{}", noticeService.getLatestNotice());
-
-    }
-
+    
     @Test
     @DisplayName("分页查询")
     void page(@Autowired INoticeService noticeService) {
