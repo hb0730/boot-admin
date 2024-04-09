@@ -43,8 +43,8 @@ public class BasOrgController {
     @GetMapping("/tree")
     @Operation(summary = "机构树")
     public R<List<BasOrgDto>> tree(BasOrgQuery query) {
-//        String sysCode = SecurityUtil.getSysCode();
-//        query.setSysCode(sysCode);
+        String sysCode = SecurityUtil.getSysCode();
+        query.setSysCode(sysCode);
         JR<List<BasOrgDto>> jr = basOrgRpcService.list(query);
         if (!jr.isSuccess()) {
             return R.NG(jr.getMessage());
@@ -63,8 +63,8 @@ public class BasOrgController {
     @Operation(summary = "机构列表查询")
     @PreAuthorize("hasAuthority('bas:org:query')")
     public R<List<BasOrgDto>> list(BasOrgQuery query) {
-//        String sysCode = SecurityUtil.getSysCode();
-//        query.setSysCode(sysCode);
+        String sysCode = SecurityUtil.getSysCode();
+        query.setSysCode(sysCode);
         JR<List<BasOrgDto>> jr = basOrgRpcService.listDefaultRootQuery(query);
         return ResponseUtil.converter(jr);
     }
@@ -80,10 +80,10 @@ public class BasOrgController {
     @PreAuthorize("hasAuthority('bas:org:save')")
     public R<String> save(@Valid @RequestBody BasOrgDto dto) {
         String username = SecurityUtil.getUsername();
-//        String sysCode = SecurityUtil.getSysCode();
+        String sysCode = SecurityUtil.getSysCode();
         dto.setCreated(new Date());
         dto.setCreatedBy(username);
-//        dto.setSysCode(sysCode);
+        dto.setSysCode(sysCode);
         JR<String> jr = basOrgRpcService.save(dto);
         return ResponseUtil.converter(jr);
     }
@@ -102,11 +102,11 @@ public class BasOrgController {
         if (id == null) {
             return R.NG("id不能为空");
         }
-//        String sysCode = SecurityUtil.getSysCode();
+        String sysCode = SecurityUtil.getSysCode();
         String username = SecurityUtil.getUsername();
         dto.setModified(new Date());
         dto.setModifiedBy(username);
-//        dto.setSysCode(sysCode);
+        dto.setSysCode(sysCode);
         JR<String> jr = basOrgRpcService.updateById(dto);
         return ResponseUtil.converter(jr);
     }

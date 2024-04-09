@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollectionUtil;
 import com.blinkfox.fenix.specification.FenixSpecification;
-import com.hb0730.base.exception.BadRequestException;
+import com.hb0730.base.exception.ServiceException;
 import com.hb0730.commons.JR;
 import com.hb0730.rpc.sys.system.domain.query.ProductQuery;
 import com.hb0730.sys.system.domain.SysProduct;
@@ -75,9 +75,9 @@ public class ProductServiceImpl implements IProductService {
     @Transactional(rollbackFor = Exception.class)
     public void updateById(SysProduct product) {
         if (product.getId() == null) {
-            throw new BadRequestException("id不能为空");
+            throw new ServiceException("id不能为空");
         }
-        SysProduct _product = productRepository.findById(product.getId()).orElseThrow(() -> new BadRequestException("数据不存在"));
+        SysProduct _product = productRepository.findById(product.getId()).orElseThrow(() -> new ServiceException("数据不存在"));
         BeanUtil.copyProperties(product, _product, CopyOptions.create().ignoreNullValue());
         productRepository.save(_product);
         // TODO 是否根据产品的禁用与启用来禁用与启用机构
@@ -96,7 +96,7 @@ public class ProductServiceImpl implements IProductService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void grantMenus(Long id, List<Long> menuIds) {
-        SysProduct product = productRepository.findById(id).orElseThrow(() -> new BadRequestException("数据不存在"));
+        SysProduct product = productRepository.findById(id).orElseThrow(() -> new ServiceException("数据不存在"));
         if (CollectionUtil.isNotEmpty(menuIds)) {
             List<TenantPermission> permissions = menuIds.stream().map(e -> {
                 TenantPermission sysMenu = new TenantPermission();

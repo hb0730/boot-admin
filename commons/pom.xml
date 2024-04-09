@@ -19,6 +19,9 @@
         <module>common-specification</module>
         <module>common-jpa</module>
         <module>common-doc</module>
+        <module>common-web</module>
+        <module>common-security</module>
+        <module>common-websocket</module>
     </modules>
 
     <properties>

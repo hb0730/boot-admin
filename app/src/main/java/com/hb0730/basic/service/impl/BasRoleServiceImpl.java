@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollectionUtil;
 import com.blinkfox.fenix.specification.FenixSpecification;
-import com.hb0730.base.exception.BadRequestException;
+import com.hb0730.base.exception.ServiceException;
 import com.hb0730.basic.domain.BasPermission;
 import com.hb0730.basic.domain.BasRole;
 import com.hb0730.basic.repository.BasRoleRepository;
@@ -77,12 +77,12 @@ public class BasRoleServiceImpl implements IBasRoleService {
     @Override
     public void updateById(BasRole basRole) {
         if (basRole.getId() == null) {
-            throw new BadRequestException("id不能为空");
+            throw new ServiceException("id不能为空");
         }
         BasRole role = basRoleRepository.findById(basRole.getId()).orElseThrow(
-                () -> new BadRequestException("角色不存在"));
+                () -> new ServiceException("角色不存在"));
         if (Boolean.TRUE.equals(role.getSystem())) {
-            throw new BadRequestException("系统角色不能修改");
+            throw new ServiceException("系统角色不能修改");
         }
         BeanUtil.copyProperties(basRole, role, CopyOptions.create().ignoreNullValue());
         basRoleRepository.save(role);
@@ -92,10 +92,10 @@ public class BasRoleServiceImpl implements IBasRoleService {
     @Transactional(rollbackFor = Exception.class)
     public void deleteById(String id) {
         BasRole role = basRoleRepository.findById(id).orElseThrow(
-                () -> new BadRequestException("角色不存在"));
+                () -> new ServiceException("角色不存在"));
 
         if (Boolean.TRUE.equals(role.getSystem())) {
-            throw new BadRequestException("系统角色不能删除");
+            throw new ServiceException("系统角色不能删除");
         }
         basRoleRepository.deleteById(id);
     }
@@ -104,7 +104,7 @@ public class BasRoleServiceImpl implements IBasRoleService {
     @Transactional(rollbackFor = Exception.class)
     public void grantPermission(String id, List<Long> permissionIds) {
         BasRole role = basRoleRepository.findById(id).orElseThrow(
-                () -> new BadRequestException("角色不存在"));
+                () -> new ServiceException("角色不存在"));
 
         if (CollectionUtil.isEmpty(permissionIds)) {
             role.setPermissions(null);

@@ -1,6 +1,6 @@
 package com.hb0730.modules.sys.rpcservice;
 
-import com.hb0730.base.conf.rpc.client.ClientRemoteRpcService;
+import com.hb0730.base.conf.rpc.client.BaseRemoteRpcService;
 import com.hb0730.commons.JR;
 import com.hb0730.rpc.sys.system.domain.PermissionDto;
 import com.hb0730.rpc.sys.system.domain.PermissionSaveDto;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class PermissionRemoteRpcService extends ClientRemoteRpcService<PermissionRpcService> implements PermissionRpcService {
+public class PermissionRemoteRpcService extends BaseRemoteRpcService<PermissionRpcService> implements PermissionRpcService {
     @Override
     public JR<List<PermissionDto>> findByRoleIds(List<Long> roleId) {
         return getRpcService().findByRoleIds(roleId);

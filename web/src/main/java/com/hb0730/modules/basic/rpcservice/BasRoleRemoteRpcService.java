@@ -1,6 +1,6 @@
 package com.hb0730.modules.basic.rpcservice;
 
-import com.hb0730.base.conf.rpc.client.ClientRemoteRpcService;
+import com.hb0730.base.conf.rpc.client.BaseRemoteRpcService;
 import com.hb0730.commons.JR;
 import com.hb0730.commons.JsfPage;
 import com.hb0730.rpc.basic.domain.BasRoleDto;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class BasRoleRemoteRpcService extends ClientRemoteRpcService<BasRoleRpcService> implements BasRoleRpcService {
+public class BasRoleRemoteRpcService extends BaseRemoteRpcService<BasRoleRpcService> implements BasRoleRpcService {
     @Override
     public JR<List<BasRoleDto>> findByUserId(String userId) {
         return getRpcService().findByUserId(userId);

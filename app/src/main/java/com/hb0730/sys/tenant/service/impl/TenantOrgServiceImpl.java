@@ -5,7 +5,7 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.blinkfox.fenix.specification.FenixSpecification;
-import com.hb0730.base.exception.BadRequestException;
+import com.hb0730.base.exception.ServiceException;
 import com.hb0730.base.utils.PasswordUtil;
 import com.hb0730.base.utils.StrUtil;
 import com.hb0730.rpc.sys.tenant.domain.TenantSmallDto;
@@ -72,9 +72,9 @@ public class TenantOrgServiceImpl implements ITenantOrgService {
     @Override
     public boolean existsBySysCode(String sysCode, String id) {
         if (id == null) {
-            return tenantOrgRepository.existsBySysCode(sysCode);
+            return tenantOrgRepository.existsBySysCodeAndSystemIsTrue(sysCode);
         }
-        return tenantOrgRepository.existsBySysCodeAndIdNot(sysCode, id);
+        return tenantOrgRepository.existsBySysCodeAndIdNotAndSystemIsTrue(sysCode, id);
     }
 
     @Override
@@ -82,6 +82,12 @@ public class TenantOrgServiceImpl implements ITenantOrgService {
         Specification<TenantOrg> specification = FenixSpecification.ofBean(query);
         Pageable page = PageUtil.toPage(query);
         return tenantOrgRepository.findAll(specification, page);
+    }
+
+    @Override
+    public List<TenantOrg> tenantList(TenantQuery query) {
+        Specification<TenantOrg> specification = FenixSpecification.ofBean(query);
+        return tenantOrgRepository.findAll(specification);
     }
 
     @Override
@@ -105,7 +111,7 @@ public class TenantOrgServiceImpl implements ITenantOrgService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateTenant(TenantSmallDto dto, boolean isEditProduct, boolean isEditLinkTel) {
-        TenantOrg oldOrg = tenantOrgRepository.findById(dto.getId()).orElseThrow(() -> new BadRequestException("商户不存在"));
+        TenantOrg oldOrg = tenantOrgRepository.findById(dto.getId()).orElseThrow(() -> new ServiceException("商户不存在"));
         TenantOrg organization = convert(dto);
         if (isEditProduct) {
             isUpdateProduct(organization, oldOrg);
@@ -249,7 +255,7 @@ public class TenantOrgServiceImpl implements ITenantOrgService {
     private void isUpdateUser(TenantOrg newOrg, TenantOrg oldOrg) {
         TenantUser user = basUserRepository.findByUsername(oldOrg.getLinkTel());
         if (null == user) {
-            throw new BadRequestException("机构管理员角色信息异常~~");
+            throw new ServiceException("机构管理员角色信息异常~~");
         }
         user.setModified(newOrg.getModified());
         user.setModifiedBy(newOrg.getModifiedBy());

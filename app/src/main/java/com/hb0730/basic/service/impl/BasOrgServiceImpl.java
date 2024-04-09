@@ -3,7 +3,7 @@ package com.hb0730.basic.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import com.blinkfox.fenix.specification.FenixSpecification;
-import com.hb0730.base.exception.BadRequestException;
+import com.hb0730.base.exception.ServiceException;
 import com.hb0730.basic.domain.BasOrg;
 import com.hb0730.basic.repository.BasOrgRepository;
 import com.hb0730.basic.repository.BasUserRepository;
@@ -44,7 +44,7 @@ public class BasOrgServiceImpl implements IBasOrgService {
     @Override
     public boolean checkSiteNum(String orgId) {
         BasOrg org = basOrgRepository.findById(orgId)
-                .orElseThrow(() -> new BadRequestException("机构不存在"));
+                .orElseThrow(() -> new ServiceException("机构不存在"));
         String sysCode = org.getSysCode();
         BasOrg systemIsTrueBySysCode = basOrgRepository.findBySysCodeAndSystemIsTrue(sysCode);
         if (systemIsTrueBySysCode == null) {
@@ -65,7 +65,7 @@ public class BasOrgServiceImpl implements IBasOrgService {
     @Override
     public boolean checkAccountNum(String orgId) {
         BasOrg org = basOrgRepository.findById(orgId)
-                .orElseThrow(() -> new BadRequestException("机构不存在"));
+                .orElseThrow(() -> new ServiceException("机构不存在"));
         String sysCode = org.getSysCode();
         BasOrg systemIsTrueBySysCode = basOrgRepository.findBySysCodeAndSystemIsTrue(sysCode);
         if (systemIsTrueBySysCode == null) {
@@ -109,7 +109,7 @@ public class BasOrgServiceImpl implements IBasOrgService {
     @Override
     public void updateById(BasOrg basOrg) {
         BasOrg org = basOrgRepository.findById(basOrg.getId()).orElseThrow(
-                () -> new BadRequestException("机构不存在"));
+                () -> new ServiceException("机构不存在"));
 
         BeanUtil.copyProperties(basOrg, org, CopyOptions.create().ignoreNullValue());
         basOrgRepository.save(org);

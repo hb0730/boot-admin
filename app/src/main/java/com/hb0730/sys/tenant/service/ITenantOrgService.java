@@ -57,6 +57,14 @@ public interface ITenantOrgService {
     Page<TenantOrg> tenantPage(TenantQuery query);
 
     /**
+     * 商户列表
+     *
+     * @param query .
+     * @return .
+     */
+    List<TenantOrg> tenantList(TenantQuery query);
+
+    /**
      * 保存商户
      *
      * @param dto .

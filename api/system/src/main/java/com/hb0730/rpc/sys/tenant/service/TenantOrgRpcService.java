@@ -8,6 +8,8 @@ import com.hb0730.rpc.sys.tenant.domain.UpdateTenantOrgConfigDto;
 import com.hb0730.rpc.sys.tenant.domain.query.TenantQuery;
 import jakarta.annotation.Nullable;
 
+import java.util.List;
+
 /**
  * 组织机构 rpc服务
  *
@@ -35,6 +37,16 @@ public interface TenantOrgRpcService {
      * @return 组织机构
      */
     default JR<JsfPage<TenantOrgDto>> queryTenantOrganization(TenantQuery query) {
+        return JR.fail("暂未实现");
+    }
+
+    /**
+     * 查询商户组织机构
+     *
+     * @param query 查询条件
+     * @return 组织机构
+     */
+    default JR<List<TenantOrgDto>> list(TenantQuery query) {
         return JR.fail("暂未实现");
     }
 

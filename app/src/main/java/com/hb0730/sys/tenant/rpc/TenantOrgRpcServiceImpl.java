@@ -54,6 +54,13 @@ public class TenantOrgRpcServiceImpl extends BaseServerRpcService<TenantOrgRpcSe
     }
 
     @Override
+    public JR<List<TenantOrgDto>> list(TenantQuery query) {
+        List<TenantOrg> list = basOrganizationService.tenantList(query);
+        List<TenantOrgDto> res = organizationMapper.toDtoList(list);
+        return JR.okData(res);
+    }
+
+    @Override
     public JR<String> saveTenantOrganization(TenantSmallDto dto) {
         TenantUser user = basUserService.findByUsername(dto.getLinkTel());
         if (null != user && StrUtil.isNotBlank(user.getUsername())) {

@@ -16,6 +16,7 @@
         <module>web</module>
         <module>api</module>
         <module>commons</module>
+        <module>modules</module>
     </modules>
 
     <properties>

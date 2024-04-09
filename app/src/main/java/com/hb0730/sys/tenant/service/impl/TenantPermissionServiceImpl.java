@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollectionUtil;
 import com.blinkfox.fenix.specification.FenixSpecification;
-import com.hb0730.base.exception.BadRequestException;
+import com.hb0730.base.exception.ServiceException;
 import com.hb0730.rpc.sys.tenant.domain.query.PermissionQuery;
 import com.hb0730.sys.tenant.domain.TenantOrg;
 import com.hb0730.sys.tenant.domain.TenantPermission;
@@ -87,16 +87,16 @@ public class TenantPermissionServiceImpl implements ITenantPermissionService {
     @Override
     public void updateById(TenantPermission permission) {
         if (null == permission.getId()) {
-            throw new BadRequestException("id不能为空");
+            throw new ServiceException("id不能为空");
         }
         if (permission.getId().equals(permission.getParentId())) {
-            throw new BadRequestException("父级不能为自己");
+            throw new ServiceException("父级不能为自己");
         }
         // 如果父级id为0，则设置为null
         if (Long.valueOf(0).equals(permission.getParentId())) {
             permission.setParentId(null);
         }
-        TenantPermission _permission = permissionRepository.findById(permission.getId()).orElseThrow(() -> new BadRequestException("权限不存在"));
+        TenantPermission _permission = permissionRepository.findById(permission.getId()).orElseThrow(() -> new ServiceException("权限不存在"));
         // 保证相关数据不会被修改
         BeanUtil.copyProperties(permission, _permission, CopyOptions.create().ignoreNullValue());
         permissionRepository.save(_permission);
@@ -188,13 +188,13 @@ public class TenantPermissionServiceImpl implements ITenantPermissionService {
      * @return 角色权限
      */
     private TenantRole getAdminRolePermission(List<TenantPermission> newPerList, String roleId) {
-        TenantRole tenantRole = roleService.findById(roleId).orElseThrow(() -> new BadRequestException("角色不存在"));
+        TenantRole tenantRole = roleService.findById(roleId).orElseThrow(() -> new ServiceException("角色不存在"));
         tenantRole.setPermissions(newPerList);
         return tenantRole;
     }
 
     private TenantRole getRolePermission(List<Long> newPerList, String roleId) {
-        TenantRole tenantRole = roleService.findById(roleId).orElseThrow(() -> new BadRequestException("角色不存在"));
+        TenantRole tenantRole = roleService.findById(roleId).orElseThrow(() -> new ServiceException("角色不存在"));
         List<TenantPermission> permissions = new ArrayList<>(newPerList.size());
         for (Long permissionId : newPerList) {
             TenantPermission permission = new TenantPermission();

@@ -22,4 +22,9 @@ public class OrgSmallDto implements Serializable {
      * 机构名称
      */
     private String name;
+
+    /**
+     * 机构路径
+     */
+    private String path;
 }

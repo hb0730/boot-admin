@@ -1,7 +1,8 @@
 package com.hb0730.base.jpa.interceptor;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.hb0730.base.exception.BadRequestException;
+import com.hb0730.base.enums.StrPool;
+import com.hb0730.base.exception.ServiceException;
 import com.hb0730.base.jpa.handler.TenantLineHandler;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -162,7 +163,7 @@ public class TenantSqlInterceptor implements StatementInspector {
                 }
             }
         } else {
-            throw new BadRequestException("Failed to process multiple-table update, please exclude the tableName or " +
+            throw new ServiceException("Failed to process multiple-table update, please exclude the tableName or " +
                     "statementId");
         }
 
@@ -569,7 +570,7 @@ public class TenantSqlInterceptor implements StatementInspector {
         StringBuilder column = new StringBuilder();
         // todo 该起别名就要起别名,禁止修改此处逻辑
         if (table.getAlias() != null) {
-            column.append(table.getAlias().getName()).append(".");
+            column.append(table.getAlias().getName()).append(StrPool.DOT);
         }
         column.append(tenantLineHandler.getTenantIdColumn());
         return new Column(column.toString());

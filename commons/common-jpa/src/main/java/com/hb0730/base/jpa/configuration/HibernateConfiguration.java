@@ -89,9 +89,13 @@ public class HibernateConfiguration {
                 "sys_role_permission",
                 "sys_user",
                 "sys_user_role",
+                "sys_notice",
                 "bas_user_role",
                 "bas_role_permission",
-                "bas_permission"
+                "bas_permission",
+                "bas_organization",
+                "bas_user",
+                "bas_notice_record"
         );
 
         /**

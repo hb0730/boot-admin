@@ -29,7 +29,7 @@ public interface TenantOrgRepository extends JpaRepository<TenantOrg, String>,
      * @param sysCode .
      * @return .
      */
-    boolean existsBySysCode(String sysCode);
+    boolean existsBySysCodeAndSystemIsTrue(String sysCode);
 
     /**
      * 厂商识别码是否存在
@@ -38,7 +38,7 @@ public interface TenantOrgRepository extends JpaRepository<TenantOrg, String>,
      * @param id      需要排除的ID
      * @return .
      */
-    boolean existsBySysCodeAndIdNot(String sysCode, String id);
+    boolean existsBySysCodeAndIdNotAndSystemIsTrue(String sysCode, String id);
 
     /**
      * 根据产品ID查询
@@ -47,5 +47,5 @@ public interface TenantOrgRepository extends JpaRepository<TenantOrg, String>,
      * @return .
      */
     List<TenantOrg> findByProductId(Long productId);
-    
+
 }

@@ -16,9 +16,10 @@ public interface CacheUtil {
      */
     int EXPIRE_TIME_DEFAULT = -1;
     /**
-     * 90分钟
+     * 缓存key的失效时间
+     * 30天=60*60*24*30
      */
-    int EXPIRE_TIME = 60 * 90;
+    int EXPIRE_TIME = 60 * 60 * 24 * 30;
     /**
      * 缓存关键字连接符号:冒号
      */

@@ -3,7 +3,7 @@ package com.hb0730.sys.system.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import com.blinkfox.fenix.specification.FenixSpecification;
-import com.hb0730.base.exception.BadRequestException;
+import com.hb0730.base.exception.ServiceException;
 import com.hb0730.rpc.sys.system.domain.query.RoleQuery;
 import com.hb0730.sys.system.domain.SysPermission;
 import com.hb0730.sys.system.domain.SysRole;
@@ -63,7 +63,7 @@ public class RoleServiceImpl implements IRoleService {
         if (role.getId() == null) {
             throw new IllegalArgumentException("id不能为空");
         }
-        SysRole _role = roleRepository.findById(role.getId()).orElseThrow(() -> new BadRequestException("角色不存在"));
+        SysRole _role = roleRepository.findById(role.getId()).orElseThrow(() -> new ServiceException("角色不存在"));
         // 更新
         BeanUtil.copyProperties(role, _role, CopyOptions.create().ignoreNullValue());
         roleRepository.save(_role);
@@ -90,7 +90,7 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public void assignPermission(Long roleId, List<Long> permissionIds) {
-        SysRole role = roleRepository.findById(roleId).orElseThrow(() -> new BadRequestException("角色不存在"));
+        SysRole role = roleRepository.findById(roleId).orElseThrow(() -> new ServiceException("角色不存在"));
         role.setId(roleId);
         List<SysPermission> permissions = permissionIds.stream().map(permissionId -> {
             SysPermission permission = new SysPermission();

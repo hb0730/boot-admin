@@ -4,7 +4,6 @@ import com.hb0730.base.utils.StrUtil;
 import com.hb0730.rpc.basic.service.BasPermissionRpcService;
 import com.hb0730.rpc.sys.system.service.PermissionRpcService;
 import com.hb0730.security.domain.dto.UserInfoDto;
-import com.hb0730.security.security.cache.UserProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -15,13 +14,12 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author <a href="mailto:huangbing0730@gmail">hb0730</a>
- * @date 2024/3/26
+ * @date 2024/4/2
  */
 @Component
 @Slf4j
 @RequiredArgsConstructor
 public class LogoutSuccessListener {
-    private final UserProvider userProvider;
     private final PermissionRpcService permissionRpcService;
     private final BasPermissionRpcService basPermissionRpcService;
 
@@ -37,7 +35,6 @@ public class LogoutSuccessListener {
         log.info("退出监听器 退出事件 认证信息:{}", authentication);
         if (authentication.getPrincipal() instanceof UserInfoDto user) {
             log.info("退出监听器 退出事件 用户信息:{}", user);
-            userProvider.removeUser(getCacheKey(user.getUsername(), user.getSysCode()));
             clearUserRoutes(user.getId(), user.getSysCode());
         }
 

@@ -6,4 +6,5 @@ package com.hb0730.base.enums;
  */
 public interface StrPool {
     String AT = "@";
+    String DOT = ".";
 }

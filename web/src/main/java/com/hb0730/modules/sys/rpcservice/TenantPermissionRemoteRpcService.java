@@ -1,6 +1,6 @@
 package com.hb0730.modules.sys.rpcservice;
 
-import com.hb0730.base.conf.rpc.client.ClientRemoteRpcService;
+import com.hb0730.base.conf.rpc.client.BaseRemoteRpcService;
 import com.hb0730.commons.JR;
 import com.hb0730.rpc.sys.tenant.domain.TenantPermissionDto;
 import com.hb0730.rpc.sys.tenant.domain.TenantPermissionSmallDto;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class TenantPermissionRemoteRpcService extends ClientRemoteRpcService<TenantPermissionRpcService> implements TenantPermissionRpcService {
+public class TenantPermissionRemoteRpcService extends BaseRemoteRpcService<TenantPermissionRpcService> implements TenantPermissionRpcService {
     @Override
     public JR<List<TenantPermissionDto>> listDefaultRootQueryOrderRank(PermissionQuery query) {
         return getRpcService().listDefaultRootQueryOrderRank(query);

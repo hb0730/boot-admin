@@ -1,6 +1,6 @@
 package com.hb0730.modules.sys.rpcservice;
 
-import com.hb0730.base.conf.rpc.client.ClientRemoteRpcService;
+import com.hb0730.base.conf.rpc.client.BaseRemoteRpcService;
 import com.hb0730.commons.JR;
 import com.hb0730.commons.JsfPage;
 import com.hb0730.rpc.sys.tenant.domain.TenantOrgDto;
@@ -12,13 +12,15 @@ import jakarta.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author <a href="mailto:huangbing0730@gmail">hb0730</a>
  * @date 2024/3/29
  */
 @Service
 @Slf4j
-public class TenantOrgRemoteRpcService extends ClientRemoteRpcService<TenantOrgRpcService> implements TenantOrgRpcService {
+public class TenantOrgRemoteRpcService extends BaseRemoteRpcService<TenantOrgRpcService> implements TenantOrgRpcService {
 
     @Override
     public JR<Boolean> existsByCode(String code, @Nullable String id) {
@@ -28,6 +30,11 @@ public class TenantOrgRemoteRpcService extends ClientRemoteRpcService<TenantOrgR
     @Override
     public JR<JsfPage<TenantOrgDto>> queryTenantOrganization(TenantQuery query) {
         return getRpcService().queryTenantOrganization(query);
+    }
+
+    @Override
+    public JR<List<TenantOrgDto>> list(TenantQuery query) {
+        return getRpcService().list(query);
     }
 
     @Override

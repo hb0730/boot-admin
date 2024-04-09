@@ -53,6 +53,16 @@
         <!--boot admin module-->
         <dependency>
             <groupId>com.hb0730</groupId>
+            <artifactId>common-web</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hb0730</groupId>
+            <artifactId>common-security</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hb0730</groupId>
             <artifactId>common-cache</artifactId>
             <version>${parent.version}</version>
         </dependency>

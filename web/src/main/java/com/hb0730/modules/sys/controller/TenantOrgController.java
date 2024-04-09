@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author <a href="mailto:huangbing0730@gmail">hb0730</a>
@@ -66,6 +67,19 @@ public class TenantOrgController {
     @PreAuthorize("hasAnyAuthority('tenant:org:query')")
     public R<JsfPage<TenantOrgDto>> tenantPage(TenantQuery query) {
         JR<JsfPage<TenantOrgDto>> jr = organizationRpcService.queryTenantOrganization(query);
+        return ResponseUtil.converter(jr);
+    }
+
+    /**
+     * 租户机构列表
+     *
+     * @param query 查询条件
+     * @return 机构列表
+     */
+    @GetMapping("/list")
+    @Operation(summary = "租户机构列表")
+    public R<List<TenantOrgDto>> list(TenantQuery query) {
+        JR<List<TenantOrgDto>> jr = organizationRpcService.list(query);
         return ResponseUtil.converter(jr);
     }
 

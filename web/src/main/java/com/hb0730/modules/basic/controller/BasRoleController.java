@@ -49,8 +49,8 @@ public class BasRoleController {
     @Operation(summary = "分页查询")
     @PreAuthorize("hasAuthority('bas:role:query')")
     public R<JsfPage<BasRoleDto>> page(BasRoleQuery query) {
-//        String sysCode = SecurityUtil.getSysCode();
-//        query.setSysCode(sysCode);
+        String sysCode = SecurityUtil.getSysCode();
+        query.setSysCode(sysCode);
         JR<JsfPage<BasRoleDto>> jr = basRoleRpcService.page(query);
         return ResponseUtil.converter(jr);
     }
@@ -64,8 +64,8 @@ public class BasRoleController {
     @GetMapping("/list")
     @Operation(summary = "查询")
     public R<List<BasRoleDto>> list(BasRoleQuery query) {
-//        String sysCode = SecurityUtil.getSysCode();
-//        query.setSysCode(sysCode);
+        String sysCode = SecurityUtil.getSysCode();
+        query.setSysCode(sysCode);
         JR<List<BasRoleDto>> jr = basRoleRpcService.list(query);
         return ResponseUtil.converter(jr);
     }
@@ -81,10 +81,10 @@ public class BasRoleController {
     @PreAuthorize("hasAuthority('bas:role:save')")
     public R<String> save(@Valid @RequestBody BasRoleDto dto) {
         String username = SecurityUtil.getUsername();
-//        String sysCode = SecurityUtil.getSysCode();
+        String sysCode = SecurityUtil.getSysCode();
         dto.setCreatedBy(username);
         dto.setCreated(new Date());
-//        dto.setSysCode(sysCode);
+        dto.setSysCode(sysCode);
         JR<String> jr = basRoleRpcService.save(dto);
         return ResponseUtil.converter(jr);
     }
@@ -103,8 +103,8 @@ public class BasRoleController {
             return R.NG("id不能为空");
         }
         String username = SecurityUtil.getUsername();
-//        String sysCode = SecurityUtil.getSysCode();
-//        dto.setSysCode(sysCode);
+        String sysCode = SecurityUtil.getSysCode();
+        dto.setSysCode(sysCode);
         dto.setModified(new Date());
         dto.setModifiedBy(username);
         JR<String> jr = basRoleRpcService.updateById(dto);

@@ -3,7 +3,7 @@ package com.hb0730.sys.system.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import com.blinkfox.fenix.specification.FenixSpecification;
-import com.hb0730.base.exception.BadRequestException;
+import com.hb0730.base.exception.ServiceException;
 import com.hb0730.rpc.sys.system.domain.query.PermissionQuery;
 import com.hb0730.sys.system.domain.SysPermission;
 import com.hb0730.sys.system.repository.PermissionRepository;
@@ -66,12 +66,12 @@ public class PermissionServiceImpl implements IPermissionService {
     @Override
     public void updateById(SysPermission permission) {
         if (null == permission.getId()) {
-            throw new BadRequestException("id不能为空");
+            throw new ServiceException("id不能为空");
         }
         if (permission.getId().equals(permission.getParentId())) {
-            throw new BadRequestException("父级不能为自己");
+            throw new ServiceException("父级不能为自己");
         }
-        SysPermission _permission = permissionRepository.findById(permission.getId()).orElseThrow(() -> new BadRequestException("权限不存在"));
+        SysPermission _permission = permissionRepository.findById(permission.getId()).orElseThrow(() -> new ServiceException("权限不存在"));
         // 保证相关数据不会被修改
         BeanUtil.copyProperties(permission, _permission, CopyOptions.create().ignoreNullValue());
         permissionRepository.save(_permission);

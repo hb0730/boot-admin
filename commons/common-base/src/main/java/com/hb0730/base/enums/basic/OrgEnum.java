@@ -21,9 +21,9 @@ public class OrgEnum {
          */
         BAS_ORG_TYPE_01("厂商", 1),
         /**
-         * 机构类型:网点
+         * 机构类型:网点/机构
          */
-        BAS_ORG_TYPE_02("网点", 0),
+        BAS_ORG_TYPE_02("网点", 2),
         ;
         private final String name;
         private final Integer value;

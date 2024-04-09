@@ -27,6 +27,7 @@ public class SwaggerConfiguration {
                 .addSecurityItem(
                         new io.swagger.v3.oas.models.security.SecurityRequirement()
                                 .addList("authorization")
+                                .addList("tenant")
                 )
                 .paths(
                         new io.swagger.v3.oas.models.Paths()
@@ -91,7 +92,9 @@ public class SwaggerConfiguration {
                 )
                 .schemaRequirement("authorization",
                         securityScheme(headerName)
-
+                ).schemaRequirement(
+                        "tenant",
+                        securityScheme("X-Tenant")
                 );
     }
 

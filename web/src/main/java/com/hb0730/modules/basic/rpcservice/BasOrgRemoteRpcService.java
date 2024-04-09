@@ -1,6 +1,6 @@
 package com.hb0730.modules.basic.rpcservice;
 
-import com.hb0730.base.conf.rpc.client.ClientRemoteRpcService;
+import com.hb0730.base.conf.rpc.client.BaseRemoteRpcService;
 import com.hb0730.commons.JR;
 import com.hb0730.rpc.basic.domain.BasOrgDto;
 import com.hb0730.rpc.basic.domain.query.BasOrgQuery;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class BasOrgRemoteRpcService extends ClientRemoteRpcService<BasOrgRpcService> implements BasOrgRpcService {
+public class BasOrgRemoteRpcService extends BaseRemoteRpcService<BasOrgRpcService> implements BasOrgRpcService {
     @Override
     public JR<String> checkOrgExpiredForLogin(String orgId) {
         return getRpcService().checkOrgExpiredForLogin(orgId);
