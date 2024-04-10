@@ -22,6 +22,7 @@
         <module>common-web</module>
         <module>common-security</module>
         <module>common-websocket</module>
+        <module>common-excel</module>
     </modules>
 
     <properties>
