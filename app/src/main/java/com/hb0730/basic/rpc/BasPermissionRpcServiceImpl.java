@@ -8,7 +8,7 @@ import com.hb0730.basic.rpc.cache.BasUserMenusCache;
 import com.hb0730.basic.rpc.mapstruct.BasPermissionMapper;
 import com.hb0730.basic.service.IBasPermissionService;
 import com.hb0730.basic.service.IBasRoleService;
-import com.hb0730.commons.JR;
+import com.hb0730.common.api.JR;
 import com.hb0730.rpc.basic.domain.BasPermissionDto;
 import com.hb0730.rpc.basic.domain.query.BasPermissionQuery;
 import com.hb0730.rpc.basic.service.BasPermissionRpcService;

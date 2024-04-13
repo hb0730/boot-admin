@@ -4,7 +4,7 @@ import com.hb0730.base.conf.rpc.server.BaseServerRpcService;
 import com.hb0730.basic.domain.BasOrg;
 import com.hb0730.basic.rpc.mapstruct.BasOrgMapper;
 import com.hb0730.basic.service.IBasOrgService;
-import com.hb0730.commons.JR;
+import com.hb0730.common.api.JR;
 import com.hb0730.rpc.basic.domain.BasOrgDto;
 import com.hb0730.rpc.basic.domain.query.BasOrgQuery;
 import com.hb0730.rpc.basic.service.BasOrgRpcService;

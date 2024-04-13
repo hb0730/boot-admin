@@ -1,6 +1,6 @@
 package com.hb0730.basic.service;
 
-import com.hb0730.commons.JsfPage;
+import com.hb0730.common.api.JsfPage;
 import com.hb0730.rpc.basic.domain.BasNoticeDto;
 import com.hb0730.rpc.basic.domain.query.BasNoticeQuery;
 

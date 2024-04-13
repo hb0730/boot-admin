@@ -10,6 +10,11 @@
     </parent>
 
     <artifactId>modules</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>job-module</module>
+        <module>sys-module</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

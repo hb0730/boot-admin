@@ -5,7 +5,7 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollectionUtil;
 import com.blinkfox.fenix.specification.FenixSpecification;
 import com.hb0730.base.exception.ServiceException;
-import com.hb0730.commons.JR;
+import com.hb0730.common.api.JR;
 import com.hb0730.rpc.sys.system.domain.query.ProductQuery;
 import com.hb0730.sys.system.domain.SysProduct;
 import com.hb0730.sys.system.repository.ProductRepository;

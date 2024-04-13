@@ -1,6 +1,6 @@
 package com.hb0730.util;
 
-import com.hb0730.commons.BaseQuery;
+import com.hb0730.common.api.BaseQuery;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

@@ -1,6 +1,6 @@
 package com.hb0730.sys.system.service;
 
-import com.hb0730.commons.JR;
+import com.hb0730.common.api.JR;
 import com.hb0730.rpc.sys.system.domain.query.ProductQuery;
 import com.hb0730.sys.system.domain.SysProduct;
 import org.springframework.data.domain.Page;

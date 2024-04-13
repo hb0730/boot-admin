@@ -2,8 +2,8 @@ package com.hb0730.sys.tenant.rpc;
 
 import com.hb0730.base.conf.rpc.server.BaseServerRpcService;
 import com.hb0730.base.utils.StrUtil;
-import com.hb0730.commons.JR;
-import com.hb0730.commons.JsfPage;
+import com.hb0730.common.api.JR;
+import com.hb0730.common.api.JsfPage;
 import com.hb0730.rpc.sys.tenant.domain.TenantOrgDto;
 import com.hb0730.rpc.sys.tenant.domain.TenantSmallDto;
 import com.hb0730.rpc.sys.tenant.domain.UpdateTenantOrgConfigDto;

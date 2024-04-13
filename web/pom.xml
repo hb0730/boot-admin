@@ -83,7 +83,7 @@
         </dependency>
         <dependency>
             <groupId>com.hb0730</groupId>
-            <artifactId>api-system</artifactId>
+            <artifactId>sys-api</artifactId>
             <version>${parent.version}</version>
         </dependency>
 

@@ -14,7 +14,6 @@
     <modules>
         <module>app</module>
         <module>web</module>
-        <module>api</module>
         <module>commons</module>
         <module>modules</module>
     </modules>
@@ -27,7 +26,7 @@
         <spring-boot.version>3.2.2</spring-boot.version>
         <sofa-boot.version>4.2.0</sofa-boot.version>
         <hutool.version>5.8.25</hutool.version>
-        <mysql.version>8.0.27</mysql.version>
+        <mysql.version>8.3.0</mysql.version>
         <springdoc.version>2.3.0</springdoc.version>
         <guava.version>31.0.1-jre</guava.version>
         <spring-grpc.version>2.15.0.RELEASE</spring-grpc.version>
@@ -82,8 +81,8 @@
             </dependency>
             <!--mysql-->
             <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
+                <groupId>com.mysql</groupId>
+                <artifactId>mysql-connector-j</artifactId>
                 <version>${mysql.version}</version>
                 <scope>runtime</scope>
             </dependency>

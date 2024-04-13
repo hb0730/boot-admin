@@ -2,8 +2,8 @@ package com.hb0730.basic.rpc;
 
 import com.hb0730.base.conf.rpc.server.BaseServerRpcService;
 import com.hb0730.basic.service.IBasNoticeService;
-import com.hb0730.commons.JR;
-import com.hb0730.commons.JsfPage;
+import com.hb0730.common.api.JR;
+import com.hb0730.common.api.JsfPage;
 import com.hb0730.rpc.basic.domain.BasNoticeDto;
 import com.hb0730.rpc.basic.domain.query.BasNoticeQuery;
 import com.hb0730.rpc.basic.service.BasNoticeRpcService;

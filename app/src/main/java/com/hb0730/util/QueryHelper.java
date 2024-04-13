@@ -1,6 +1,6 @@
 package com.hb0730.util;
 
-import com.hb0730.commons.BaseQuery;
+import com.hb0730.common.api.BaseQuery;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;

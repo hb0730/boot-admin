@@ -7,7 +7,7 @@ import com.hb0730.basic.domain.BasUser;
 import com.hb0730.basic.repository.BasNoticeRecordRepository;
 import com.hb0730.basic.rpc.mapstruct.BasNoticeMapper;
 import com.hb0730.basic.service.IBasNoticeService;
-import com.hb0730.commons.JsfPage;
+import com.hb0730.common.api.JsfPage;
 import com.hb0730.rpc.basic.domain.BasNoticeDto;
 import com.hb0730.rpc.basic.domain.query.BasNoticeQuery;
 import com.hb0730.sys.system.domain.SysNotice;

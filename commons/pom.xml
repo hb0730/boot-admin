@@ -24,6 +24,8 @@
         <module>common-websocket</module>
         <module>common-excel</module>
         <module>common-oss</module>
+        <module>common-sms</module>
+        <module>common-api</module>
     </modules>
 
     <properties>
