@@ -23,6 +23,7 @@
         <module>common-security</module>
         <module>common-websocket</module>
         <module>common-excel</module>
+        <module>common-oss</module>
     </modules>
 
     <properties>
