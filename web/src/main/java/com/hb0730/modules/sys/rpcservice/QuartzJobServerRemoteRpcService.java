@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class QuartzJobServerRemoteRpcService extends BaseRemoteRpcService<QuartzJobServerRpcService> implements QuartzJobServerRpcService {
-    @Value("${boot.admin.rpc.job.remote.rul:127.0.0.1:12201}")
+    @Value("${boot.admin.rpc.job.remote.url:127.0.0.1:12201}")
     private String url;
 
     @Override

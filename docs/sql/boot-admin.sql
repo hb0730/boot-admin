@@ -73,6 +73,50 @@ INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_
 VALUES ('1777511020300439553', '1775462194303553534', '1773607815873716224', b'1', '2024-04-09 09:37:06');
 INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
 VALUES ('1777511170003537922', '1775462194303553544', '1773607815873716224', b'1', '2024-04-09 09:37:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243662319618', '1775462194303553532', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243712651266', '1775462194303553533', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243712651267', '1775462194303553534', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243712651268', '1775462194303553535', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243712651269', '1775462194303553536', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243716845569', '1775462194303553537', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243716845570', '1775462194303553538', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243716845571', '1775462194303553539', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243716845572', '1775462194303553540', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243716845573', '1775462194303553541', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243716845574', '1775462194303553542', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243716845575', '1775462194303553543', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243716845576', '1775462194303553544', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243716845577', '1775462194303553545', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243716845578', '1775462194303553546', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243716845579', '1775462194303553547', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243721039873', '1775462194303553548', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243721039874', '1775462194303553549', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243721039875', '1775462194303553550', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243721039876', '1775462194303553551', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243721039877', '1775462194303553552', '1', b'1', '2024-04-09 10:21:42');
+INSERT INTO `bas_notice_record` (`id`, `notice_id`, `user_id`, `is_read`, `read_time`)
+VALUES ('1777522243721039878', '1775462194303553553', '1', b'1', '2024-04-09 10:21:42');
 COMMIT;
 
 -- ----------------------------
@@ -428,6 +472,328 @@ VALUES ('1774377228096892929', '1774624095126200322');
 COMMIT;
 
 -- ----------------------------
+-- Table structure for QRTZ_BLOB_TRIGGERS
+-- ----------------------------
+DROP TABLE IF EXISTS `QRTZ_BLOB_TRIGGERS`;
+CREATE TABLE `QRTZ_BLOB_TRIGGERS`
+(
+    `SCHED_NAME`    varchar(120) COLLATE utf8mb4_general_ci NOT NULL,
+    `TRIGGER_NAME`  varchar(190) COLLATE utf8mb4_general_ci NOT NULL,
+    `TRIGGER_GROUP` varchar(190) COLLATE utf8mb4_general_ci NOT NULL,
+    `BLOB_DATA`     blob,
+    PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`),
+    KEY `SCHED_NAME` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`),
+    CONSTRAINT `qrtz_blob_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `QRTZ_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of QRTZ_BLOB_TRIGGERS
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for QRTZ_CALENDARS
+-- ----------------------------
+DROP TABLE IF EXISTS `QRTZ_CALENDARS`;
+CREATE TABLE `QRTZ_CALENDARS`
+(
+    `SCHED_NAME`    varchar(120) COLLATE utf8mb4_general_ci NOT NULL,
+    `CALENDAR_NAME` varchar(190) COLLATE utf8mb4_general_ci NOT NULL,
+    `CALENDAR`      blob                                    NOT NULL,
+    PRIMARY KEY (`SCHED_NAME`, `CALENDAR_NAME`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of QRTZ_CALENDARS
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for QRTZ_CRON_TRIGGERS
+-- ----------------------------
+DROP TABLE IF EXISTS `QRTZ_CRON_TRIGGERS`;
+CREATE TABLE `QRTZ_CRON_TRIGGERS`
+(
+    `SCHED_NAME`      varchar(120) COLLATE utf8mb4_general_ci NOT NULL,
+    `TRIGGER_NAME`    varchar(190) COLLATE utf8mb4_general_ci NOT NULL,
+    `TRIGGER_GROUP`   varchar(190) COLLATE utf8mb4_general_ci NOT NULL,
+    `CRON_EXPRESSION` varchar(120) COLLATE utf8mb4_general_ci NOT NULL,
+    `TIME_ZONE_ID`    varchar(80) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`),
+    CONSTRAINT `qrtz_cron_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `QRTZ_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of QRTZ_CRON_TRIGGERS
+-- ----------------------------
+BEGIN;
+INSERT INTO `QRTZ_CRON_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`, `CRON_EXPRESSION`, `TIME_ZONE_ID`)
+VALUES ('MyScheduler', 'TASK_1779390306119061505', 'DEFAULT', '0 0/2 * * * ?', 'Asia/Shanghai');
+INSERT INTO `QRTZ_CRON_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`, `CRON_EXPRESSION`, `TIME_ZONE_ID`)
+VALUES ('MyScheduler', 'TASK_null', 'DEFAULT', '0 0/2 * * * ?', 'Asia/Shanghai');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for QRTZ_FIRED_TRIGGERS
+-- ----------------------------
+DROP TABLE IF EXISTS `QRTZ_FIRED_TRIGGERS`;
+CREATE TABLE `QRTZ_FIRED_TRIGGERS`
+(
+    `SCHED_NAME`        varchar(120) COLLATE utf8mb4_general_ci NOT NULL,
+    `ENTRY_ID`          varchar(95) COLLATE utf8mb4_general_ci  NOT NULL,
+    `TRIGGER_NAME`      varchar(190) COLLATE utf8mb4_general_ci NOT NULL,
+    `TRIGGER_GROUP`     varchar(190) COLLATE utf8mb4_general_ci NOT NULL,
+    `INSTANCE_NAME`     varchar(190) COLLATE utf8mb4_general_ci NOT NULL,
+    `FIRED_TIME`        bigint                                  NOT NULL,
+    `SCHED_TIME`        bigint                                  NOT NULL,
+    `PRIORITY`          int                                     NOT NULL,
+    `STATE`             varchar(16) COLLATE utf8mb4_general_ci  NOT NULL,
+    `JOB_NAME`          varchar(190) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `JOB_GROUP`         varchar(190) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `IS_NONCONCURRENT`  varchar(1) COLLATE utf8mb4_general_ci   DEFAULT NULL,
+    `REQUESTS_RECOVERY` varchar(1) COLLATE utf8mb4_general_ci   DEFAULT NULL,
+    PRIMARY KEY (`SCHED_NAME`, `ENTRY_ID`),
+    KEY `IDX_QRTZ_FT_TRIG_INST_NAME` (`SCHED_NAME`, `INSTANCE_NAME`),
+    KEY `IDX_QRTZ_FT_INST_JOB_REQ_RCVRY` (`SCHED_NAME`, `INSTANCE_NAME`, `REQUESTS_RECOVERY`),
+    KEY `IDX_QRTZ_FT_J_G` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`),
+    KEY `IDX_QRTZ_FT_JG` (`SCHED_NAME`, `JOB_GROUP`),
+    KEY `IDX_QRTZ_FT_T_G` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`),
+    KEY `IDX_QRTZ_FT_TG` (`SCHED_NAME`, `TRIGGER_GROUP`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of QRTZ_FIRED_TRIGGERS
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for QRTZ_JOB_DETAILS
+-- ----------------------------
+DROP TABLE IF EXISTS `QRTZ_JOB_DETAILS`;
+CREATE TABLE `QRTZ_JOB_DETAILS`
+(
+    `SCHED_NAME`        varchar(120) COLLATE utf8mb4_general_ci NOT NULL,
+    `JOB_NAME`          varchar(190) COLLATE utf8mb4_general_ci NOT NULL,
+    `JOB_GROUP`         varchar(190) COLLATE utf8mb4_general_ci NOT NULL,
+    `DESCRIPTION`       varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `JOB_CLASS_NAME`    varchar(250) COLLATE utf8mb4_general_ci NOT NULL,
+    `IS_DURABLE`        varchar(1) COLLATE utf8mb4_general_ci   NOT NULL,
+    `IS_NONCONCURRENT`  varchar(1) COLLATE utf8mb4_general_ci   NOT NULL,
+    `IS_UPDATE_DATA`    varchar(1) COLLATE utf8mb4_general_ci   NOT NULL,
+    `REQUESTS_RECOVERY` varchar(1) COLLATE utf8mb4_general_ci   NOT NULL,
+    `JOB_DATA`          blob,
+    PRIMARY KEY (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`),
+    KEY `IDX_QRTZ_J_REQ_RECOVERY` (`SCHED_NAME`, `REQUESTS_RECOVERY`),
+    KEY `IDX_QRTZ_J_GRP` (`SCHED_NAME`, `JOB_GROUP`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of QRTZ_JOB_DETAILS
+-- ----------------------------
+BEGIN;
+INSERT INTO `QRTZ_JOB_DETAILS` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`, `DESCRIPTION`, `JOB_CLASS_NAME`, `IS_DURABLE`,
+                                `IS_NONCONCURRENT`, `IS_UPDATE_DATA`, `REQUESTS_RECOVERY`, `JOB_DATA`)
+VALUES ('MyScheduler', 'TASK_1779390306119061505', 'DEFAULT', 'Spring Bean测试', 'com.hb0730.job.jobs.TestJob3', '0',
+        '0', '0', '0',
+        0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C77080000001000000001740009706172616D657465727400007800);
+INSERT INTO `QRTZ_JOB_DETAILS` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`, `DESCRIPTION`, `JOB_CLASS_NAME`, `IS_DURABLE`,
+                                `IS_NONCONCURRENT`, `IS_UPDATE_DATA`, `REQUESTS_RECOVERY`, `JOB_DATA`)
+VALUES ('MyScheduler', 'TASK_null', 'DEFAULT', '', 'com.hb0730.job.jobs.SimpleJob', '0', '0', '0', '0',
+        0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C77080000001000000001740009706172616D657465727400007800);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for QRTZ_LOCKS
+-- ----------------------------
+DROP TABLE IF EXISTS `QRTZ_LOCKS`;
+CREATE TABLE `QRTZ_LOCKS`
+(
+    `SCHED_NAME` varchar(120) COLLATE utf8mb4_general_ci NOT NULL,
+    `LOCK_NAME`  varchar(40) COLLATE utf8mb4_general_ci  NOT NULL,
+    PRIMARY KEY (`SCHED_NAME`, `LOCK_NAME`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of QRTZ_LOCKS
+-- ----------------------------
+BEGIN;
+INSERT INTO `QRTZ_LOCKS` (`SCHED_NAME`, `LOCK_NAME`)
+VALUES ('MyScheduler', 'STATE_ACCESS');
+INSERT INTO `QRTZ_LOCKS` (`SCHED_NAME`, `LOCK_NAME`)
+VALUES ('MyScheduler', 'TRIGGER_ACCESS');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for QRTZ_PAUSED_TRIGGER_GRPS
+-- ----------------------------
+DROP TABLE IF EXISTS `QRTZ_PAUSED_TRIGGER_GRPS`;
+CREATE TABLE `QRTZ_PAUSED_TRIGGER_GRPS`
+(
+    `SCHED_NAME`    varchar(120) COLLATE utf8mb4_general_ci NOT NULL,
+    `TRIGGER_GROUP` varchar(190) COLLATE utf8mb4_general_ci NOT NULL,
+    PRIMARY KEY (`SCHED_NAME`, `TRIGGER_GROUP`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of QRTZ_PAUSED_TRIGGER_GRPS
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for QRTZ_SCHEDULER_STATE
+-- ----------------------------
+DROP TABLE IF EXISTS `QRTZ_SCHEDULER_STATE`;
+CREATE TABLE `QRTZ_SCHEDULER_STATE`
+(
+    `SCHED_NAME`        varchar(120) COLLATE utf8mb4_general_ci NOT NULL,
+    `INSTANCE_NAME`     varchar(190) COLLATE utf8mb4_general_ci NOT NULL,
+    `LAST_CHECKIN_TIME` bigint                                  NOT NULL,
+    `CHECKIN_INTERVAL`  bigint                                  NOT NULL,
+    PRIMARY KEY (`SCHED_NAME`, `INSTANCE_NAME`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of QRTZ_SCHEDULER_STATE
+-- ----------------------------
+BEGIN;
+INSERT INTO `QRTZ_SCHEDULER_STATE` (`SCHED_NAME`, `INSTANCE_NAME`, `LAST_CHECKIN_TIME`, `CHECKIN_INTERVAL`)
+VALUES ('MyScheduler', 'huangbingdeMacBook-Pro.local1713074779020', 1713076122163, 10000);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for QRTZ_SIMPLE_TRIGGERS
+-- ----------------------------
+DROP TABLE IF EXISTS `QRTZ_SIMPLE_TRIGGERS`;
+CREATE TABLE `QRTZ_SIMPLE_TRIGGERS`
+(
+    `SCHED_NAME`      varchar(120) COLLATE utf8mb4_general_ci NOT NULL,
+    `TRIGGER_NAME`    varchar(190) COLLATE utf8mb4_general_ci NOT NULL,
+    `TRIGGER_GROUP`   varchar(190) COLLATE utf8mb4_general_ci NOT NULL,
+    `REPEAT_COUNT`    bigint                                  NOT NULL,
+    `REPEAT_INTERVAL` bigint                                  NOT NULL,
+    `TIMES_TRIGGERED` bigint                                  NOT NULL,
+    PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`),
+    CONSTRAINT `qrtz_simple_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `QRTZ_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of QRTZ_SIMPLE_TRIGGERS
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for QRTZ_SIMPROP_TRIGGERS
+-- ----------------------------
+DROP TABLE IF EXISTS `QRTZ_SIMPROP_TRIGGERS`;
+CREATE TABLE `QRTZ_SIMPROP_TRIGGERS`
+(
+    `SCHED_NAME`    varchar(120) COLLATE utf8mb4_general_ci NOT NULL,
+    `TRIGGER_NAME`  varchar(190) COLLATE utf8mb4_general_ci NOT NULL,
+    `TRIGGER_GROUP` varchar(190) COLLATE utf8mb4_general_ci NOT NULL,
+    `STR_PROP_1`    varchar(512) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `STR_PROP_2`    varchar(512) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `STR_PROP_3`    varchar(512) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `INT_PROP_1`    int                                     DEFAULT NULL,
+    `INT_PROP_2`    int                                     DEFAULT NULL,
+    `LONG_PROP_1`   bigint                                  DEFAULT NULL,
+    `LONG_PROP_2`   bigint                                  DEFAULT NULL,
+    `DEC_PROP_1`    decimal(13, 4)                          DEFAULT NULL,
+    `DEC_PROP_2`    decimal(13, 4)                          DEFAULT NULL,
+    `BOOL_PROP_1`   varchar(1) COLLATE utf8mb4_general_ci   DEFAULT NULL,
+    `BOOL_PROP_2`   varchar(1) COLLATE utf8mb4_general_ci   DEFAULT NULL,
+    PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`),
+    CONSTRAINT `qrtz_simprop_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `QRTZ_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of QRTZ_SIMPROP_TRIGGERS
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for QRTZ_TRIGGERS
+-- ----------------------------
+DROP TABLE IF EXISTS `QRTZ_TRIGGERS`;
+CREATE TABLE `QRTZ_TRIGGERS`
+(
+    `SCHED_NAME`     varchar(120) COLLATE utf8mb4_general_ci NOT NULL,
+    `TRIGGER_NAME`   varchar(190) COLLATE utf8mb4_general_ci NOT NULL,
+    `TRIGGER_GROUP`  varchar(190) COLLATE utf8mb4_general_ci NOT NULL,
+    `JOB_NAME`       varchar(190) COLLATE utf8mb4_general_ci NOT NULL,
+    `JOB_GROUP`      varchar(190) COLLATE utf8mb4_general_ci NOT NULL,
+    `DESCRIPTION`    varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `NEXT_FIRE_TIME` bigint                                  DEFAULT NULL,
+    `PREV_FIRE_TIME` bigint                                  DEFAULT NULL,
+    `PRIORITY`       int                                     DEFAULT NULL,
+    `TRIGGER_STATE`  varchar(16) COLLATE utf8mb4_general_ci  NOT NULL,
+    `TRIGGER_TYPE`   varchar(8) COLLATE utf8mb4_general_ci   NOT NULL,
+    `START_TIME`     bigint                                  NOT NULL,
+    `END_TIME`       bigint                                  DEFAULT NULL,
+    `CALENDAR_NAME`  varchar(190) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `MISFIRE_INSTR`  smallint                                DEFAULT NULL,
+    `JOB_DATA`       blob,
+    PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`),
+    KEY `IDX_QRTZ_T_J` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`),
+    KEY `IDX_QRTZ_T_JG` (`SCHED_NAME`, `JOB_GROUP`),
+    KEY `IDX_QRTZ_T_C` (`SCHED_NAME`, `CALENDAR_NAME`),
+    KEY `IDX_QRTZ_T_G` (`SCHED_NAME`, `TRIGGER_GROUP`),
+    KEY `IDX_QRTZ_T_STATE` (`SCHED_NAME`, `TRIGGER_STATE`),
+    KEY `IDX_QRTZ_T_N_STATE` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`, `TRIGGER_STATE`),
+    KEY `IDX_QRTZ_T_N_G_STATE` (`SCHED_NAME`, `TRIGGER_GROUP`, `TRIGGER_STATE`),
+    KEY `IDX_QRTZ_T_NEXT_FIRE_TIME` (`SCHED_NAME`, `NEXT_FIRE_TIME`),
+    KEY `IDX_QRTZ_T_NFT_ST` (`SCHED_NAME`, `TRIGGER_STATE`, `NEXT_FIRE_TIME`),
+    KEY `IDX_QRTZ_T_NFT_MISFIRE` (`SCHED_NAME`, `MISFIRE_INSTR`, `NEXT_FIRE_TIME`),
+    KEY `IDX_QRTZ_T_NFT_ST_MISFIRE` (`SCHED_NAME`, `MISFIRE_INSTR`, `NEXT_FIRE_TIME`, `TRIGGER_STATE`),
+    KEY `IDX_QRTZ_T_NFT_ST_MISFIRE_GRP` (`SCHED_NAME`, `MISFIRE_INSTR`, `NEXT_FIRE_TIME`, `TRIGGER_GROUP`,
+                                         `TRIGGER_STATE`),
+    CONSTRAINT `qrtz_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) REFERENCES `QRTZ_JOB_DETAILS` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of QRTZ_TRIGGERS
+-- ----------------------------
+BEGIN;
+INSERT INTO `QRTZ_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`, `JOB_NAME`, `JOB_GROUP`, `DESCRIPTION`,
+                             `NEXT_FIRE_TIME`, `PREV_FIRE_TIME`, `PRIORITY`, `TRIGGER_STATE`, `TRIGGER_TYPE`,
+                             `START_TIME`, `END_TIME`, `CALENDAR_NAME`, `MISFIRE_INSTR`, `JOB_DATA`)
+VALUES ('MyScheduler', 'TASK_1779390306119061505', 'DEFAULT', 'TASK_1779390306119061505', 'DEFAULT', 'Spring Bean测试',
+        1713075000000, 1713074880000, 5, 'PAUSED', 'CRON', 1713074683000, 0, NULL, 0, '');
+INSERT INTO `QRTZ_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`, `JOB_NAME`, `JOB_GROUP`, `DESCRIPTION`,
+                             `NEXT_FIRE_TIME`, `PREV_FIRE_TIME`, `PRIORITY`, `TRIGGER_STATE`, `TRIGGER_TYPE`,
+                             `START_TIME`, `END_TIME`, `CALENDAR_NAME`, `MISFIRE_INSTR`, `JOB_DATA`)
+VALUES ('MyScheduler', 'TASK_null', 'DEFAULT', 'TASK_null', 'DEFAULT', '', 1713074160000, -1, 5, 'PAUSED', 'CRON',
+        1713074059000, 0, NULL, 0, '');
+COMMIT;
+
+-- ----------------------------
 -- Table structure for sys_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
@@ -608,7 +974,7 @@ CREATE TABLE `sys_permission`
     `modified`    datetime                                                      DEFAULT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 38
+  AUTO_INCREMENT = 47
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT ='管理端：菜单与权限';
 
@@ -801,6 +1167,51 @@ INSERT INTO `sys_permission` (`id`, `parent_id`, `path`, `route_name`, `redirect
                               `is_enabled`, `created_by`, `created`, `modified_by`, `modified`)
 VALUES (37, 33, '', '', '', '', '公告删除', '', b'1', 4, b'1', b'0', '', 4, 'sys:notice:delete', b'1', 'superadmin',
         '2024-04-03 08:58:09', 'superadmin', '2024-04-03 08:58:15');
+INSERT INTO `sys_permission` (`id`, `parent_id`, `path`, `route_name`, `redirect`, `component`, `title`, `icon`,
+                              `show_link`, `rank`, `show_parent`, `keep_alive`, `frame_src`, `menu_type`, `permission`,
+                              `is_enabled`, `created_by`, `created`, `modified_by`, `modified`)
+VALUES (38, NULL, '/monitor', '', '', '', '系统监控', 'ep:monitor', b'1', 3, b'1', b'0', '', 1, '', b'1', 'superadmin',
+        '2024-04-14 13:01:18', NULL, NULL);
+INSERT INTO `sys_permission` (`id`, `parent_id`, `path`, `route_name`, `redirect`, `component`, `title`, `icon`,
+                              `show_link`, `rank`, `show_parent`, `keep_alive`, `frame_src`, `menu_type`, `permission`,
+                              `is_enabled`, `created_by`, `created`, `modified_by`, `modified`)
+VALUES (39, 38, '/monitor/task/index', 'taskJobManger', '', 'monitor/task/index', '定时任务', '', b'1', 1, b'1', b'0',
+        '', 1, '', b'1', 'superadmin', '2024-04-14 13:02:42', NULL, NULL);
+INSERT INTO `sys_permission` (`id`, `parent_id`, `path`, `route_name`, `redirect`, `component`, `title`, `icon`,
+                              `show_link`, `rank`, `show_parent`, `keep_alive`, `frame_src`, `menu_type`, `permission`,
+                              `is_enabled`, `created_by`, `created`, `modified_by`, `modified`)
+VALUES (40, 39, '', '', '', '', '定时任务查询', '', b'1', 1, b'1', b'0', '', 4, 'sys:quartz:job:page', b'1',
+        'superadmin', '2024-04-14 13:03:09', NULL, NULL);
+INSERT INTO `sys_permission` (`id`, `parent_id`, `path`, `route_name`, `redirect`, `component`, `title`, `icon`,
+                              `show_link`, `rank`, `show_parent`, `keep_alive`, `frame_src`, `menu_type`, `permission`,
+                              `is_enabled`, `created_by`, `created`, `modified_by`, `modified`)
+VALUES (41, 39, '', '', '', '', '定时任务保存', '', b'1', 2, b'1', b'0', '', 4, 'sys:quartz:job:save', b'1',
+        'superadmin', '2024-04-14 13:03:34', NULL, NULL);
+INSERT INTO `sys_permission` (`id`, `parent_id`, `path`, `route_name`, `redirect`, `component`, `title`, `icon`,
+                              `show_link`, `rank`, `show_parent`, `keep_alive`, `frame_src`, `menu_type`, `permission`,
+                              `is_enabled`, `created_by`, `created`, `modified_by`, `modified`)
+VALUES (42, 39, '', '', '', '', '定时任务修改', '', b'1', 3, b'1', b'0', '', 4, 'sys:quartz:job:update', b'1',
+        'superadmin', '2024-04-14 13:03:50', NULL, NULL);
+INSERT INTO `sys_permission` (`id`, `parent_id`, `path`, `route_name`, `redirect`, `component`, `title`, `icon`,
+                              `show_link`, `rank`, `show_parent`, `keep_alive`, `frame_src`, `menu_type`, `permission`,
+                              `is_enabled`, `created_by`, `created`, `modified_by`, `modified`)
+VALUES (43, 39, '', '', '', '', '定时任务删除', '', b'1', 4, b'1', b'0', '', 4, 'sys:quartz:job:delete', b'1',
+        'superadmin', '2024-04-14 13:04:08', NULL, NULL);
+INSERT INTO `sys_permission` (`id`, `parent_id`, `path`, `route_name`, `redirect`, `component`, `title`, `icon`,
+                              `show_link`, `rank`, `show_parent`, `keep_alive`, `frame_src`, `menu_type`, `permission`,
+                              `is_enabled`, `created_by`, `created`, `modified_by`, `modified`)
+VALUES (44, 39, '', '', '', '', '定时任务暂停', '', b'1', 5, b'1', b'0', '', 4, 'sys:quartz:job:pause', b'1',
+        'superadmin', '2024-04-14 13:04:27', NULL, NULL);
+INSERT INTO `sys_permission` (`id`, `parent_id`, `path`, `route_name`, `redirect`, `component`, `title`, `icon`,
+                              `show_link`, `rank`, `show_parent`, `keep_alive`, `frame_src`, `menu_type`, `permission`,
+                              `is_enabled`, `created_by`, `created`, `modified_by`, `modified`)
+VALUES (45, 39, '', '', '', '', '定时任务恢复', '', b'1', 6, b'1', b'0', '', 4, 'sys:quartz:job:resume', b'1',
+        'superadmin', '2024-04-14 13:04:47', NULL, NULL);
+INSERT INTO `sys_permission` (`id`, `parent_id`, `path`, `route_name`, `redirect`, `component`, `title`, `icon`,
+                              `show_link`, `rank`, `show_parent`, `keep_alive`, `frame_src`, `menu_type`, `permission`,
+                              `is_enabled`, `created_by`, `created`, `modified_by`, `modified`)
+VALUES (46, 39, '', '', '', '', '立即执行', '', b'1', 7, b'1', b'0', '', 4, 'sys:quartz:job:run', b'1', 'superadmin',
+        '2024-04-14 13:05:08', 'superadmin', '2024-04-14 13:05:41');
 COMMIT;
 
 -- ----------------------------
@@ -906,6 +1317,47 @@ INSERT INTO `sys_product_permission` (`product_id`, `permission_id`)
 VALUES (2, 7);
 INSERT INTO `sys_product_permission` (`product_id`, `permission_id`)
 VALUES (2, 8);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_quartz_job
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_quartz_job`;
+CREATE TABLE `sys_quartz_job`
+(
+    `id`              varchar(32) COLLATE utf8mb4_general_ci  NOT NULL,
+    `job_name`        varchar(32) COLLATE utf8mb4_general_ci  NOT NULL COMMENT '任务名称',
+    `job_class_name`  varchar(255) COLLATE utf8mb4_general_ci NOT NULL COMMENT '任务类名/bean名称',
+    `parameter`       text COLLATE utf8mb4_general_ci COMMENT '参数',
+    `cron_expression` varchar(32) COLLATE utf8mb4_general_ci  NOT NULL COMMENT 'cron表达式',
+    `is_enabled`      bit(1)                                                       DEFAULT b'1' COMMENT '状态',
+    `description`     varchar(255) COLLATE utf8mb4_general_ci                      DEFAULT NULL COMMENT '描述',
+    `sys_code`        varchar(32) COLLATE utf8mb4_general_ci                       DEFAULT NULL COMMENT '商户识别码/分组',
+    `created`         datetime                                                     DEFAULT NULL COMMENT '创建时间',
+    `created_by`      varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建者',
+    `modified`        datetime                                                     DEFAULT NULL COMMENT '修改时间',
+    `modified_by`     varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='管理端：定时任务\n';
+
+-- ----------------------------
+-- Records of sys_quartz_job
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_quartz_job` (`id`, `job_name`, `job_class_name`, `parameter`, `cron_expression`, `is_enabled`,
+                              `description`, `sys_code`, `created`, `created_by`, `modified`, `modified_by`)
+VALUES ('1779387688999211010', '简单任务', 'com.hb0730.job.jobs.SimpleJob', '', '0 0/2 * * * ?', b'0', '', 'DEFAULT',
+        '2024-04-14 13:54:19', 'superadmin', NULL, NULL);
+INSERT INTO `sys_quartz_job` (`id`, `job_name`, `job_class_name`, `parameter`, `cron_expression`, `is_enabled`,
+                              `description`, `sys_code`, `created`, `created_by`, `modified`, `modified_by`)
+VALUES ('1779389827544797186', '有参测试', 'com.hb0730.job.jobs.TestJob1', '{\"key\":\"xxx\",\"value\":\"xxx\"}',
+        '0 0/2 * * * ?', b'0', '有参测试', 'DEFAULT', '2024-04-14 14:02:49', 'superadmin', NULL, NULL);
+INSERT INTO `sys_quartz_job` (`id`, `job_name`, `job_class_name`, `parameter`, `cron_expression`, `is_enabled`,
+                              `description`, `sys_code`, `created`, `created_by`, `modified`, `modified_by`)
+VALUES ('1779390306119061505', 'Spring Bean测试', 'testJob3', '', '0 0/2 * * * ?', b'0', 'Spring Bean测试', 'DEFAULT',
+        '2024-04-14 14:04:43', 'superadmin', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -1029,6 +1481,24 @@ INSERT INTO `sys_role_permission` (`role_id`, `permission_id`)
 VALUES (1, 36);
 INSERT INTO `sys_role_permission` (`role_id`, `permission_id`)
 VALUES (1, 37);
+INSERT INTO `sys_role_permission` (`role_id`, `permission_id`)
+VALUES (1, 38);
+INSERT INTO `sys_role_permission` (`role_id`, `permission_id`)
+VALUES (1, 39);
+INSERT INTO `sys_role_permission` (`role_id`, `permission_id`)
+VALUES (1, 40);
+INSERT INTO `sys_role_permission` (`role_id`, `permission_id`)
+VALUES (1, 41);
+INSERT INTO `sys_role_permission` (`role_id`, `permission_id`)
+VALUES (1, 42);
+INSERT INTO `sys_role_permission` (`role_id`, `permission_id`)
+VALUES (1, 43);
+INSERT INTO `sys_role_permission` (`role_id`, `permission_id`)
+VALUES (1, 44);
+INSERT INTO `sys_role_permission` (`role_id`, `permission_id`)
+VALUES (1, 45);
+INSERT INTO `sys_role_permission` (`role_id`, `permission_id`)
+VALUES (1, 46);
 COMMIT;
 
 -- ----------------------------
@@ -1069,7 +1539,7 @@ INSERT INTO `sys_user` (`id`, `username`, `nickname`, `password`, `gender`, `ema
                         `last_login_time`, `last_login_ip`, `last_pwd_reset_time`, `description`, `is_system`,
                         `is_enabled`, `created`, `created_by`, `modified`, `modified_by`)
 VALUES (1, 'superadmin', '管理员', '$2a$10$bzGz6zZzAxkN0CRjPf0Pb.CetihWFQo8X6n0oKpZxb1vmxBZVJHIC', 0, NULL, NULL, NULL,
-        '2024-04-09 09:53:15', NULL, NULL, '租户-超级管理员', 1, 1, '2024-03-23 09:17:46', 'admin', NULL, NULL);
+        '2024-04-14 13:06:14', NULL, NULL, '租户-超级管理员', 1, 1, '2024-03-23 09:17:46', 'admin', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
