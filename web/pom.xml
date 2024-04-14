@@ -50,6 +50,14 @@
             <artifactId>mapstruct</artifactId>
         </dependency>
 
+        <!--boot admin biz-->
+        <dependency>
+            <groupId>com.hb0730</groupId>
+            <artifactId>job-api</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+
+
         <!--boot admin module-->
         <dependency>
             <groupId>com.hb0730</groupId>

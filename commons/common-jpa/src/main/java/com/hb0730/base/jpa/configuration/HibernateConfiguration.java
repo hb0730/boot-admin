@@ -90,6 +90,7 @@ public class HibernateConfiguration {
                 "sys_user",
                 "sys_user_role",
                 "sys_notice",
+                "sys_quartz_job",
                 "bas_user_role",
                 "bas_role_permission",
                 "bas_permission",

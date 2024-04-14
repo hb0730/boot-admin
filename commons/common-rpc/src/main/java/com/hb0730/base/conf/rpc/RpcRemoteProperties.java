@@ -21,6 +21,17 @@ public class RpcRemoteProperties {
     private Service service = new Service();
 
     /**
+     * 设置服务
+     *
+     * @param service 服务
+     * @return this
+     */
+    public RpcRemoteProperties setService(Service service) {
+        this.service = service;
+        return this;
+    }
+
+    /**
      * 远程 服务
      */
     @Data
@@ -29,5 +40,16 @@ public class RpcRemoteProperties {
          * RPC接口地址 直连模式 bolt协议
          */
         private String boltServer = "127.0.0.1:12200";
+
+        /**
+         * 设置bolt协议
+         *
+         * @param boltServer bolt协议
+         * @return this
+         */
+        public Service setBoltServer(String boltServer) {
+            this.boltServer = boltServer;
+            return this;
+        }
     }
 }

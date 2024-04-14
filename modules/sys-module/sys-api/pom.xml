@@ -24,6 +24,11 @@
             <version>${parent.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.hb0730</groupId>
+            <artifactId>common-specification</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.blinkfox</groupId>
             <artifactId>fenix</artifactId>
         </dependency>
