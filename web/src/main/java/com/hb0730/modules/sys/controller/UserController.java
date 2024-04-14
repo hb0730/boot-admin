@@ -2,8 +2,8 @@ package com.hb0730.modules.sys.controller;
 
 import com.hb0730.base.R;
 import com.hb0730.base.utils.PasswordUtil;
-import com.hb0730.commons.JR;
-import com.hb0730.commons.JsfPage;
+import com.hb0730.common.api.JR;
+import com.hb0730.common.api.JsfPage;
 import com.hb0730.rpc.sys.system.domain.UserDto;
 import com.hb0730.rpc.sys.system.domain.UserRestPwdDto;
 import com.hb0730.rpc.sys.system.domain.query.UserQuery;

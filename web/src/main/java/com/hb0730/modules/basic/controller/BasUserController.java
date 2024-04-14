@@ -2,8 +2,8 @@ package com.hb0730.modules.basic.controller;
 
 import com.hb0730.base.R;
 import com.hb0730.base.utils.StrUtil;
-import com.hb0730.commons.JR;
-import com.hb0730.commons.JsfPage;
+import com.hb0730.common.api.JR;
+import com.hb0730.common.api.JsfPage;
 import com.hb0730.rpc.basic.domain.BasUserDto;
 import com.hb0730.rpc.basic.domain.BasUserRestPasswordDto;
 import com.hb0730.rpc.basic.domain.BasUserSaveDto;

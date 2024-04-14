@@ -1,7 +1,7 @@
 package com.hb0730.modules.sys.controller;
 
 import com.hb0730.base.R;
-import com.hb0730.commons.JR;
+import com.hb0730.common.api.JR;
 import com.hb0730.domain.MenuTreeVO;
 import com.hb0730.domain.RouteVO;
 import com.hb0730.rpc.sys.system.domain.PermissionDto;

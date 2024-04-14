@@ -1,8 +1,8 @@
 package com.hb0730.modules.sys.controller;
 
 import com.hb0730.base.R;
-import com.hb0730.commons.JR;
-import com.hb0730.commons.JsfPage;
+import com.hb0730.common.api.JR;
+import com.hb0730.common.api.JsfPage;
 import com.hb0730.rpc.sys.system.domain.NoticeDto;
 import com.hb0730.rpc.sys.system.domain.query.NoticeQuery;
 import com.hb0730.rpc.sys.system.service.NoticeRpcService;

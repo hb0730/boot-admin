@@ -28,7 +28,7 @@
         <hutool.version>5.8.25</hutool.version>
         <mysql.version>8.3.0</mysql.version>
         <springdoc.version>2.3.0</springdoc.version>
-        <guava.version>31.0.1-jre</guava.version>
+        <guava.version>32.0.0-jre</guava.version>
         <spring-grpc.version>2.15.0.RELEASE</spring-grpc.version>
         <s3.version>2.25.27</s3.version>
         <aliyun-sdk-oss.version>3.15.2</aliyun-sdk-oss.version>

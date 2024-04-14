@@ -1,8 +1,8 @@
 package com.hb0730.modules.sys.rpcservice;
 
 import com.hb0730.base.conf.rpc.client.BaseRemoteRpcService;
-import com.hb0730.commons.JR;
-import com.hb0730.commons.JsfPage;
+import com.hb0730.common.api.JR;
+import com.hb0730.common.api.JsfPage;
 import com.hb0730.rpc.sys.tenant.domain.TenantOrgDto;
 import com.hb0730.rpc.sys.tenant.domain.TenantSmallDto;
 import com.hb0730.rpc.sys.tenant.domain.UpdateTenantOrgConfigDto;

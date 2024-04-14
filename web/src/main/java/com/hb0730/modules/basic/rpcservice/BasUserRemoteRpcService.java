@@ -1,8 +1,8 @@
 package com.hb0730.modules.basic.rpcservice;
 
 import com.hb0730.base.conf.rpc.client.BaseRemoteRpcService;
-import com.hb0730.commons.JR;
-import com.hb0730.commons.JsfPage;
+import com.hb0730.common.api.JR;
+import com.hb0730.common.api.JsfPage;
 import com.hb0730.rpc.basic.domain.BasUserDto;
 import com.hb0730.rpc.basic.domain.BasUserRestPasswordDto;
 import com.hb0730.rpc.basic.domain.BasUserSaveDto;

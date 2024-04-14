@@ -2,7 +2,7 @@ package com.hb0730.security.login;
 
 import com.hb0730.base.exception.ServiceException;
 import com.hb0730.base.utils.StrUtil;
-import com.hb0730.commons.JR;
+import com.hb0730.common.api.JR;
 import com.hb0730.rpc.basic.domain.BasPermissionDto;
 import com.hb0730.rpc.basic.domain.BasRoleDto;
 import com.hb0730.rpc.basic.domain.BasUserDto;

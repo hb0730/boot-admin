@@ -1,7 +1,7 @@
 package com.hb0730.modules.sys.rpcservice;
 
 import com.hb0730.base.conf.rpc.client.BaseRemoteRpcService;
-import com.hb0730.commons.JR;
+import com.hb0730.common.api.JR;
 import com.hb0730.rpc.sys.tenant.domain.TenantPermissionDto;
 import com.hb0730.rpc.sys.tenant.domain.TenantPermissionSmallDto;
 import com.hb0730.rpc.sys.tenant.domain.query.PermissionQuery;

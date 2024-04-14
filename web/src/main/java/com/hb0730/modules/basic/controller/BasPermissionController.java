@@ -2,7 +2,7 @@ package com.hb0730.modules.basic.controller;
 
 import com.hb0730.base.R;
 import com.hb0730.base.utils.TreeUtil;
-import com.hb0730.commons.JR;
+import com.hb0730.common.api.JR;
 import com.hb0730.domain.RouteVO;
 import com.hb0730.rpc.basic.domain.BasPermissionDto;
 import com.hb0730.rpc.basic.domain.query.BasPermissionQuery;

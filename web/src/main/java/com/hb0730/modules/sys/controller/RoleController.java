@@ -1,7 +1,7 @@
 package com.hb0730.modules.sys.controller;
 
 import com.hb0730.base.R;
-import com.hb0730.commons.JsfPage;
+import com.hb0730.common.api.JsfPage;
 import com.hb0730.rpc.sys.system.domain.RoleDto;
 import com.hb0730.rpc.sys.system.domain.query.RoleQuery;
 import com.hb0730.rpc.sys.system.service.RoleRpcService;

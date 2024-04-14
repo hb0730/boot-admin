@@ -1,7 +1,7 @@
 package com.hb0730.utils;
 
 import com.hb0730.base.R;
-import com.hb0730.commons.JR;
+import com.hb0730.common.api.JR;
 
 /**
  * @author <a href="mailto:huangbing0730@gmail">hb0730</a>
