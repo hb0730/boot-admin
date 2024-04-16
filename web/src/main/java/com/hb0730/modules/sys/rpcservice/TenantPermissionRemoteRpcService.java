@@ -19,6 +19,11 @@ import java.util.List;
 @Slf4j
 public class TenantPermissionRemoteRpcService extends BaseRemoteRpcService<TenantPermissionRpcService> implements TenantPermissionRpcService {
     @Override
+    protected String getAppName() {
+        return "job";
+    }
+
+    @Override
     public JR<List<TenantPermissionDto>> listDefaultRootQueryOrderRank(PermissionQuery query) {
         return getRpcService().listDefaultRootQueryOrderRank(query);
     }

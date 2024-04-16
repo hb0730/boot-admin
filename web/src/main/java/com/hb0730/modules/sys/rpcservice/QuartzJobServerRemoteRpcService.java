@@ -1,12 +1,10 @@
 package com.hb0730.modules.sys.rpcservice;
 
-import com.hb0730.base.conf.rpc.RpcRemoteProperties;
 import com.hb0730.base.conf.rpc.client.BaseRemoteRpcService;
 import com.hb0730.common.api.JR;
 import com.hb0730.rpc.job.domain.QuartzJobDto;
 import com.hb0730.rpc.job.service.QuartzJobServerRpcService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,8 +14,10 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class QuartzJobServerRemoteRpcService extends BaseRemoteRpcService<QuartzJobServerRpcService> implements QuartzJobServerRpcService {
-    @Value("${boot.admin.rpc.job.remote.url:127.0.0.1:12201}")
-    private String url;
+    @Override
+    protected String getAppName() {
+        return "job";
+    }
 
     @Override
     public JR<String> validateCronExpression(String cronExpression) {
@@ -52,12 +52,5 @@ public class QuartzJobServerRemoteRpcService extends BaseRemoteRpcService<Quartz
     @Override
     public JR<String> run(QuartzJobDto quartzJobDto) {
         return getRpcService().run(quartzJobDto);
-    }
-
-    @Override
-    public RpcRemoteProperties getRpcRemoteProperties() {
-        return new RpcRemoteProperties().setService(
-                new RpcRemoteProperties.Service().setBoltServer(url)
-        );
     }
 }

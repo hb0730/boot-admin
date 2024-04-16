@@ -57,6 +57,6 @@ spring:
 sofa:
   boot:
     rpc:
-      registry-address: local://${user.home}/.sofa-boot/registry/boot-admin-job.reg
+      registry-address: local://${user.home}/.sofa-boot/registry/boot-admin.reg
       enable-auto-publish: true
       bolt-port: 12201

@@ -18,6 +18,10 @@ import java.util.List;
 @Service
 @Slf4j
 public class BasNoticeRemoteRpcService extends BaseRemoteRpcService<BasNoticeRpcService> implements BasNoticeRpcService {
+    @Override
+    protected String getAppName() {
+        return "sys";
+    }
 
     @Override
     public JR<Integer> countUnRead(String userId) {

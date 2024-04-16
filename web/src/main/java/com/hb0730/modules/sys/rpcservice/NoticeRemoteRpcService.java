@@ -16,6 +16,10 @@ import java.util.List;
  */
 @Service
 public class NoticeRemoteRpcService extends BaseRemoteRpcService<NoticeRpcService> implements NoticeRpcService {
+    @Override
+    protected String getAppName() {
+        return "sys";
+    }
 
     @Override
     public JR<JsfPage<NoticeDto>> page(NoticeQuery query) {

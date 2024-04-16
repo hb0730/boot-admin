@@ -19,6 +19,11 @@ import java.util.List;
 @Slf4j
 public class PermissionRemoteRpcService extends BaseRemoteRpcService<PermissionRpcService> implements PermissionRpcService {
     @Override
+    protected String getAppName() {
+        return "sys";
+    }
+
+    @Override
     public JR<List<PermissionDto>> findByRoleIds(List<Long> roleId) {
         return getRpcService().findByRoleIds(roleId);
     }

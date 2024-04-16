@@ -21,8 +21,13 @@ import java.util.List;
 @Slf4j
 public class BasUserRemoteRpcService extends BaseRemoteRpcService<BasUserRpcService> implements BasUserRpcService {
     @Override
+    protected String getAppName() {
+        return "sys";
+    }
+
+    @Override
     public JR<String> getSysCodeByUsername(String username) {
-        return getRpcService().getSysCodeByUsername(username);
+        return getRpcService(getAppName()).getSysCodeByUsername(username);
     }
 
     @Override

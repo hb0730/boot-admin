@@ -18,6 +18,11 @@ import java.util.List;
 @Slf4j
 public class BasOrgRemoteRpcService extends BaseRemoteRpcService<BasOrgRpcService> implements BasOrgRpcService {
     @Override
+    protected String getAppName() {
+        return "sys";
+    }
+
+    @Override
     public JR<String> checkOrgExpiredForLogin(String orgId) {
         return getRpcService().checkOrgExpiredForLogin(orgId);
     }

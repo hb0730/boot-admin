@@ -19,6 +19,11 @@ import java.util.List;
 @Slf4j
 public class QuartzJobRemoteRpcService extends BaseRemoteRpcService<QuartzJobRpcService> implements QuartzJobRpcService {
     @Override
+    protected String getAppName() {
+        return "job";
+    }
+
+    @Override
     public JR<JsfPage<QuartzJobDto>> page(QuartzJobQuery query) {
         return getRpcService().page(query);
     }

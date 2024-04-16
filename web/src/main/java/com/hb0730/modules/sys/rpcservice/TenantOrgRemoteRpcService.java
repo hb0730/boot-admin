@@ -21,6 +21,10 @@ import java.util.List;
 @Service
 @Slf4j
 public class TenantOrgRemoteRpcService extends BaseRemoteRpcService<TenantOrgRpcService> implements TenantOrgRpcService {
+    @Override
+    protected String getAppName() {
+        return "job";
+    }
 
     @Override
     public JR<Boolean> existsByCode(String code, @Nullable String id) {

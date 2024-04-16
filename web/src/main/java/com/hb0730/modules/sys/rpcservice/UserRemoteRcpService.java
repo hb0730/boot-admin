@@ -20,6 +20,11 @@ import java.util.List;
 @Slf4j
 public class UserRemoteRcpService extends BaseRemoteRpcService<UserRpcService> implements UserRpcService {
     @Override
+    protected String getAppName() {
+        return "sys";
+    }
+
+    @Override
     public JR<UserDto> findByUsername(String username) {
         return this.getRpcService().findByUsername(username);
     }
@@ -79,4 +84,6 @@ public class UserRemoteRcpService extends BaseRemoteRpcService<UserRpcService> i
     public JR<String> resetPassword(UserRestPwdDto dto) {
         return UserRpcService.super.resetPassword(dto);
     }
+
+
 }

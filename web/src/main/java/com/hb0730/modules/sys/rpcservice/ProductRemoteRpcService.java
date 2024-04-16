@@ -18,6 +18,10 @@ import java.util.List;
 @Service
 @Slf4j
 public class ProductRemoteRpcService extends BaseRemoteRpcService<ProductRpcService> implements ProductRpcService {
+    @Override
+    protected String getAppName() {
+        return "job";
+    }
 
     @Override
     public JR<Boolean> existsByCode(String code, Long id) {
