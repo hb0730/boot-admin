@@ -5,16 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.hb0730</groupId>
-        <artifactId>modules</artifactId>
+        <artifactId>commons</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>sys-module</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>sys-api</module>
-        <module>sys-biz</module>
-    </modules>
+    <artifactId>common-otel</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

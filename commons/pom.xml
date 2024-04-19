@@ -26,6 +26,7 @@
         <module>common-oss</module>
         <module>common-sms</module>
         <module>common-api</module>
+        <module>common-otel</module>
     </modules>
 
     <properties>
