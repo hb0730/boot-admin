@@ -9,8 +9,8 @@ import com.hb0730.base.exception.ServiceException;
 import com.hb0730.base.utils.PasswordUtil;
 import com.hb0730.base.utils.StrUtil;
 import com.hb0730.common.util.PageUtil;
+import com.hb0730.rpc.sys.tenant.domain.TenantBasicConfigDto;
 import com.hb0730.rpc.sys.tenant.domain.TenantSmallDto;
-import com.hb0730.rpc.sys.tenant.domain.UpdateTenantOrgConfigDto;
 import com.hb0730.rpc.sys.tenant.domain.query.TenantQuery;
 import com.hb0730.sys.system.domain.SysProduct;
 import com.hb0730.sys.tenant.domain.TenantOrg;
@@ -131,7 +131,15 @@ public class TenantOrgServiceImpl implements ITenantOrgService {
     }
 
     @Override
-    public void updateTenantOrgConfig(UpdateTenantOrgConfigDto dto, TenantOrg tenantOrg) {
+    public TenantBasicConfigDto getTenantBasicConfig(String id) {
+        TenantOrg tenantOrg = tenantOrgRepository.findById(id).orElse(new TenantOrg());
+        TenantBasicConfigDto dto = new TenantBasicConfigDto();
+        BeanUtil.copyProperties(tenantOrg, dto);
+        return dto;
+    }
+
+    @Override
+    public void updateTenantOrgBasicConfig(TenantBasicConfigDto dto, TenantOrg tenantOrg) {
         tenantOrg.setModifiedBy(dto.getModifiedBy());
         tenantOrg.setModified(dto.getModified());
         tenantOrg.setUsedEndTime(dto.getUsedEndTime());

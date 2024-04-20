@@ -3,9 +3,9 @@ package com.hb0730.modules.sys.rpcservice;
 import com.hb0730.base.conf.rpc.client.BaseRemoteRpcService;
 import com.hb0730.common.api.JR;
 import com.hb0730.common.api.JsfPage;
+import com.hb0730.rpc.sys.tenant.domain.TenantBasicConfigDto;
 import com.hb0730.rpc.sys.tenant.domain.TenantOrgDto;
 import com.hb0730.rpc.sys.tenant.domain.TenantSmallDto;
-import com.hb0730.rpc.sys.tenant.domain.UpdateTenantOrgConfigDto;
 import com.hb0730.rpc.sys.tenant.domain.query.TenantQuery;
 import com.hb0730.rpc.sys.tenant.service.TenantOrgRpcService;
 import jakarta.annotation.Nullable;
@@ -23,7 +23,7 @@ import java.util.List;
 public class TenantOrgRemoteRpcService extends BaseRemoteRpcService<TenantOrgRpcService> implements TenantOrgRpcService {
     @Override
     protected String getAppName() {
-        return "job";
+        return "sys";
     }
 
     @Override
@@ -56,8 +56,14 @@ public class TenantOrgRemoteRpcService extends BaseRemoteRpcService<TenantOrgRpc
         return getRpcService().resetPassword(id, operator);
     }
 
+
     @Override
-    public JR<String> updateTenantOrgConfig(UpdateTenantOrgConfigDto dto) {
-        return getRpcService().updateTenantOrgConfig(dto);
+    public JR<TenantBasicConfigDto> getTenantOrgBasicConfig(String id) {
+        return getRpcService().getTenantOrgBasicConfig(id);
+    }
+
+    @Override
+    public JR<String> updateTenantOrgBasicConfig(TenantBasicConfigDto dto) {
+        return getRpcService().updateTenantOrgBasicConfig(dto);
     }
 }

@@ -20,7 +20,7 @@ import java.util.List;
 public class TenantPermissionRemoteRpcService extends BaseRemoteRpcService<TenantPermissionRpcService> implements TenantPermissionRpcService {
     @Override
     protected String getAppName() {
-        return "job";
+        return "sys";
     }
 
     @Override

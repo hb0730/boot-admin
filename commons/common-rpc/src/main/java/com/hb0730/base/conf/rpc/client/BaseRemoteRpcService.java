@@ -55,15 +55,15 @@ public abstract class BaseRemoteRpcService<T> implements IRemoteService<T> {
      */
     protected abstract String getAppName();
 
-    /**
-     * 应用名称
-     *
-     * @param which 服务标识
-     * @return 应用名称
-     */
-    protected String getAppName(String which) {
-        return getAppName();
-    }
+//    /**
+//     * 应用名称
+//     *
+//     * @param which 服务标识
+//     * @return 应用名称
+//     */
+//    protected String getAppName(String which) {
+//        return getAppName();
+//    }
 
     /**
      * 获取RPC服务

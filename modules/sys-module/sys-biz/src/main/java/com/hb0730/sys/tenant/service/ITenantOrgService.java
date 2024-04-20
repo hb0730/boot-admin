@@ -1,7 +1,7 @@
 package com.hb0730.sys.tenant.service;
 
+import com.hb0730.rpc.sys.tenant.domain.TenantBasicConfigDto;
 import com.hb0730.rpc.sys.tenant.domain.TenantSmallDto;
-import com.hb0730.rpc.sys.tenant.domain.UpdateTenantOrgConfigDto;
 import com.hb0730.rpc.sys.tenant.domain.query.TenantQuery;
 import com.hb0730.sys.tenant.domain.TenantOrg;
 import jakarta.validation.constraints.NotBlank;
@@ -88,11 +88,20 @@ public interface ITenantOrgService {
      */
     void resetPassword(TenantOrg org, String operator);
 
+
+    /**
+     * 获取商户基础配置
+     *
+     * @param id 主键
+     * @return 主键
+     */
+    TenantBasicConfigDto getTenantBasicConfig(String id);
+
     /**
      * 更新商户组织机构配置
      *
      * @param dto       配置
      * @param tenantOrg . 请先查询出来【保证相关关联数据正确】
      */
-    void updateTenantOrgConfig(UpdateTenantOrgConfigDto dto, @NotBlank TenantOrg tenantOrg);
+    void updateTenantOrgBasicConfig(TenantBasicConfigDto dto, @NotBlank TenantOrg tenantOrg);
 }

@@ -2,9 +2,9 @@ package com.hb0730.rpc.sys.tenant.service;
 
 import com.hb0730.common.api.JR;
 import com.hb0730.common.api.JsfPage;
+import com.hb0730.rpc.sys.tenant.domain.TenantBasicConfigDto;
 import com.hb0730.rpc.sys.tenant.domain.TenantOrgDto;
 import com.hb0730.rpc.sys.tenant.domain.TenantSmallDto;
-import com.hb0730.rpc.sys.tenant.domain.UpdateTenantOrgConfigDto;
 import com.hb0730.rpc.sys.tenant.domain.query.TenantQuery;
 import jakarta.annotation.Nullable;
 
@@ -80,13 +80,24 @@ public interface TenantOrgRpcService {
         return JR.fail("暂未实现");
     }
 
+
     /**
-     * 更新商户组织机构配置
+     * 获取商户基础配置
+     *
+     * @param id 主键
+     * @return 主键
+     */
+    default JR<TenantBasicConfigDto> getTenantOrgBasicConfig(String id) {
+        return JR.fail("暂未实现");
+    }
+
+    /**
+     * 更新商户基础配置
      *
      * @param dto 配置
      * @return 主键
      */
-    default JR<String> updateTenantOrgConfig(UpdateTenantOrgConfigDto dto) {
+    default JR<String> updateTenantOrgBasicConfig(TenantBasicConfigDto dto) {
         return JR.fail("暂未实现");
     }
 

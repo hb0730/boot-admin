@@ -20,7 +20,7 @@ import java.util.List;
 public class ProductRemoteRpcService extends BaseRemoteRpcService<ProductRpcService> implements ProductRpcService {
     @Override
     protected String getAppName() {
-        return "job";
+        return "sys";
     }
 
     @Override

@@ -4,9 +4,9 @@ import com.hb0730.base.conf.rpc.server.BaseServerRpcService;
 import com.hb0730.base.utils.StrUtil;
 import com.hb0730.common.api.JR;
 import com.hb0730.common.api.JsfPage;
+import com.hb0730.rpc.sys.tenant.domain.TenantBasicConfigDto;
 import com.hb0730.rpc.sys.tenant.domain.TenantOrgDto;
 import com.hb0730.rpc.sys.tenant.domain.TenantSmallDto;
-import com.hb0730.rpc.sys.tenant.domain.UpdateTenantOrgConfigDto;
 import com.hb0730.rpc.sys.tenant.domain.query.TenantQuery;
 import com.hb0730.rpc.sys.tenant.service.TenantOrgRpcService;
 import com.hb0730.sys.system.domain.SysProduct;
@@ -105,12 +105,18 @@ public class TenantOrgRpcServiceImpl extends BaseServerRpcService<TenantOrgRpcSe
     }
 
     @Override
-    public JR<String> updateTenantOrgConfig(UpdateTenantOrgConfigDto dto) {
+    public JR<TenantBasicConfigDto> getTenantOrgBasicConfig(String id) {
+        TenantBasicConfigDto dto = basOrganizationService.getTenantBasicConfig(id);
+        return JR.okData(dto);
+    }
+
+    @Override
+    public JR<String> updateTenantOrgBasicConfig(TenantBasicConfigDto dto) {
         TenantOrg tenantOrg = basOrganizationService.findById(dto.getId());
         if (null == tenantOrg) {
             return JR.fail("商户不存在");
         }
-        basOrganizationService.updateTenantOrgConfig(dto, tenantOrg);
+        basOrganizationService.updateTenantOrgBasicConfig(dto, tenantOrg);
         return JR.ok();
     }
 }

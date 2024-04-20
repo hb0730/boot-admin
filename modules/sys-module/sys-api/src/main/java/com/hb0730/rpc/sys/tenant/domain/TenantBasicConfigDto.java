@@ -11,13 +11,15 @@ import lombok.experimental.Accessors;
 import java.util.Date;
 
 /**
+ * 租户基础配置
+ *
  * @author <a href="mailto:huangbing0730@gmail">hb0730</a>
  * @date 2024/3/30
  */
 @Getter
 @Setter
 @Accessors(chain = true)
-public class UpdateTenantOrgConfigDto extends DomainDto {
+public class TenantBasicConfigDto extends DomainDto {
     @Schema(description = "ID")
     @NotBlank(message = "ID不能为空")
     private String id;

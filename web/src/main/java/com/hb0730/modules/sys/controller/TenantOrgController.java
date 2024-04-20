@@ -3,9 +3,9 @@ package com.hb0730.modules.sys.controller;
 import com.hb0730.base.R;
 import com.hb0730.common.api.JR;
 import com.hb0730.common.api.JsfPage;
+import com.hb0730.rpc.sys.tenant.domain.TenantBasicConfigDto;
 import com.hb0730.rpc.sys.tenant.domain.TenantOrgDto;
 import com.hb0730.rpc.sys.tenant.domain.TenantSmallDto;
-import com.hb0730.rpc.sys.tenant.domain.UpdateTenantOrgConfigDto;
 import com.hb0730.rpc.sys.tenant.domain.query.TenantQuery;
 import com.hb0730.rpc.sys.tenant.service.TenantOrgRpcService;
 import com.hb0730.security.util.SecurityUtil;
@@ -137,19 +137,34 @@ public class TenantOrgController {
     }
 
     /**
-     * 更新租户机构配置
+     * 获取租户机构基础配置
+     *
+     * @param id .
+     * @return .
+     */
+    @GetMapping("/basic/config")
+    @Operation(summary = "获取租户机构基础配置")
+    @Parameters({@io.swagger.v3.oas.annotations.Parameter(name = "id", description = "租户ID", required = true)})
+    public R<TenantBasicConfigDto> getTenantOrgConfig(@RequestParam String id) {
+        JR<TenantBasicConfigDto> jr = organizationRpcService.getTenantOrgBasicConfig(id);
+        return ResponseUtil.converter(jr);
+    }
+
+    /**
+     * 更新租户机构基础配置
      *
      * @param dto .
      * @return .
      */
-    @PutMapping("/config")
-    @Operation(summary = "更新租户机构配置")
+    @PutMapping("/basic/config")
+    @Operation(summary = "更新租户机构基础配置")
     @PreAuthorize("hasAnyAuthority('tenant:org:update')")
-    public R<String> updateTenantOrgConfig(@Valid @RequestBody UpdateTenantOrgConfigDto dto) {
+    public R<String> updateTenantOrgConfig(@Valid @RequestBody TenantBasicConfigDto dto) {
         String username = SecurityUtil.getUsername();
         dto.setModifiedBy(username);
         dto.setModified(new Date());
-        JR<String> jr = organizationRpcService.updateTenantOrgConfig(dto);
+        JR<String> jr = organizationRpcService.updateTenantOrgBasicConfig(dto);
         return ResponseUtil.converter(jr);
     }
+
 }
