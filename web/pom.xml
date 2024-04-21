@@ -38,11 +38,23 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
 
-        <!--rpc-->
+        <!--sofa boot-->
         <dependency>
             <groupId>com.alipay.sofa</groupId>
             <artifactId>rpc-sofa-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alipay.sofa</groupId>
+            <artifactId>tracer-sofa-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alipay.sofa</groupId>
+            <artifactId>sofa-tracer-springmvc-plugin</artifactId>
         </dependency>
         <!--mapstruct-->
         <dependency>
@@ -50,11 +62,9 @@
             <artifactId>mapstruct</artifactId>
         </dependency>
 
-        <!--boot admin biz-->
         <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>job-api</artifactId>
-            <version>${parent.version}</version>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
         </dependency>
 
 
@@ -89,16 +99,17 @@
             <artifactId>common-base</artifactId>
             <version>${parent.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.hb0730</groupId>
             <artifactId>sys-api</artifactId>
             <version>${parent.version}</version>
         </dependency>
-
-
+        <!--boot admin biz-->
         <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
+            <groupId>com.hb0730</groupId>
+            <artifactId>job-api</artifactId>
+            <version>${parent.version}</version>
         </dependency>
     </dependencies>
 

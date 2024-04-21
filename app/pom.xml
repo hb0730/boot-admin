@@ -32,10 +32,14 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!--rpc-->
+        <!--sofa boot-->
         <dependency>
             <groupId>com.alipay.sofa</groupId>
             <artifactId>rpc-sofa-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alipay.sofa</groupId>
+            <artifactId>tracer-sofa-boot-starter</artifactId>
         </dependency>
 
         <!--jdbc connection pool-->
