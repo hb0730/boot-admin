@@ -68,5 +68,5 @@
 
 ### tracer
 
-![treacer-1](./docs/screenshot/traces-1.png)
-![treacer-2](./docs/screenshot/traces-2.png)
+![treacer-1](./docs/screenshot/tracer-1.png)
+![treacer-2](./docs/screenshot/tracer-2.png)
