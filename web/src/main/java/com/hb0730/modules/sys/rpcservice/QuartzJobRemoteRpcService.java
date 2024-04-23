@@ -20,7 +20,7 @@ import java.util.List;
 public class QuartzJobRemoteRpcService extends BaseRemoteRpcService<QuartzJobRpcService> implements QuartzJobRpcService {
     @Override
     protected String getAppName() {
-        return "job";
+        return "sys";
     }
 
     @Override

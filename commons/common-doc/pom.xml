@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>common-doc</artifactId>
+    <description>Swagger配置</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

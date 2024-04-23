@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>common-cache</artifactId>
+    <description>Boot Admin缓存module</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

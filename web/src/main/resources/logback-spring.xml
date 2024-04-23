@@ -18,7 +18,7 @@
     <!-- 格式化输出：%d 表示日期；%thread 表示线程名；%-5level：级别从左显示 5 个字符宽度；%msg：日志消息；%n 是换行符 -->
     <!-- 控制台输出格式（带颜色） -->
     <property name="CONSOLE_LOG_PATTERN"
-              value="%red(%d{yyyy-MM-dd HH:mm:ss}) %highlight(%-5level) %green([%thread]) [%X{SOFA-TraceId},%X{SOFA-SpanId}] %boldMagenta(%logger{50}) - %msg%n"/>
+              value="%red(%d{yyyy-MM-dd HH:mm:ss}) %highlight(%-5level) %green([%thread]) %boldMagenta(%logger{50}) - %msg%n"/>
     <!-- 文件输出格式 -->
     <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{50} - %msg%n"/>
     <!-- 单个日志文件大小上限 -->

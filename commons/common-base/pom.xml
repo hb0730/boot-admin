@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>common-base</artifactId>
+    <description>Boot Admin基础公共module</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

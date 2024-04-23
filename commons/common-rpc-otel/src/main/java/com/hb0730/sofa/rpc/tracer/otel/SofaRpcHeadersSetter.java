@@ -1,0 +1,27 @@
+package com.hb0730.sofa.rpc.tracer.otel;
+
+import com.alipay.sofa.rpc.context.RpcInvokeContext;
+import com.alipay.sofa.rpc.core.request.SofaRequest;
+import io.opentelemetry.context.propagation.TextMapSetter;
+
+import javax.annotation.Nullable;
+
+/**
+ * @author <a href="mailto:huangbing0730@gmail">hb0730</a>
+ * @date 2024/4/23
+ */
+enum SofaRpcHeadersSetter implements TextMapSetter<SofaRequest> {
+    INSTANCE;
+
+    @Override
+    public void set(@Nullable SofaRequest request, String key, String value) {
+        if (request != null) {
+            request.addRequestProp(key, value);
+        }
+
+        RpcInvokeContext context = RpcInvokeContext.peekContext();
+        if (null != context) {
+            context.putRequestBaggage(key, value);
+        }
+    }
+}

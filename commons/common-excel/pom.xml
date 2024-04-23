@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>common-excel</artifactId>
+    <description>Apache POI excel相关</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

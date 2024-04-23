@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>common-oss</artifactId>
+    <description>抽象OSS Storage</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>common-jpa</artifactId>
+    <description>Spring JPA相关配置</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

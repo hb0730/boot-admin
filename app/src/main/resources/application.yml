@@ -5,7 +5,6 @@ logging:
   level:
     root: info
     com.hb0730: debug
-    org.hibernate.orm.jdbc.bind: trace
 
 spring:
   application:
@@ -29,7 +28,8 @@ spring:
       port: 6379
       password: 123456
       database: 0
-
+  profiles:
+    include: otel-${spring.profiles.active}
 sofa:
   boot:
     rpc:

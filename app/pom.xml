@@ -37,10 +37,6 @@
             <groupId>com.alipay.sofa</groupId>
             <artifactId>rpc-sofa-boot-starter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.alipay.sofa</groupId>
-            <artifactId>tracer-sofa-boot-starter</artifactId>
-        </dependency>
 
         <!--jdbc connection pool-->
         <dependency>
@@ -53,7 +49,11 @@
             <artifactId>mysql-connector-j</artifactId>
         </dependency>
 
-
+        <dependency>
+            <groupId>com.hb0730</groupId>
+            <artifactId>common-rpc-otel</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
         <!--modules-->
         <dependency>
             <groupId>com.hb0730</groupId>

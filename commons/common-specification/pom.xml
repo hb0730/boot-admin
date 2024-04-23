@@ -11,6 +11,7 @@
     </parent>
 
     <artifactId>common-specification</artifactId>
+    <description>Spring JPA Query相关配置</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

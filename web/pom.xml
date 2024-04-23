@@ -48,14 +48,6 @@
             <groupId>com.alipay.sofa</groupId>
             <artifactId>rpc-sofa-boot-starter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.alipay.sofa</groupId>
-            <artifactId>tracer-sofa-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alipay.sofa</groupId>
-            <artifactId>sofa-tracer-springmvc-plugin</artifactId>
-        </dependency>
         <!--mapstruct-->
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -97,6 +89,11 @@
         <dependency>
             <groupId>com.hb0730</groupId>
             <artifactId>common-base</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hb0730</groupId>
+            <artifactId>common-rpc-otel</artifactId>
             <version>${parent.version}</version>
         </dependency>
 

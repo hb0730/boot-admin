@@ -11,6 +11,7 @@
     </parent>
 
     <artifactId>common-rpc</artifactId>
+    <description>Boot Admin Sofa RPC相关抽离</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

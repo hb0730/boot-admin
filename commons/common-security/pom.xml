@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>common-security</artifactId>
+    <description>Spring Security相关配置</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
