@@ -63,3 +63,10 @@
 > https://boot-admin.hb0730.com
 > 用户名: 13111111111
 > 密码: Admin123456
+
+## open-telemetry
+
+### tracer
+
+![treacer-1](./docs/screenshot/traces-1.png)
+![treacer-2](./docs/screenshot/traces-2.png)
