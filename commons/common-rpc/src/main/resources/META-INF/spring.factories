@@ -1,0 +1,1 @@
+org.springframework.boot.env.EnvironmentPostProcessor=com.hb0730.base.conf.rpc.SofaRpcEnvironmentPostProcessor

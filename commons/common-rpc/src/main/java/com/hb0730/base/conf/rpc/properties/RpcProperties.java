@@ -3,7 +3,6 @@ package com.hb0730.base.conf.rpc.properties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 import java.util.Map;
 
@@ -13,7 +12,6 @@ import java.util.Map;
  */
 @Data
 @Configuration
-@PropertySource(value = "classpath:boot-admin-rpc-${spring.profiles.active:default}.properties")
 @ConfigurationProperties(prefix = "boot-admin-rpc")
 public class RpcProperties {
 
