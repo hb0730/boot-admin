@@ -9,6 +9,7 @@ import com.alipay.sofa.rpc.filter.Filter;
 import com.alipay.sofa.rpc.filter.FilterInvoker;
 import com.hb0730.base.AppUtil;
 import com.hb0730.sofa.rpc.tracer.otel.SofaRpcTelemetry;
+import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.context.Context;
 import io.opentelemetry.instrumentation.api.instrumenter.Instrumenter;
@@ -28,7 +29,7 @@ public class ServerTracerFilter extends Filter {
 
     public ServerTracerFilter() {
         serverInstrumenter = SofaRpcTelemetry.create(
-                        AppUtil.getBean(OpenTelemetry.class)
+                        AppUtil.getBean(OpenTelemetry.class, GlobalOpenTelemetry.get())
                 )
                 .getServerInstrumenter();
     }

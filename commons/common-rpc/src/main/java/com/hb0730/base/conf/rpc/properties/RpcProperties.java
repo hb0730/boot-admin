@@ -12,7 +12,7 @@ import java.util.Map;
  */
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "boot-admin-rpc")
+@ConfigurationProperties(prefix = "boot.admin.rpc")
 public class RpcProperties {
 
     private Map<String, Server> services;
