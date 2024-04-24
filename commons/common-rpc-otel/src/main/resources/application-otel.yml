@@ -1,0 +1,9 @@
+otel:
+  sdk:
+    disabled: false
+  exporter:
+    otlp:
+      endpoint: http://localhost:5080/api/default/
+      headers:
+        Authorization: Basic cm9vdEBleGFtcGxlLmNvbTo0bzJHUHp5OVZWalZrQ0tw
+        stream-name: default

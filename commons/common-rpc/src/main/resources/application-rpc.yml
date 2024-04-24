@@ -1,0 +1,12 @@
+boot:
+  admin:
+    rpc:
+      services:
+        sys:
+          # 服务名称
+          name: boot-admin-sys
+          # 服务地址
+          address: 127.0.0.1:12200
+        job:
+          name: boot-admin-job
+          address: 127.0.0.1:12201

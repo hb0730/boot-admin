@@ -30,6 +30,18 @@ public class AppUtil extends SpringUtil {
                 SpringUtil.getApplicationContext().getBeansWithAnnotation(annotationType),
                 (key, value) -> type.cast(value)
         );
+    }
 
+    /**
+     * 获取bean
+     *
+     * @param type         bean类型
+     * @param defaultValue 默认值
+     * @param <T>          bean类型
+     * @return bean
+     */
+    public static <T> T getBean(Class<T> type, T defaultValue) {
+        T value = SpringUtil.getBean(type);
+        return value == null ? defaultValue : value;
     }
 }

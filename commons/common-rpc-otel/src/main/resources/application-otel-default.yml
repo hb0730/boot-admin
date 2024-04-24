@@ -1,9 +1,0 @@
-otel:
-  sdk:
-    disabled: false
-  exporter:
-    otlp:
-      endpoint: http://localhost:4318
-  instrumentation:
-    spring-webmvc:
-      enabled: true

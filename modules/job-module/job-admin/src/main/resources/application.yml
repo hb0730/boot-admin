@@ -54,9 +54,11 @@ spring:
       port: 6379
       password: 123456
       database: 0
-  profiles:
-    include: otel-${spring.active.profiles:default}
-    
+  config:
+    import:
+      - "classpath:application-otel.yml"
+      - "classpath:application-rpc.yml"
+
 sofa:
   boot:
     rpc:
