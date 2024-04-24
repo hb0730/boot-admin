@@ -22,6 +22,11 @@ public enum MenuTypeEnums implements ValueEnum<Integer> {
         this.name = name;
     }
 
+    @Override
+    public Integer getValue() {
+        return value;
+    }
+
     public static MenuTypeEnums of(Integer value) {
         for (MenuTypeEnums enums : MenuTypeEnums.values()) {
             if (enums.getValue().equals(value)) {

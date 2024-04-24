@@ -21,4 +21,9 @@ public enum GenderEnums implements ValueEnum<Integer> {
         this.value = value;
         this.name = name;
     }
+
+    @Override
+    public Integer getValue() {
+        return value;
+    }
 }

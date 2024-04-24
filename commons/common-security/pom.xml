@@ -40,7 +40,6 @@
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
-            <version>${jwt.version}</version>
         </dependency>
         <!--mapstruct-->
         <dependency>
@@ -51,12 +50,12 @@
         <dependency>
             <groupId>com.hb0730</groupId>
             <artifactId>common-base</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.hb0730</groupId>
             <artifactId>common-cache</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
     </dependencies>

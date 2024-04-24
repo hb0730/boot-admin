@@ -32,5 +32,10 @@ public class OrgEnum {
             this.name = name;
             this.value = value;
         }
+
+        @Override
+        public Integer getValue() {
+            return value;
+        }
     }
 }

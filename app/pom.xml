@@ -52,13 +52,13 @@
         <dependency>
             <groupId>com.hb0730</groupId>
             <artifactId>common-rpc-otel</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <!--modules-->
         <dependency>
             <groupId>com.hb0730</groupId>
             <artifactId>sys-biz</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 

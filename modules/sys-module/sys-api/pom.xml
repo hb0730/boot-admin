@@ -21,12 +21,12 @@
         <dependency>
             <groupId>com.hb0730</groupId>
             <artifactId>common-api</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.hb0730</groupId>
             <artifactId>common-specification</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.blinkfox</groupId>

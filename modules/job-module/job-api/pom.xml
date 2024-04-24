@@ -21,7 +21,7 @@
         <dependency>
             <groupId>com.hb0730</groupId>
             <artifactId>common-api</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 

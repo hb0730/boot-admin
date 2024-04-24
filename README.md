@@ -66,7 +66,8 @@
 
 ## open-telemetry
 
-### tracer
+|                                             |                                             |
+|---------------------------------------------|---------------------------------------------|
+| ![log-1](./docs/screenshot/log-1.png)       | ![log-2](./docs/screenshot/log-2.png)       |
+| ![tracer-1](./docs/screenshot/tracer-1.png) | ![tracer-2](./docs/screenshot/tracer-2.png) |
 
-![treacer-1](./docs/screenshot/tracer-1.png)
-![treacer-2](./docs/screenshot/tracer-2.png)

@@ -39,7 +39,7 @@
         <dependency>
             <groupId>com.hb0730</groupId>
             <artifactId>common-base</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 </project>

@@ -67,28 +67,28 @@
         <dependency>
             <groupId>com.hb0730</groupId>
             <artifactId>common-base</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.hb0730</groupId>
             <artifactId>common-cache</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.hb0730</groupId>
             <artifactId>common-rpc</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.hb0730</groupId>
             <artifactId>common-rpc-otel</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.hb0730</groupId>
             <artifactId>job-biz</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 
