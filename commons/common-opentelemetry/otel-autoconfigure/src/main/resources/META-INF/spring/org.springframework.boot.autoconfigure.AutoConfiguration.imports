@@ -1,0 +1,2 @@
+com.hb0730.otel.autoconfigure.quartz.QuartzAutoConfiguration
+com.hb0730.otel.autoconfigure.rpc.SofaRpcAutoConfiguration

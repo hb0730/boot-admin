@@ -1,2 +1,0 @@
-clientTracerFilter=com.hb0730.sofa.rpc.tracer.ClientTracerFilter
-serverTracerFilter=com.hb0730.sofa.rpc.tracer.ServerTracerFilter

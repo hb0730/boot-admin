@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.hb0730</groupId>
-        <artifactId>job-module</artifactId>
+        <artifactId>common-opentelemetry</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>job-biz</artifactId>
+    <artifactId>otel-autoconfigure</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -17,34 +17,29 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-
     <dependencies>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-quartz</artifactId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>common-base</artifactId>
-            <version>${project.parent.version}</version>
+            <groupId>io.opentelemetry.instrumentation</groupId>
+            <artifactId>opentelemetry-quartz-2.0</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>io.opentelemetry.instrumentation</groupId>
+            <artifactId>opentelemetry-logback-mdc-1.0</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.hb0730</groupId>
-            <artifactId>common-rpc</artifactId>
+            <artifactId>rpc-otel</artifactId>
             <version>${project.parent.version}</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>job-api</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>sys-api</artifactId>
-            <version>${project.parent.version}</version>
+            <optional>true</optional>
         </dependency>
     </dependencies>
+
 </project>

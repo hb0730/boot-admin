@@ -33,6 +33,7 @@
 - 采用 [Spring JPA](https://spring.io/projects/spring-data-jpa) 作为数据持久层
 - 采用 [Spring Security](https://spring.io/projects/spring-security) 作为安全框架
 - 采用 [Sofa RPC](https://github.com/alipay/sofa-rpc) 作为RPC框架
+- 采用 [Open Telemetry](https://opentelemetry.io/) 作为日志和链路追踪
 
 ## 端口说明
 

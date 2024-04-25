@@ -59,7 +59,6 @@
             <artifactId>java-jwt</artifactId>
         </dependency>
 
-
         <!--boot admin module-->
         <dependency>
             <groupId>com.hb0730</groupId>
@@ -91,10 +90,20 @@
             <artifactId>common-base</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.hb0730</groupId>
-            <artifactId>common-rpc-otel</artifactId>
+            <artifactId>otel-autoconfigure</artifactId>
             <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hb0730</groupId>
+            <artifactId>rpc-otel</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.opentelemetry.instrumentation</groupId>
+            <artifactId>opentelemetry-logback-mdc-1.0</artifactId>
         </dependency>
 
         <dependency>

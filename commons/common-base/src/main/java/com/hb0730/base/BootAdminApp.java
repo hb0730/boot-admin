@@ -2,11 +2,13 @@ package com.hb0730.base;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 
 /**
@@ -36,10 +38,20 @@ public class BootAdminApp implements ApplicationContextAware, ApplicationRunner 
         doShowBootedInfo();
     }
 
+    @Bean
+    public DisposableBean disposableBean() {
+        return () -> {
+            log.info("~~应用关闭中~~");
+            doSomethingWhenShutdown();
+        };
+    }
+
 
     protected void doSomethingAfterBooted() {
     }
 
+    protected void doSomethingWhenShutdown() {
+    }
 
     protected void doShowBootedInfo() {
         Environment env = applicationContext.getEnvironment();

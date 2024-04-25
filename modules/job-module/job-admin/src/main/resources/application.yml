@@ -65,3 +65,10 @@ sofa:
       registry-address: local://${user.home}/.sofa-boot/registry/boot-admin.reg
       enable-auto-publish: true
       bolt-port: 12201
+
+
+boot:
+  admin:
+    opentelemetry:
+      quartz:
+        enabled: true

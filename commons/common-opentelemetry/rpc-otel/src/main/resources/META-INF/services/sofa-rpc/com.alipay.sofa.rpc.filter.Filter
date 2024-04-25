@@ -1,0 +1,2 @@
+clientTracerFilter=com.hb0730.otel.sofa.rpc.tracer.ClientTracerFilter
+serverTracerFilter=com.hb0730.otel.sofa.rpc.tracer.ServerTracerFilter
