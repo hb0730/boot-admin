@@ -94,7 +94,7 @@ public class JobManager {
                 jobAdd(quartzJob);
             }
             // 重新执行
-            scheduler.triggerJob(JobKey.jobKey(JOB_NAME + quartzJob.getId()));
+            scheduler.triggerJob(JobKey.jobKey(JOB_NAME + quartzJob.getId(), quartzJob.getSysCode()));
             if (!exists) {
                 jobDelete(quartzJob.getId(), quartzJob.getSysCode());
             }

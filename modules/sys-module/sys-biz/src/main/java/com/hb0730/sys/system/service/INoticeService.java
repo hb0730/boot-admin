@@ -61,6 +61,14 @@ public interface INoticeService {
     Page<SysNotice> page(NoticeQuery query);
 
     /**
+     * 查询
+     *
+     * @param query .
+     * @return .
+     */
+    List<SysNotice> list(NoticeQuery query);
+
+    /**
      * 保存
      *
      * @param sysNotice .
@@ -81,4 +89,11 @@ public interface INoticeService {
      */
     void deleteByIds(List<String> ids);
 
+
+    /**
+     * 通过id关闭通知
+     *
+     * @param ids .
+     */
+    void closeNoticeByIds(List<String> ids);
 }

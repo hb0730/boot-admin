@@ -3,6 +3,7 @@ package com.hb0730.sys.system.repository;
 import com.hb0730.sys.system.domain.SysNotice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -45,4 +46,14 @@ public interface NoticeRepository extends JpaRepository<SysNotice, String>, JpaS
      */
     @Query("SELECT id from SysNotice where enabled = true")
     List<String> getIdsNotices();
+
+
+    /**
+     * 更新enabled为false
+     *
+     * @param ids .
+     */
+    @Modifying
+    @Query("update SysNotice set enabled = false where id in ?1")
+    void updateEnabledIsFalseByIdIn(List<String> ids);
 }

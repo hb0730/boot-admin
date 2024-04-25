@@ -35,6 +35,12 @@ public class NoticeRpcServiceImpl extends BaseServerRpcService<NoticeRpcService>
     }
 
     @Override
+    public JR<List<NoticeDto>> list(NoticeQuery query) {
+        List<SysNotice> list = noticeService.list(query);
+        return JR.okData(noticeMapper.toDtoList(list));
+    }
+
+    @Override
     public JR<String> save(NoticeDto noticeDto) {
         SysNotice notice = noticeMapper.toEntity(noticeDto);
         noticeService.save(notice);
@@ -51,6 +57,12 @@ public class NoticeRpcServiceImpl extends BaseServerRpcService<NoticeRpcService>
     @Override
     public JR<String> deleteByIds(List<String> ids) {
         noticeService.deleteByIds(ids);
+        return JR.ok();
+    }
+
+    @Override
+    public JR<String> closeNoticeByIds(List<String> ids) {
+        noticeService.closeNoticeByIds(ids);
         return JR.ok();
     }
 }

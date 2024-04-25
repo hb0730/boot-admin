@@ -1,5 +1,6 @@
 package com.hb0730.rpc.sys.system.domain.query;
 
+import com.blinkfox.fenix.specification.annotation.Equals;
 import com.blinkfox.fenix.specification.annotation.GreaterThanEqual;
 import com.blinkfox.fenix.specification.annotation.LessThanEqual;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -19,6 +20,7 @@ public class NoticeQuery extends BaseQuery {
     /**
      * 是否启用
      */
+    @Equals
     private Boolean enabled;
 
     /**

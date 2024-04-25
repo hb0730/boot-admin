@@ -5,6 +5,7 @@ import com.hb0730.common.api.JsfPage;
 import com.hb0730.rpc.sys.system.domain.NoticeDto;
 import com.hb0730.rpc.sys.system.domain.query.NoticeQuery;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,7 +20,17 @@ public interface NoticeRpcService {
      * @return .
      */
     default JR<JsfPage<NoticeDto>> page(NoticeQuery query) {
-        return null;
+        return JR.fail("暂未实现");
+    }
+
+    /**
+     * 查询
+     *
+     * @param query .
+     * @return .
+     */
+    default JR<List<NoticeDto>> list(NoticeQuery query) {
+        return JR.fail("暂未实现");
     }
 
     /**
@@ -29,7 +40,7 @@ public interface NoticeRpcService {
      * @return .
      */
     default JR<String> save(NoticeDto noticeDto) {
-        return null;
+        return JR.fail("暂未实现");
     }
 
     /**
@@ -39,7 +50,7 @@ public interface NoticeRpcService {
      * @return .
      */
     default JR<String> updateById(NoticeDto noticeDto) {
-        return null;
+        return JR.fail("暂未实现");
     }
 
     /**
@@ -49,7 +60,27 @@ public interface NoticeRpcService {
      * @return .
      */
     default JR<String> deleteByIds(List<String> ids) {
-        return null;
+        return JR.fail("暂未实现");
+    }
+
+    /**
+     * 通过id关闭通知
+     *
+     * @param id .
+     * @return .
+     */
+    default JR<String> closeNoticeById(String id) {
+        return closeNoticeByIds(Collections.singletonList(id));
+    }
+
+    /**
+     * 通过id关闭通知
+     *
+     * @param ids .
+     * @return .
+     */
+    default JR<String> closeNoticeByIds(List<String> ids) {
+        return JR.fail("暂未实现");
     }
 
 }

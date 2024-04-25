@@ -2,6 +2,7 @@ package com.hb0730.sys.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.collection.CollectionUtil;
 import com.blinkfox.fenix.specification.FenixSpecification;
 import com.hb0730.base.exception.ServiceException;
 import com.hb0730.common.util.PageUtil;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -61,6 +63,12 @@ public class NoticeServiceImpl implements INoticeService {
     }
 
     @Override
+    public List<SysNotice> list(NoticeQuery query) {
+        Specification<SysNotice> specification = FenixSpecification.ofBean(query);
+        return noticeRepository.findAll(specification);
+    }
+
+    @Override
     public void save(SysNotice sysNotice) {
         noticeRepository.save(sysNotice);
     }
@@ -82,5 +90,14 @@ public class NoticeServiceImpl implements INoticeService {
     @Override
     public void deleteByIds(List<String> ids) {
         noticeRepository.deleteAllByIdInBatch(ids);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void closeNoticeByIds(List<String> ids) {
+        if (CollectionUtil.isEmpty(ids)) {
+            return;
+        }
+        noticeRepository.updateEnabledIsFalseByIdIn(ids);
     }
 }
