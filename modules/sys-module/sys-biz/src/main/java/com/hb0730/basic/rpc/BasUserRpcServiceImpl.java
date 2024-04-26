@@ -150,4 +150,18 @@ public class BasUserRpcServiceImpl extends BaseServerRpcService<BasUserRpcServic
         userService.restPassword(dto.getId(), password, dto.getOperator());
         return JR.ok();
     }
+
+    @Override
+    public JR<String> deleteById(String id) {
+        BasUser basUser = userService.findById(id);
+        if (null == basUser) {
+            return JR.fail("用户不存在");
+        }
+        if (Boolean.TRUE.equals(basUser.getSystem())) {
+            return JR.fail("系统用户不能删除");
+        }
+
+        userService.deleteById(id);
+        return JR.ok();
+    }
 }

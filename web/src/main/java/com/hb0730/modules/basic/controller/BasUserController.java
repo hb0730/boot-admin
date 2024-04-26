@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -114,6 +115,21 @@ public class BasUserController {
         String username = SecurityUtil.getUsername();
         dto.setOperator(username);
         JR<String> jr = basUserRpcService.restPassword(dto);
+        return ResponseUtil.converter(jr);
+    }
+
+
+    /**
+     * 删除
+     *
+     * @param id .
+     * @return .
+     */
+    @DeleteMapping
+    @Operation(summary = "删除")
+    @PreAuthorize("hasAnyAuthority('bas:user:delete')")
+    public R<String> delete(@RequestParam String id) {
+        JR<String> jr = basUserRpcService.deleteById(id);
         return ResponseUtil.converter(jr);
     }
 }

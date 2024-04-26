@@ -35,7 +35,7 @@ public class BasUserSaveDto extends DomainDto {
     @Schema(description = "性别")
     private Integer gender;
     @Schema(description = "状态")
-    private Integer status;
+    private Boolean enabled;
     @Schema(description = "机构id")
     private String orgId;
     @Schema(description = "角色id")

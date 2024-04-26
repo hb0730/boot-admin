@@ -43,6 +43,11 @@ public class BasUserServiceImpl implements IBasUserService {
     }
 
     @Override
+    public BasUser findById(String id) {
+        return basUserRepository.findById(id).orElse(null);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateLastLoginTime(String username) {
         basUserRepository.updateLastLoginTimeByUsername(new Date(), username);
@@ -96,10 +101,10 @@ public class BasUserServiceImpl implements IBasUserService {
         if (Boolean.TRUE.equals(user.getSystem())) {
             throw new RuntimeException("系统用户不能修改");
         }
-        basUser.setUsername(
-                basUser.getUsername() + "@" + basUser.getSysCode()
-        );
+        basUser.setUsername(null);
         basUser.setPassword(null);
+        basUser.setCreated(null);
+        basUser.setModifiedBy(null);
 
         BeanUtil.copyProperties(
                 basUser, user, CopyOptions.create().ignoreNullValue()
@@ -111,5 +116,16 @@ public class BasUserServiceImpl implements IBasUserService {
     @Transactional(rollbackFor = Exception.class)
     public void restPassword(String id, String password, String operator) {
         basUserRepository.resetPassword(id, password, operator);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deleteById(String id) {
+        BasUser basUser = findById(id);
+        if (null != basUser) {
+            // 删除关联信息
+            basUserRepository.delete(basUser);
+        }
+
     }
 }

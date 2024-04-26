@@ -29,6 +29,14 @@ public interface IBasUserService {
     BasUser findByUsername(String username);
 
     /**
+     * 根据id查询
+     *
+     * @param id 用户id
+     * @return 用户信息
+     */
+    BasUser findById(String id);
+
+    /**
      * 更新最后登录时间
      *
      * @param username 用户名
@@ -82,4 +90,11 @@ public interface IBasUserService {
      * @param operator 操作人
      */
     void restPassword(String id, String password, String operator);
+
+    /**
+     * 根据id删除
+     *
+     * @param id 用户id
+     */
+    void deleteById(String id);
 }

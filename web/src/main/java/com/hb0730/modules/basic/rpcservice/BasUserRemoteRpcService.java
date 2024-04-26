@@ -69,4 +69,9 @@ public class BasUserRemoteRpcService extends BaseRemoteRpcService<BasUserRpcServ
     public JR<String> restPassword(BasUserRestPasswordDto dto) {
         return getRpcService().restPassword(dto);
     }
+
+    @Override
+    public JR<String> deleteById(String id) {
+        return getRpcService().deleteById(id);
+    }
 }

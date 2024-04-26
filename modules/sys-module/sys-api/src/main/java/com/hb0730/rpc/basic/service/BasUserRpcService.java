@@ -107,4 +107,14 @@ public interface BasUserRpcService {
     default JR<String> restPassword(BasUserRestPasswordDto dto) {
         return JR.fail("暂未实现");
     }
+
+    /**
+     * 根据id删除
+     *
+     * @param id id
+     * @return .
+     */
+    default JR<String> deleteById(String id) {
+        return JR.fail("暂未实现");
+    }
 }
