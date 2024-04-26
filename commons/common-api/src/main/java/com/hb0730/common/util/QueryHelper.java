@@ -30,14 +30,13 @@ public class QueryHelper {
         return fields;
     }
 
-
     /**
-     * 设置字段为空
+     * 设置给定的字段为空，如果其他字段不为空时，则跳过设置字段为空
      *
-     * @param query        查询条件
-     * @param fieldIsNull  字段为空
-     * @param ignoreFields 忽略字段
-     * @param <T>          查询条件
+     * @param query        .
+     * @param fieldIsNull  .
+     * @param ignoreFields .
+     * @param <T>          .
      */
     public static <T extends BaseQuery> void setFieldNull(T query, Map<String, String> fieldIsNull,
                                                           String... ignoreFields) {

@@ -20,7 +20,6 @@ public class QueryPredicateHandler extends AbstractPredicateHandler {
 
     @Override
     public <Z, X> jakarta.persistence.criteria.Predicate buildPredicate(jakarta.persistence.criteria.CriteriaBuilder criteriaBuilder, jakarta.persistence.criteria.From<Z, X> from, String fieldName, Object value, Annotation annotation) {
-        log.info("QueryPredicateHandler");
         boolean isQuery = annotation instanceof Query;
         if (!isQuery) {
             return null;

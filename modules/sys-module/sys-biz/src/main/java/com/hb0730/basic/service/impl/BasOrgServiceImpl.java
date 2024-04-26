@@ -85,7 +85,11 @@ public class BasOrgServiceImpl implements IBasOrgService {
 
     @Override
     public List<BasOrg> listDefaultRootQuery(BasOrgQuery query) {
-        QueryHelper.setFieldNull(query, Map.of("parentIdIsNull", "parentId"), "size", "current", "parentIdIsNull",
+        QueryHelper.setFieldNull(query, Map.of("parentIdIsNull", "parentId"),
+                "size",
+                "current",
+                "parentIdIsNull",
+                "sysCode",
                 "sorts");
         Specification<BasOrg> specification = FenixSpecification.ofBean(query);
         Optional<List<Sort.Order>> sortOpl = query.getSorts();
