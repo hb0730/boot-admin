@@ -61,4 +61,14 @@ public interface BasOrgRpcService {
     default JR<String> updateById(BasOrgDto dto) {
         return JR.fail("暂未实现");
     }
+
+    /**
+     * 删除
+     *
+     * @param id .
+     * @return .
+     */
+    default JR<String> deleteById(String id) {
+        return JR.fail("暂未实现");
+    }
 }

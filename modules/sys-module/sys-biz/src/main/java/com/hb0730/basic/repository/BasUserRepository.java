@@ -67,6 +67,14 @@ public interface BasUserRepository extends JpaRepository<BasUser, String>, JpaSp
     boolean existsByUsernameAndIdNot(String username, String id);
 
     /**
+     * 根据机构id查询是否存在
+     *
+     * @param orgId 机构id
+     * @return .
+     */
+    boolean existsByOrgId(String orgId);
+
+    /**
      * 重置密码
      *
      * @param id       id

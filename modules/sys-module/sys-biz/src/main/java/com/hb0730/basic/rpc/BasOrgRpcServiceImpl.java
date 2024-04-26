@@ -103,6 +103,27 @@ public class BasOrgRpcServiceImpl extends BaseServerRpcService<BasOrgRpcService>
         return JR.ok();
     }
 
+    @Override
+    public JR<String> deleteById(String id) {
+        BasOrg orgInfo = basOrgService.findByOrgId(id);
+        // 是否顶级机构
+        if (Boolean.TRUE.equals(orgInfo.getSystem())) {
+            return JR.fail("系统机构不能删除");
+        }
+        // 是否有子机构
+        boolean hasChild = basOrgService.hasChild(id);
+        if (hasChild) {
+            return JR.fail("请先删除子机构");
+        }
+        // 是否分配用户
+        boolean hasUser = basOrgService.hasUser(id);
+        if (hasUser) {
+            return JR.fail("请先删除用户");
+        }
+        basOrgService.deleteById(id);
+        return JR.ok();
+    }
+
     @Nullable
     private JR<String> validate(BasOrgDto dto, boolean isUpdate) {
         String parentId = dto.getParentId();

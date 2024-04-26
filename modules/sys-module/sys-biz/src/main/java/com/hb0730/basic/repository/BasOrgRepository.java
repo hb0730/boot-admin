@@ -27,4 +27,12 @@ public interface BasOrgRepository extends JpaRepository<BasOrg, String>, JpaSpec
      * @return .
      */
     int countBySysCode(String sysCode);
+
+    /**
+     * 是否存在子集
+     *
+     * @param parentId .
+     * @return .
+     */
+    boolean existsByParentId(String parentId);
 }

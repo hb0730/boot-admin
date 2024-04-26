@@ -29,6 +29,23 @@ public interface IBasOrgService {
     boolean checkAccountNum(String orgId);
 
     /**
+     * 是否有子节点
+     *
+     * @param orgId .
+     * @return .
+     */
+    boolean hasChild(String orgId);
+
+    /**
+     * 是否有用户
+     *
+     * @param orgId .
+     * @return .
+     */
+    boolean hasUser(String orgId);
+
+
+    /**
      * 列表查询，默认只查询根节点
      *
      * @param query .
@@ -57,4 +74,12 @@ public interface IBasOrgService {
      * @param basOrg .
      */
     void updateById(BasOrg basOrg);
+
+
+    /**
+     * 删除
+     *
+     * @param id .
+     */
+    void deleteById(String id);
 }

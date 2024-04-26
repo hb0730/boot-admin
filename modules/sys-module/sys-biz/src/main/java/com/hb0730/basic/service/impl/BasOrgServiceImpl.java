@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -62,6 +63,7 @@ public class BasOrgServiceImpl implements IBasOrgService {
         return siteNumNow < siteNum;
     }
 
+
     @Override
     public boolean checkAccountNum(String orgId) {
         BasOrg org = basOrgRepository.findById(orgId)
@@ -81,6 +83,17 @@ public class BasOrgServiceImpl implements IBasOrgService {
         }
         int accountNumNow = basUserRepository.countBySysCode(sysCode);
         return accountNumNow < accountNum;
+    }
+
+
+    @Override
+    public boolean hasChild(String orgId) {
+        return basOrgRepository.existsByParentId(orgId);
+    }
+
+    @Override
+    public boolean hasUser(String orgId) {
+        return basUserRepository.existsByOrgId(orgId);
     }
 
     @Override
@@ -117,5 +130,12 @@ public class BasOrgServiceImpl implements IBasOrgService {
 
         BeanUtil.copyProperties(basOrg, org, CopyOptions.create().ignoreNullValue());
         basOrgRepository.save(org);
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deleteById(String id) {
+        basOrgRepository.deleteById(id);
     }
 }

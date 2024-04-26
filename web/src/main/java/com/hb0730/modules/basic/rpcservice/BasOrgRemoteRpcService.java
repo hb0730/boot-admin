@@ -46,4 +46,9 @@ public class BasOrgRemoteRpcService extends BaseRemoteRpcService<BasOrgRpcServic
     public JR<String> updateById(BasOrgDto dto) {
         return getRpcService().updateById(dto);
     }
+
+    @Override
+    public JR<String> deleteById(String id) {
+        return getRpcService().deleteById(id);
+    }
 }
