@@ -27,6 +27,7 @@
         <module>common-sms</module>
         <module>common-api</module>
         <module>common-opentelemetry</module>
+        <module>common-mail</module>
     </modules>
 
     <properties>
