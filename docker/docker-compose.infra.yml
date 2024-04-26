@@ -1,4 +1,3 @@
-version: "3"
 services:
   mysql8_server:
     image: mysql:8
