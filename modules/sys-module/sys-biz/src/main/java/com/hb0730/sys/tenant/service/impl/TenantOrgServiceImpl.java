@@ -4,11 +4,11 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
-import com.blinkfox.fenix.specification.FenixSpecification;
 import com.hb0730.base.exception.ServiceException;
 import com.hb0730.base.utils.PasswordUtil;
 import com.hb0730.base.utils.StrUtil;
 import com.hb0730.common.util.PageUtil;
+import com.hb0730.jpa.specification.SpecificationUtil;
 import com.hb0730.rpc.sys.tenant.domain.TenantBasicConfigDto;
 import com.hb0730.rpc.sys.tenant.domain.TenantSmallDto;
 import com.hb0730.rpc.sys.tenant.domain.query.TenantQuery;
@@ -79,14 +79,14 @@ public class TenantOrgServiceImpl implements ITenantOrgService {
 
     @Override
     public Page<TenantOrg> tenantPage(TenantQuery query) {
-        Specification<TenantOrg> specification = FenixSpecification.ofBean(query);
+        Specification<TenantOrg> specification = SpecificationUtil.ofBean(query);
         Pageable page = PageUtil.toPage(query);
         return tenantOrgRepository.findAll(specification, page);
     }
 
     @Override
     public List<TenantOrg> tenantList(TenantQuery query) {
-        Specification<TenantOrg> specification = FenixSpecification.ofBean(query);
+        Specification<TenantOrg> specification = SpecificationUtil.ofBean(query);
         return tenantOrgRepository.findAll(specification);
     }
 

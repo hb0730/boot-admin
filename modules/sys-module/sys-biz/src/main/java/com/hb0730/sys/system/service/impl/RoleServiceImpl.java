@@ -2,9 +2,9 @@ package com.hb0730.sys.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
-import com.blinkfox.fenix.specification.FenixSpecification;
 import com.hb0730.base.exception.ServiceException;
 import com.hb0730.common.util.PageUtil;
+import com.hb0730.jpa.specification.SpecificationUtil;
 import com.hb0730.rpc.sys.system.domain.query.RoleQuery;
 import com.hb0730.sys.system.domain.SysPermission;
 import com.hb0730.sys.system.domain.SysRole;
@@ -76,14 +76,14 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public Page<SysRole> page(RoleQuery query) {
-        Specification<SysRole> specification = FenixSpecification.ofBean(query);
+        Specification<SysRole> specification = SpecificationUtil.ofBean(query);
         Pageable page = PageUtil.toPage(query);
         return roleRepository.findAll(specification, page);
     }
 
     @Override
     public List<SysRole> list(RoleQuery query) {
-        Specification<SysRole> specification = FenixSpecification.ofBean(query);
+        Specification<SysRole> specification = SpecificationUtil.ofBean(query);
         return roleRepository.findAll(specification);
     }
 

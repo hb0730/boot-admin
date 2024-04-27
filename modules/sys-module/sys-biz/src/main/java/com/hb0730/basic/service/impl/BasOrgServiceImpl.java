@@ -2,13 +2,13 @@ package com.hb0730.basic.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
-import com.blinkfox.fenix.specification.FenixSpecification;
 import com.hb0730.base.exception.ServiceException;
+import com.hb0730.base.utils.StrUtil;
 import com.hb0730.basic.domain.BasOrg;
 import com.hb0730.basic.repository.BasOrgRepository;
 import com.hb0730.basic.repository.BasUserRepository;
 import com.hb0730.basic.service.IBasOrgService;
-import com.hb0730.common.util.QueryHelper;
+import com.hb0730.jpa.specification.SpecificationUtil;
 import com.hb0730.rpc.basic.domain.query.BasOrgQuery;
 import com.hb0730.sys.system.domain.SysProduct;
 import jakarta.annotation.Resource;
@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -98,21 +97,22 @@ public class BasOrgServiceImpl implements IBasOrgService {
 
     @Override
     public List<BasOrg> listDefaultRootQuery(BasOrgQuery query) {
-        QueryHelper.setFieldNull(query, Map.of("parentIdIsNull", "parentId"),
-                "size",
-                "current",
-                "parentIdIsNull",
-                "sysCode",
-                "sorts");
-        Specification<BasOrg> specification = FenixSpecification.ofBean(query);
+        // 默认没有parentId时，查询root节点
+        if (StrUtil.isBlank(query.getParentId())) {
+            query.setParentIdIsNull("parentId");
+        }
+        Specification<BasOrg> specification = SpecificationUtil.ofBean(query);
         Optional<List<Sort.Order>> sortOpl = query.getSorts();
         return sortOpl.map(orders -> basOrgRepository.findAll(specification, Sort.by(orders)))
                 .orElseGet(() -> basOrgRepository.findAll(specification));
+
+
     }
 
     @Override
     public List<BasOrg> list(BasOrgQuery query) {
-        Specification<BasOrg> specification = FenixSpecification.ofBean(query);
+        query.setParentIdIsNull(null);
+        Specification<BasOrg> specification = SpecificationUtil.ofBean(query);
         Optional<List<Sort.Order>> sortOpl = query.getSorts();
         return sortOpl.map(orders -> basOrgRepository.findAll(specification, Sort.by(orders)))
                 .orElseGet(() -> basOrgRepository.findAll(specification));

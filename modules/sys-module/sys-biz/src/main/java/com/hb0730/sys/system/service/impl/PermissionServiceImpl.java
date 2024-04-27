@@ -2,9 +2,8 @@ package com.hb0730.sys.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
-import com.blinkfox.fenix.specification.FenixSpecification;
 import com.hb0730.base.exception.ServiceException;
-import com.hb0730.common.util.QueryHelper;
+import com.hb0730.jpa.specification.SpecificationUtil;
 import com.hb0730.rpc.sys.system.domain.query.PermissionQuery;
 import com.hb0730.sys.system.domain.SysPermission;
 import com.hb0730.sys.system.repository.PermissionRepository;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author <a href="mailto:huangbing0730@gmail">hb0730</a>
@@ -38,9 +36,7 @@ public class PermissionServiceImpl implements IPermissionService {
 
     @Override
     public List<SysPermission> listDefaultRootQueryOrderRank(PermissionQuery query) {
-        QueryHelper.setFieldNull(query, Map.of("parentIdIsNull", "parentId"), "size", "current", "parentIdIsNull",
-                "sorts");
-        Specification<SysPermission> specification = FenixSpecification.ofBean(query);
+        Specification<SysPermission> specification = SpecificationUtil.ofBean(query);
         List<Sort.Order> orders = query.getSorts().orElse(List.of(Sort.Order.asc("rank")));
         return permissionRepository.findAll(specification, Sort.by(orders));
     }

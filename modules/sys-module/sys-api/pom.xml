@@ -28,10 +28,6 @@
             <artifactId>common-specification</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.blinkfox</groupId>
-            <artifactId>fenix</artifactId>
-        </dependency>
     </dependencies>
 
 </project>

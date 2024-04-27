@@ -3,10 +3,10 @@ package com.hb0730.sys.system.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollectionUtil;
-import com.blinkfox.fenix.specification.FenixSpecification;
 import com.hb0730.base.exception.ServiceException;
 import com.hb0730.common.api.JR;
 import com.hb0730.common.util.PageUtil;
+import com.hb0730.jpa.specification.SpecificationUtil;
 import com.hb0730.rpc.sys.system.domain.query.ProductQuery;
 import com.hb0730.sys.system.domain.SysProduct;
 import com.hb0730.sys.system.repository.ProductRepository;
@@ -51,7 +51,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public List<SysProduct> list(ProductQuery query) {
-        Specification<SysProduct> specification = FenixSpecification.ofBean(query);
+        Specification<SysProduct> specification = SpecificationUtil.ofBean(query);
         Optional<List<Sort.Order>> sorts = query.getSorts();
         List<Sort.Order> orders =
                 sorts.orElseGet(() -> CollectionUtil.newArrayList(new Sort.Order(Sort.Direction.DESC, "created")));
@@ -60,7 +60,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public Page<SysProduct> page(ProductQuery query) {
-        Specification<SysProduct> specification = FenixSpecification.ofBean(query);
+        Specification<SysProduct> specification = SpecificationUtil.ofBean(query);
         Pageable page = PageUtil.toPage(query);
         return productRepository.findAll(specification, page);
     }

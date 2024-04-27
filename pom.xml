@@ -115,12 +115,6 @@
                 <version>${springdoc.version}</version>
             </dependency>
 
-            <!--jpa Specification-->
-            <dependency>
-                <groupId>com.blinkfox</groupId>
-                <artifactId>fenix</artifactId>
-                <version>3.0.0</version>
-            </dependency>
 
             <dependency>
                 <groupId>commons-io</groupId>

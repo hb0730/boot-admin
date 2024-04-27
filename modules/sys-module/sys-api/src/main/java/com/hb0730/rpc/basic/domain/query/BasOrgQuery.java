@@ -1,9 +1,9 @@
 package com.hb0730.rpc.basic.domain.query;
 
-import com.blinkfox.fenix.specification.annotation.Equals;
-import com.blinkfox.fenix.specification.annotation.IsNull;
-import com.blinkfox.fenix.specification.annotation.Like;
 import com.hb0730.common.api.BaseQuery;
+import com.hb0730.jpa.specification.annotation.Equals;
+import com.hb0730.jpa.specification.annotation.IsNull;
+import com.hb0730.jpa.specification.annotation.Like;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,12 +50,11 @@ public class BasOrgQuery extends BaseQuery {
 
 
     /**
-     * 父级id为空
+     * 父级机构ID是否为空
      */
-    @IsNull("parentId")
     @Schema(hidden = true)
+    @IsNull("parentId")
     private String parentIdIsNull;
-
     /**
      * 系统编码
      */

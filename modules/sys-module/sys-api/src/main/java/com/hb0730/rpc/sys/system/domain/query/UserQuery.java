@@ -1,8 +1,8 @@
 package com.hb0730.rpc.sys.system.domain.query;
 
-import com.blinkfox.fenix.specification.annotation.Equals;
-import com.blinkfox.fenix.specification.annotation.Like;
 import com.hb0730.common.api.BaseQuery;
+import com.hb0730.jpa.specification.annotation.Equals;
+import com.hb0730.jpa.specification.annotation.Like;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.Getter;
 import lombok.Setter;

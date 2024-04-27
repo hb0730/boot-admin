@@ -1,9 +1,9 @@
 package com.hb0730.basic.service.impl;
 
-import com.blinkfox.fenix.specification.FenixSpecification;
 import com.hb0730.basic.domain.BasPermission;
 import com.hb0730.basic.repository.BasPermissionRepository;
 import com.hb0730.basic.service.IBasPermissionService;
+import com.hb0730.jpa.specification.SpecificationUtil;
 import com.hb0730.rpc.basic.domain.query.BasPermissionQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ public class BasPermissionServiceImpl implements IBasPermissionService {
 
     @Override
     public List<BasPermission> list(BasPermissionQuery query) {
-        Specification<BasPermission> specification = FenixSpecification.ofBean(query);
+        Specification<BasPermission> specification = SpecificationUtil.ofBean(query);
         Optional<List<Sort.Order>> sorts = query.getSorts();
         return sorts.map(sort -> basPermissionRepository.findAll(specification, Sort.by(sort)))
                 .orElseGet(() -> basPermissionRepository.findAll(specification));

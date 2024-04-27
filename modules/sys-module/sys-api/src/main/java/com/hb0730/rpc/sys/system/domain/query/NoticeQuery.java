@@ -1,10 +1,10 @@
 package com.hb0730.rpc.sys.system.domain.query;
 
-import com.blinkfox.fenix.specification.annotation.Equals;
-import com.blinkfox.fenix.specification.annotation.GreaterThanEqual;
-import com.blinkfox.fenix.specification.annotation.LessThanEqual;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hb0730.common.api.BaseQuery;
+import com.hb0730.jpa.specification.annotation.Equals;
+import com.hb0730.jpa.specification.annotation.GreaterThanEqual;
+import com.hb0730.jpa.specification.annotation.LessThanEqual;
 import lombok.Getter;
 import lombok.Setter;
 

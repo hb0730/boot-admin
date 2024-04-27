@@ -2,12 +2,12 @@ package com.hb0730.basic.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
-import com.blinkfox.fenix.specification.FenixSpecification;
 import com.hb0730.base.utils.StrUtil;
 import com.hb0730.basic.domain.BasUser;
 import com.hb0730.basic.repository.BasUserRepository;
 import com.hb0730.basic.service.IBasUserService;
 import com.hb0730.common.util.PageUtil;
+import com.hb0730.jpa.specification.SpecificationUtil;
 import com.hb0730.rpc.basic.domain.query.BasUserQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -68,14 +68,14 @@ public class BasUserServiceImpl implements IBasUserService {
 
     @Override
     public Page<BasUser> page(BasUserQuery query) {
-        Specification<BasUser> specification = FenixSpecification.ofBean(query);
+        Specification<BasUser> specification = SpecificationUtil.ofBean(query);
         Pageable page = PageUtil.toPage(query);
         return basUserRepository.findAll(specification, page);
     }
 
     @Override
     public List<BasUser> list(BasUserQuery query) {
-        Specification<BasUser> specification = FenixSpecification.ofBean(query);
+        Specification<BasUser> specification = SpecificationUtil.ofBean(query);
         Optional<List<Sort.Order>> sorts = query.getSorts();
         return sorts.map(sort -> basUserRepository.findAll(specification, Sort.by(sort)))
                 .orElseGet(() -> basUserRepository.findAll(specification));

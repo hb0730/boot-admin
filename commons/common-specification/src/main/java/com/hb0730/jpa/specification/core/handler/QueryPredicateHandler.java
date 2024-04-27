@@ -1,8 +1,8 @@
-package com.hb0730.jpa.specification.handler;
+package com.hb0730.jpa.specification.core.handler;
 
-import com.blinkfox.fenix.specification.handler.AbstractPredicateHandler;
 import com.hb0730.base.utils.StrUtil;
 import com.hb0730.jpa.specification.annotation.Query;
+import com.hb0730.jpa.specification.core.AbstractPredicateHandler;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.annotation.Annotation;

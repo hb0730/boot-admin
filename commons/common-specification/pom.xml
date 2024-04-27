@@ -28,10 +28,9 @@
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
         </dependency>
-        <!--jpa Specification-->
         <dependency>
-            <groupId>com.blinkfox</groupId>
-            <artifactId>fenix</artifactId>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
         </dependency>
 
         <dependency>

@@ -1,9 +1,8 @@
 package com.hb0730.rpc.sys.system.domain.query;
 
-import com.blinkfox.fenix.specification.annotation.Equals;
-import com.blinkfox.fenix.specification.annotation.IsNull;
-import com.blinkfox.fenix.specification.annotation.Like;
 import com.hb0730.common.api.BaseQuery;
+import com.hb0730.jpa.specification.annotation.Equals;
+import com.hb0730.jpa.specification.annotation.Like;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,14 +26,7 @@ public class PermissionQuery extends BaseQuery {
     /**
      * 父级id
      */
-    @Equals
+    @Equals(allowNull = true)
     @Schema(description = "父级id")
     private Integer parentId;
-
-    /**
-     * 父级id为空
-     */
-    @IsNull("parentId")
-    @Schema(hidden = true)
-    private String parentIdIsNull;
 }

@@ -2,9 +2,9 @@ package com.hb0730.sys.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
-import com.blinkfox.fenix.specification.FenixSpecification;
 import com.hb0730.base.exception.ServiceException;
 import com.hb0730.common.util.PageUtil;
+import com.hb0730.jpa.specification.SpecificationUtil;
 import com.hb0730.rpc.sys.system.domain.query.QuartzJobQuery;
 import com.hb0730.sys.system.domain.SysQuartzJob;
 import com.hb0730.sys.system.repository.QuartzJobRepository;
@@ -30,7 +30,7 @@ public class QuartzJobServiceImpl implements IQuartzJobService {
 
     @Override
     public Page<SysQuartzJob> page(QuartzJobQuery query) {
-        Specification<SysQuartzJob> specification = FenixSpecification.ofBean(query);
+        Specification<SysQuartzJob> specification = SpecificationUtil.ofBean(query);
         Pageable page = PageUtil.toPage(query);
         return quartzJobRepository.findAll(specification, page);
     }

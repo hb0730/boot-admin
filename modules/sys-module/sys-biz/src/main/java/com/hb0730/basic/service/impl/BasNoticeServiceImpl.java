@@ -1,7 +1,6 @@
 package com.hb0730.basic.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.blinkfox.fenix.specification.FenixSpecification;
 import com.hb0730.basic.domain.BasNoticeRecord;
 import com.hb0730.basic.domain.BasUser;
 import com.hb0730.basic.repository.BasNoticeRecordRepository;
@@ -9,6 +8,7 @@ import com.hb0730.basic.rpc.mapstruct.BasNoticeMapper;
 import com.hb0730.basic.service.IBasNoticeService;
 import com.hb0730.common.api.JsfPage;
 import com.hb0730.common.util.PageUtil;
+import com.hb0730.jpa.specification.SpecificationUtil;
 import com.hb0730.rpc.basic.domain.BasNoticeDto;
 import com.hb0730.rpc.basic.domain.query.BasNoticeQuery;
 import com.hb0730.sys.system.domain.SysNotice;
@@ -52,7 +52,7 @@ public class BasNoticeServiceImpl implements IBasNoticeService {
         query.setSorts("created desc");
         query.setEnabled(true);
 
-        Specification<SysNotice> specification = FenixSpecification.ofBean(query);
+        Specification<SysNotice> specification = SpecificationUtil.ofBean(query);
         Pageable page = PageUtil.toPage(query);
         Page<SysNotice> noticePage = noticeService.page(specification, page);
 

@@ -47,12 +47,6 @@
         </dependency>
 
 
-        <!--jpa Specification-->
-        <dependency>
-            <groupId>com.blinkfox</groupId>
-            <artifactId>fenix</artifactId>
-        </dependency>
-
         <!--boot admin modules-->
         <dependency>
             <groupId>com.hb0730</groupId>

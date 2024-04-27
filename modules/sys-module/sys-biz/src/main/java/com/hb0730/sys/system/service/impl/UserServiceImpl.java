@@ -1,8 +1,8 @@
 package com.hb0730.sys.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.blinkfox.fenix.specification.FenixSpecification;
 import com.hb0730.common.util.PageUtil;
+import com.hb0730.jpa.specification.SpecificationUtil;
 import com.hb0730.rpc.sys.system.domain.query.UserQuery;
 import com.hb0730.sys.system.domain.SysRole;
 import com.hb0730.sys.system.domain.SysUser;
@@ -51,14 +51,14 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public Page<SysUser> page(UserQuery query) {
-        Specification<SysUser> specification = FenixSpecification.ofBean(query);
+        Specification<SysUser> specification = SpecificationUtil.ofBean(query);
         Pageable page = PageUtil.toPage(query);
         return userRepository.findAll(specification, page);
     }
 
     @Override
     public List<SysUser> list(UserQuery query) {
-        Specification<SysUser> specification = FenixSpecification.ofBean(query);
+        Specification<SysUser> specification = SpecificationUtil.ofBean(query);
         Optional<List<Sort.Order>> sorts = query.getSorts();
         return sorts.map(orders -> userRepository.findAll(specification, Sort.by(orders))).orElseGet(() -> userRepository.findAll(specification));
     }

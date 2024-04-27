@@ -3,9 +3,8 @@ package com.hb0730.sys.tenant.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollectionUtil;
-import com.blinkfox.fenix.specification.FenixSpecification;
 import com.hb0730.base.exception.ServiceException;
-import com.hb0730.common.util.QueryHelper;
+import com.hb0730.jpa.specification.SpecificationUtil;
 import com.hb0730.rpc.sys.tenant.domain.query.PermissionQuery;
 import com.hb0730.sys.tenant.domain.TenantOrg;
 import com.hb0730.sys.tenant.domain.TenantPermission;
@@ -27,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -55,9 +53,7 @@ public class TenantPermissionServiceImpl implements ITenantPermissionService {
 
     @Override
     public List<TenantPermission> listDefaultRootQueryOrderRank(PermissionQuery query) {
-        QueryHelper.setFieldNull(query, Map.of("parentIdIsNull", "parentId"), "size", "current", "parentIdIsNull",
-                "sorts");
-        Specification<TenantPermission> specification = FenixSpecification.ofBean(query);
+        Specification<TenantPermission> specification = SpecificationUtil.ofBean(query);
         List<Sort.Order> orders = query.getSorts().orElse(List.of(Sort.Order.asc("rank")));
         return permissionRepository.findAll(specification, Sort.by(orders));
     }

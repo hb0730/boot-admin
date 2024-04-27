@@ -3,13 +3,13 @@ package com.hb0730.basic.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollectionUtil;
-import com.blinkfox.fenix.specification.FenixSpecification;
 import com.hb0730.base.exception.ServiceException;
 import com.hb0730.basic.domain.BasPermission;
 import com.hb0730.basic.domain.BasRole;
 import com.hb0730.basic.repository.BasRoleRepository;
 import com.hb0730.basic.service.IBasRoleService;
 import com.hb0730.common.util.PageUtil;
+import com.hb0730.jpa.specification.SpecificationUtil;
 import com.hb0730.rpc.basic.domain.query.BasRoleQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,14 +54,14 @@ public class BasRoleServiceImpl implements IBasRoleService {
 
     @Override
     public Page<BasRole> page(BasRoleQuery query) {
-        Specification<BasRole> specification = FenixSpecification.ofBean(query);
+        Specification<BasRole> specification = SpecificationUtil.ofBean(query);
         Pageable page = PageUtil.toPage(query);
         return basRoleRepository.findAll(specification, page);
     }
 
     @Override
     public List<BasRole> list(BasRoleQuery query) {
-        Specification<BasRole> specification = FenixSpecification.ofBean(query);
+        Specification<BasRole> specification = SpecificationUtil.ofBean(query);
         Optional<List<Sort.Order>> sorts = query.getSorts();
         return sorts.map(sort -> basRoleRepository.findAll(specification, Sort.by(sort)))
                 .orElseGet(() -> basRoleRepository.findAll(specification));

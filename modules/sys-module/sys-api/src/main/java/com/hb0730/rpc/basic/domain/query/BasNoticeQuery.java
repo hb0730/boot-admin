@@ -1,9 +1,7 @@
 package com.hb0730.rpc.basic.domain.query;
 
-import com.blinkfox.fenix.specification.annotation.Equals;
-import com.blinkfox.fenix.specification.annotation.Like;
-import com.blinkfox.fenix.specification.annotation.OrIsNull;
 import com.hb0730.common.api.BaseQuery;
+import com.hb0730.jpa.specification.annotation.Equals;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,13 +22,10 @@ public class BasNoticeQuery extends BaseQuery {
     /**
      * 商户ID
      */
-    @Like
+    @Equals(allowNull = true)
     @Schema(hidden = true)
     private String orgId;
 
-    @OrIsNull
-    @Schema(hidden = true)
-    private String orgIdIsNull;
 
     @Equals
     @Schema(hidden = true)

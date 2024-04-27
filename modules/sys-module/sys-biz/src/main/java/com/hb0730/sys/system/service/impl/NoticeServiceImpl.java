@@ -3,9 +3,9 @@ package com.hb0730.sys.system.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollectionUtil;
-import com.blinkfox.fenix.specification.FenixSpecification;
 import com.hb0730.base.exception.ServiceException;
 import com.hb0730.common.util.PageUtil;
+import com.hb0730.jpa.specification.SpecificationUtil;
 import com.hb0730.rpc.sys.system.domain.query.NoticeQuery;
 import com.hb0730.sys.system.domain.SysNotice;
 import com.hb0730.sys.system.repository.NoticeRepository;
@@ -57,14 +57,14 @@ public class NoticeServiceImpl implements INoticeService {
 
     @Override
     public Page<SysNotice> page(NoticeQuery query) {
-        Specification<SysNotice> specification = FenixSpecification.ofBean(query);
+        Specification<SysNotice> specification = SpecificationUtil.ofBean(query);
         Pageable page = PageUtil.toPage(query);
         return noticeRepository.findAll(specification, page);
     }
 
     @Override
     public List<SysNotice> list(NoticeQuery query) {
-        Specification<SysNotice> specification = FenixSpecification.ofBean(query);
+        Specification<SysNotice> specification = SpecificationUtil.ofBean(query);
         return noticeRepository.findAll(specification);
     }
 
