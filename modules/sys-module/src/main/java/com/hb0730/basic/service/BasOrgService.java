@@ -30,6 +30,11 @@ import java.util.List;
 public class BasOrgService extends BaseService<BasOrgMapper, BasOrg> {
     private final BasOrgMapstruct mapstruct;
 
+    /**
+     * 登录时，校验相关机构是否过期
+     *
+     * @param orgId .
+     */
     public void checkOrgExpiredForLogin(String orgId) {
         BasOrg userOrg = getById(orgId);
         if (userOrg == null) {
@@ -153,6 +158,16 @@ public class BasOrgService extends BaseService<BasOrgMapper, BasOrg> {
      */
     public List<BasOrg> listByProduct(String productId) {
         return baseMapper.listByProduct(productId);
+    }
+
+    /**
+     * 获取顶级机构
+     *
+     * @param sysCode 商户号
+     * @return .
+     */
+    public BasOrg getTopOrg(String sysCode) {
+        return baseMapper.getTopOrg(sysCode);
     }
 
     /**

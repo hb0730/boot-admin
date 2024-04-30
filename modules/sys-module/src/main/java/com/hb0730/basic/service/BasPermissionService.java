@@ -1,15 +1,13 @@
 package com.hb0730.basic.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hb0730.base.utils.CollectionUtil;
 import com.hb0730.basic.domain.dto.BasPermissionDto;
+import com.hb0730.basic.domain.entity.BasOrg;
 import com.hb0730.basic.domain.entity.BasPermission;
 import com.hb0730.basic.domain.entity.BasRole;
-import com.hb0730.basic.domain.query.BasPermissionQuery;
 import com.hb0730.basic.mapper.BasPermissionMapper;
 import com.hb0730.basic.service.mapstruct.BasPermissionMapstruct;
 import com.hb0730.mybatis.core.service.BaseService;
-import com.hb0730.query.mybatis.plus.QueryHelper;
 import com.hb0730.sys.domain.dto.PermissionDto;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +28,9 @@ public class BasPermissionService extends BaseService<BasPermissionMapper, BasPe
     @Lazy
     @Resource
     private BasRoleService basRoleService;
+    @Lazy
+    @Resource
+    private BasOrgService basOrgService;
     private final BasPermissionMapstruct mapstruct;
 
     /**
@@ -93,16 +94,21 @@ public class BasPermissionService extends BaseService<BasPermissionMapper, BasPe
         return baseMapper.findByProductId(productId);
     }
 
+
     /**
-     * 查询
+     * 根据产品ID获取权限
      *
-     * @param query .
-     * @return .
+     * @param sysCode 产品ID
+     * @return 权限
      */
-    public List<BasPermissionDto> list(BasPermissionQuery query) {
-        QueryWrapper<BasPermission> queryWrapper = QueryHelper.ofBean(query);
-        List<BasPermission> list = baseMapper.selectList(queryWrapper);
-        return mapstruct.toDtoList(list);
+    public List<BasPermissionDto> list(String sysCode) {
+        BasOrg org = basOrgService.getTopOrg(sysCode);
+        if (org == null) {
+            return null;
+        }
+        List<BasPermission> res = baseMapper.findByProductId(org.getProductId());
+        return mapstruct.toDtoList(res);
     }
+
 
 }

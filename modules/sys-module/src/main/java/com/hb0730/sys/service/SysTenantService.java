@@ -262,6 +262,7 @@ public class SysTenantService extends BaseService<SysTenantMapper, SysTenant> {
         role.setSystem(true);
         role.setEnabled(true);
         role.setOrgId(organization.getId());
+        role.setDescription("系统自动创建-SYSTEM");
         // 1.1 角色-权限绑定
         List<SysTenantPermission> permissions = sysTenantPermissionService.findByProductId(organization.getProductId());
         List<BasRolePermission> rolePermissions = new ArrayList<>(permissions.size());
@@ -308,7 +309,7 @@ public class SysTenantService extends BaseService<SysTenantMapper, SysTenant> {
         // 查询新产品权限
         List<SysTenantPermission> newProductPermission = sysTenantPermissionService.findByProductId(productId);
 
-        sysTenantPermissionService.checkPermission(newProductPermission, List.of(oldOrg.getId()));
+        sysTenantPermissionService.checkPermission(newProductPermission, List.of(oldOrg.getId()), List.of(oldOrg.getSysCode()));
     }
 
     /**

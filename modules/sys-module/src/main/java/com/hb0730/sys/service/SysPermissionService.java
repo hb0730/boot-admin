@@ -113,7 +113,10 @@ public class SysPermissionService extends BaseService<SysPermissionMapper, SysPe
      * @return .
      */
     public List<PermissionDto> findAllEnabled() {
-        LambdaQueryWrapper<SysPermission> queryWrapper = Wrappers.lambdaQuery(SysPermission.class).eq(SysPermission::getEnabled, true);
+        LambdaQueryWrapper<SysPermission> queryWrapper = Wrappers
+                .lambdaQuery(SysPermission.class)
+                .eq(SysPermission::getEnabled, true)
+                .orderByAsc(SysPermission::getRank);
         List<SysPermission> list = list(queryWrapper);
         return mapstruct.toDtoList(list);
     }

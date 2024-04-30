@@ -36,6 +36,14 @@ public interface BasRoleMapper extends BaseMapper<BasRole> {
     Set<String> findAdminRoleIdsByOrgIds(List<String> orgIds);
 
     /**
+     * 根据商户码获取角色ID
+     *
+     * @param sysCodes .
+     * @return .
+     */
+    Set<String> findRoleIdsBySysCodes(List<String> sysCodes);
+
+    /**
      * 根据角色ID获取权限
      *
      * @param roleIds 角色ID

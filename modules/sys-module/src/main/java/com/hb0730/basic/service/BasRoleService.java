@@ -56,6 +56,16 @@ public class BasRoleService extends BaseService<BasRoleMapper, BasRole> {
     }
 
     /**
+     * 根据商户码获取角色ID
+     *
+     * @param sysCode .
+     * @return .
+     */
+    public Set<String> findRoleIdsBySysCodes(List<String> sysCode) {
+        return baseMapper.findRoleIdsBySysCodes(sysCode);
+    }
+
+    /**
      * 根据角色ID获取权限
      *
      * @param roleIds 角色ID

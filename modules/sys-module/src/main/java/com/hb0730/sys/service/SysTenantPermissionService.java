@@ -143,12 +143,13 @@ public class SysTenantPermissionService extends BaseService<SysTenantPermissionM
         if (CollectionUtil.isEmpty(organizations)) {
             return;
         }
+        List<String> sysCodes = organizations.stream().map(BasOrg::getSysCode).toList();
         List<String> orgIds = organizations.stream().map(BasOrg::getId).toList();
         List<SysTenantPermission> permissions = new ArrayList<>();
         if (CollectionUtil.isNotEmpty(permissionIds)) {
             permissions = listByIds(permissionIds);
         }
-        checkPermission(permissions, orgIds);
+        checkPermission(permissions, orgIds, sysCodes);
     }
 
     /**
@@ -158,14 +159,17 @@ public class SysTenantPermissionService extends BaseService<SysTenantPermissionM
      * @param orgIds      机构ID
      */
     @Transactional(rollbackFor = Exception.class)
-    public void checkPermission(List<SysTenantPermission> permissions, List<String> orgIds) {
+    public void checkPermission(List<SysTenantPermission> permissions, List<String> orgIds, List<String> sysCodes) {
         if (CollectionUtil.isEmpty(orgIds)) {
             return;
         }
         // 根据 商户id 查询商户下的用户信息
-        Set<String> userIds = basUserService.findUserIdsByOrgIds(orgIds);
+//        Set<String> userIds = basUserService.findUserIdsByOrgIds(orgIds);
         // 根据用户id查询角色Id
-        Set<String> roleIds = basUserService.findRoleIdsByUserIds(userIds);
+//        Set<String> roleIds = basUserService.findRoleIdsByUserIds(userIds);
+        // 查询商户下所有的角色ID
+        Set<String> roleIds = basRoleService.findRoleIdsBySysCodes(sysCodes);
+
         // 获取所有角色的权限
         List<BasRolePermission> rolePermissions = basRoleService.findRolePermissionsByRoleIds(roleIds);
         // 重合的权限用于重新赋给用户
@@ -195,6 +199,8 @@ public class SysTenantPermissionService extends BaseService<SysTenantPermissionM
                         }
                     }
                 }
+                // 删除角色与权限关系
+                baseMapper.deleteRolePermission(roleId);
                 //重新赋权
                 baseMapper.saveRolePermission(roleId, newPerList);
                 newPerList.clear();

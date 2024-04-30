@@ -10,7 +10,7 @@
         </foreach>
     </insert>
     <select id="findAdminRoleIdsByOrgIds" resultType="java.lang.String">
-        SELECT role_id
+        SELECT id
         FROM `bas_role`
         WHERE org_id IN
         <foreach collection="orgIds" item="orgId" open="(" separator="," close=")">
@@ -24,6 +24,14 @@
         WHERE role_id IN
         <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
             #{roleId}
+        </foreach>
+    </select>
+    <select id="findRoleIdsBySysCodes" resultType="java.lang.String">
+        SELECT id
+        FROM `bas_role`
+        WHERE sys_code IN
+        <foreach collection="sysCodes" item="sysCode" open="(" separator="," close=")">
+            #{sysCode}
         </foreach>
     </select>
 </mapper>

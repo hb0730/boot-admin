@@ -119,6 +119,7 @@ public class UserController {
     @Operation(summary = "保存用户")
     @PreAuthorize("hasAnyAuthority('sys:user:save')")
     public R<String> save(@Valid @RequestBody UserSaveDto dto) {
+        dto.setPassword(PasswordUtil.encoder(dto.getPassword()));
         sysUserService.save(dto);
         return R.OK();
     }
@@ -146,7 +147,7 @@ public class UserController {
      */
     @DeleteMapping
     @Operation(summary = "删除用户")
-    @PreAuthorize("hasAnyAuthority('sys:user:delete','ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('sys:user:delete')")
     @Parameters({
             @Parameter(name = "id", description = "用户ID", required = true, example = "1")
     })
@@ -163,7 +164,7 @@ public class UserController {
      */
     @PutMapping("/resetPassword")
     @Operation(summary = "重置密码")
-    @PreAuthorize("hasAnyAuthority('sys:user:resetPassword','ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('sys:user:resetPassword')")
     public R<String> resetPassword(@Valid @RequestBody UserRestPwdDto dto) {
         String password = dto.getPassword();
         String pwd = PasswordUtil.encoder(password);

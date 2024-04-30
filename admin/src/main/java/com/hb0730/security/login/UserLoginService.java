@@ -123,6 +123,8 @@ public class UserLoginService implements com.hb0730.security.service.UserLoginSe
             throw new UsernameNotFoundException("用户已被禁用");
         }
         BasOrg orgInfo = basOrgService.getById(user.getOrgId());
+        //商户有效期
+        basOrgService.checkOrgExpiredForLogin(orgInfo.getId());
         // 角色
         List<BasRole> roles = basRoleService.findByUserId(user.getId());
         // 权限

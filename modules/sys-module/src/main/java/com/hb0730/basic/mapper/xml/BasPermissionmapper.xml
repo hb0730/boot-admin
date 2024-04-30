@@ -10,5 +10,12 @@
         <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
             #{roleId}
         </foreach>
+        order by p.`rank`
+    </select>
+    <select id="listAllBySysCode" resultType="com.hb0730.basic.domain.entity.BasPermission">
+        SELECT
+        FROM `bas_permission` p
+                 LEFT JOIN `sys_product_permission` sp ON p.id = sp.permission_id
+        WHERE
     </select>
 </mapper>

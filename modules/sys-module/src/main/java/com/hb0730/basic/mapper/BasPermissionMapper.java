@@ -29,6 +29,7 @@ public interface BasPermissionMapper extends BaseMapper<BasPermission> {
      * @return 权限
      */
     @Select("SELECT p.* from bas_permission p,sys_product_permission pp WHERE p.id=pp.permission_id AND pp" +
-            ".product_id=#{productId}")
+            ".product_id=#{productId} ORDER BY p.`rank`")
     List<BasPermission> findByProductId(String productId);
+
 }
