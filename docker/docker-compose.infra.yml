@@ -1,0 +1,30 @@
+services:
+  mysql8_server:
+    image: mysql:8
+    container_name: mysql8_server
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: boot-admin
+      TZ: Asia/Shanghai
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    volumes:
+      - ./data/mysql8:/var/lib/mysql
+  redis_server:
+    image: redis:6
+    container_name: redis_server
+    ports:
+      - "6379:6379"
+    command: redis-server --requirepass 123456
+    volumes:
+      - ./data/redis:/data
+#  openobserve_server:
+#    image: public.ecr.aws/zinclabs/openobserve:latest
+#    container_name: openobserve_server
+#    restart: unless-stopped
+#    environment:
+#      ZO_ROOT_USER_EMAIL: "root@example.com"
+#      ZO_ROOT_USER_PASSWORD: "Complexpass#123"
+#    ports:
+#      - "5080:5080"

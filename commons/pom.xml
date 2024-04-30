@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.hb0730</groupId>
+        <artifactId>boot-admin</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>commons</artifactId>
+    <packaging>pom</packaging>
+    <description>
+        common 通用模块
+    </description>
+
+    <modules>
+        <module>common-bom</module>
+        <module>common-springdoc</module>
+        <module>common-base</module>
+        <module>common-cache</module>
+        <module>common-excel</module>
+        <module>common-mail</module>
+        <module>common-oss</module>
+        <module>common-security</module>
+        <module>common-web</module>
+        <module>common-mybatis</module>
+        <module>common-mybatis-tenant</module>
+        <module>common-rpc</module>
+        <module>common-api</module>
+        <module>common-query</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+</project>

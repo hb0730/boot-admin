@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb0730.sys.mapper.SysTenantMapper">
+    <resultMap id="BaseMap" type="com.hb0730.sys.domain.dto.TenantDto">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="sys_code" property="sysCode"/>
+        <result column="name" property="name"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="link_man" property="linkMan"/>
+        <result column="link_tel" property="linkTel"/>
+        <result column="link_email" property="linkEmail"/>
+        <result column="address" property="address"/>
+        <result column="is_system" property="system"/>
+        <result column="is_saas" property="saas"/>
+        <result column="used_end_time" property="usedEndTime"/>
+        <result column="level" property="level"/>
+        <result column="path" property="path"/>
+        <result column="type" property="type"/>
+        <result column="memo" property="memo"/>
+        <result column="is_enabled" property="enabled"/>
+        <result column="created" property="created"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="modified" property="modified"/>
+        <result column="modified_by" property="modifiedBy"/>
+
+        <association property="product" javaType="com.hb0730.sys.domain.dto.ProductSmallDto">
+            <id column="product_id" property="id"/>
+            <result column="product_name" property="name"/>
+            <result column="product_principal" property="principal"/>
+            <result column="product_contact" property="contact"/>
+        </association>
+    </resultMap>
+    <select id="list" resultMap="BaseMap">
+        SELECT
+        p.id,
+        p.name,
+        p.sys_code,
+        p.parent_id,
+        p.link_man,
+        p.link_tel,
+        p.link_email,
+        p.address,
+        p.is_system,
+        p.is_saas,
+        p.used_end_time,
+        p.level,
+        p.path,
+        p.type,
+        p.memo,
+        p.is_enabled,
+        p.created,
+        p.created_by,
+        p.modified,
+        p.modified_by,
+        sp.id AS product_id,
+        sp.name AS product_name,
+        sp.principal AS product_principal,
+        sp.contact AS product_contact
+        FROM `bas_organization` p
+        LEFT JOIN `sys_product` sp ON p.product_id = sp.id
+        WHERE 1 = 1
+        <if test="query.name != null and query.name != ''">
+            AND p.name LIKE CONCAT('%', #{query.name}, '%')
+        </if>
+        <if test="query.sysCode !=null and query.sysCode !=''">
+            AND p.sys_code= #{query.sysCode}
+        </if>
+        <if test="query.type !=null">
+            AND p.type= #{query.type}
+        </if>
+        <if test="query.enabled != null">
+            AND p.is_enabled= #{query.enabled}
+        </if>
+        ORDER BY p.created DESC
+    </select>
+</mapper>
