@@ -45,6 +45,10 @@ public class BasOrgService extends BaseService<BasOrgMapper, BasOrg> {
         if (adminOrg == null) {
             throw new ServiceException("顶级机构不存在");
         }
+        //是否已被禁用
+        if (!Boolean.TRUE.equals(adminOrg.getEnabled())) {
+            throw new ServiceException("系统已被禁用，请联系管理员！");
+        }
         Date usedEndTime = adminOrg.getUsedEndTime();
         if (null == usedEndTime) {
             return;
