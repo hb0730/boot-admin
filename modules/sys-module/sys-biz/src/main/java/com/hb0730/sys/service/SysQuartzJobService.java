@@ -15,7 +15,7 @@ import com.hb0730.sys.domain.dto.QuartzJobDto;
 import com.hb0730.sys.domain.entity.SysQuartzJob;
 import com.hb0730.sys.domain.query.QuartzJobQuery;
 import com.hb0730.sys.mapper.SysQuartzJobMapper;
-import com.hb0730.sys.rpcservice.JobRemoteRpcService;
+import com.hb0730.sys.remoterpc.JobRemoteRpcService;
 import com.hb0730.sys.service.mapstruct.SysQuartzJobMapstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

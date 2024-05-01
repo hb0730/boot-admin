@@ -1,6 +1,6 @@
 package com.hb0730.sys.domain.dto;
 
-import com.hb0730.mybatis.core.domain.BaseDto;
+import com.hb0730.common.api.domain.BaseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.EqualsAndHashCode;

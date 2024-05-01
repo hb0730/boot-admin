@@ -1,4 +1,4 @@
-package com.hb0730.mybatis.core.domain;
+package com.hb0730.common.api.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;

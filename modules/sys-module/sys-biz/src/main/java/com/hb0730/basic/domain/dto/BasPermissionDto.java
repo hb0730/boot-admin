@@ -2,7 +2,7 @@ package com.hb0730.basic.domain.dto;
 
 import com.hb0730.base.enums.MenuTypeEnums;
 import com.hb0730.base.utils.TreeUtil;
-import com.hb0730.mybatis.core.domain.BaseDto;
+import com.hb0730.common.api.domain.BaseDto;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;

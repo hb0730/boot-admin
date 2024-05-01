@@ -1,4 +1,4 @@
-package com.hb0730.sys.domain.dto;
+package com.hb0730.rpc.sys.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hb0730.common.api.domain.BaseDto;

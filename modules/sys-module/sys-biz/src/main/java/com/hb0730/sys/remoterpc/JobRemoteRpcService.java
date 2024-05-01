@@ -1,4 +1,4 @@
-package com.hb0730.sys.rpcservice;
+package com.hb0730.sys.remoterpc;
 
 import com.hb0730.base.rpc.client.BaseRemoteRpcService;
 import com.hb0730.common.api.JR;

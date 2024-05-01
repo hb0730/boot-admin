@@ -1,6 +1,6 @@
 package com.hb0730.common.mybatis.tenant.core;
 
-import com.hb0730.mybatis.core.domain.BaseDto;
+import com.hb0730.common.api.domain.BaseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;

@@ -107,7 +107,7 @@ public class SysNoticeService extends ServiceImpl<SysNoticeMapper, SysNotice> {
         page = page(page, queryWrapper);
         List<NoticeDto> res = mapstruct.toDtoList(page.getRecords());
         // 获取产品对应的权限
-        
+
 
         return QueryHelper.toJsfPage(page, res);
     }
@@ -185,7 +185,11 @@ public class SysNoticeService extends ServiceImpl<SysNoticeMapper, SysNotice> {
         if (CollectionUtil.isEmpty(list)) {
             return;
         }
-        list.forEach(sysNotice -> sysNotice.setEnabled(false));
+        list.forEach(sysNotice -> {
+            sysNotice.setEnabled(false);
+            sysNotice.setModifiedBy("SYSTEM");
+        });
         updateBatchById(list);
     }
+
 }
