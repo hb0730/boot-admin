@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.hb0730</groupId>
-        <artifactId>commons</artifactId>
+        <artifactId>sys-module</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>common-bom</artifactId>
+    <artifactId>sys-biz</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -25,37 +25,12 @@
         </dependency>
         <dependency>
             <groupId>com.hb0730</groupId>
-            <artifactId>common-cache</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>common-excel</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>common-mail</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>common-oss</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>common-security</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>common-springdoc</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
             <artifactId>common-mybatis-tenant</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hb0730</groupId>
+            <artifactId>common-cache</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
@@ -65,20 +40,24 @@
         </dependency>
         <dependency>
             <groupId>com.hb0730</groupId>
-            <artifactId>common-api</artifactId>
+            <artifactId>sys-rpc-api</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>com.hb0730</groupId>
-            <artifactId>query-core</artifactId>
+            <artifactId>common-security</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>com.hb0730</groupId>
-            <artifactId>query-mybatis-plus</artifactId>
+            <artifactId>job-api</artifactId>
             <version>${revision}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

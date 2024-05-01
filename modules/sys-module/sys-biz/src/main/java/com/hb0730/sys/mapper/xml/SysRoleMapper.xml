@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb0730.sys.mapper.SysRoleMapper">
+    <insert id="insertRoleMenu">
+        INSERT INTO `sys_role_permission` (role_id, permission_id)
+        VALUES
+        <foreach collection="permissionIds" item="permissionId" separator="," open="" close="">
+            (#{roleId}, #{permissionId})
+        </foreach>
+    </insert>
+</mapper>

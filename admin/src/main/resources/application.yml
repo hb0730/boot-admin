@@ -24,6 +24,10 @@ spring:
       port: 6379
       password: 123456
       database: 0
+  config:
+    import:
+      - "classpath:application-otel.yml"
+      - "classpath:application-rpc.yml"
 
 #mybatis plus 设置
 mybatis-plus:
@@ -54,6 +58,11 @@ boot:
       # 与security保持一致
       auth-header: "X-Access-Token"
 
+    # opentelemetry
+    opentelemetry:
+      rpc:
+        enabled: false
+
 # springdoc
 springdoc:
   swagger-ui:
@@ -64,3 +73,11 @@ springdoc:
   default-consumes-media-type: application/json;charset=UTF-8
   use-fqn: true
   default-flat-param-object: true
+
+
+sofa:
+  boot:
+    rpc:
+      registry-address: local://${user.home}/.sofa-boot/registry/boot-admin.reg
+      enable-auto-publish: true
+      bolt-port: 12200

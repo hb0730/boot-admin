@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb0730.basic.mapper.BasPermissionMapper">
+    <select id="listByRoleIds" resultType="com.hb0730.basic.domain.entity.BasPermission">
+        SELECT p.*,p.is_enabled as enabled
+        FROM `bas_permission` p
+        LEFT JOIN `bas_role_permission` rp ON p.id = rp.permission_id
+        WHERE rp.role_id IN
+        <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+        order by p.`rank`
+    </select>
+    <select id="listAllBySysCode" resultType="com.hb0730.basic.domain.entity.BasPermission">
+        SELECT
+        FROM `bas_permission` p
+                 LEFT JOIN `sys_product_permission` sp ON p.id = sp.permission_id
+        WHERE
+    </select>
+</mapper>

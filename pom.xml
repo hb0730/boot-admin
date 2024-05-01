@@ -90,12 +90,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!--common-->
-            <dependency>
-                <groupId>com.hb0730</groupId>
-                <artifactId>common-bom</artifactId>
-                <version>${revision}</version>
-            </dependency>
             <!--hutool-->
             <dependency>
                 <groupId>cn.hutool</groupId>
@@ -114,7 +108,7 @@
             <!--springdoc-openapi-->
             <dependency>
                 <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
                 <version>${springdoc.version}</version>
             </dependency>
             <dependency>

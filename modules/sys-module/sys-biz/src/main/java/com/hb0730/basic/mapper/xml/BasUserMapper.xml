@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb0730.basic.mapper.BasUserMapper">
+    <insert id="saveUserRole">
+        INSERT INTO `bas_user_role`(user_id, role_id)
+        VALUES
+        <foreach collection="userRoles" item="userRole" separator=",">
+            (#{userRole.userId}, #{userRole.roleId})
+        </foreach>
+    </insert>
+    <select id="findUserIdByOrgIds" resultType="java.lang.String">
+        SELECT id
+        FROM `bas_user`
+        WHERE org_id IN
+        <foreach collection="orgIds" item="orgId" open="(" separator="," close=")">
+            #{orgId}
+        </foreach>
+    </select>
+    <select id="findRoleIdsByUserIds" resultType="java.lang.String">
+        SELECT role_id
+        FROM `bas_user_role`
+        WHERE user_id IN
+        <foreach collection="userIds" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </select>
+
+    <resultMap id="BasMap" type="com.hb0730.basic.domain.dto.BasUserDto">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="nickname" property="nickname"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="avatar" property="avatar"/>
+        <result column="gender" property="gender"/>
+        <result column="last_login_time" property="lastLoginTime"/>
+        <result column="pwd_reset_time" property="pwdResetTime"/>
+        <result column="is_system" property="system"/>
+        <result column="is_enabled" property="enabled"/>
+        <result column="created" property="created"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="modified" property="modified"/>
+        <result column="modified_by" property="modifiedBy"/>
+        <association property="org" javaType="com.hb0730.basic.domain.dto.OrgSmallDto">
+            <id column="org_id" property="id"/>
+            <result column="org_name" property="name"/>
+            <result column="org_path" property="path"/>
+        </association>
+    </resultMap>
+    <select id="list" resultMap="BasMap">
+        SELECT
+        p.*,
+        p.is_system as `system`,
+        o.id as org_id,
+        o.name as org_name,
+        o.path as org_path
+        FROM `bas_user` p
+        LEFT JOIN `bas_organization` o ON p.org_id = o.id
+        WHERE 1=1
+        <if test="query.sysCode != null and query.sysCode != ''">
+            AND p.sys_code = #{query.sysCode}
+        </if>
+        <if test="query.username != null and query.username != ''">
+            AND p.username = #{query.username}
+        </if>
+        <if test="query.nickname != null and query.nickname != ''">
+            AND p.nickname LIKE CONCAT('%', #{query.nickname}, '%')
+        </if>
+        <if test="query.phone != null and query.phone != ''">
+            AND p.phone = #{query.phone}
+        </if>
+        <if test="query.enabled != null">
+            AND p.is_enabled = #{query.enabled}
+        </if>
+        <if test="query.orgId != null and query.orgId != ''">
+            AND p.org_id = #{query.orgId}
+        </if>
+        ORDER BY p.created DESC
+
+
+    </select>
+</mapper>

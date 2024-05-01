@@ -1,0 +1,6 @@
+logging:
+  level:
+    org.hibernate.orm.jdbc.bind: trace
+otel:
+  sdk:
+    disabled: true

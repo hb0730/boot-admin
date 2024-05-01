@@ -1,0 +1,4 @@
+# opentelemetry 配置
+otel:
+  sdk:
+    disabled: true

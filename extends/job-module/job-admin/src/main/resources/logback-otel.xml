@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 日志级别从低到高分为 TRACE < DEBUG < INFO < WARN < ERROR < FATAL，如果设置为 WARN，则低于 WARN 的信息都不会输出 -->
+<!-- scan：当此属性设置为 true 时，配置文档如果发生改变，将会被重新加载，默认值为 true -->
+<!-- scanPeriod：设置监测配置文档是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。
+       当 scan 为 true 时，此属性生效。默认的时间间隔为 1 分钟。 -->
+<!-- debug：当此属性设置为 true 时，将打印出 logback 内部日志信息，实时查看 logback 运行状态。默认 false。 -->
+<configuration debug="false">
+
+    <!--默认配置-->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <!-- 应用名 -->
+    <springProperty name="APP_NAME" source="spring.application.name" scope="context"/>
+    <!-- 保存路径 -->
+    <property name="LOG_PATH" value="${LOG_PATH:-/var/log/springboot}"/>
+    <!-- 字符集 -->
+    <property name="LOG_CHARSET" value="utf-8"/>
+    <!-- 格式化输出：%d 表示日期；%thread 表示线程名；%-5level：级别从左显示 5 个字符宽度；%msg：日志消息；%n 是换行符 -->
+    <!-- 控制台输出格式（带颜色） -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%red(%d{yyyy-MM-dd HH:mm:ss}) %highlight(%-5level) %green([%thread]) [%X{trace_id},%X{span_id}] %boldMagenta(%logger{50}) - %msg%n"/>
+    <!-- 文件输出格式 -->
+    <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{50} - %msg%n"/>
+    <!-- 单个日志文件大小上限 -->
+    <property name="FILE_MAX_SIZE" value="20MB"/>
+    <!-- 日志文件保留天数 -->
+    <property name="FILE_MAX_HISTORY" value="180"/>
+
+    <appender name="OTEL-CONSOLE"
+              class="io.opentelemetry.instrumentation.logback.mdc.v1_0.OpenTelemetryAppender">
+        <appender-ref ref="CONSOLE"/>
+    </appender>
+    <!-- 输出日志到控制台 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>${LOG_CHARSET}</charset>
+        </encoder>
+    </appender>
+
+
+    <!-- 输出日志到文件 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 正在记录的日志文件的路径及文件名 -->
+        <file>${LOG_PATH}/${APP_NAME}.log</file>
+        <!-- 滚动策略：基于文件大小和时间归档日志文件 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 日志文件的路径及文件名 -->
+            <fileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd}/${APP_NAME}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 日志文件大小（超过指定大小后，会切分新文件，从索引 0 开始计数，例如：app.2024-01-01.1.log ） -->
+            <maxFileSize>${FILE_MAX_SIZE}</maxFileSize>
+            <!-- 日志保留天数 -->
+            <maxHistory>${FILE_MAX_HISTORY}</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>${LOG_CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <!-- 输出日志到文件（异步） -->
+    <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>10000</queueSize>
+        <includeCallerData>true</includeCallerData>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="FILE"/>
+    </appender>
+
+    <!-- 日志输出级别 -->
+    <root level="INFO">
+        <appender-ref ref="OTEL-CONSOLE"/>
+    </root>
+
+</configuration>

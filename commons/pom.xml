@@ -16,7 +16,6 @@
     </description>
 
     <modules>
-        <module>common-bom</module>
         <module>common-springdoc</module>
         <module>common-base</module>
         <module>common-cache</module>
@@ -30,6 +29,7 @@
         <module>common-rpc</module>
         <module>common-api</module>
         <module>common-query</module>
+        <module>common-opentelemetry</module>
     </modules>
 
     <properties>

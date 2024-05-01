@@ -6,6 +6,7 @@ package com.hb0730.base.core;
  */
 public class UserContext {
 
+    public static final String INVOKE_CTX_USER_INFO = "_rpc.user.info";
 
     private static final ThreadLocal<UserInfo> THREAD_LOCAL = new ThreadLocal<>();
 

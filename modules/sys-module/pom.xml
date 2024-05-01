@@ -10,43 +10,15 @@
     </parent>
 
     <artifactId>sys-module</artifactId>
+    <packaging>pom</packaging>
 
+    <modules>
+        <module>sys-rpc-api</module>
+        <module>sys-biz</module>
+    </modules>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>common-base</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>common-mybatis-tenant</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>common-cache</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>common-api</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>common-security</artifactId>
-            <version>${revision}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-        </dependency>
-    </dependencies>
 </project>
