@@ -18,52 +18,45 @@
 
 ## 项目结构
 
-```shell
-├── app  # core 核心应用
-├── api  # api RPC 接口 
-├── commons # 公共模块 相关组件
-├── web # web 管理后台
+```shell                                                                                                ✔ 
+├── admin # 管理后台 端口 9001
+├── commons # 公共模块
+├── docker # 本地开发环境
+├── docs # 文档
+│   ├── screenshot # 截图
+│   └── sql # 数据库脚本
+├── extends # 扩展
+│   ├── job-module # 定时任务模块
+│   │   ├── job-admin # 管理后台 端口 9004
+│   │   ├── job-api # 定时任务api
+└── modules # 模块
+    └── sys-module # 系统模块
+        ├── sys-biz # 业务
+        ├── sys-rpc-api # rpc api
 ```
 
 ## 项目特点
 
 - 前后端分离
-- 前端采用[vue-pure-admin](https://github.com/pure-admin/vue-pure-admin)
+- 前端采用[vue-pure-admin](https://github.com/pure-admin/vue-pure-admin) Vue3
 - 后端采用[Spring Boot3](https://spring.io/projects/spring-boot)
-- 采用 [Spring JPA](https://spring.io/projects/spring-data-jpa) 作为数据持久层
+- ~~采用 [Spring JPA](https://spring.io/projects/spring-data-jpa) 作为数据持久层~~
+- 采用 [Mybatis Plus](https://baomidou.com/) 作为数据持久层
 - 采用 [Spring Security](https://spring.io/projects/spring-security) 作为安全框架
 - 采用 [Sofa RPC](https://github.com/alipay/sofa-rpc) 作为RPC框架
 - 采用 [Open Telemetry](https://opentelemetry.io/) 作为日志和链路追踪
 
-## 端口说明
+## 如何访问
 
-| 端口    | 说明               |
-|-------|------------------|
-| 9001  | App应用端口          |
-| 9002  | Web应用端口          |
-| 9003  | Msg应用端口          |
-| 9004  | Job应用端口          |
-| 9005  | 	Open应用端口        |
-| 12200 | 	Sofa RPC Bolt端口 |
-| 8341  | Sofa RPC Rest端口  |
-| 12300 | Sofa RPC H2c端口   |
-| 20880 | Sofa RPC Dubbo端口 |
+### 本地开发环境
 
-## 预览地址
+- 管理端: 地址：http://localhost:8848/#/admin `默认账号密码：suerpadmin/Admin123456`
+- 默认商户端: 地址：http://localhost:8848/ `默认账号密码：13111111111/Admin123456`
 
-**在线服务部署海外环境**
+### 预览地址
 
-### 管理端/超级管理员端
-
-> https://boot-admin.hb0730.com/#/admin
-> 用户名: superadmin
-> 密码: Admin123456
-
-### 租户端/履约端
-
-> https://boot-admin.hb0730.com
-> 用户名: 13111111111
-> 密码: Admin123456
+- 管理端: 地址：https://boot-admin.hb0730.com/#/admin `默认账号密码：suerpadmin/Admin123456`
+- 默认商户端: 地址：https://boot-admin.hb0730.com `默认账号密码：13111111111/Admin123456`
 
 ## open-telemetry
 
