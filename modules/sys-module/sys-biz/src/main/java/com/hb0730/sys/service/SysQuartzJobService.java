@@ -127,8 +127,11 @@ public class SysQuartzJobService extends BaseService<SysQuartzJobMapper, SysQuar
      *
      * @param id id
      */
+    @Transactional(rollbackFor = Exception.class)
     public void pause(String id) {
         SysQuartzJob sysQuartzJob = baseMapper.selectById(id);
+        sysQuartzJob.setEnabled(false);
+        updateById(sysQuartzJob);
         JR<String> jr = jobRemoteRpcService.pauseJob(BeanUtil.toBean(sysQuartzJob, com.hb0730.rpc.job.domain.QuartzJobDto.class));
         if (!jr.isSuccess()) {
             throw new JobException(jr.getMessage());
@@ -140,8 +143,11 @@ public class SysQuartzJobService extends BaseService<SysQuartzJobMapper, SysQuar
      *
      * @param id id
      */
+    @Transactional(rollbackFor = Exception.class)
     public void resume(String id) {
         SysQuartzJob sysQuartzJob = baseMapper.selectById(id);
+        sysQuartzJob.setEnabled(true);
+        updateById(sysQuartzJob);
         JR<String> jr = jobRemoteRpcService.resumeJob(BeanUtil.toBean(sysQuartzJob, com.hb0730.rpc.job.domain.QuartzJobDto.class));
         if (!jr.isSuccess()) {
             throw new JobException(jr.getMessage());
@@ -160,5 +166,5 @@ public class SysQuartzJobService extends BaseService<SysQuartzJobMapper, SysQuar
             throw new JobException(jr.getMessage());
         }
     }
-    
+
 }
