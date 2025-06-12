@@ -1,0 +1,15 @@
+{
+  "properties": [
+    {
+      "name": "zoom.staging",
+      "type": "java.lang.Boolean",
+      "description": "是否测试环境",
+      "defaultValue": "false"
+    },
+    {
+      "name": "zoom.api.prefix",
+      "type": "java.lang.String",
+      "description": "API 前缀."
+    }
+  ]
+}

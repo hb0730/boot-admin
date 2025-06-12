@@ -1,0 +1,145 @@
+logging:
+  level:
+    root: info
+    com.hb0730: debug
+
+spring:
+  application:
+    name: BOOT-ADMIN
+    version: 7.0.0-SNAPSHOT
+  datasource:
+    url: jdbc:mysql://localhost:3306/boot-admin?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&tinyInt1isBit=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      lettuce:
+        pool:
+          max-active: 8   #最大连接数据库连接数,设 0 为没有限制
+          max-idle: 8     #最大等待连接中的数量,设 0 为没有限制
+          max-wait: -1ms  #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
+          min-idle: 0     #最小等待连接中的数量,设 0 为没有限制
+        shutdown-timeout: 100ms
+  jackson:
+    # 设置属性命名策略,对应jackson下PropertyNamingStrategy中的常量值，SNAKE_CASE-返回的json驼峰式转下划线，json body下划线传到后端自动转驼峰式
+    # property-naming-strategy: SNAKE_CASE
+    # 全局设置@JsonFormat的格式pattern
+    date-format: yyyy-MM-dd HH:mm:ss
+    # 当地时区
+    locale: zh
+    # 设置全局时区
+    time-zone: GMT+8
+    # 常用，全局设置pojo或被@JsonInclude注解的属性的序列化方式
+    default-property-inclusion: NON_NULL #不为空的属性才会序列化,具体属性可看JsonInclude.Include
+    # 常规默认,枚举类SerializationFeature中的枚举属性为key，值为boolean设置jackson序列化特性,具体key请看SerializationFeature源码
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false # 返回的java.util.date转换成timestamp
+      FAIL_ON_EMPTY_BEANS: true # 对象为空时是否报错，默认true
+    # 枚举类DeserializationFeature中的枚举属性为key，值为boolean设置jackson反序列化特性,具体key请看DeserializationFeature源码
+    deserialization:
+      # 常用,json中含pojo不存在属性时是否失败报错,默认true
+      FAIL_ON_UNKNOWN_PROPERTIES: false
+    # 枚举类MapperFeature中的枚举属性为key，值为boolean设置jackson ObjectMapper特性
+    # ObjectMapper在jackson中负责json的读写、json与pojo的互转、json tree的互转,具体特性请看MapperFeature,常规默认即可
+    mapper:
+      # 使用getter取代setter探测属性，如类中含getName()但不包含name属性与setName()，传输的vo json格式模板中依旧含name属性
+      USE_GETTERS_AS_SETTERS: true #默认false
+    # 枚举类JsonParser.Feature枚举类中的枚举属性为key，值为boolean设置jackson JsonParser特性
+    # JsonParser在jackson中负责json内容的读取,具体特性请看JsonParser.Feature，一般无需设置默认即可
+    parser:
+      ALLOW_SINGLE_QUOTES: true # 是否允许出现单引号,默认false
+    # 枚举类JsonGenerator.Feature枚举类中的枚举属性为key，值为boolean设置jackson JsonGenerator特性，一般无需设置默认即可
+    # JsonGenerator在jackson中负责编写json内容,具体特性请看JsonGenerator.Feature
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations:
+    - classpath*:com/hb0730/**/mapper/**/*Mapper.xml
+  global-config:
+    db-config:
+      logic-delete-field: delFlag
+      logic-not-delete-value: 0
+      logic-delete-value: 1
+    banner: false
+# springdoc
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+  api-docs:
+    enabled: true
+    path: /api-docs
+  default-produces-media-type: application/json;charset=UTF-8
+  default-consumes-media-type: application/json;charset=UTF-8
+  use-fqn: true
+  default-flat-param-object: true
+
+
+zoom:
+  auth:
+    # 是否允许多设备登录
+    allowMultiDevice: false
+    # 是否允许凭证续签
+    allowRefresh: true
+    # 凭证续签最大次数
+    refreshMaxCount: 3
+    #  登录失败锁定次数
+    loginFailedLockCount: 5
+    # 登录失败锁定时间,单位秒，3分钟
+    loginFailedLockTime: 180
+  api:
+    # api 前缀
+    prefix: /api
+    # 是否启用跨域
+    cors:
+      enabled: true
+      allowed-headers: "*"
+      allowed-methods: "*"
+      allowed-origins: "*"
+  # 是否启用缓存
+  cache:
+    enable: true
+    # 缓存前缀
+    prefix: "zoom"
+    type: redis
+  # swagger 配置
+  swagger:
+    author: hb0730
+    email: huangbing0730@gmail.com
+    url: https://hb0730.me
+    title: ZOOM
+    description: ZOOM API
+    version: 1.0.0
+    grouped-api:
+      basic:
+        group: "基础接口"
+        path:
+          - /auth/*
+          - /sys/*
+  operator:
+    log:
+      # 需要忽略的字段
+      ignore:
+        - password,beforePassword,newPassword,useNewPassword,publicKey,privateKey,token
+        - metrics
+      # 需要脱敏的字段
+      desensitize:
+        - mobile,email,phone,apiSecret,apiSecretKey
+  mybatis:
+    encrypt:
+      enable: true
+      algorithm: AES
+      key: 1234567890adbcde
+      iv: 1234567890hjlkew
+  oss:
+    enabled: true
+    type: s3
+    s3:
+      access-key:
+      secret-key:

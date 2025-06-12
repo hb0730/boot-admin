@@ -1,0 +1,2 @@
+com.hb0730.web.configure.WebAutoConfiguration
+com.hb0730.web.configure.cors.CorsAutoConfiguration

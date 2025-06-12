@@ -1,0 +1,63 @@
+{
+  "properties": [
+    {
+      "name": "zoom.oss.s3.access-key",
+      "type": "java.lang.String",
+      "description": "S3 访问key."
+    },
+    {
+      "name": "zoom.oss.s3.secret-key",
+      "type": "java.lang.String",
+      "description": "S3 访问密钥."
+    },
+    {
+      "name": "zoom.oss.s3.bucket-name",
+      "type": "java.lang.String",
+      "description": "S3 存储桶."
+    },
+    {
+      "name": "zoom.oss.s3.region",
+      "type": "java.lang.String",
+      "description": "S3 存储区域.",
+      "defaultValue": "Auto"
+    },
+    {
+      "name": "zoom.oss.s3.endpoint",
+      "type": "java.lang.String",
+      "description": "S3 endpoint."
+    },
+    {
+      "name": "zoom.oss.s3.endpoint-protocol",
+      "type": "com.hb0730.oss.core.OssProperties$Protocol",
+      "description": "S3 endpoint 协议.",
+      "defaultValue": "HTTPS"
+    },
+    {
+      "name": "zoom.oss.s3.custom-domain",
+      "type": "java.lang.String",
+      "description": "S3 自定义域名."
+    },
+    {
+      "name": "zoom.oss.s3.path-style-access",
+      "type": "java.lang.Boolean",
+      "description": "S3 path-style 访问.",
+      "defaultValue": "false"
+    },
+    {
+      "name": "zoom.oss.s3.bucket-policy",
+      "type": "java.lang.String",
+      "description": "S3 bucket policy.",
+      "defaultValue": "Policy"
+    },
+    {
+      "name": "zoom.oss.s3.role-arn",
+      "type": "java.lang.String",
+      "description": "S3  STS角色 ID."
+    },
+    {
+      "name": "zoom.oss.s3.role-session-name",
+      "type": "java.lang.String",
+      "description": "S3 STS角色会话名称."
+    }
+  ]
+}

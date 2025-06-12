@@ -1,0 +1,12 @@
+${AnsiColor.BRIGHT_YELLOW}
+.-.               .-.                 .-.          _
+: :              .' `.                : :         :_;
+: `-.  .--.  .--.`. .'_____  .--.   .-' :,-.,-.,-..-.,-.,-.
+' .; :' .; :' .; :: ::_____:' .; ; ' .; :: ,. ,. :: :: ,. :
+`.__.'`.__.'`.__.':_;       `.__,_;`.__.':_;:_;:_;:_;:_;:_;
+${AnsiColor.BRIGHT_RED}
+ZOOM Version: ${zoom.version}
+Spring Boot Version: ${spring-boot.version} - JDK${java.version}
+Active Profile(s): ${spring.profiles.active}
+OS: ${os.name} ${os.version} ${os.arch}
+${AnsiColor.BLACK}

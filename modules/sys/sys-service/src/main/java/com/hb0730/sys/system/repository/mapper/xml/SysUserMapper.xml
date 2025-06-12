@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb0730.sys.system.repository.mapper.SysUserMapper">
+
+    <select id="findRoles" resultType="com.hb0730.sys.system.model.vo.SysUserRoleVO">
+        SELECT sur.id,
+               sr.id AS roleId,
+               sr.role_name,
+               su.id AS userId,
+               sur.end_time
+        FROM `sys_user_role` sur
+                 LEFT JOIN `sys_role` sr ON sur.role_id = sr.id
+                 LEFT JOIN `sys_user` su ON sur.user_id = su.id
+        WHERE sur.user_id = #{userId}
+    </select>
+</mapper>
