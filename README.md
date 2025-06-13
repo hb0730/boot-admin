@@ -38,3 +38,35 @@ cd boot-admin
 
 ```shell
 ```
+
+## 用户名/密码
+
+`admin/123456`
+
+## 目录说明
+
+```shell
+├── app  主应用目录 SpringApplication
+├── config 相关配置&spring-security配置
+├── core  核心模块 （crud封装)
+├── infra  基础设施模块(本地启动 docker-compose)
+├── modules 业务模块
+│   └── sys 系统模块
+│       ├── sys-app controller应用
+│       └── sys-service service应用
+├── plugins 插件模块
+│   ├── plugin-base  基础设施模块
+│   ├── plugin-cache 缓存模块
+│   ├── plugin-desensitize 脱敏模块
+│   ├── plugin-email 邮件模块
+│   ├── plugin-mybatis Mybatis模块  
+│   ├── plugin-mybatis-query Mybatis-Query模块
+│   ├── plugin-operator-log 操作日志模块
+│   ├── plugin-oss 对象存储模块
+│   ├── plugin-poi Excel模块
+│   ├── plugin-spring-security Spring Security模块
+│   ├── plugin-springdoc API文档模块
+│   ├── plugin-web Web模块
+└── sql 数据库脚本
+
+```

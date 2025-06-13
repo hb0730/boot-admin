@@ -43,4 +43,14 @@ public class SysDictItemService extends BaseService<String, SysDictItemQueryRequ
         return repository.listByDictIdOrderBySort(dictId, isAsc);
     }
 
+    /**
+     * 根据字典id删除字典项
+     *
+     * @param dictId 字典id
+     * @return 是否删除成功
+     */
+    public boolean deleteByParentId(String dictId) {
+        return repository.deleteByParentId(dictId);
+    }
+
 }

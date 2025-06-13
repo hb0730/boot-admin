@@ -26,10 +26,6 @@
     <!-- 日志文件保留天数 -->
     <property name="FILE_MAX_HISTORY" value="180"/>
 
-    <appender name="OTEL-CONSOLE"
-              class="io.opentelemetry.instrumentation.logback.mdc.v1_0.OpenTelemetryAppender">
-        <appender-ref ref="CONSOLE"/>
-    </appender>
     <!-- 输出日志到控制台 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -71,7 +67,7 @@
 
     <!-- 日志输出级别 -->
     <root level="INFO">
-        <appender-ref ref="OTEL-CONSOLE"/>
+        <appender-ref ref="CONSOLE"/>
         <appender-ref ref="ASYNC_FILE"/>
     </root>
 

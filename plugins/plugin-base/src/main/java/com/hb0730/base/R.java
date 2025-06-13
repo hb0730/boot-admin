@@ -1,6 +1,6 @@
 package com.hb0730.base;
 
-import com.hb0730.zoom.base.meta.TraceHolder;
+import com.hb0730.base.meta.TraceHolder;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

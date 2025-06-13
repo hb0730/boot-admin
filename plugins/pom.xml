@@ -25,6 +25,7 @@
         <module>plugin-spring-security</module>
         <module>plugin-springdoc</module>
         <module>plugin-web</module>
+        <module>plugin-email</module>
     </modules>
 
     <properties>

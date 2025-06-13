@@ -30,7 +30,7 @@ public class BasicRepository<Id extends Serializable, E extends BaseEntity, M ex
         if (idList == null || idList.isEmpty()) {
             return List.of();
         }
-        return getBaseMapper().selectBatchIds(idList);
+        return getBaseMapper().selectByIds(idList);
     }
 
     @Override

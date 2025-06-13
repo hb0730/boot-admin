@@ -5,8 +5,8 @@ ${AnsiColor.BRIGHT_YELLOW}
 ' .; :' .; :' .; :: ::_____:' .; ; ' .; :: ,. ,. :: :: ,. :
 `.__.'`.__.'`.__.':_;       `.__,_;`.__.':_;:_;:_;:_;:_;:_;
 ${AnsiColor.BRIGHT_RED}
-ZOOM Version: ${zoom.version}
+Boot-Admin Version: ${spring.application.version:1.0.0}
 Spring Boot Version: ${spring-boot.version} - JDK${java.version}
-Active Profile(s): ${spring.profiles.active}
+Active Profile(s): ${spring.profiles.active::default}
 OS: ${os.name} ${os.version} ${os.arch}
 ${AnsiColor.BLACK}

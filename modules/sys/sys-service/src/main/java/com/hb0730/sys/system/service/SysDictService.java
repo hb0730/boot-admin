@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,16 @@ public class SysDictService extends BaseService<String, SysDictQueryRequest, Sys
             return R.NG("编码已存在");
         }
         return R.OK();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean deleteById(String id) {
+//        SysDict dict = getById(id);
+        sysDictItemService.deleteByParentId(id);
+        boolean result = super.deleteById(id);
+        // 清除缓存
+        return result;
     }
 
     /**

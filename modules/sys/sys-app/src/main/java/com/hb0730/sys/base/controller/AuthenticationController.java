@@ -1,10 +1,7 @@
 package com.hb0730.sys.base.controller;
 
-import cn.hutool.core.util.HexUtil;
-import cn.hutool.crypto.SecureUtil;
 import com.hb0730.base.PairEnum;
 import com.hb0730.base.R;
-import com.hb0730.base.utils.AesCryptoUtil;
 import com.hb0730.operator.log.core.annotation.OperatorLog;
 import com.hb0730.security.SecurityUtils;
 import com.hb0730.sys.base.define.operator.AuthenticationOperatorType;
@@ -128,13 +125,13 @@ public class AuthenticationController {
     private R<String> loginByUsername(UsernameLoginRequest request) {
         LoginInfo loginInfo = new LoginInfo();
         // 解密
-        String iv = request.getCaptchaKey();
-        String key = SecureUtil.sha256(request.getCaptchaKey() + request.getTimestamp());
-        byte[] _key = HexUtil.decodeHex(key);
-        byte[] _iv = iv.getBytes();
-        String password = AesCryptoUtil.decrypt(request.getPassword(), AesCryptoUtil.mode, _key, _iv);
+//        String iv = request.getCaptchaKey();
+//        String key = SecureUtil.sha256(request.getCaptchaKey() + request.getTimestamp());
+//        byte[] _key = HexUtil.decodeHex(key);
+//        byte[] _iv = iv.getBytes();
+//        String password = AesCryptoUtil.decrypt(request.getPassword(), AesCryptoUtil.mode, _key, _iv);
         // 解密密码
-        loginInfo.setPassword(password);
+        loginInfo.setPassword(request.getPassword());
         loginInfo.setUsername(request.getUsername());
         // 登录
         return tokenGranterBuilder.getGranter(LoginGrantEnums.PASSWORD).login(loginInfo);
