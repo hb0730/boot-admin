@@ -35,7 +35,7 @@
         <springdoc.version>2.5.0</springdoc.version>
         <commons-io.version>2.15.1</commons-io.version>
         <poi.version>5.2.3</poi.version>
-        <guava.version>32.0.0-jre</guava.version>
+        <guava.version>33.7.1-jre</guava.version>
         <jwt.version>4.4.0</jwt.version>
         <s3.version>2.25.27</s3.version>
         <aliyun-sdk-oss.version>3.17.2</aliyun-sdk-oss.version>
